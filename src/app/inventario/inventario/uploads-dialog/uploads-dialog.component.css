@@ -1,0 +1,110 @@
+.example-form {
+  min-width: 900px;
+  max-width: 1000px;
+  width: 100%;
+}
+.title {
+  color: #014c7e;
+  font-family: jubilat, sans-serif;
+  font-size: 26px;
+}
+
+* {
+  font-family: futura-pt, sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+img {
+  width: 40px;
+  height: 40px;
+  opacity: 15%;
+}
+
+img:hover {
+  cursor: pointer;
+}
+
+input {
+  font-size: 20px;
+}
+
+.example-full-width {
+  width: 100%;
+}
+.example-half-width {
+  width: 30%;
+}
+
+
+
+.ficha-btn {
+  background-color: white;
+  color: #E87200;
+  border: 1px solid rgb(170, 170, 170);
+  border-radius: .2em;
+  text-align: center;
+  outline: none;
+  text-decoration: none;
+  font-family: futura-pt, sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  font-size: 16px;
+  width: 200px;
+  height: 25px;
+  margin-right: .5em;
+}
+
+.close-btn {
+  margin-bottom: .5em;
+}
+
+.uploads {
+  padding-bottom: 1em;
+}
+
+.ficha-btn:hover {
+  cursor: pointer;
+  background-color: #0051871c;
+}
+
+h5 {
+  display: inline-block;
+  margin: 0;
+}
+
+.put-margin {
+  margin-right: 1em;
+}
+
+td {
+  padding-right: 8px;
+}
+
+:host {
+  width: 800px;
+}
+.mat-dialog-container {
+  width: 800px;
+}
+
+.topForm {
+  margin-bottom: 1em;
+}
+
+.succesMSG {
+  margin: .2em;
+  color: #E87200;
+}
+
+input {
+  width: 80%;
+}
+
+input:hover {
+  cursor: pointer;
+}
+
+input:focus {
+  outline: none;
+}

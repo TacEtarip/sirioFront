@@ -1,0 +1,15 @@
+<li class="list-plegable noselect">
+    <div class="grupo noselect" (click)="openList()">
+            <h2 class="grupo-name noselect">{{tipoLista}}</h2>
+            <div class="down-btn" [ngClass]="{'closed-btn': status === false, 'open-btn': status === true}"></div>
+          </div>
+          <div  [ngClass]="{'closed': status === false}">
+          <ul>
+            <li (click)="openDialog()" class="agregar-sub-lista grupo-interno">
+              Agregar
+              <img src="">
+            </li>
+            <li *ngFor="let item of listaDeItems" class="grupo-interno noselect">{{item.name}}</li>
+          </ul>
+          </div>
+</li>

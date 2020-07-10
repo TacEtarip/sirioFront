@@ -1,0 +1,13 @@
+<img src="assets/close.svg" mat-dialog-title matDialogClose class="close-btn">
+<h1 mat-dialog-title>Agregar Categoria</h1>
+<form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+    <div mat-dialog-content>
+      <mat-form-field appearance="fill"  class="example-full-width">
+        <mat-label>Categoria</mat-label>
+        <input spellcheck="false" name="name" id="name" formControlName="name" maxlength = "20" matInput>
+      </mat-form-field>
+    </div>
+    <div mat-dialog-actions>
+      <button (click)="onSubmit(form.value)" type="submit" [disabled]="!form.valid" type="button" mat-flat-button color="primary">Agregar</button>
+    </div>
+</form>

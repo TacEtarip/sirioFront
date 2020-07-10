@@ -1,0 +1,16 @@
+<div class="item-card">
+  <div class="title-card">
+    <h3>{{item.name}}</h3>
+    <h4>Stock: {{item.cantidad}} {{item.unidadDeMedida}} | {{item.codigo}}</h4>
+  </div>
+  <div [ngStyle]="{'background-image': 'url(' + urlOfImage + ')'}" class="img-of-product"></div>
+    <p>
+      {{item.description}}
+    </p>
+    <div class="final-card">
+      <button (click)="openDialogVenta()" class="vender">Vender</button>
+      <button class="editar">Editar</button>
+      <h6>S/{{item.priceIGV}}</h6>
+    </div>
+    <button class="ficha-btn">Descargar Ficha Tecnica</button>
+</div>

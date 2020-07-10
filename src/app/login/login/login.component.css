@@ -1,0 +1,118 @@
+.login {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  height: 100vh;
+}
+
+.show {
+  grid-column: 1/8;
+  display: grid;
+  background-color: white;
+  z-index: 200;
+  -webkit-box-shadow: 5px 1px 5px 1px rgba(0,0,0,0.42);
+  -moz-box-shadow: 5px 1px 5px 1px rgba(0,0,0,0.42);
+  box-shadow: 5px 1px 5px 1px rgba(0,0,0,0.42);
+}
+
+.logo {
+  width: 70%;
+  align-self: center;
+  justify-self: center;
+}
+
+.main-login {
+  background-image: url("/assets/supply.jpg");
+  background-size: cover;
+  grid-column: 8/13;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+}
+
+.inputlogin {
+  grid-column: 2/5;
+  grid-row: 2/6;
+  background-color: rgba(255, 255, 255, 0.383);
+  border-radius: 1em;
+  padding: 3em;
+}
+
+input[type=text] {
+  width: 100%;
+  padding: 4px 12px;
+  height: 50px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid rgba(204, 204, 204, 0.294);
+  border-radius: .5em;
+  box-sizing: border-box;
+  font-size: 18px;
+  font-family: 'jubilat', serif;
+  letter-spacing: 1px;
+  font-weight: 400;
+}
+
+input[type=password] {
+  width: 100%;
+  padding: 4px 12px;
+  height: 50px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid rgba(204, 204, 204, 0.294);
+  border-radius: .5em;
+  box-sizing: border-box;
+  font-size: 18px;
+  font-family: 'jubilat', serif;
+  letter-spacing: 1px;
+  font-weight: 400;
+}
+
+input[type=text]:focus, input[type=password]:focus {
+    outline: none !important;
+    border:0.1px solid #e8700065;
+}
+
+label {
+  color:#005087;
+  font-size: 14px;
+  font-weight: 700;
+  font-style: normal;
+  letter-spacing: .5px;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: rgb(133, 133, 133);
+  opacity: 1; /* Firefox */
+  font-size: 18px;
+  font-family: jubilat, serif;
+  font-weight: 200;
+  font-style: normal;
+}
+
+button {
+  width: 100%;
+  width: 100%;
+  padding: 4px 12px;
+  height: 50px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid rgba(204, 204, 204, 0.294);
+  border-radius: .5em;
+  box-sizing: border-box;
+  font-size: 18px;
+  text-decoration: none;
+  font-family: 'jubilat', serif;
+  letter-spacing: 1px;
+  background-color: #E87200;
+  color: white;
+  font-weight: 400;
+}
+
+button:hover {
+  cursor: pointer;
+  background-color:#E87200;
+}
+
+.disabled {
+  background-color: #005087;
+}

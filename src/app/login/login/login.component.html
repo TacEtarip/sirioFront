@@ -1,0 +1,16 @@
+<section class="login">
+  <section class="show">
+    <img src="/assets/sirioLogo.svg" class="logo"/>
+  </section>
+  <section class="main-login">
+    <div class="inputlogin">
+      <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+        <label for="username">USUARIO</label>
+        <input minlength="4" spellcheck="false" type="text" name="username" id="username" formControlName="username" placeholder="Tu usuario..." maxlength = "40">
+        <label for="username">CONTRASEÑA</label>
+        <input minlength="8" spellcheck="false" type="password" name="password" id="password" formControlName="password" placeholder="Tu contraseña..." maxlength = "40">
+        <button  id="sendmail" type="submit" [disabled]="!form.valid" [ngClass]="{'disabled': form.valid === false}">Ingresar</button>
+      </form>
+    </div>
+  </section>
+</section>

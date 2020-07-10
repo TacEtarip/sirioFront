@@ -1,0 +1,351 @@
+.main {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.img-of-product {
+  background-image: url("/assets/guante-badana-blanco-clute.jpg");
+  background-size: cover;
+  background-position: center;
+}
+.user-photo{
+  background-image: url("/assets/logo-sirio.jpg");
+  background-color: white;
+  background-position: center;
+  background-size: cover;
+}
+
+.item-card {
+  display: grid;
+  width: 100%;
+  -webkit-box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.1);
+  -moz-box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.1);
+  box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.1);
+  background-color: white;
+  border-radius: .3em;
+  grid-template-rows: 65px 245px 90px 50px 50px;
+  height: 500px;
+}
+
+.item-card:hover {
+  -webkit-box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.15);
+  -moz-box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.15);
+  box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.15);
+}
+
+.title-card {
+  padding: 10px;
+}
+
+h3 {
+  margin: 0;
+  font-size: 22px;
+  color: #E87200;
+}
+
+h4 {
+  margin: 0;
+  font-weight: 400;
+  font-size: 14px;
+  color: #005087;
+  font-family: futura-pt,sans-serif;
+font-weight: 300;
+font-style: normal;
+}
+
+
+
+.menu {
+  overflow: hidden;
+  background-color: #005087;
+  width: 20%;
+  -webkit-box-shadow: 3px 1px 3px 1px rgba(0,0,0,0.38);
+  -moz-box-shadow: 3px 1px 3px 1px rgba(0,0,0,0.35);
+  box-shadow: 3px 1px 3px 1px rgba(0,0,0,0.38);
+}
+
+.item-card p {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 400;
+  padding: 10px;
+  overflow: auto;
+  font-family: futura-pt, sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.mat-dialog-container {
+  width: 800px;
+}
+
+.user-ctn {
+  margin: auto;
+  width: 50%;
+}
+
+.user-ctn h2 {
+  color: white;
+  text-align: center;
+  margin: 0;
+  margin-top: 6px;
+  font-size: 36px;
+  font-weight: 200;
+
+}
+
+.show-opc {
+  margin: 1.5em 0;
+}
+
+.icon-img {
+  color: white;
+}
+
+li,ul {
+  text-decoration: none;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  font-family: futura-pt, sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.grupo {
+  height: 40px;
+  line-height: 40px;
+  display: block;
+  padding: 10px;
+  border-radius: .3em;
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: 90% 10%;
+}
+
+.grupo-interno {
+  height: 30px;
+  line-height: 30px;
+  display: block;
+  padding: 0 20px;
+  border-radius: .2em;
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: 90% 10%;
+  color: #e9b483;
+}
+
+
+
+li h2 {
+  color: #E87200;
+  font-size: 20px;
+  display: inline-block;
+  margin: 0;
+  vertical-align: text-bottom;
+  font-weight: 600;
+}
+
+.down-btn {
+  background-image: url("/assets/down.svg");
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  filter: invert(54%) sepia(35%) saturate(4661%) hue-rotate(3deg) brightness(92%) contrast(104%);
+  transform: rotate(90deg);
+  align-self: center;
+  margin: auto;
+}
+
+.grupo:hover, .grupo-interno:hover {
+  background-color: #014c7e;
+}
+
+.user-photo {
+  width: 130px;
+  height: 130px;
+  margin: auto;
+  border-radius: 5em;
+  background-color: rgb(144, 142, 142);
+  text-align: center;
+}
+
+.mat-form-field + .mat-form-field {
+  margin-left: 8px;
+}
+.mat-expansion-panel{
+  background-color: transparent;
+}
+
+.mat-expansion-panel:not([class*=mat-elevation-z]) {
+  box-shadow: none;
+}
+
+.menu {
+  padding: 2em 2em;
+}
+
+.content {
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 1em;
+  display: grid;
+}
+
+.main-ctt {
+  grid-column: 3/13;
+  padding: 1em 2em;
+}
+
+.final-card {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 10px;
+  padding-bottom: 0;
+  grid-gap: .5em;
+}
+
+h6 {
+  display: inline-block;
+  margin: 0;
+  font-size: 20px;
+  color: #E87200;
+  font-weight: 800;
+  text-align: center;
+  align-self: center;
+}
+
+h1 {
+  margin: 0;
+  color: #005087;
+  font-size: 52px;
+}
+.final-ficha{
+  width: 100%;
+  padding: 10px;
+}
+
+.vender, .editar {
+  background-color: white;
+  color: #005087;
+  border: 1px solid rgb(170, 170, 170);
+  border-radius: .2em;
+  text-align: center;
+  outline: none;
+  text-decoration: none;
+  font-family: futura-pt, sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  font-size: 14px;
+  padding: 0;
+}
+
+.plus-svg {
+  background-image: url("/assets/Plus_font_awesome.svg");
+  background-size: cover;
+  filter: invert(100%) sepia(5%) saturate(1820%) hue-rotate(262deg) brightness(116%) contrast(81%);
+  width: 280px;
+  height: 280px;
+  text-align: center;
+  margin: auto;
+  margin-top: 80px;
+
+}
+
+h5 {
+  text-align: center;
+  font-size: 40px;
+  color: #d4d4d4;
+  margin: 0;
+  font-family: futura-pt, sans-serif;
+  font-weight: 200;
+  font-style: normal;
+}
+
+.vender:hover, .editar:hover {
+  cursor: pointer;
+  background-color: #e8700034;
+}
+
+.ficha-btn {
+  background-color: white;
+  margin: 10px;
+  color: #E87200;
+  border: 1px solid rgb(170, 170, 170);
+  border-radius: .2em;
+  text-align: center;
+  outline: none;
+  text-decoration: none;
+  font-family: futura-pt, sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  font-size: 14px;
+  padding: 0;
+}
+
+.tool-bar {
+  background-color: #005087;
+  padding: 0;
+}
+
+.ficha-btn:hover {
+  cursor: pointer;
+  background-color: #0051871c;
+}
+
+.ficha-btn:focus,
+.ficha-btn:active {
+  background-color: #0051872c;
+}
+
+.example-card {
+  width: auto;
+}
+
+.info {
+  margin-bottom: 1em;
+}
+
+.agregar-card {
+  background-color: #dfdfdf44;
+  display: block;
+}
+
+.agregar-card:hover {
+  cursor: pointer;
+}
+
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(184, 184, 184);
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #949494;
+}
+
+
+.menu ::ng-deep div {
+  overflow: hidden;
+}
+
+.list-items {
+  overflow: auto !important;
+  max-height: 600px;
+}

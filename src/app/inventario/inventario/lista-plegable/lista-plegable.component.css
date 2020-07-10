@@ -1,0 +1,91 @@
+li,ul {
+  text-decoration: none;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  font-family: futura-pt, sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.grupo {
+  height: 40px;
+  line-height: 40px;
+  display: block;
+  padding: 10px;
+  border-radius: .3em;
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: 90% 10%;
+}
+
+.grupo-interno {
+  height: 30px;
+  line-height: 30px;
+  display: block;
+  padding: 0 20px;
+  border-radius: .2em;
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: 90% 10%;
+  color: #e2ccb8;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+li h2 {
+  color: #E87200;
+  font-size: 20px;
+  display: inline-block;
+  margin: 0;
+  vertical-align: text-bottom;
+  font-weight: 600;
+}
+
+.down-btn {
+  background-image: url("/assets/down.svg");
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  filter: invert(54%) sepia(35%) saturate(4661%) hue-rotate(3deg) brightness(92%) contrast(104%);
+  transform: rotate(180deg);
+  align-self: center;
+  margin: auto;
+}
+
+.closed-btn {
+  animation: mymove .25s;
+}
+
+.open-btn {
+  animation: mysmove .25s forwards;
+}
+
+@keyframes mysmove {
+  100% {transform: rotate(90deg);}
+}
+
+@keyframes mymove {
+  100% {transform: rotate(180deg);}
+}
+
+.grupo:hover, .grupo-interno:hover {
+  background-color: #014c7e;
+}
+
+
+.closed {
+  display: none;
+}
+
+.open {
+  display: block;
+}
