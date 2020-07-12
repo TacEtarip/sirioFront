@@ -2,12 +2,12 @@
 <h1 mat-dialog-title class="title">Editando {{item.name}}</h1>
 <form  [formGroup]="uploadForm" (ngSubmit)="onSubmitIMG()" class="new-item-form topForm">
   <input (change)="onFileSelect($event.target.files)" type="file" spellcheck="false" name="img" id="img" formControlName="img">
-  <button [disabled]="disabled" type="submit" mat-flat-button color="accent">Subir Foto</button>
+  <button class="extraMRG" [disabled]="disabled" type="submit" mat-flat-button color="accent">Subir Foto</button>
   <h4 class="succesMSG" *ngIf="showMessage">Imagen Subida Correctamente</h4>
 </form>
 <form  [formGroup]="uploadFileForm" (ngSubmit)="onSubmitPDF()" class="new-item-form topForm">
   <input (change)="onFileSelectPDF($event.target.files)" type="file" spellcheck="false" name="pdf" id="pdf" formControlName="pdf">
-  <button [disabled]="disabledPDF" type="submit" mat-flat-button color="accent">Subir Ficha</button>
+  <button class="extraMRG" [disabled]="disabledPDF" type="submit" mat-flat-button color="accent">Subir Ficha</button>
   <h4 class="succesMSG" *ngIf="showMessagePDF">Ficha Subida Correctamente</h4>
 </form>
 <form [formGroup]="myForm" (ngSubmit)="onSubmit(myForm.value)" class="new-item-form">

@@ -92,16 +92,16 @@ export class EditarItemDialogComponent implements OnInit {
 
   onSubmit(item: Item) {
     const newItem: Item = item;
-    newItem.tipo = this.tipoOn;
-    this.inventarioMNG.addItem(newItem).subscribe((addedItem: Item) => {
+    newItem.codigo = this.item.codigo;
+    this.inventarioMNG.updateItem(newItem).subscribe((addedItem: Item) => {
       if (addedItem !== null) {
         this.myForm.reset();
-        this.onNewItem.emit(addedItem.codigo);
+        this.dialogRef.close();
       }
     });
   }
   onSubmitIMG(){
-    this.inventarioMNG.uploadFile(this.fileToUpload, this.codigo).subscribe((result) => {
+    this.inventarioMNG.uploadFile(this.fileToUpload, this.item.codigo).subscribe((result) => {
       if (result !== false) {
         this.disabled = true;
         this.showMessage = true;
@@ -110,7 +110,7 @@ export class EditarItemDialogComponent implements OnInit {
   }
 
   onSubmitPDF(){
-    this.inventarioMNG.uploadFilePDF(this.fileToUploadPDF, this.codigo).subscribe((result) => {
+    this.inventarioMNG.uploadFilePDF(this.fileToUploadPDF, this.item.codigo).subscribe((result) => {
       if (result) {
         this.disabledPDF = true;
         this.showMessagePDF = true;

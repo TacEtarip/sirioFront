@@ -88,6 +88,15 @@ td {
   width: 800px;
 }
 
+
+.topForm {
+  margin-bottom: 1em;
+}
+
+.extraMRG {
+  margin-left: 1em;
+  width: 100px;
+}
 @media screen and (max-width: 700px) and (orientation:portrait) {
   .title {
     color: #014c7e;
@@ -102,4 +111,6 @@ td {
   .example-half-width {
     width: 100%;
   }
+
+
 }

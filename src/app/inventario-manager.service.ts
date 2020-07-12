@@ -61,6 +61,45 @@ export class InventarioManagerService {
           }));
   }
 
+  updateItem(item: Item): Observable<Item> {
+    return this.http.put<Item>(this.baseUrl +  'inventario/updateItem', item)
+          .pipe(first(),
+            catchError(error => {
+              console.log(error);
+              switch (error.status) {
+              case 0:
+                alert('Error al tratar de conectar al servidor');
+                break;
+              case 700:
+                break;
+              default:
+                alert(error.error.error.message);
+                break;
+            }
+            const errorItem: Item = null;
+            return of(errorItem);
+          }));
+  }
+
+  getItem(codigo: string): Observable<Item> {
+    return this.http.get<Item>(this.baseUrl +  'inventario/getItem/cod/' + codigo)
+     .pipe(first(),
+            catchError(error => {
+            switch (error.status) {
+              case 0:
+                alert('Error al tratar de conectar al servidor');
+                break;
+              case 700:
+                break;
+              default:
+                alert(error.error.error.message);
+                break;
+            }
+            const errorItems: Item = null;
+            return of(errorItems);
+          }));
+  }
+
   getAllItems(): Observable<Item[]> {
     return this.http.get<Item[]>(this.baseUrl +  'inventario/getItems')
      .pipe(first(),
@@ -185,6 +224,8 @@ export class InventarioManagerService {
                             return of(false);
                         }));
   }
+
+
 
 }
 

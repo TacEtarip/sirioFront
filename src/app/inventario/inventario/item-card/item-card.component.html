@@ -1,17 +1,17 @@
 <div class="item-card">
   <div class="title-card">
-    <h3>{{item.name}}</h3>
-    <h4>Stock: {{item.cantidad}} {{item.unidadDeMedida}} | {{item.codigo}}</h4>
+    <h3>{{(itemInfo|async).name}}</h3>
+    <h4>Stock: {{(itemInfo|async).cantidad}} {{(itemInfo|async).unidadDeMedida}} | {{(itemInfo|async).codigo}}</h4>
   </div>
-  <div [ngStyle]="{'background-image': 'url(' + urlOfImage + ')'}" class="img-of-product"></div>
+  <div [ngStyle]="{'background-image': 'url(' + (urlOfImage|async) + ')'}" class="img-of-product"></div>
     <p>
-      {{item.description}}
+      {{(itemInfo|async).description}}
     </p>
     <div class="final-card">
       <button (click)="openDialogVenta()" class="vender">Vender</button>
       <button (click)="openDialogEditar()" class="editar">Editar</button>
-      <h6>S/{{priceToShow}}</h6>
+      <h6>S/{{priceToShow|async}}</h6>
     </div>
-    <button *ngIf="item.ficha"  (click)="descargarFicha()"  class="ficha-btn">Descargar Ficha Tecnica</button>
-    <button disabled *ngIf="!item.ficha" (click)="descargarFicha()"  class="ficha-btn noficha">Ficha Tecnica No Disponible</button>
+    <button *ngIf="(itemInfo|async).ficha"  (click)="descargarFicha()"  class="ficha-btn">Descargar Ficha Tecnica</button>
+    <button disabled *ngIf="!(itemInfo|async).ficha" (click)="descargarFicha()"  class="ficha-btn noficha">Ficha Tecnica No Disponible</button>
 </div>

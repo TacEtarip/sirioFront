@@ -4,6 +4,8 @@ import { Item } from '../../../inventario-manager.service';
 import { VentaDialogComponent } from '../venta-dialog/venta-dialog.component';
 import { first } from 'rxjs/operators';
 import { EditarItemDialogComponent } from '../editar-item-dialog/editar-item-dialog.component';
+import { InventarioManagerService } from '../../../inventario-manager.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-item-card',
@@ -14,21 +16,24 @@ import { EditarItemDialogComponent } from '../editar-item-dialog/editar-item-dia
 export class ItemCardComponent implements OnInit {
   @Input() item: Item;
 
-  urlOfImage: string;
+  itemInfo = new BehaviorSubject<Item>(null);
 
-  priceToShow: string;
+  urlOfImage = new BehaviorSubject<string>(null);
 
-  constructor(public dialog: MatDialog) { }
+  priceToShow = new BehaviorSubject<string>(null);
+
+  constructor(public dialog: MatDialog, private inventarioMNG: InventarioManagerService) { }
 
   ngOnInit(): void {
-    this.priceToShow = this.rebrandNumber(true, this.item.priceIGV);
-    this.urlOfImage = 'https://inventario-sirio-dinar.herokuapp.com/inventario/image/' + this.item.photo;
+    this.itemInfo.next(this.item);
+    this.priceToShow.next(this.rebrandNumber(true, this.itemInfo.value.priceIGV));
+    this.urlOfImage.next('https://inventario-sirio-dinar.herokuapp.com/inventario/image/' + this.itemInfo.value.photo);
   }
 
   openDialogVenta(): void {
     const dialogRef = this.dialog.open(VentaDialogComponent, {
       width: '400px',
-      data: this.item,
+      data: this.itemInfo.value,
     });
 
     dialogRef.afterClosed().pipe(first()).subscribe(res => {
@@ -40,13 +45,15 @@ export class ItemCardComponent implements OnInit {
 
   openDialogEditar(): void {
     const dialogRef = this.dialog.open(EditarItemDialogComponent, {
-      data: this.item,
+      data: this.itemInfo.value,
     });
 
     dialogRef.afterClosed().pipe(first()).subscribe(res => {
-      /*if (res) {
-      alert(`Venta de ${this.item.name} exitosa!!`);
-      }*/
+      this.inventarioMNG.getItem(this.item.codigo).subscribe(item => {
+        this.itemInfo.next(item);
+        this.priceToShow.next(this.rebrandNumber(true, this.itemInfo.value.priceIGV));
+        this.urlOfImage.next('https://inventario-sirio-dinar.herokuapp.com/inventario/image/' + this.itemInfo.value.photo);
+      });
     });
   }
 
@@ -69,7 +76,7 @@ export class ItemCardComponent implements OnInit {
   }
 
   descargarFicha() {
-    window.open('https://inventario-sirio-dinar.herokuapp.com/inventario/pdf/ficha-' + this.item.codigo + '.pdf', '_blank');
+    window.open('https://inventario-sirio-dinar.herokuapp.com/inventario/pdf/ficha-' + this.itemInfo.value.codigo + '.pdf', '_blank');
   }
 
 }
