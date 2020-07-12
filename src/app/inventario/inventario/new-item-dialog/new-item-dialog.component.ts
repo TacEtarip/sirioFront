@@ -52,7 +52,6 @@ export class NewItemDialogComponent implements OnInit {
     const stringNumber = numberPre.toString().trim().replace(',', '.');
     const indexOfComa = stringNumber.indexOf('.');
     let newNumber = '';
-    console.log(stringNumber);
 
     if (this.myForm.get('priceIGV').valid) {
         if (stringNumber.indexOf('.') === -1) {
@@ -61,6 +60,8 @@ export class NewItemDialogComponent implements OnInit {
           newNumber = stringNumber + '00';
         } else if (stringNumber.charAt(indexOfComa + 2) === '') {
           newNumber = stringNumber + '0';
+        } else {
+          newNumber = stringNumber;
         }
   }
     if (newNumber !== '') {
@@ -75,9 +76,9 @@ export class NewItemDialogComponent implements OnInit {
       if (addedItem !== null) {
         this.myForm.reset();
         this.onNewItem.emit(addedItem.codigo);
-      } else {
-        alert('Error Al Subir Item');
       }
     });
   }
+
+
 }

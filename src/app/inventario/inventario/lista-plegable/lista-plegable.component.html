@@ -9,7 +9,7 @@
               Agregar
               <img src="">
             </li>
-            <li *ngFor="let item of listaDeItems" class="grupo-interno noselect">{{item.name}}</li>
+            <li *ngFor="let item of (listaDeItems|async)" class="grupo-interno noselect">{{item.name}}</li>
           </ul>
           </div>
 </li>

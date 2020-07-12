@@ -88,27 +88,6 @@ td {
   width: 800px;
 }
 
-.topForm {
-  margin-bottom: 1em;
-}
-
-.succesMSG {
-  margin: .2em;
-  color: #E87200;
-}
-
-input {
-  width: 80%;
-}
-
-input:hover {
-  cursor: pointer;
-}
-
-input:focus {
-  outline: none;
-}
-
 @media screen and (max-width: 700px) and (orientation:portrait) {
   .title {
     color: #014c7e;

@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, ViewChildren, QueryList, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewChildren, QueryList, AfterViewInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import { NewItemDialogComponent } from './new-item-dialog/new-item-dialog.component';
 import { AgregarClaseItemComponent } from './agregar-clase-item/agregar-clase-item.component';
@@ -8,13 +8,19 @@ import { UploadsDialogComponent } from './uploads-dialog/uploads-dialog.componen
 import {InventarioManagerService, Item } from '../../inventario-manager.service';
 import { AuthService } from '../../auth.service';
 import { first } from 'rxjs/operators';
+import {MediaMatcher} from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-inventario',
   templateUrl: './inventario.component.html',
-  styleUrls: ['./inventario.component.css']
+  styleUrls: ['./inventario.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InventarioComponent implements OnInit, OnDestroy {
+
+  mobileQuery: MediaQueryList;
+  private _mobileQueryListener: () => void;
+
 
   @ViewChildren(ListaPlegableComponent) listasPlegables: QueryList<ListaPlegableComponent>;
 
@@ -27,14 +33,20 @@ export class InventarioComponent implements OnInit, OnDestroy {
 
   tiposSubject = new BehaviorSubject<string[]>([]);
 
+  keep = new BehaviorSubject<boolean>(true);
+
   listaItemsCurrent = 'Todos';
 
   listItems = new BehaviorSubject<Item[]>([]);
 
   nombreUsuario: string;
 
-  constructor(public dialog: MatDialog, private inventarioMNG: InventarioManagerService, private auth: AuthService) {
+  constructor(public dialog: MatDialog, private inventarioMNG: InventarioManagerService,
+              private auth: AuthService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
     this.nombreUsuario = auth.getUser();
+    this.mobileQuery = media.matchMedia('(max-width: 700px)');
+    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+    this.mobileQuery.addListener(this._mobileQueryListener);
   }
 
 
@@ -74,6 +86,7 @@ export class InventarioComponent implements OnInit, OnDestroy {
 
   changeItemCurrentList(nuevoTipo: string) {
     this.listaItemsCurrent = nuevoTipo;
+    this.keep.next(false);
     if (this.listaItemsCurrent !== 'Todos') {
       this.closeAllButOne(this.listaItemsCurrent);
     }
@@ -98,8 +111,10 @@ export class InventarioComponent implements OnInit, OnDestroy {
   }
 
   getItems(current: string) {
+
     if (current === 'Todos') {
       this.inventarioMNG.getAllItems().subscribe((res: Item[]) => {
+        this.keep.next(true);
         if (res != null) {
           this.listItems.next(res);
         } else {
@@ -108,6 +123,7 @@ export class InventarioComponent implements OnInit, OnDestroy {
       });
     } else {
       this.inventarioMNG.getAllItemsByType(current).subscribe((res: Item[]) => {
+        this.keep.next(true);
         if (res != null) {
           this.listItems.next(res);
         } else {
@@ -123,7 +139,7 @@ export class InventarioComponent implements OnInit, OnDestroy {
       if (this.listaItemsCurrent !== 'Todos') {
         this.listasPlegables.forEach(lista => {
           if (lista.tipoLista === this.listaItemsCurrent) {
-            lista.listaDeItems = value;
+            lista.listaDeItems.next(value);
             return ;
           }
         });
@@ -134,6 +150,7 @@ export class InventarioComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
    this.listItems.unsubscribe();
+   this.mobileQuery.removeListener(this._mobileQueryListener);
   }
 
 }

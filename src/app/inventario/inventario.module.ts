@@ -24,10 +24,12 @@ import { AgregarClaseItemComponent } from './inventario/agregar-clase-item/agreg
 import {MatChipsModule} from '@angular/material/chips';
 import { ItemCardComponent } from './inventario/item-card/item-card.component';
 import { UploadsDialogComponent } from './inventario/uploads-dialog/uploads-dialog.component';
+import {ScrollingModule} from '@angular/cdk/scrolling';
+import { EditarItemDialogComponent } from './inventario/editar-item-dialog/editar-item-dialog.component';
 
 @NgModule({
   declarations: [InventarioComponent, ListaPlegableComponent, NewItemDialogComponent,
-    VentaDialogComponent, AgregarClaseItemComponent, ItemCardComponent, UploadsDialogComponent],
+    VentaDialogComponent, AgregarClaseItemComponent, ItemCardComponent, UploadsDialogComponent, EditarItemDialogComponent],
   imports: [
     CommonModule,
     InventarioRoutingModule,
@@ -44,7 +46,8 @@ import { UploadsDialogComponent } from './inventario/uploads-dialog/uploads-dial
     MatCheckboxModule,
     MatToolbarModule,
     MatChipsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ScrollingModule
   ]
 })
 export class InventarioModule { }

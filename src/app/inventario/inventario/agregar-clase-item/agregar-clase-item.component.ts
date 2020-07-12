@@ -28,7 +28,6 @@ export class AgregarClaseItemComponent implements OnInit {
 
 
   onSubmit(name) {
-    console.log(name);
     this.inventarioMNG.addTipo(name.name)
       .subscribe((result: string) => {
         if (result === 'ADDED') {

@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
         if (res) {
           this.router.navigate(['/inventario']);
         } else {
-          console.log('Not');
+          alert('Error no se pudo iniciar sesion');
         }
       });
 

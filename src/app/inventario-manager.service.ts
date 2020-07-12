@@ -7,11 +7,12 @@ import { catchError, mapTo, map, retry, tap, first } from 'rxjs/operators';
 })
 export class InventarioManagerService {
 
+  baseUrl = 'https://inventario-sirio-dinar.herokuapp.com/';
+
   constructor(private http: HttpClient) { }
 
   addTipo(tipo: string): Observable<string> {
-    console.log(tipo);
-    return this.http.post<string>('http://localhost:5000/inventario/addTipo', {name: tipo})
+    return this.http.post<string>( this.baseUrl + 'inventario/addTipo', {name: tipo})
       .pipe(first(),
         mapTo('ADDED'),
         catchError(error => {
@@ -22,7 +23,7 @@ export class InventarioManagerService {
           case 700:
             break;
           default:
-            alert('Error al tratar de compropar credenciales');
+            alert(error.error.error.message);
             break;
         }
         return of('NEGATED');
@@ -31,7 +32,7 @@ export class InventarioManagerService {
   }
 
   getTipos(){
-    return this.http.get('http://localhost:5000/inventario/getTipos')
+    return this.http.get( this.baseUrl + 'inventario/getTipos')
       .pipe(first(), map((res: Tipo[]) => {
         const tipos: string[] = [];
         res.forEach((element: Tipo) => {
@@ -42,7 +43,7 @@ export class InventarioManagerService {
   }
 
   addItem(item: Item): Observable<Item> {
-    return this.http.post<Item>('http://localhost:5000/inventario/addItem', item)
+    return this.http.post<Item>(this.baseUrl +  'inventario/addItem', item)
           .pipe(first(),
             catchError(error => {
             switch (error.status) {
@@ -52,7 +53,7 @@ export class InventarioManagerService {
               case 700:
                 break;
               default:
-                alert('Error al tratar de compropar credenciales');
+                alert(error.error.error.message);
                 break;
             }
             const errorItem: Item = null;
@@ -61,7 +62,7 @@ export class InventarioManagerService {
   }
 
   getAllItems(): Observable<Item[]> {
-    return this.http.get<Item[]>('http://localhost:5000/inventario/getItems')
+    return this.http.get<Item[]>(this.baseUrl +  'inventario/getItems')
      .pipe(first(),
             catchError(error => {
             switch (error.status) {
@@ -71,7 +72,7 @@ export class InventarioManagerService {
               case 700:
                 break;
               default:
-                alert('Error al tratar de compropar credenciales');
+                alert(error.error.error.message);
                 break;
             }
             const errorItems: Item[] = null;
@@ -81,7 +82,7 @@ export class InventarioManagerService {
 
 
   getAllItemsByType(tipoLista: string): Observable<Item[]> {
-    return this.http.get<Item[]>('http://localhost:5000/inventario/getItemsByType/' + tipoLista)
+    return this.http.get<Item[]>(this.baseUrl +  'inventario/getItemsByType/' + tipoLista)
      .pipe(first(),
             catchError(error => {
             switch (error.status) {
@@ -91,7 +92,7 @@ export class InventarioManagerService {
               case 700:
                 break;
               default:
-                alert('Error al tratar de compropar credenciales');
+                alert(error.error.error.message);
                 break;
             }
             const errorItems: Item[] = null;
@@ -102,9 +103,9 @@ export class InventarioManagerService {
   uploadFile(img: File, cod: string): Observable<any> {
     const formData: FormData = new FormData();
     formData.append('img', img);
-    return this.http.post<any>('http://localhost:5000/inventario/uploads/image/' + cod, formData)
+    return this.http.post<any>(this.baseUrl +  'inventario/uploads/image/' + cod, formData)
             .pipe(first(),
-              tap(res => this.uploadPhotoName(res.uploadedFile.filename, cod).subscribe()),
+              // tap(res => this.uploadPhotoName(res.uploadedFile.filename, cod).subscribe()),
               mapTo(true),
               catchError(error => {
                 switch (error.status) {
@@ -114,7 +115,7 @@ export class InventarioManagerService {
                   case 700:
                     break;
                   default:
-                    alert('Error al tratar de compropar credenciales');
+                    alert(error.error.error.message);
                     break;
                 }
                 return of(false);
@@ -125,7 +126,7 @@ export class InventarioManagerService {
   uploadFilePDF(pdf: File, cod: string): Observable<boolean> {
     const formData: FormData = new FormData();
     formData.append('pdf', pdf);
-    return this.http.post<boolean>('http://localhost:5000/inventario/uploads/ficha/' + cod, formData)
+    return this.http.post<boolean>(this.baseUrl +  'inventario/uploads/ficha/' + cod, formData)
             .pipe(first(),
               mapTo(true),
               catchError(error => {
@@ -136,16 +137,15 @@ export class InventarioManagerService {
                   case 700:
                     break;
                   default:
-                    alert('Error al tratar de compropar credenciales');
+                    alert(error.error.error.message);
                     break;
                 }
                 return of(false);
               })
             );
   }
-
+/*
   uploadPhotoName(photoName: string, codigoN: string): Observable<boolean> {
-    console.log(photoName + ' ' + codigoN);
     return this.http.put<boolean>('http://localhost:5000/inventario/uploadPhotoName', {codigo: codigoN, photo: photoName})
             .pipe(first(),
               mapTo(true),
@@ -153,6 +153,9 @@ export class InventarioManagerService {
                 switch (error.status) {
                   case 0:
                     alert('Error al tratar de conectar al servidor');
+                    break;
+                  case 500:
+                    alert(error.errorMSG);
                     break;
                   case 700:
                     break;
@@ -163,11 +166,48 @@ export class InventarioManagerService {
                 return of(false);
             })
   );
+  }*/
+
+  generarVenta(venta: Venta): Observable<any> {
+    return this.http.post<any>(this.baseUrl +  'ventas/generarVenta', venta)
+                    .pipe(first(),
+                          catchError(error => {
+                            switch (error.status) {
+                              case 0:
+                                alert('Error al tratar de conectar al servidor');
+                                break;
+                              case 700:
+                                break;
+                              default:
+                                alert(error.error.error.message);
+                                break;
+                          }
+                            return of(false);
+                        }));
   }
 
 }
 
+export interface ItemVendido {
+  codigo: string;
+  priceIGV: number;
+  priceNoIGV: number;
+  cantidad: number;
+}
 
+export interface Documento {
+  type: string;
+  codigo: number;
+}
+
+export interface Venta {
+  codigo: string;
+  totalPrice: number;
+  totalPriceNoIGV: number;
+  estado: string;
+  documento: Documento;
+  itemsVendidos: ItemVendido[];
+}
 
 export interface Item {
   name: string;
@@ -181,6 +221,7 @@ export interface Item {
   unidadDeMedida: string;
   description: string;
   photo: string;
+  ficha: boolean;
 }
 
 interface Tipo {

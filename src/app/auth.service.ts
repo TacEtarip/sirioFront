@@ -8,6 +8,9 @@ import { Observable, of, throwError } from 'rxjs';
 })
 export class AuthService {
 
+
+  baseUrl = 'https://inventario-sirio-dinar.herokuapp.com/';
+
   USUARIO_USER = 'usuario_user';
   TOKEN_JWT = 'jwt_token';
   loggedInUSER: string = null;
@@ -15,7 +18,7 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   login(user: User): Observable<boolean> {
-    return this.http.post<Token>('http://localhost:5000/auth/login', user)
+    return this.http.post<Token>( this.baseUrl + 'auth/login', user)
     .pipe( first(),
       tap((res: Token) => this.doLoginUser(res)),
       mapTo(true),

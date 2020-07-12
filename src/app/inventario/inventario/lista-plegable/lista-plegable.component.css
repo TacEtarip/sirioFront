@@ -89,3 +89,15 @@ li h2 {
 .open {
   display: block;
 }
+
+
+@media screen and (max-width: 800px) and (orientation:portrait) {
+
+  .grupo {
+    padding: 5px;
+    border-radius: .3em;
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: 90% 10%;
+}
+}

@@ -3,7 +3,9 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { InventarioComponent } from './inventario/inventario.component';
 
-const routes: Routes = [{ path: '', component: InventarioComponent}];
+const routes: Routes = [
+  { path: '', component: InventarioComponent},
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

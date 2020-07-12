@@ -51,8 +51,6 @@ export class UploadsDialogComponent implements OnInit {
       if (result !== false) {
         this.disabled = true;
         this.showMessage = true;
-      } else {
-        alert('Error Al subir Imagen');
       }
     });
   }
@@ -62,8 +60,6 @@ export class UploadsDialogComponent implements OnInit {
       if (result) {
         this.disabledPDF = true;
         this.showMessagePDF = true;
-      } else {
-        alert('Error Al subir Ficha');
       }
     });
   }

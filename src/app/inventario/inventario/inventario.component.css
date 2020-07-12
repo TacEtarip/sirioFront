@@ -1,10 +1,14 @@
 .main {
+  display: flex;
+  flex-direction: column;
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
 }
+
+
 
 .img-of-product {
   background-image: url("/assets/guante-badana-blanco-clute.jpg");
@@ -17,7 +21,19 @@
   background-position: center;
   background-size: cover;
 }
-
+.example-viewport {
+  height: 100vh;
+  width: 100%;
+}
+.hideOver {
+  overflow: hidden;
+}
+.test {
+  height: 100vh;
+}
+.example-item {
+  height: 50px;
+}
 .item-card {
   display: grid;
   width: 100%;
@@ -191,12 +207,13 @@ li h2 {
 .content {
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 1em;
+  /* padding: 2em;*/
   display: grid;
 }
 
 .main-ctt {
   grid-column: 3/13;
-  padding: 1em 2em;
+  padding: 1em 0em;
 }
 
 .final-card {
@@ -306,6 +323,7 @@ h5 {
 
 .info {
   margin-bottom: 1em;
+  padding: 0em 2em;
 }
 
 .agregar-card {
@@ -341,11 +359,182 @@ h5 {
 }
 
 
-.menu ::ng-deep div {
+.menu ::ng-deep .mat-drawer-inner-container {
   overflow: hidden;
 }
 
 .list-items {
   overflow: auto !important;
   max-height: 600px;
+}
+
+.content ::ng-deep .cdk-virtual-scroll-content-wrapper {
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 1em;
+  display: grid;
+  padding-top: .1em;
+}
+
+.cheatingTwo {
+  height: 650px;
+}
+
+.cdk-virtual-scroll-content-wrapper {
+  grid: inherit;
+}
+
+
+.cheating {
+  height: 650px;
+}
+
+.paddingToScroll {
+  padding: 0em 2em;
+}
+
+.showBar {
+  display: none;
+}
+
+.toolBar {
+  padding: .5em;
+  background-color: #E87200;
+}
+
+::ng-deep .sizeIcon{
+  height:48px !important;
+  width:48px !important;
+  font-size:38px !important;
+  line-height: 46px !important;
+}
+
+.toolBarName {
+  margin-left: .2em;
+}
+
+@media screen and (max-width: 1600px) {
+
+  .list-items {
+    overflow: auto !important;
+    max-height: 300px;
+  }
+
+  .cheating {
+    height: 650px;
+  }
+
+  .cheatingTwo {
+    height: 650px;
+  }
+  .content ::ng-deep .cdk-virtual-scroll-content-wrapper {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .user-photo {
+    width: 9vw;
+    height: 9vw;
+  }
+
+  .user-ctn {
+    width: 100%;
+  }
+
+  .user-ctn h2 {
+    font-size: 32px;
+  }
+
+  .menu {
+    padding: 2em 1em;
+  }
+}
+
+
+@media screen and (max-width: 1100px) {
+  .content ::ng-deep .cdk-virtual-scroll-content-wrapper {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+}
+
+
+@media screen and (max-width: 1100px) and (orientation:portrait) {
+
+  .menu {
+    width: 25%;
+    box-shadow: none;
+  }
+  .showBar {
+    display: flex;
+  }
+  .list-items {
+    max-height: 900px;
+  }
+}
+
+
+@media screen and (max-width: 800px) {
+  .content ::ng-deep .cdk-virtual-scroll-content-wrapper {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+}
+
+@media screen and (max-width: 800px) and (orientation:portrait) {
+
+  .menu {
+    width: 28%;
+    box-shadow: none;
+  }
+  .list-items {
+    max-height: 600px;
+  }
+
+  .grupo {
+    padding: 5px;
+    border-radius: .3em;
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: 90% 10%;
+}
+}
+
+@media screen and (max-width: 700px) {
+  .content ::ng-deep .cdk-virtual-scroll-content-wrapper {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+}
+
+@media screen and (max-width: 700px) and (orientation:portrait) {
+  .user-ctn h2 {
+    font-size: 36px;
+  }
+
+  .user-photo {
+    width: 30vw;
+    height: 30vw;
+  }
+  .info {
+    padding: 1em;
+    margin: 0;
+  }
+  .list-items {
+    max-height: 400px;
+  }
+  .menu {
+    width: 60%;
+    box-shadow: none;
+  }
+
+  .mainCont {
+    background-color: #f6fbff;
+  }
+
+  .content::-webkit-scrollbar{
+    display: none;
+   }
+
+   .paddingToScroll {
+     padding: 1em;
+   }
 }

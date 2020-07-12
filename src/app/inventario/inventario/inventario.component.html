@@ -1,113 +1,60 @@
-<!--
-<section class="main">
-  <section class="menu">
-    <div class="user">
-      <div class="photo">
-      </div>
-      <h2 class="name"></h2>
+<div class="main">
+
+  <mat-toolbar color="primary" class="example-toolbar showBar toolBar">
+    <button (click)="snav.toggle()" class="sizeIcon" mat-icon-button><mat-icon class="sizeIcon">menu</mat-icon></button>
+  </mat-toolbar>
+  <mat-sidenav-container class="mainCont">
+  <mat-sidenav #snav style="overflow:hidden" [style.marginTop.px]="mobileQuery.matches ? 56 : 0" [fixedInViewport]="mobileQuery.matches" [mode]="mobileQuery.matches ? 'over' : 'side'" class="menu" [opened]="!mobileQuery.matches" >
+    <div class="user-ctn">
+      <div class="user-photo"></div>
+      <h2>{{nombreUsuario}}</h2>
     </div>
-    <div class="items-show-off">
-      <ul>
-        <li>
-          <ul>
-            <li></li>
-          </ul>
-        </li>
+    <div class="show-opc">
+      <button (click)="openDialogAgregarCat()" mat-fab color="warn" aria-label="Example icon button with a home icon">
+        <mat-icon class="icon-img">add_box</mat-icon>
+      </button>
+    </div>
+    <div class="options"></div>
+    <div class="list-items">
+      <ul class="list-general">
+        <app-lista-plegable (sendTipo)="changeItemCurrentList($event)" (openDialogOnMain)="openDialog()" [tipoLista]="tipo" *ngFor="let tipo of (tiposSubject|async)"></app-lista-plegable>
       </ul>
     </div>
-  </section>
-  <section class="main-ctt">
-    <div class="info">
-      <h1>
-        SAMPLE
-      </h1>
-    </div>
-    <section class="content">
-    <mat-card class="example-card">
-      <mat-card-header>
-        <div mat-card-avatar class="example-header-image"></div>
-        <mat-card-title>Shiba Inu</mat-card-title>
-        <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-      </mat-card-header>
-    <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-    <mat-card-content>
-        <p>
-          The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-          A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-          bred for hunting.
-        </p>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-button>LIKE</button>
-      <button mat-button>SHARE</button>
-    </mat-card-actions>
-    </mat-card>
-        <mat-card class="example-card">
-      <mat-card-header>
-        <div mat-card-avatar class="example-header-image"></div>
-        <mat-card-title>Shiba Inu</mat-card-title>
-        <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-      </mat-card-header>
-    <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-    <mat-card-content>
-        <p>
-          The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-          A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-          bred for hunting.
-        </p>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-button>LIKE</button>
-      <button mat-button>SHARE</button>
-    </mat-card-actions>
-    </mat-card>
-        <mat-card class="example-card">
-      <mat-card-header>
-        <div mat-card-avatar class="example-header-image"></div>
-        <mat-card-title>Shiba Inu</mat-card-title>
-        <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-      </mat-card-header>
-    <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-    <mat-card-content>
-        <p>
-          The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-          A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-          bred for hunting.
-        </p>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-button>LIKE</button>
-      <button mat-button>SHARE</button>
-    </mat-card-actions>
-    </mat-card>
-        <mat-card class="example-card">
-      <mat-card-header>
-        <div mat-card-avatar class="example-header-image"></div>
-        <mat-card-title>Shiba Inu</mat-card-title>
-        <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-      </mat-card-header>
-    <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-    <mat-card-content>
-        <p>
-          The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-          A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-          bred for hunting.
-        </p>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-button>LIKE</button>
-      <button mat-button>SHARE</button>
-    </mat-card-actions>
-    </mat-card>
-  </section>
-    <div class="legendado">
-      <h2>END PAGE</h2>
-    </div>
-  </section>
+  </mat-sidenav>
+  <mat-sidenav-content class="hideOver">
+    <section class="main-ctt">
+      <div class="info">
+        <h1>
+          {{listaItemsCurrent}}
+        </h1>
+      </div>
+      <!--
+      <div class="content">
+        <app-item-card [item]="item" *ngFor="let item of (listItems|async)"></app-item-card>
+        <div *ngIf="listaItemsCurrent !== 'Todos'" class="item-card agregar-card" (click)="openDialog()">
+          <div class="plus-svg"></div>
+          <h5>Agregar Item</h5>
+        </div>
+        <div  [ngClass]="listaItemsCurrent !== 'Todos' ? 'cheating' : 'cheatingTwo'"></div>
+      </div>-->
 
-</section>
--->
+      <div class="paddingToScroll">
 
+      <cdk-virtual-scroll-viewport *ngIf="keep|async" itemSize="50" class="example-viewport content">
+        <app-item-card [item]="item" *cdkVirtualFor="let item of (listItems|async)"></app-item-card>
+        <div *ngIf="listaItemsCurrent !== 'Todos'" class="item-card agregar-card" (click)="openDialog()">
+          <div class="plus-svg"></div>
+          <h5>Agregar Item</h5>
+        </div>
+        <div  [ngClass]="listaItemsCurrent !== 'Todos' ? 'cheating' : 'cheatingTwo'"></div>
+      </cdk-virtual-scroll-viewport>
+      <div class="test"></div>
+      </div>
+    </section>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
+<!--
 <mat-drawer-container class="main">
   <mat-drawer style="overflow:hidden" mode="side" class="menu" opened>
 
@@ -128,20 +75,24 @@
       </ul>
     </div>
   </mat-drawer>
-  <mat-drawer-content>
+  <mat-drawer-content class="hideOver">
   <section class="main-ctt">
     <div class="info">
       <h1>
         {{listaItemsCurrent}}
       </h1>
     </div>
-    <section class="content">
-      <app-item-card [item]="item" *ngFor="let item of (listItems|async)"></app-item-card>
+    <div class="paddingToScroll">
+    <cdk-virtual-scroll-viewport itemSize="100" class="example-viewport content">
+      <app-item-card [item]="item" *cdkVirtualFor="let item of (listItems|async)"></app-item-card>
       <div *ngIf="listaItemsCurrent !== 'Todos'" class="item-card agregar-card" (click)="openDialog()">
         <div class="plus-svg"></div>
         <h5>Agregar Item</h5>
       </div>
-  </section>
+      <div  [ngClass]="listaItemsCurrent !== 'Todos' ? 'cheating' : 'cheatingTwo'"></div>
+    </cdk-virtual-scroll-viewport>
+    </div>
   </section>
   </mat-drawer-content>
 </mat-drawer-container>
+-->

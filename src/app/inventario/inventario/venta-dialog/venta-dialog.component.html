@@ -1,43 +1,45 @@
 <img src="assets/close.svg" mat-dialog-title matDialogClose class="close-btn">
-<h1 mat-dialog-title>Venta De: <b>Gauntes Badana</b></h1>
-<form>
+<h1 mat-dialog-title>Venta De: <b>{{item.name}}</b></h1>
+<form [formGroup]="ventaForm">
     <div mat-dialog-content>
       <mat-form-field appearance="fill" class="example-full-width">
         <mat-label>Agregar A Venta</mat-label>
-        <mat-select>
-      <mat-option value="option">No Agregar</mat-option>
+        <mat-select name="codigo" id="codigo" formControlName="codigo">
+      <mat-option value="noAgregar">No Agregar</mat-option>
       <mat-option value="option">#535mkF</mat-option>
       </mat-select>
       </mat-form-field>
       <mat-form-field appearance="fill"  class="example-full-width">
         <mat-label>Cantidad</mat-label>
-        <input type="number" min="0" step="1" matInput>
+        <input (change)="actTotal()" name="cantidad" id="cantidad" formControlName="cantidad" type="number" min="1" step="1" matInput>
       </mat-form-field>
       <mat-form-field appearance="fill"  class="example-full-width">
         <mat-label>Precio</mat-label>
-        <input [disabled]="disabled" value="90.00" type="number" min="1" step="1" matInput>
+        <input (change)="changeNumber()" name="priceIGV" id="priceIGV" formControlName="priceIGV" type="number" min="0" step="1" matInput>
         <span matPrefix>S/ </span>
       </mat-form-field>
-      <mat-form-field appearance="fill" class="example-full-width">
+      <mat-form-field appearance="fill"  class="example-full-width">
+        <mat-label>Precio No IGV</mat-label>
+        <input name="priceIGV" id="priceNoIGV" formControlName="priceNoIGV" type="number" min="0" step="1" matInput>
+        <span matPrefix>S/ </span>
+      </mat-form-field>
+      <mat-form-field  appearance="fill" class="example-full-width">
         <mat-label>Tipo De Comprobante</mat-label>
-        <mat-select>
-      <mat-option value="option">Factura</mat-option>
-      <mat-option value="option">Boleta</mat-option>
-      </mat-select>
+        <mat-select [(value)]="currentDocumentType" (ngModelChange)="changeValidators()" name="documentoTipo" id="documentoTipo" formControlName="documentoTipo">
+          <mat-option *ngFor="let item of tiposDocumentos" [value]="item.value">{{item.viewValue}}</mat-option>
+        </mat-select>
       </mat-form-field>
       <mat-form-field appearance="fill"  class="example-full-width">
-        <mat-label>DNI</mat-label>
-        <input maxlength="8" matInput>
-      </mat-form-field>
-      <mat-form-field appearance="fill"  class="example-full-width">
-        <mat-label>RUC</mat-label>
-        <input maxlength="8"  matInput>
+        <mat-label *ngIf="ventaForm.get('documentoTipo').value === 'factura'">RUC</mat-label>
+        <mat-label *ngIf="ventaForm.get('documentoTipo').value === 'boleta'">DNI</mat-label>
+        <input name="docCod" id="docCod" formControlName="docCod" matInput>
       </mat-form-field>
       <mat-checkbox (click)="changePrice()" class="hpc">Habilitar precio</mat-checkbox>
-      <h2>Total: XX</h2>
+      <h2>Total: S/ {{totalPriceIGV}}</h2>
     </div>
     <div mat-dialog-actions>
-      <button type="button" mat-flat-button color="primary">Vender</button>
-      <button type="button" mat-flat-button color="primary">Crear Venta</button>
+      <button (click)="ventaSimple(ventaForm.value)" type="button" [disabled]="!ventaForm.valid || ventaForm.get('codigo').value !== 'noAgregar'" mat-flat-button color="primary">Vender</button>
+      <button type="button" [disabled]="!ventaForm.valid || ventaForm.get('codigo').value !== 'noAgregar'" mat-flat-button color="primary">Crear Venta</button>
+      <button type="button" [disabled]="!ventaForm.valid || ventaForm.get('codigo').value === 'noAgregar'" mat-flat-button color="primary">Agregar A Venta</button>
     </div>
 </form>

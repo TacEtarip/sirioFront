@@ -9,8 +9,9 @@
     </p>
     <div class="final-card">
       <button (click)="openDialogVenta()" class="vender">Vender</button>
-      <button class="editar">Editar</button>
-      <h6>S/{{item.priceIGV}}</h6>
+      <button (click)="openDialogEditar()" class="editar">Editar</button>
+      <h6>S/{{priceToShow}}</h6>
     </div>
-    <button class="ficha-btn">Descargar Ficha Tecnica</button>
+    <button *ngIf="item.ficha"  (click)="descargarFicha()"  class="ficha-btn">Descargar Ficha Tecnica</button>
+    <button disabled *ngIf="!item.ficha" (click)="descargarFicha()"  class="ficha-btn noficha">Ficha Tecnica No Disponible</button>
 </div>
