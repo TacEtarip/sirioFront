@@ -5,6 +5,7 @@
   <section class="main-login">
     <div class="inputlogin">
       <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+        <img src="/assets/sirioLogo.svg" class="logo forphone"/>
         <label for="username">USUARIO</label>
         <input minlength="4" spellcheck="false" type="text" name="username" id="username" formControlName="username" placeholder="Tu usuario..." maxlength = "40">
         <label for="username">CONTRASEÑA</label>

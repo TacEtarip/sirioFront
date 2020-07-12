@@ -89,6 +89,10 @@ label {
   font-style: normal;
 }
 
+.forphone {
+  display: none;
+}
+
 button {
   width: 100%;
   width: 100%;
@@ -115,4 +119,107 @@ button:hover {
 
 .disabled {
   background-color: #005087;
+}
+
+@media screen and (max-width: 1300px) {
+  .inputlogin {
+    padding: 2em;
+  }
+
+  input[type=text] {
+    font-size: 16px;
+  }
+
+  input[type=text]:focus {
+    font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .inputlogin {
+    padding: 1.5em;
+  }
+
+}
+
+@media screen and (max-width: 900px) {
+  .inputlogin {
+    padding: 1.5em;
+  }
+
+  input[type=text] {
+    font-size: 16px;
+  }
+
+  input[type=text]:focus {
+    font-size: 16px;
+  }
+
+  .show {
+    grid-column: 1/7;
+}
+  .main-login {
+    grid-column: 7/13;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .inputlogin {
+    padding: 2em;
+  }
+
+  .show {
+    grid-column: 1;
+}
+  .main-login {
+    grid-column: 7;
+    grid-row: 2/3;
+  }
+
+  .login {
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: 20% 80%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .inputlogin {
+    padding: 1.5em;
+  }
+
+  .forphone {
+    display: block;
+  }
+
+  .show {
+    background-color: transparent;
+    box-shadow: none;
+    margin-bottom: 2em;
+    height: auto;
+    padding: .5em;
+    display: none;
+  }
+  .logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+    margin-bottom: 1em;
+  }
+  .main-login {
+    background-image: none;
+    display: block;
+  }
+
+  .login {
+    padding: 4em 2em;
+    height: 85vh;
+    background-size: cover;
+    display: block;
+  background-image: url("/assets/supply.jpg");
+  }
+
+  * {
+    overflow: hidden;
+  }
 }

@@ -42,11 +42,13 @@
 
       <cdk-virtual-scroll-viewport *ngIf="keep|async" itemSize="50" class="example-viewport content">
         <app-item-card [item]="item" *cdkVirtualFor="let item of (listItems|async)"></app-item-card>
-        <div *ngIf="listaItemsCurrent !== 'Todos'" class="item-card agregar-card" (click)="openDialog()">
+        <!--<div *ngIf="listaItemsCurrent !== 'Todos'" class="item-card agregar-card" (click)="openDialog()">
           <div class="plus-svg"></div>
           <h5>Agregar Item</h5>
-        </div>
-        <div  [ngClass]="listaItemsCurrent !== 'Todos' ? 'cheating' : 'cheatingTwo'"></div>
+        </div>-->
+        <div class="displayCheat"  [ngClass]="{'cheating': (listItems|async).length % 3!==0,'cheatingTwo': (listItems|async).length % 3===0}"></div>
+        <div class="displayCheatTwo"  [ngClass]="{'cheating': (listItems|async).length % 4!==0,'cheatingTwo': (listItems|async).length % 4===0}"></div>
+        <div class="displayCheatThree"  [ngClass]="{'cheating': (listItems|async).length % 2!==0,'cheatingTwo': (listItems|async).length % 2===0}"></div>
       </cdk-virtual-scroll-viewport>
       <div class="test"></div>
       </div>

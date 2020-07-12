@@ -8,13 +8,6 @@
   right: 0;
 }
 
-
-
-.img-of-product {
-  background-image: url("/assets/guante-badana-blanco-clute.jpg");
-  background-size: cover;
-  background-position: center;
-}
 .user-photo{
   background-image: url("/assets/logo-sirio.jpg");
   background-color: white;
@@ -22,7 +15,7 @@
   background-size: cover;
 }
 .example-viewport {
-  height: 100vh;
+  height: 90vh;
   width: 100%;
 }
 .hideOver {
@@ -34,27 +27,7 @@
 .example-item {
   height: 50px;
 }
-.item-card {
-  display: grid;
-  width: 100%;
-  -webkit-box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.1);
-  -moz-box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.1);
-  box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.1);
-  background-color: white;
-  border-radius: .3em;
-  grid-template-rows: 65px 245px 90px 50px 50px;
-  height: 500px;
-}
 
-.item-card:hover {
-  -webkit-box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.15);
-  -moz-box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.15);
-  box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.15);
-}
-
-.title-card {
-  padding: 10px;
-}
 
 h3 {
   margin: 0;
@@ -73,7 +46,6 @@ font-style: normal;
 }
 
 
-
 .menu {
   overflow: hidden;
   background-color: #005087;
@@ -83,16 +55,6 @@ font-style: normal;
   box-shadow: 3px 1px 3px 1px rgba(0,0,0,0.38);
 }
 
-.item-card p {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 400;
-  padding: 10px;
-  overflow: auto;
-  font-family: futura-pt, sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
 
 .mat-dialog-container {
   width: 800px;
@@ -207,6 +169,7 @@ li h2 {
 .content {
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 1em;
+  padding-bottom: 1em;
   /* padding: 2em;*/
   display: grid;
 }
@@ -368,6 +331,18 @@ h5 {
   max-height: 600px;
 }
 
+.displayCheat {
+  display: none;
+}
+
+.displayCheatTwo {
+  display: block;
+}
+
+.displayCheatThree {
+  display: none;
+}
+
 .content ::ng-deep .cdk-virtual-scroll-content-wrapper {
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 1em;
@@ -375,17 +350,18 @@ h5 {
   padding-top: .1em;
 }
 
+
+
+.cheating {
+  height: 600px;
+}
+
 .cheatingTwo {
-  height: 650px;
+  height: 100px;
 }
 
 .cdk-virtual-scroll-content-wrapper {
   grid: inherit;
-}
-
-
-.cheating {
-  height: 650px;
 }
 
 .paddingToScroll {
@@ -414,18 +390,19 @@ h5 {
 
 @media screen and (max-width: 1600px) {
 
+
+  .displayCheat {
+    display: block;
+  }
+
+  .displayCheatTwo {
+    display: none;
+  }
   .list-items {
     overflow: auto !important;
     max-height: 300px;
   }
 
-  .cheating {
-    height: 650px;
-  }
-
-  .cheatingTwo {
-    height: 650px;
-  }
   .content ::ng-deep .cdk-virtual-scroll-content-wrapper {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -453,7 +430,13 @@ h5 {
   .content ::ng-deep .cdk-virtual-scroll-content-wrapper {
     grid-template-columns: repeat(2, 1fr);
   }
+  .displayCheatThree {
+    display: block;
+  }
 
+  .displayCheat {
+    display: none;
+  }
 }
 
 

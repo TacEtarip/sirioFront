@@ -80,6 +80,7 @@ export class InventarioComponent implements OnInit, OnDestroy {
     this.dialogUploadRef.componentInstance.codigo = this.codigo;
     this.dialogUploadRef.afterClosed().pipe(first()).subscribe(() => {
       this.codigo = null;
+      this.keep.next(false);
       this.getItems(this.listaItemsCurrent);
     });
   }
