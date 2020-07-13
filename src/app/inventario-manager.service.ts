@@ -76,8 +76,8 @@ export class InventarioManagerService {
                 alert(error.error.error.message);
                 break;
             }
-            const errorItem: Item = null;
-            return of(errorItem);
+              const errorItem: Item = null;
+              return of(errorItem);
           }));
   }
 

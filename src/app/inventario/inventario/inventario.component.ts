@@ -43,7 +43,7 @@ export class InventarioComponent implements OnInit, OnDestroy {
 
   constructor(public dialog: MatDialog, private inventarioMNG: InventarioManagerService,
               private auth: AuthService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
-    this.nombreUsuario = auth.getUser();
+    this.nombreUsuario = auth.getDisplayUser();
     this.mobileQuery = media.matchMedia('(max-width: 700px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);

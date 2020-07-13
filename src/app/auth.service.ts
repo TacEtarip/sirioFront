@@ -12,6 +12,7 @@ export class AuthService {
   baseUrl = 'https://inventario-sirio-dinar.herokuapp.com/';
 
   USUARIO_USER = 'usuario_user';
+  SHOW_USER = 'usuario_user_show';
   TOKEN_JWT = 'jwt_token';
   loggedInUSER: string = null;
 
@@ -40,7 +41,8 @@ export class AuthService {
 
   private doLoginUser(res: Token) {
     if (res.success === true) {
-      localStorage.setItem(this.USUARIO_USER, res.username);
+      localStorage.setItem(this.USUARIO_USER, res.username.toLowerCase());
+      localStorage.setItem(this.SHOW_USER, res.displayName);
       this.loggedInUSER = res.username;
       this.storeToken(res.token);
     } else {
@@ -56,6 +58,10 @@ export class AuthService {
     return localStorage.getItem(this.USUARIO_USER);
   }
 
+  public getDisplayUser(): string {
+    return localStorage.getItem(this.SHOW_USER);
+  }
+
   public getToken(): string {
     return localStorage.getItem(this.TOKEN_JWT);
   }
@@ -69,6 +75,7 @@ interface Token {
   success: boolean;
   message: string;
   token: string;
+  displayName: string;
 }
 
 export interface User {
