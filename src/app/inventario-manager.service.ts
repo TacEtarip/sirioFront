@@ -31,7 +31,12 @@ export class InventarioManagerService {
 
   }
 
-  getTipos(){
+  getTipos(): Observable<Tipo[]>{
+    return this.http.get<Tipo[]>( this.baseUrl + 'inventario/getTipos')
+      .pipe(first());
+  }
+
+  /*getTipos(){
     return this.http.get( this.baseUrl + 'inventario/getTipos')
       .pipe(first(), map((res: Tipo[]) => {
         const tipos: string[] = [];
@@ -40,7 +45,7 @@ export class InventarioManagerService {
         });
         return tipos;
       }));
-  }
+  }*/
 
   addItem(item: Item): Observable<Item> {
     return this.http.post<Item>(this.baseUrl +  'inventario/addItem', item)
@@ -225,6 +230,24 @@ export class InventarioManagerService {
                         }));
   }
 
+  eliminarTipo(codigo: string): Observable<any> {
+    return this.http.delete<any>(this.baseUrl +  'inventario/deleteTipo/' + codigo)
+                    .pipe(first(),
+                          catchError(error => {
+                            switch (error.status) {
+                              case 0:
+                                alert('Error al tratar de conectar al servidor');
+                                break;
+                              case 700:
+                                break;
+                              default:
+                                alert(error.error.error.message);
+                                break;
+                          }
+                            return of(false);
+                        }));
+  }
+
 
 
 }
@@ -265,8 +288,10 @@ export interface Item {
   ficha: boolean;
 }
 
-interface Tipo {
+export interface Tipo {
   name: string;
+  date: Date;
+  codigo: string;
 }
 
 interface FileUploaded {

@@ -28,7 +28,7 @@
     <div class="options"></div>
     <div class="list-items">
       <ul class="list-general">
-        <app-lista-plegable (sendTipo)="changeItemCurrentList($event)" (openDialogOnMain)="openDialog()" [tipoLista]="tipo" *ngFor="let tipo of (tiposSubject|async)"></app-lista-plegable>
+        <app-lista-plegable (openDialogEliminarOnMain)="openDialogDelete($event)" (sendTipo)="changeItemCurrentList($event)" (openDialogOnMain)="openDialog()" [tipoLista]="tipo" *ngFor="let tipo of (tiposSubject|async)"></app-lista-plegable>
       </ul>
     </div>
   </mat-sidenav>

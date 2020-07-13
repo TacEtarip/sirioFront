@@ -3,6 +3,8 @@ import {MatDialog} from '@angular/material/dialog';
 import { Item } from '../../../inventario-manager.service';
 import { NewItemDialogComponent } from '../new-item-dialog/new-item-dialog.component';
 import { BehaviorSubject } from 'rxjs';
+
+import { Tipo } from '../../../inventario-manager.service';
 @Component({
   selector: 'app-lista-plegable',
   templateUrl: './lista-plegable.component.html',
@@ -10,9 +12,10 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class ListaPlegableComponent implements OnInit {
 
-  @Input() tipoLista: string;
+  @Input() tipoLista: Tipo;
 
   @Output() openDialogOnMain = new EventEmitter();
+  @Output() openDialogEliminarOnMain = new EventEmitter<Tipo>();
   @Output() sendTipo = new EventEmitter<string>();
   listaDeItems = new BehaviorSubject<Item[]>([]);
 
@@ -34,13 +37,17 @@ export class ListaPlegableComponent implements OnInit {
     }
     else {
       this.status = true;
-      this.sendTipo.emit(this.tipoLista);
+      this.sendTipo.emit(this.tipoLista.name);
       window.scroll(0, 0);
     }
   }
 
   openDialog() {
     this.openDialogOnMain.emit();
+  }
+
+  openDialogEliminar() {
+    this.openDialogEliminarOnMain.emit(this.tipoLista);
   }
 
 }

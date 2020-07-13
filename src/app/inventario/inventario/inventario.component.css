@@ -251,7 +251,7 @@ h1 {
 
 .list-items {
   overflow: auto !important;
-  max-height: 600px;
+  max-height: 540px;
 }
 
 .displayCheat {
@@ -276,11 +276,11 @@ h1 {
 
 
 .cheating {
-  height: 600px;
+  height: 700px;
 }
 
 .cheatingTwo {
-  height: 100px;
+  height: 200px;
 }
 
 .cdk-virtual-scroll-content-wrapper {
@@ -345,7 +345,7 @@ h1 {
   }
   .list-items {
     overflow: auto !important;
-    max-height: 300px;
+    max-height: 240px;
   }
 
   .content ::ng-deep .cdk-virtual-scroll-content-wrapper {
@@ -395,7 +395,7 @@ h1 {
     display: flex;
   }
   .list-items {
-    max-height: 900px;
+    max-height: 840px;
   }
 }
 
@@ -414,7 +414,7 @@ h1 {
     box-shadow: none;
   }
   .list-items {
-    max-height: 600px;
+    max-height: 540px;
   }
 
 }
@@ -440,7 +440,7 @@ h1 {
     margin: 0;
   }
   .list-items {
-    max-height: 400px;
+    max-height: 340px;
   }
   .menu {
     width: 60%;

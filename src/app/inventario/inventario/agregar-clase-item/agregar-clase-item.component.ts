@@ -20,7 +20,6 @@ export class AgregarClaseItemComponent implements OnInit {
     this.form = this.formBuilder.group({
       name: this.formBuilder.control('',  Validators.compose([
         Validators.required,
-        Validators.pattern('^[a-zA-Z0-9._-]+$'),
         Validators.minLength(3)
       ]))
     });

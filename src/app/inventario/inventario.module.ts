@@ -27,11 +27,14 @@ import { UploadsDialogComponent } from './inventario/uploads-dialog/uploads-dial
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import { EditarItemDialogComponent } from './inventario/editar-item-dialog/editar-item-dialog.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { SeguroEliminarComponent } from './inventario/seguro-eliminar/seguro-eliminar.component';
+import {MatDividerModule, MatDivider} from '@angular/material/divider';
 
 
 @NgModule({
   declarations: [InventarioComponent, ListaPlegableComponent, NewItemDialogComponent,
-    VentaDialogComponent, AgregarClaseItemComponent, ItemCardComponent, UploadsDialogComponent, EditarItemDialogComponent],
+    VentaDialogComponent, AgregarClaseItemComponent, ItemCardComponent, UploadsDialogComponent,
+     EditarItemDialogComponent, SeguroEliminarComponent],
   imports: [
     CommonModule,
     InventarioRoutingModule,
@@ -50,7 +53,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatChipsModule,
     ReactiveFormsModule,
     ScrollingModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatDividerModule
   ]
 })
 export class InventarioModule { }

@@ -5,11 +5,13 @@ import { AgregarClaseItemComponent } from './agregar-clase-item/agregar-clase-it
 import { BehaviorSubject } from 'rxjs';
 import { ListaPlegableComponent } from './lista-plegable/lista-plegable.component';
 import { UploadsDialogComponent } from './uploads-dialog/uploads-dialog.component';
-import {InventarioManagerService, Item } from '../../inventario-manager.service';
+import {InventarioManagerService, Item,  Tipo} from '../../inventario-manager.service';
 import { AuthService } from '../../auth.service';
 import { first } from 'rxjs/operators';
 import {MediaMatcher} from '@angular/cdk/layout';
 import {Router} from '@angular/router';
+import {  SeguroEliminarComponent } from './seguro-eliminar/seguro-eliminar.component';
+
 
 @Component({
   selector: 'app-inventario',
@@ -32,7 +34,8 @@ export class InventarioComponent implements OnInit, OnDestroy {
   dialogItemRef: MatDialogRef<NewItemDialogComponent, any>;
   dialogUploadRef: MatDialogRef<UploadsDialogComponent, any>;
 
-  tiposSubject = new BehaviorSubject<string[]>([]);
+
+  tiposSubject = new BehaviorSubject<Tipo[]>([]);
 
   keep = new BehaviorSubject<boolean>(true);
 
@@ -62,7 +65,7 @@ export class InventarioComponent implements OnInit, OnDestroy {
 
   closeAllButOne(current: string) {
     this.listasPlegables.forEach(lista => {
-      if (current !== lista.tipoLista) {
+      if (current !== lista.tipoLista.name) {
         lista.status = false;
       }
     });
@@ -149,7 +152,7 @@ export class InventarioComponent implements OnInit, OnDestroy {
     this.listItems.subscribe((value: Item[]) => {
       if (this.listaItemsCurrent !== 'Todos') {
         this.listasPlegables.forEach(lista => {
-          if (lista.tipoLista === this.listaItemsCurrent) {
+          if (lista.tipoLista.name === this.listaItemsCurrent) {
             lista.listaDeItems.next(value);
             return ;
           }
@@ -166,6 +169,24 @@ export class InventarioComponent implements OnInit, OnDestroy {
 
   aInventario() {
     this.router.navigate(['/inventario']);
+  }
+
+  openDialogDelete(tipo: Tipo) {
+
+    const dialogRef = this.dialog.open(SeguroEliminarComponent, {
+      width: '500px',
+      data: tipo
+    });
+
+    dialogRef.componentInstance.onEliminar.pipe(first()).subscribe( (tipoE: Tipo) => {
+      this.inventarioMNG.eliminarTipo(tipoE.codigo).subscribe(() => {
+        this.inventarioMNG.getTipos().subscribe(res => {
+          this.listaItemsCurrent = 'Todos';
+          this.getItems(this.listaItemsCurrent);
+          this.tiposSubject.next(res);
+        });
+      });
+    });
   }
 
 }
