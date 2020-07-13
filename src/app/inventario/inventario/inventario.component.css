@@ -41,8 +41,8 @@ h4 {
   font-size: 14px;
   color: #005087;
   font-family: futura-pt,sans-serif;
-font-weight: 300;
-font-style: normal;
+  font-weight: 300;
+  font-style: normal;
 }
 
 
@@ -50,9 +50,7 @@ font-style: normal;
   overflow: hidden;
   background-color: #005087;
   width: 20%;
-  -webkit-box-shadow: 3px 1px 3px 1px rgba(0,0,0,0.38);
-  -moz-box-shadow: 3px 1px 3px 1px rgba(0,0,0,0.35);
-  box-shadow: 3px 1px 3px 1px rgba(0,0,0,0.38);
+
 }
 
 
@@ -93,30 +91,6 @@ li,ul {
   font-style: normal;
 }
 
-.grupo {
-  height: 40px;
-  line-height: 40px;
-  display: block;
-  padding: 10px;
-  border-radius: .3em;
-  cursor: pointer;
-  display: grid;
-  grid-template-columns: 90% 10%;
-}
-
-.grupo-interno {
-  height: 30px;
-  line-height: 30px;
-  display: block;
-  padding: 0 20px;
-  border-radius: .2em;
-  cursor: pointer;
-  display: grid;
-  grid-template-columns: 90% 10%;
-  color: #e9b483;
-}
-
-
 
 li h2 {
   color: #E87200;
@@ -138,9 +112,7 @@ li h2 {
   margin: auto;
 }
 
-.grupo:hover, .grupo-interno:hover {
-  background-color: #014c7e;
-}
+
 
 .user-photo {
   width: 130px;
@@ -179,32 +151,12 @@ li h2 {
   padding: 1em 0em;
 }
 
-.final-card {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  padding: 10px;
-  padding-bottom: 0;
-  grid-gap: .5em;
-}
-
-h6 {
-  display: inline-block;
-  margin: 0;
-  font-size: 20px;
-  color: #E87200;
-  font-weight: 800;
-  text-align: center;
-  align-self: center;
-}
 
 h1 {
   margin: 0;
   color: #005087;
   font-size: 52px;
-}
-.final-ficha{
-  width: 100%;
-  padding: 10px;
+  font-weight: 200;
 }
 
 .vender, .editar {
@@ -234,7 +186,7 @@ h1 {
 
 }
 
-h5 {
+/*h5 {
   text-align: center;
   font-size: 40px;
   color: #d4d4d4;
@@ -242,43 +194,14 @@ h5 {
   font-family: futura-pt, sans-serif;
   font-weight: 200;
   font-style: normal;
-}
+}*/
 
-.vender:hover, .editar:hover {
-  cursor: pointer;
-  background-color: #e8700034;
-}
-
-.ficha-btn {
-  background-color: white;
-  margin: 10px;
-  color: #E87200;
-  border: 1px solid rgb(170, 170, 170);
-  border-radius: .2em;
-  text-align: center;
-  outline: none;
-  text-decoration: none;
-  font-family: futura-pt, sans-serif;
-  font-weight: 600;
-  font-style: normal;
-  font-size: 14px;
-  padding: 0;
-}
 
 .tool-bar {
   background-color: #005087;
   padding: 0;
 }
 
-.ficha-btn:hover {
-  cursor: pointer;
-  background-color: #0051871c;
-}
-
-.ficha-btn:focus,
-.ficha-btn:active {
-  background-color: #0051872c;
-}
 
 .example-card {
   width: auto;
@@ -374,18 +297,40 @@ h5 {
 
 .toolBar {
   padding: .5em;
-  background-color: #E87200;
+  background-color: #005087;
+  -webkit-box-shadow: 0px 7px 5px -3px rgba(0,0,0,0.35);
+  -moz-box-shadow: 0px 7px 5px -3px rgba(0,0,0,0.35);
+  box-shadow: 0px 7px 5px -3px rgba(0,0,0,0.35);
+  z-index: 1000;
 }
 
 ::ng-deep .sizeIcon{
-  height:48px !important;
-  width:48px !important;
-  font-size:38px !important;
-  line-height: 46px !important;
+  height:44px !important;
+  width:44px !important;
+  font-size:34px !important;
+  line-height: 42px !important;
+}
+
+::ng-deep .sizeShop {
+  font-size:31px !important;
+  line-height: 45px !important;
+}
+
+
+::ng-deep .sizePower {
+  font-size:33px !important;
+  line-height: 45px !important;
+}
+
+.addMargin {
+  margin-left: .1em;
 }
 
 .toolBarName {
   margin-left: .2em;
+}
+.example-spacer {
+  flex: 1 1 auto;
 }
 
 @media screen and (max-width: 1600px) {
@@ -472,13 +417,6 @@ h5 {
     max-height: 600px;
   }
 
-  .grupo {
-    padding: 5px;
-    border-radius: .3em;
-    cursor: pointer;
-    display: grid;
-    grid-template-columns: 90% 10%;
-}
 }
 
 @media screen and (max-width: 700px) {

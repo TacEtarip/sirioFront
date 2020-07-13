@@ -54,6 +54,13 @@ export class AuthService {
     localStorage.setItem(this.TOKEN_JWT, token);
   }
 
+  public cerrarSesion() {
+    localStorage.removeItem(this.SHOW_USER);
+    localStorage.removeItem(this.USUARIO_USER);
+    localStorage.removeItem(this.TOKEN_JWT);
+    window.location.reload();
+  }
+
   public getUser(): string {
     return localStorage.getItem(this.USUARIO_USER);
   }

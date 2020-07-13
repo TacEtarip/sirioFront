@@ -1,10 +1,21 @@
 <div class="main">
-
-  <mat-toolbar color="primary" class="example-toolbar showBar toolBar">
+  <mat-toolbar color="primary" class="example-toolbar toolBar">
     <button (click)="snav.toggle()" class="sizeIcon" mat-icon-button><mat-icon class="sizeIcon">menu</mat-icon></button>
+    <span class="toolBarName">Inventario</span>
+    <span class="example-spacer"></span>
+    <button (click)="aInventario()" matTooltip="Inventario" mat-icon-button class="sizeIcon ">
+      <mat-icon class="sizeIcon  sizeShop">assignment</mat-icon>
+    </button>
+    <button (click)="aVentas()" matTooltip="Ventas" mat-icon-button class="sizeIcon addMargin">
+      <mat-icon class="sizeIcon  sizeShop">shopping_cart</mat-icon>
+    </button>
+    <button (click)="cerrarSesion()" matTooltip="Cerrar Sesion" mat-icon-button class="sizeIcon addMargin">
+      <mat-icon class="sizeIcon  sizePower">power_settings_new</mat-icon>
+    </button>
   </mat-toolbar>
   <mat-sidenav-container class="mainCont">
-  <mat-sidenav #snav style="overflow:hidden" [style.marginTop.px]="mobileQuery.matches ? 56 : 0" [fixedInViewport]="mobileQuery.matches" [mode]="mobileQuery.matches ? 'over' : 'side'" class="menu" [opened]="!mobileQuery.matches" >
+  <mat-sidenav #snav style="overflow:hidden" [style.marginTop.px]="mobileQuery.matches ? 56 : 0"
+      [fixedInViewport]="mobileQuery.matches" [mode]="mobileQuery.matches ? 'over' : 'side'" class="menu" [opened]="!mobileQuery.matches" >
     <div class="user-ctn">
       <div class="user-photo"></div>
       <h2>{{nombreUsuario}}</h2>
@@ -56,45 +67,3 @@
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>
-<!--
-<mat-drawer-container class="main">
-  <mat-drawer style="overflow:hidden" mode="side" class="menu" opened>
-
-    <div class="user-ctn">
-      <div class="user-photo"></div>
-      <h2>{{nombreUsuario}}</h2>
-    </div>
-    <div class="show-opc">
-      <button (click)="openDialogAgregarCat()" mat-fab color="warn" aria-label="Example icon button with a home icon">
-        <mat-icon class="icon-img">add_box</mat-icon>
-      </button>
-    </div>
-
-    <div class="options"></div>
-    <div class="list-items">
-      <ul class="list-general">
-        <app-lista-plegable (sendTipo)="changeItemCurrentList($event)" (openDialogOnMain)="openDialog()" [tipoLista]="tipo" *ngFor="let tipo of (tiposSubject|async)"></app-lista-plegable>
-      </ul>
-    </div>
-  </mat-drawer>
-  <mat-drawer-content class="hideOver">
-  <section class="main-ctt">
-    <div class="info">
-      <h1>
-        {{listaItemsCurrent}}
-      </h1>
-    </div>
-    <div class="paddingToScroll">
-    <cdk-virtual-scroll-viewport itemSize="100" class="example-viewport content">
-      <app-item-card [item]="item" *cdkVirtualFor="let item of (listItems|async)"></app-item-card>
-      <div *ngIf="listaItemsCurrent !== 'Todos'" class="item-card agregar-card" (click)="openDialog()">
-        <div class="plus-svg"></div>
-        <h5>Agregar Item</h5>
-      </div>
-      <div  [ngClass]="listaItemsCurrent !== 'Todos' ? 'cheating' : 'cheatingTwo'"></div>
-    </cdk-virtual-scroll-viewport>
-    </div>
-  </section>
-  </mat-drawer-content>
-</mat-drawer-container>
--->

@@ -9,6 +9,7 @@ import {InventarioManagerService, Item } from '../../inventario-manager.service'
 import { AuthService } from '../../auth.service';
 import { first } from 'rxjs/operators';
 import {MediaMatcher} from '@angular/cdk/layout';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-inventario',
@@ -42,11 +43,20 @@ export class InventarioComponent implements OnInit, OnDestroy {
   nombreUsuario: string;
 
   constructor(public dialog: MatDialog, private inventarioMNG: InventarioManagerService,
-              private auth: AuthService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
+              private auth: AuthService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
+              private router: Router) {
     this.nombreUsuario = auth.getDisplayUser();
     this.mobileQuery = media.matchMedia('(max-width: 700px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
+  }
+
+  cerrarSesion() {
+    this.auth.cerrarSesion();
+  }
+
+  aVentas(){
+    this.router.navigate(['/ventas']);
   }
 
 
@@ -152,6 +162,10 @@ export class InventarioComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
    this.listItems.unsubscribe();
    this.mobileQuery.removeListener(this._mobileQueryListener);
+  }
+
+  aInventario() {
+    this.router.navigate(['/inventario']);
   }
 
 }

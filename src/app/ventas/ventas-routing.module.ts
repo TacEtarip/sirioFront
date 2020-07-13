@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { VentasComponent } from './ventas/ventas.component';
 
+
 const routes: Routes = [{ path: '', component: VentasComponent}];
 
 @NgModule({

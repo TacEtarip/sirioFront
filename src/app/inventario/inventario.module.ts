@@ -26,6 +26,8 @@ import { ItemCardComponent } from './inventario/item-card/item-card.component';
 import { UploadsDialogComponent } from './inventario/uploads-dialog/uploads-dialog.component';
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import { EditarItemDialogComponent } from './inventario/editar-item-dialog/editar-item-dialog.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
+
 
 @NgModule({
   declarations: [InventarioComponent, ListaPlegableComponent, NewItemDialogComponent,
@@ -47,7 +49,8 @@ import { EditarItemDialogComponent } from './inventario/editar-item-dialog/edita
     MatToolbarModule,
     MatChipsModule,
     ReactiveFormsModule,
-    ScrollingModule
+    ScrollingModule,
+    MatTooltipModule
   ]
 })
 export class InventarioModule { }
