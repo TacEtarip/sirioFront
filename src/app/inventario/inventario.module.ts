@@ -29,12 +29,13 @@ import { EditarItemDialogComponent } from './inventario/editar-item-dialog/edita
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { SeguroEliminarComponent } from './inventario/seguro-eliminar/seguro-eliminar.component';
 import {MatDividerModule, MatDivider} from '@angular/material/divider';
+import { EditarClaseComponent } from './inventario/editar-clase/editar-clase.component';
 
 
 @NgModule({
   declarations: [InventarioComponent, ListaPlegableComponent, NewItemDialogComponent,
     VentaDialogComponent, AgregarClaseItemComponent, ItemCardComponent, UploadsDialogComponent,
-     EditarItemDialogComponent, SeguroEliminarComponent],
+     EditarItemDialogComponent, SeguroEliminarComponent, EditarClaseComponent],
   imports: [
     CommonModule,
     InventarioRoutingModule,

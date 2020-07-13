@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import {InventarioManagerService} from '../../../inventario-manager.service';
+
 @Component({
   selector: 'app-agregar-clase-item',
   templateUrl: './agregar-clase-item.component.html',

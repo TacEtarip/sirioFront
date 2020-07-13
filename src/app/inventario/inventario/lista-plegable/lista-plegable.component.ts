@@ -16,11 +16,10 @@ export class ListaPlegableComponent implements OnInit {
 
   @Output() openDialogOnMain = new EventEmitter();
   @Output() openDialogEliminarOnMain = new EventEmitter<Tipo>();
+  @Output() openDialogEditarTipo = new EventEmitter<Tipo>();
   @Output() sendTipo = new EventEmitter<string>();
+
   listaDeItems = new BehaviorSubject<Item[]>([]);
-
-
-
 
   status = false;
 
@@ -48,6 +47,10 @@ export class ListaPlegableComponent implements OnInit {
 
   openDialogEliminar() {
     this.openDialogEliminarOnMain.emit(this.tipoLista);
+  }
+
+  openDialogEditar() {
+    this.openDialogEditarTipo.emit(this.tipoLista);
   }
 
 }

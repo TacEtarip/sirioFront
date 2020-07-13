@@ -8,6 +8,8 @@ import { catchError, mapTo, map, retry, tap, first } from 'rxjs/operators';
 export class InventarioManagerService {
 
   baseUrl = 'https://inventario-sirio-dinar.herokuapp.com/';
+  // baseUrl = 'http://localhost:5000/';
+
 
   constructor(private http: HttpClient) { }
 
@@ -246,6 +248,25 @@ export class InventarioManagerService {
                           }
                             return of(false);
                         }));
+  }
+
+  updateTipoName(tipo: Tipo) {
+    console.log(tipo);
+    return this.http.put<any>(this.baseUrl +  'inventario/updateTipo/', tipo)
+    .pipe(first(),
+          catchError(error => {
+            switch (error.status) {
+              case 0:
+                alert('Error al tratar de conectar al servidor');
+                break;
+              case 700:
+                break;
+              default:
+                alert(error.error.error.message);
+                break;
+          }
+            return of(false);
+        }));
   }
 
 

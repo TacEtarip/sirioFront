@@ -11,6 +11,7 @@ import { first } from 'rxjs/operators';
 import {MediaMatcher} from '@angular/cdk/layout';
 import {Router} from '@angular/router';
 import {  SeguroEliminarComponent } from './seguro-eliminar/seguro-eliminar.component';
+import { EditarClaseComponent } from './editar-clase/editar-clase.component';
 
 
 @Component({
@@ -33,7 +34,6 @@ export class InventarioComponent implements OnInit, OnDestroy {
   dialogRef: MatDialogRef<AgregarClaseItemComponent, any>;
   dialogItemRef: MatDialogRef<NewItemDialogComponent, any>;
   dialogUploadRef: MatDialogRef<UploadsDialogComponent, any>;
-
 
   tiposSubject = new BehaviorSubject<Tipo[]>([]);
 
@@ -172,9 +172,8 @@ export class InventarioComponent implements OnInit, OnDestroy {
   }
 
   openDialogDelete(tipo: Tipo) {
-
     const dialogRef = this.dialog.open(SeguroEliminarComponent, {
-      width: '500px',
+      width: '600px',
       data: tipo
     });
 
@@ -185,8 +184,26 @@ export class InventarioComponent implements OnInit, OnDestroy {
           this.getItems(this.listaItemsCurrent);
           this.tiposSubject.next(res);
         });
-      });
+        });
     });
+  }
+
+  openDialogEditar(tipo: Tipo) {
+    const dialogRef = this.dialog.open(EditarClaseComponent, {
+      width: '600px',
+      data: tipo
+    });
+
+    dialogRef.componentInstance.onSub.pipe(first()).subscribe( (tipoE: Tipo) => {
+      dialogRef.close();
+      this.inventarioMNG.updateTipoName(tipoE).pipe(first()).subscribe(() => {
+        this.inventarioMNG.getTipos().subscribe(res => {
+          this.listaItemsCurrent = tipoE.name;
+          this.getItems(this.listaItemsCurrent);
+          this.tiposSubject.next(res);
+        });
+        });
+      });
   }
 
 }
