@@ -120,13 +120,11 @@ export class EditarItemDialogComponent implements OnInit {
 
   onFileSelect(files: FileList) {
     this.fileToUpload = files.item(0);
-    this.disabled = false;
-    this.showMessage = false;
+    this.onSubmitIMG();
   }
 
   onFileSelectPDF(files: FileList) {
     this.fileToUploadPDF = files.item(0);
-    this.disabledPDF = false;
-    this.showMessagePDF = false;
+    this.onSubmitPDF();
   }
 }

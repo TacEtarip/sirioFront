@@ -37,9 +37,9 @@
       <mat-checkbox (click)="changePrice()" class="hpc">Habilitar precio</mat-checkbox>
       <h2>Total: S/ {{totalPriceIGV}}</h2>
     </div>
-    <div mat-dialog-actions>
+    <div mat-dialog-actions align="end">
       <button (click)="ventaSimple(ventaForm.value)" type="button" [disabled]="!ventaForm.valid || ventaForm.get('codigo').value !== 'noAgregar'" mat-flat-button color="primary">Vender</button>
       <button type="button" [disabled]="!ventaForm.valid || ventaForm.get('codigo').value !== 'noAgregar'" mat-flat-button color="primary">Crear Venta</button>
-      <button type="button" [disabled]="!ventaForm.valid || ventaForm.get('codigo').value === 'noAgregar'" mat-flat-button color="primary">Agregar A Venta</button>
+      <button class="lastBTN" type="button" [disabled]="!ventaForm.valid || ventaForm.get('codigo').value === 'noAgregar'" mat-flat-button color="primary">Agregar A Venta</button>
     </div>
 </form>

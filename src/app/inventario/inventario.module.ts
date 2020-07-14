@@ -31,13 +31,13 @@ import { SeguroEliminarComponent } from './inventario/seguro-eliminar/seguro-eli
 import {MatDividerModule, MatDivider} from '@angular/material/divider';
 import { EditarClaseComponent } from './inventario/editar-clase/editar-clase.component';
 import { EliminarDialogComponent } from './inventario/eliminar-dialog/eliminar-dialog.component';
-import { SnackBarMessageComponent } from './inventario/snack-bar-message/snack-bar-message.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatRippleModule} from '@angular/material/core';
 
 @NgModule({
   declarations: [InventarioComponent, ListaPlegableComponent, NewItemDialogComponent,
     VentaDialogComponent, AgregarClaseItemComponent, ItemCardComponent, UploadsDialogComponent,
-     EditarItemDialogComponent, SeguroEliminarComponent, EditarClaseComponent, EliminarDialogComponent, SnackBarMessageComponent],
+     EditarItemDialogComponent, SeguroEliminarComponent, EditarClaseComponent, EliminarDialogComponent],
   imports: [
     CommonModule,
     InventarioRoutingModule,
@@ -58,7 +58,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     ScrollingModule,
     MatTooltipModule,
     MatDividerModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatRippleModule
   ]
 })
 export class InventarioModule { }

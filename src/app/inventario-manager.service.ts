@@ -7,8 +7,8 @@ import { catchError, mapTo, map, retry, tap, first } from 'rxjs/operators';
 })
 export class InventarioManagerService {
 
-  // baseUrl = 'https://inventario-sirio-dinar.herokuapp.com/';
-  baseUrl = 'http://localhost:5000/';
+  baseUrl = 'https://inventario-sirio-dinar.herokuapp.com/';
+  // baseUrl = 'http://localhost:5000/';
 
 
   constructor(private http: HttpClient) { }

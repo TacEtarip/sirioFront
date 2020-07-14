@@ -15,7 +15,7 @@ import {Router} from '@angular/router';
 export class VentasComponent implements OnInit {
 
   mobileQuery: MediaQueryList;
-  private _mobileQueryListener: () => void;
+  private mobileQueryListener: () => void;
 
   nombreUsuario: string;
 
@@ -23,9 +23,9 @@ export class VentasComponent implements OnInit {
               private auth: AuthService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
               private router: Router) {
                 this.nombreUsuario = auth.getDisplayUser();
-                this.mobileQuery = media.matchMedia('(max-width: 700px)');
-                this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-                this.mobileQuery.addListener(this._mobileQueryListener);
+                this.mobileQuery = media.matchMedia('(max-width: 800px)');
+                this.mobileQueryListener = () => changeDetectorRef.detectChanges();
+                this.mobileQuery.addListener(this.mobileQueryListener);
                }
 
   ngOnInit(): void {

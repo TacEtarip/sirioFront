@@ -7,6 +7,7 @@
   color: #014c7e;
   font-family: jubilat, sans-serif;
   font-size: 26px;
+  font-weight: 400;
 }
 
 * {
@@ -18,6 +19,7 @@
 img {
   width: 40px;
   height: 40px;
+  filter: invert(100%) sepia(0%) saturate(2113%) hue-rotate(327deg) brightness(115%) contrast(77%);
 }
 
 img:hover {
@@ -35,7 +37,11 @@ input {
   width: 30%;
 }
 
-
+b {
+  color: #ff7b00;
+  font-family: jubilat, sans-serif;
+  font-weight: 400;
+}
 
 .ficha-btn {
   background-color: white;
@@ -87,14 +93,13 @@ td {
   width: 800px;
 }
 
-h1 {
+.mat-dialog-content {
+  max-height: 50vh;
 }
 
-@media screen and (max-width: 700px) and (orientation:portrait) {
+@media screen and (max-width: 800px) {
   .title {
-    color: #014c7e;
-    font-family: jubilat, sans-serif;
-    font-size: 14px;
+    font-size: 20px;
   }
 
   .put-margin {
@@ -103,5 +108,14 @@ h1 {
 
   .example-half-width {
     width: 100%;
+  }
+
+  .close-btn {
+    margin-bottom: .5em;
+  }
+
+  h1 {
+    margin-bottom: .5em;
+    line-height: 1.5em;
   }
 }

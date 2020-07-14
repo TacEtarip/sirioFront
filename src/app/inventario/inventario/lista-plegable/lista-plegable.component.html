@@ -1,19 +1,19 @@
 <li class="list-plegable noselect">
-    <div class="grupo noselect" (click)="openList()">
+    <div matRipple class="grupo noselect" (click)="openList()">
             <h2 class="grupo-name noselect">{{tipoLista.name}}</h2>
             <div class="down-btn" [ngClass]="{'closed-btn': status === false, 'open-btn': status === true}"></div>
           </div>
           <div  [ngClass]="{'closed': status === false}">
           <ul>
-            <li (click)="openDialog()" class="agregar-sub-lista grupo-interno">
+            <li matRipple (click)="openDialog()" class="agregar-sub-lista grupo-interno">
               Agregar
               <img src="">
             </li>
-            <li (click)="openDialogEditar()" class="agregar-sub-lista grupo-interno">
+            <li matRipple (click)="openDialogEditar()" class="agregar-sub-lista grupo-interno">
               Editar
               <img src="">
             </li>
-            <li (click)="openDialogEliminar()" class="agregar-sub-lista eliminar grupo-interno">
+            <li matRipple (click)="openDialogEliminar()" class="agregar-sub-lista eliminar grupo-interno">
               Eliminar
               <img src="">
             </li>

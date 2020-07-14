@@ -7,17 +7,61 @@
   color: #014c7e;
   font-family: jubilat, sans-serif;
   font-size: 26px;
+  font-weight: 400;
 }
+
 
 * {
   font-family: futura-pt, sans-serif;
   font-weight: 600;
   font-style: normal;
 }
+input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
+}
+
+.custom-file-upload {
+  border: 1px solid #ffd9b5;
+  border-radius: .2em;
+  padding: 6px 12px;
+  cursor: pointer;
+  min-width: 100px;
+  display: inline-block;
+  text-align: center;
+}
+
+.custom-file-upload:hover {
+  background-color: #0051872c;
+}
+
+.customUpload {
+  display: inline-block;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+
+  align-items: center;
+}
 
 img {
   width: 40px;
   height: 40px;
+  filter: invert(100%) sepia(0%) saturate(2113%) hue-rotate(327deg) brightness(115%) contrast(77%);
+}
+
+h4 {
+  color: #005087;
 }
 
 img:hover {
@@ -37,23 +81,9 @@ input {
 
 
 
-.ficha-btn {
-  background-color: white;
-  color: #E87200;
-  border: 1px solid rgb(170, 170, 170);
-  border-radius: .2em;
-  text-align: center;
-  outline: none;
-  text-decoration: none;
-  font-family: futura-pt, sans-serif;
-  font-weight: 600;
-  font-style: normal;
-  font-size: 16px;
-  width: 200px;
-  height: 25px;
-  margin-right: .5em;
+.mat-dialog-content {
+  max-height: 40vh;
 }
-
 .close-btn {
   margin-bottom: .5em;
 }
@@ -96,11 +126,38 @@ td {
   margin-left: 1em;
   width: 100px;
 }
-@media screen and (max-width: 700px) and (orientation:portrait) {
+
+b {
+  color: #ff7b00;
+  font-family: jubilat, sans-serif;
+  font-weight: 400;
+}
+
+h2 {
+  color: #005087;
+  font-size: 22px;
+}
+
+p {
+  font-size: 18px;
+}
+
+* {
+  font-family: futura-pt,sans-serif;
+}
+@media screen and (max-width: 800px) and (orientation:portrait) {
   .title {
     color: #014c7e;
     font-family: jubilat, sans-serif;
-    font-size: 14px;
+    font-size: 20px;
+  }
+
+  .mat-dialog-content {
+    max-height: 30vh;
+  }
+
+  h4 {
+    font-size: 12px;
   }
 
   .put-margin {
@@ -111,5 +168,12 @@ td {
     width: 100%;
   }
 
+  .close-btn {
+    margin-bottom: .5em;
+  }
 
+  h1 {
+    margin-bottom: .5em;
+    line-height: 1.5em;
+  }
 }

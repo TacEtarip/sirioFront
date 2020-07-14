@@ -38,17 +38,17 @@ export class UploadsDialogComponent implements OnInit {
 
   onFileSelect(files: FileList) {
     this.fileToUpload = files.item(0);
-    this.disabled = false;
+    this.onSubmitIMG();
     this.showMessage = false;
   }
 
   onFileSelectPDF(files: FileList) {
     this.fileToUploadPDF = files.item(0);
-    this.disabledPDF = false;
+    this.onSubmitPDF();
     this.showMessagePDF = false;
   }
 
-  onSubmit(){
+  onSubmitIMG(){
     this.inventarioMNG.uploadFile(this.fileToUpload, this.codigo, null).subscribe((result) => {
       if (result !== false) {
         this.disabled = true;

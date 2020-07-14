@@ -1,14 +1,18 @@
 <img src="assets/close.svg" mat-dialog-title matDialogClose class="close-btn">
-<h1 mat-dialog-title class="title">Editando {{item.name}}</h1>
-<form  [formGroup]="uploadForm" (ngSubmit)="onSubmitIMG()" class="new-item-form topForm">
+<h1 mat-dialog-title class="title">Editando <b>{{item.name}}</b></h1>
+<form [ngStyle]="{'margin-right': '.5em'}" [formGroup]="uploadForm" (ngSubmit)="onSubmitIMG()" class="new-item-form topForm customUpload">
+  <label matRipple for="img" class="custom-file-upload">
+     Subir Imagén
+  </label>
   <input (change)="onFileSelect($event.target.files)" type="file" spellcheck="false" name="img" id="img" formControlName="img">
-  <button class="extraMRG" [disabled]="disabled" type="submit" mat-flat-button color="accent">Subir Foto</button>
-  <h4 class="succesMSG" *ngIf="showMessage">Imagen Subida Correctamente</h4>
+  <h4  [ngStyle]="{'margin': '0 0 0 .5em'}" class="succesMSG" *ngIf="showMessage">Imagén Subida Correctamente</h4>
 </form>
-<form  [formGroup]="uploadFileForm" (ngSubmit)="onSubmitPDF()" class="new-item-form topForm">
+<form  [formGroup]="uploadFileForm" (ngSubmit)="onSubmitPDF()" class="new-item-form topForm customUpload">
+  <label matRipple for="pdf" class="custom-file-upload">
+    Subir Ficha
+  </label>
   <input (change)="onFileSelectPDF($event.target.files)" type="file" spellcheck="false" name="pdf" id="pdf" formControlName="pdf">
-  <button class="extraMRG" [disabled]="disabledPDF" type="submit" mat-flat-button color="accent">Subir Ficha</button>
-  <h4 class="succesMSG" *ngIf="showMessagePDF">Ficha Subida Correctamente</h4>
+  <h4  [ngStyle]="{'margin': '0 0 0 .5em'}" class="succesMSG" *ngIf="showMessagePDF">Ficha Subida Correctamente</h4>
 </form>
 <form [formGroup]="myForm" (ngSubmit)="onSubmit(myForm.value)" class="new-item-form">
 <div mat-dialog-content>

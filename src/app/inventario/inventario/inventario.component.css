@@ -100,7 +100,6 @@ li h2 {
   vertical-align: text-bottom;
   font-weight: 600;
 }
-
 .down-btn {
   background-image: url("/assets/down.svg");
   display: inline-block;
@@ -149,13 +148,14 @@ li h2 {
 .main-ctt {
   grid-column: 3/13;
   padding: 1em 0em;
+  background-color: #f8fcff;
 }
 
 
 h1 {
   margin: 0;
   color: #005087;
-  font-size: 52px;
+  font-size: 50px;
   font-weight: 200;
 }
 
@@ -335,7 +335,9 @@ h1 {
 
 @media screen and (max-width: 1600px) {
 
-
+  .show-opc {
+    margin: 1em 0;
+  }
   .displayCheat {
     display: block;
   }
@@ -385,7 +387,7 @@ h1 {
 }
 
 
-@media screen and (max-width: 1100px) and (orientation:portrait) {
+@media screen and (max-width: 1100px)  {
 
   .menu {
     width: 25%;
@@ -407,14 +409,23 @@ h1 {
 
 }
 
-@media screen and (max-width: 800px) and (orientation:portrait) {
+@media screen and (max-width: 800px) {
+
+  .toolBar {
+    height: 56px;
+  }
+
+
+  .info h1 {
+    font-size: 38px;
+  }
 
   .menu {
-    width: 28%;
+    width: 40%;
     box-shadow: none;
   }
   .list-items {
-    max-height: 540px;
+    max-height: 30vh;
   }
 
 }
@@ -426,34 +437,30 @@ h1 {
 
 }
 
-@media screen and (max-width: 700px) and (orientation:portrait) {
+@media screen and (max-width: 700px) {
   .user-ctn h2 {
     font-size: 36px;
   }
-
+  .info {
+    padding: .5em 1em;
+    margin: 0;
+  }
   .user-photo {
     width: 30vw;
     height: 30vw;
   }
-  .info {
-    padding: 1em;
-    margin: 0;
-  }
+
   .list-items {
-    max-height: 340px;
+    max-height: 35vh;
   }
   .menu {
-    width: 60%;
+    width: 80%;
     box-shadow: none;
   }
 
   .mainCont {
     background-color: #f6fbff;
   }
-
-  .content::-webkit-scrollbar{
-    display: none;
-   }
 
    .paddingToScroll {
      padding: 1em;
