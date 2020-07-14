@@ -177,11 +177,6 @@ h5 {
 }*/
 
 
-.tool-bar {
-  background-color: #005087;
-  padding: 0;
-}
-
 .ficha-btn:hover {
   cursor: pointer;
   background-color: #0051871c;
@@ -251,7 +246,7 @@ h5 {
 }
 
 .toolBar {
-  padding: .5em;
+  padding: .5em !important;
   background-color: #005087;
   -webkit-box-shadow: 0px 7px 5px -3px rgba(0,0,0,0.35);
   -moz-box-shadow: 0px 7px 5px -3px rgba(0,0,0,0.35);

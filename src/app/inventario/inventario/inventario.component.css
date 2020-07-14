@@ -197,12 +197,6 @@ h1 {
 }*/
 
 
-.tool-bar {
-  background-color: #005087;
-  padding: 0;
-}
-
-
 .example-card {
   width: auto;
 }
@@ -296,7 +290,7 @@ h1 {
 }
 
 .toolBar {
-  padding: .5em;
+  padding: .5em !important;
   background-color: #005087;
   -webkit-box-shadow: 0px 7px 5px -3px rgba(0,0,0,0.35);
   -moz-box-shadow: 0px 7px 5px -3px rgba(0,0,0,0.35);
@@ -451,7 +445,7 @@ h1 {
   }
 
   .list-items {
-    max-height: 35vh;
+    max-height: 30vh;
   }
   .menu {
     width: 80%;

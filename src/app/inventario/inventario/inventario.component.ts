@@ -181,6 +181,7 @@ export class InventarioComponent implements OnInit, OnDestroy {
     dialogRef.componentInstance.onEliminar.pipe(first()).subscribe( (tipoE: Tipo) => {
       this.inventarioMNG.eliminarTipo(tipoE.codigo).subscribe(() => {
         this.inventarioMNG.getTipos().subscribe(res => {
+          this.keep.next(false);
           this.listaItemsCurrent = 'Todos';
           this.getItems(this.listaItemsCurrent);
           this.tiposSubject.next(res);
