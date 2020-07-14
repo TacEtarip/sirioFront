@@ -30,12 +30,14 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import { SeguroEliminarComponent } from './inventario/seguro-eliminar/seguro-eliminar.component';
 import {MatDividerModule, MatDivider} from '@angular/material/divider';
 import { EditarClaseComponent } from './inventario/editar-clase/editar-clase.component';
-
+import { EliminarDialogComponent } from './inventario/eliminar-dialog/eliminar-dialog.component';
+import { SnackBarMessageComponent } from './inventario/snack-bar-message/snack-bar-message.component';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [InventarioComponent, ListaPlegableComponent, NewItemDialogComponent,
     VentaDialogComponent, AgregarClaseItemComponent, ItemCardComponent, UploadsDialogComponent,
-     EditarItemDialogComponent, SeguroEliminarComponent, EditarClaseComponent],
+     EditarItemDialogComponent, SeguroEliminarComponent, EditarClaseComponent, EliminarDialogComponent, SnackBarMessageComponent],
   imports: [
     CommonModule,
     InventarioRoutingModule,
@@ -55,7 +57,8 @@ import { EditarClaseComponent } from './inventario/editar-clase/editar-clase.com
     ReactiveFormsModule,
     ScrollingModule,
     MatTooltipModule,
-    MatDividerModule
+    MatDividerModule,
+    MatSnackBarModule
   ]
 })
 export class InventarioModule { }

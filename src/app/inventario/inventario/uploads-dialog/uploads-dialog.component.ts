@@ -23,6 +23,8 @@ export class UploadsDialogComponent implements OnInit {
   showMessage = false;
   showMessagePDF = false;
 
+  photoName: string;
+
   constructor(private formBuilder: FormBuilder, private inventarioMNG: InventarioManagerService) { }
 
   ngOnInit(): void {
@@ -47,7 +49,7 @@ export class UploadsDialogComponent implements OnInit {
   }
 
   onSubmit(){
-    this.inventarioMNG.uploadFile(this.fileToUpload, this.codigo).subscribe((result) => {
+    this.inventarioMNG.uploadFile(this.fileToUpload, this.codigo, null).subscribe((result) => {
       if (result !== false) {
         this.disabled = true;
         this.showMessage = true;

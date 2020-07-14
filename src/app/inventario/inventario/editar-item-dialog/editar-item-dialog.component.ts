@@ -101,7 +101,7 @@ export class EditarItemDialogComponent implements OnInit {
     });
   }
   onSubmitIMG(){
-    this.inventarioMNG.uploadFile(this.fileToUpload, this.item.codigo).subscribe((result) => {
+    this.inventarioMNG.uploadFile(this.fileToUpload, this.item.codigo, this.item.photo).subscribe((result) => {
       if (result !== false) {
         this.disabled = true;
         this.showMessage = true;

@@ -12,7 +12,8 @@ import {MediaMatcher} from '@angular/cdk/layout';
 import {Router} from '@angular/router';
 import {  SeguroEliminarComponent } from './seguro-eliminar/seguro-eliminar.component';
 import { EditarClaseComponent } from './editar-clase/editar-clase.component';
-
+import { EliminarDialogComponent } from './eliminar-dialog/eliminar-dialog.component';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-inventario',
@@ -23,7 +24,7 @@ import { EditarClaseComponent } from './editar-clase/editar-clase.component';
 export class InventarioComponent implements OnInit, OnDestroy {
 
   mobileQuery: MediaQueryList;
-  private _mobileQueryListener: () => void;
+  private mobileQueryListener: () => void;
 
 
   @ViewChildren(ListaPlegableComponent) listasPlegables: QueryList<ListaPlegableComponent>;
@@ -47,11 +48,11 @@ export class InventarioComponent implements OnInit, OnDestroy {
 
   constructor(public dialog: MatDialog, private inventarioMNG: InventarioManagerService,
               private auth: AuthService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
-              private router: Router) {
+              private router: Router, private snackBar: MatSnackBar) {
     this.nombreUsuario = auth.getDisplayUser();
     this.mobileQuery = media.matchMedia('(max-width: 700px)');
-    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-    this.mobileQuery.addListener(this._mobileQueryListener);
+    this.mobileQueryListener = () => changeDetectorRef.detectChanges();
+    this.mobileQuery.addListener(this.mobileQueryListener);
   }
 
   cerrarSesion() {
@@ -164,7 +165,7 @@ export class InventarioComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
    this.listItems.unsubscribe();
-   this.mobileQuery.removeListener(this._mobileQueryListener);
+   this.mobileQuery.removeListener(this.mobileQueryListener);
   }
 
   aInventario() {
@@ -204,6 +205,27 @@ export class InventarioComponent implements OnInit, OnDestroy {
         });
         });
       });
+  }
+
+  openDialogEliminarItem(item: Item) {
+    const dialogRef = this.dialog.open(EliminarDialogComponent, {
+      width: '600px',
+      data: item
+    });
+
+    dialogRef.afterClosed().pipe(first()).subscribe((cod: string) => {
+      if (cod) {
+        this.inventarioMNG.eliminarItem(cod).subscribe((res) => {
+          if (res) {
+            this.keep.next(false);
+            this.getItems(this.listaItemsCurrent);
+            this.snackBar.open('Item Eliminado!!', '', {
+              duration: 2000,
+            });
+          }
+        });
+      }
+    });
   }
 
 }

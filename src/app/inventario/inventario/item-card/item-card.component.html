@@ -1,7 +1,10 @@
 <div class="item-card">
   <div class="title-card">
+    <div class="title">
     <h3>{{(itemInfo|async).name}}</h3>
     <h4>Stock: {{(itemInfo|async).cantidad}} {{(itemInfo|async).unidadDeMedida}} | {{(itemInfo|async).codigo}}</h4>
+    </div>
+    <mat-icon (click)="openDialogEliminar()" class="delete" [ngStyle]="{'color': '#e2e2e2', 'cursor': 'pointer'}">delete</mat-icon>
   </div>
   <div [ngStyle]="{'background-image': 'url(' + (urlOfImage|async) + ')'}" class="img-of-product"></div>
     <p>

@@ -279,6 +279,16 @@ h5 {
   padding: 0;
 }
 
+.delete {
+  width: 100%;
+  text-align: right;
+}
+
+.title-card {
+  display: grid;
+  grid-template-columns: 90% 10%;
+}
+
 .tool-bar {
   background-color: #005087;
   padding: 0;

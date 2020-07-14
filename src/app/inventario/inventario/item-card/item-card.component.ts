@@ -16,6 +16,8 @@ import { BehaviorSubject } from 'rxjs';
 export class ItemCardComponent implements OnInit {
   @Input() item: Item;
 
+  @Output() deleteEvent = new EventEmitter<Item>();
+
   itemInfo = new BehaviorSubject<Item>(null);
 
   urlOfImage = new BehaviorSubject<string>(null);
@@ -41,6 +43,10 @@ export class ItemCardComponent implements OnInit {
       alert(`Venta de ${this.item.name} exitosa!!`);
       }
     });
+  }
+
+  openDialogEliminar() {
+    this.deleteEvent.emit(this.itemInfo.value);
   }
 
   openDialogEditar(): void {
