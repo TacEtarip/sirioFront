@@ -1,0 +1,33 @@
+b {
+  color: #ff7b00;
+  font-family: jubilat, sans-serif;
+  font-weight: 200;
+}
+
+.textB {
+  font-family: futura-pt,sans-serif;
+}
+
+h2 {
+  color: #005087;
+  font-family: jubilat, sans-serif;
+  font-weight: 200;
+  font-size: 26px;
+}
+
+p {
+  font-size: 18px;
+}
+
+* {
+  font-family: futura-pt,sans-serif;
+}
+@media screen and (max-width: 800px) {
+  h2 {
+    font-size: 20px;
+  }
+
+  p {
+    font-size: 16px;
+  }
+}

@@ -8,6 +8,7 @@
 
 .img-of-product {
   background-size: cover;
+  background-repeat: no-repeat;
   background-position: center;
 }
 
@@ -20,15 +21,19 @@
   box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.1);
   background-color: white;
   border-radius: .3em;
-  grid-template-rows: 65px 245px 90px 50px 50px;
-  height: 500px;
+  grid-template-rows: 70px 280px 70px;
+  height: 420px;
+
+  transition: .2s ease-out;
 }
 
 .item-card:hover {
-  -webkit-box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.15);
-  -moz-box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.15);
-  box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.15);
+  -webkit-box-shadow: 0px 0px 6px 1px rgba(0,0,0,0.15);
+  -moz-box-shadow: 0px 0px 6px 1px rgba(0,0,0,0.15);
+  box-shadow: 0px 0px 9px 1px rgba(0,0,0,0.15);
+  transform: scale(1.02) translate(6px, -3px);
 }
+
 
 .title-card {
   padding: 10px;
@@ -36,7 +41,7 @@
 
 h3 {
   margin: 0;
-  font-size: 20px;
+  font-size: 18px;
   color: #E87200;
   font-weight: 600;
 }
@@ -71,6 +76,11 @@ font-style: normal;
   font-family: futura-pt, sans-serif;
   font-weight: 400;
   font-style: normal;
+}
+
+.mat-icon {
+  line-height: 28px;
+  font-size: 22px;
 }
 
 .mat-dialog-container {
@@ -189,6 +199,10 @@ li h2 {
   display: grid;
 }
 
+.openItemInfo {
+  cursor: pointer;
+}
+
 .main-ctt {
   grid-column: 3/13;
   padding: 1em 2em;
@@ -196,10 +210,9 @@ li h2 {
 
 .final-card {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  padding: 10px;
-  padding-bottom: 0;
-  grid-gap: .5em;
+  grid-template-columns: repeat(6, 1fr);
+  padding: .8em;
+  grid-gap: .6em;
 }
 
 h6 {
@@ -210,6 +223,7 @@ h6 {
   font-weight: 800;
   text-align: center;
   align-self: center;
+  grid-column: span 2;
 }
 
 h1 {
@@ -219,7 +233,7 @@ h1 {
 }
 .final-ficha{
   width: 100%;
-  padding: 10px;
+  padding: .8em;
 }
 
 .vender, .editar {
@@ -235,6 +249,10 @@ h1 {
   font-style: normal;
   font-size: 14px;
   padding: 0;
+}
+
+.vender {
+  grid-column: span 2;
 }
 
 .plus-svg {
@@ -283,6 +301,10 @@ h5 {
 .delete {
   width: 100%;
   text-align: right;
+}
+
+.title {
+  overflow: auto;
 }
 
 .title-card {
@@ -345,9 +367,8 @@ h5 {
   background: #949494;
 }
 
-
-.menu ::ng-deep div {
-  overflow: hidden;
+:host {
+  padding: 1em;
 }
 
 .list-items {

@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 
 import { FormGroup, FormControl, Validators, FormBuilder, Form } from '@angular/forms';
 
 import { InventarioManagerService, Item} from '../../../inventario-manager.service';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-uploads-dialog',
@@ -25,7 +26,9 @@ export class UploadsDialogComponent implements OnInit {
 
   photoName: string;
 
-  constructor(private formBuilder: FormBuilder, private inventarioMNG: InventarioManagerService) { }
+  constructor(private formBuilder: FormBuilder, private inventarioMNG: InventarioManagerService,
+              public dialogRef: MatDialogRef<UploadsDialogComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: {codigo: string}) { }
 
   ngOnInit(): void {
     this.uploadForm = this.formBuilder.group({
@@ -49,7 +52,7 @@ export class UploadsDialogComponent implements OnInit {
   }
 
   onSubmitIMG(){
-    this.inventarioMNG.uploadFile(this.fileToUpload, this.codigo, null).subscribe((result) => {
+    this.inventarioMNG.uploadFile(this.fileToUpload, this.data.codigo, null).subscribe((result) => {
       if (result !== false) {
         this.disabled = true;
         this.showMessage = true;
@@ -58,7 +61,7 @@ export class UploadsDialogComponent implements OnInit {
   }
 
   onSubmitPDF(){
-    this.inventarioMNG.uploadFilePDF(this.fileToUploadPDF, this.codigo).subscribe((result) => {
+    this.inventarioMNG.uploadFilePDF(this.fileToUploadPDF, this.data.codigo).subscribe((result) => {
       if (result) {
         this.disabledPDF = true;
         this.showMessagePDF = true;

@@ -5,8 +5,8 @@
           </div>
           <div  [ngClass]="{'closed': status === false}">
           <ul>
-            <li matRipple (click)="openDialog()" class="agregar-sub-lista grupo-interno">
-              Agregar
+            <li matRipple (click)="openDialogSubCat()" class="agregar-sub-lista grupo-interno">
+              Agregar Sub-Categoria
               <img src="">
             </li>
             <li matRipple (click)="openDialogEditar()" class="agregar-sub-lista grupo-interno">
@@ -18,8 +18,10 @@
               <img src="">
             </li>
             <mat-divider></mat-divider>
-
-            <li *ngFor="let item of (listaDeItems|async)" class="grupo-interno noselect">{{item.name}}</li>
+            <app-sub-lista-desplegable  (closeAllButThis)="closeAllButOne($event)" (loadListItemsSubTipo)="loadSLI($event)"
+                                        (openDialogEliminarSub)="eliminarSubTipo($event)"
+                                        *ngFor="let sub of (listaDeSub|async)" [parentName]="tipoLista.name"
+                                        [nameSub]="sub" [tipoCod]="tipoLista.codigo"></app-sub-lista-desplegable>
           </ul>
           </div>
 </li>

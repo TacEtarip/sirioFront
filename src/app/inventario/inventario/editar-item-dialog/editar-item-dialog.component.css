@@ -1,3 +1,14 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 .example-form {
   min-width: 900px;
   max-width: 1000px;
@@ -16,6 +27,71 @@
   font-weight: 600;
   font-style: normal;
 }
+
+.tituloSC, .orderSC  {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  column-gap: .5em;
+}
+
+.orderSC  {
+  grid-template-columns: repeat(12, 1fr);
+}
+
+
+.scExtra {
+  grid-column: 1/7;
+  width: 100%;
+}
+
+h4 {
+  margin: .7em 0;
+  font-size: 26px;
+  font-weight: 200;
+  color: #ff7b00;
+}
+
+.scDeno {
+  grid-column: span 3;
+}
+
+.scDenoTwo {
+  grid-column: span 2;
+}
+
+.mat-divider {
+  width: 100%;
+  margin-bottom: 1.2em;
+  grid-column: 1/4;
+}
+
+.fDivide {
+  margin: 0;
+}
+
+.tituloInput {
+  grid-column: span 2;
+}
+
+.eleminarMainSub {
+  grid-column: span 2;
+  height: 63px;
+}
+
+.agregarCant, .dismCant {
+  grid-column: span 2;
+  height: 63px;
+}
+
+.marca {
+  grid-column: 2/4;
+}
+
+.botonAgregarSubCont {
+  grid-column: 1/4;
+  width: 100%;
+}
+
 input[type="file"] {
   position: absolute;
   width: 1px;
@@ -60,9 +136,6 @@ img {
   filter: invert(100%) sepia(0%) saturate(2113%) hue-rotate(327deg) brightness(115%) contrast(77%);
 }
 
-h4 {
-  color: #005087;
-}
 
 img:hover {
   cursor: pointer;
@@ -79,7 +152,19 @@ input {
   width: 30%;
 }
 
+.chipSubCant {
+  grid-column: 1/4;
+}
 
+.tresCuatro {
+  grid-column: 1/3;
+}
+
+.mat-checkbox {
+  margin-bottom: 1em;
+  align-self: center;
+  text-align: center;
+}
 
 .mat-dialog-content {
   max-height: 40vh;
@@ -117,6 +202,14 @@ td {
   width: 800px;
 }
 
+.new-item-form ::ng-deep .mat-form-field-infix {
+  width: 100%;
+}
+
+.new-item-form ::ng-deep .mat-form-field-flex {
+  height: 62px;
+}
+
 
 .topForm {
   margin-bottom: 1em;
@@ -125,6 +218,18 @@ td {
 .extraMRG {
   margin-left: 1em;
   width: 100px;
+}
+
+.descriptionField {
+  grid-column: 1/4;
+}
+
+.descriptionField  ::ng-deep .mat-form-field-flex {
+  height: auto;
+}
+
+.nameForm {
+  grid-column: 1/4;
 }
 
 b {
@@ -145,19 +250,50 @@ p {
 * {
   font-family: futura-pt,sans-serif;
 }
+.close-btn {
+  margin-bottom: .5em;
+}
+
+.uploads {
+  padding-bottom: 1em;
+}
+
+.ficha-btn:hover {
+  cursor: pointer;
+  background-color: #0051871c;
+}
+
+h5 {
+  display: inline-block;
+  margin: 0;
+}
+
+td {
+  padding-right: 8px;
+}
+
+:host {
+  width: 800px;
+}
+.mat-dialog-container {
+  width: 800px;
+}
+
+.mat-dialog-content {
+  max-height: 50vh;
+}
+.mat-dialog-content {
+  display: grid;
+  column-gap: .5em;
+  grid-template-columns: repeat(3, 1fr);
+}
+.names {
+  grid-column: span 2;
+}
+
 @media screen and (max-width: 800px) and (orientation:portrait) {
   .title {
-    color: #014c7e;
-    font-family: jubilat, sans-serif;
     font-size: 20px;
-  }
-
-  .mat-dialog-content {
-    max-height: 30vh;
-  }
-
-  h4 {
-    font-size: 12px;
   }
 
   .put-margin {

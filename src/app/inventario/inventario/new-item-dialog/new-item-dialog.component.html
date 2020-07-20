@@ -1,21 +1,21 @@
 <img src="assets/close.svg" mat-dialog-title matDialogClose class="close-btn">
-<h1 mat-dialog-title class="title">Agregando a <b>{{tipoOn}}</b></h1>
-<form [formGroup]="myForm" (ngSubmit)="onSubmit(myForm.value)" class="new-item-form">
+<h1 mat-dialog-title class="title">Agregando a <b>{{data.subTipo}}</b></h1>
+<form [formGroup]="myForm"  class="new-item-form">
 <div mat-dialog-content>
-      <mat-form-field appearance="fill"  class="example-full-width">
+      <mat-form-field appearance="fill"  class="example-full-width nameForm">
         <mat-label>Nombre Del Producto</mat-label>
         <input spellcheck="false" name="name" id="name" formControlName="name" maxlength="60" matInput>
       </mat-form-field>
-      <mat-form-field appearance="fill"  class="example-half-width put-margin">
+      <mat-form-field appearance="fill"  class="example-full-width precioForm">
         <mat-label>Precio</mat-label>
-        <input (focusout)="testFocus()" spellcheck="false" name="priceIGV" id="priceIGV" formControlName="priceIGV" min="0" step="1" type="number" class="example-right-align" matInput>
+        <input (focusout)="convertPriceIGV()" spellcheck="false" name="priceIGV" id="priceIGV" formControlName="priceIGV" min="1" step="1" type="number" class="example-right-align" matInput>
         <span matPrefix>S/ </span>
       </mat-form-field>
-      <mat-form-field appearance="fill"  class="example-half-width put-margin">
+      <mat-form-field appearance="fill"  class="example-full-width precioForm">
         <mat-label>Cantidad</mat-label>
-        <input spellcheck="false" name="cantidad" id="cantidad" formControlName="cantidad" type="number" min="0" step="1" matInput>
+        <input (change)="changeCantidadMain()"  spellcheck="false" name="cantidad" id="cantidad" formControlName="cantidad" type="number" min="0" step="1" matInput>
       </mat-form-field>
-      <mat-form-field appearance="fill" class="example-half-width">
+      <mat-form-field appearance="fill" class="example-full-width precioForm">
         <mat-label>Unidad De Medida</mat-label>
       <mat-select [value]="0" name="unidadDeMedida" id="unidadDeMedida" formControlName="unidadDeMedida">
           <mat-option value="UND">UND</mat-option>
@@ -23,10 +23,67 @@
           <mat-option value="CAJA">CAJA</mat-option>
       </mat-select>
       </mat-form-field>
-      <mat-form-field appearance="fill"  class="example-full-width">
+      <!--
+      <mat-form-field appearance="fill"  class="example-full-width tresCuatro">
+        <mat-label>Sub-cantidad nombre</mat-label>
+        <input spellcheck="false" name="" id="scName" formControlName="scName" maxlength="30" matInput>
+      </mat-form-field>-->
+      <mat-form-field appearance="fill"  class="example-full-width descriptionField">
         <mat-label>Descripción</mat-label>
         <textarea name="description" id="description" formControlName="description" maxlength="600" matInput></textarea>
       </mat-form-field>
+      <mat-form-field appearance="fill"  class="example-full-width precioForm">
+        <mat-label>Costo propio</mat-label>
+        <input (focusout)="convertCostoPropio()" spellcheck="false" name="costoPropio" id="costoPropio" formControlName="costoPropio" min="1" step="1" type="number" class="example-right-align" matInput>
+        <span matPrefix>S/ </span>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="example-full-width marca">
+        <mat-label>Marca</mat-label>
+      <mat-select [value]="0" name="marca" id="marca" formControlName="marca">
+          <mat-option>Ninguna</mat-option>
+          <mat-option *ngFor="let marca of (marcasList|async)" [value]="marca.name">{{marca.name}}</mat-option>
+      </mat-select>
+      </mat-form-field>
+      <mat-divider class="fDivide"></mat-divider>
+      <div formArrayName="subConteo" class="botonAgregarSubCont">
+        <div *ngFor="let sub of subConteo.controls; index as i" textIndex = "i">
+          <h4>{{disponibles[i]}} items por asignar</h4>
+          <div [formGroupName]="i" class="tituloSC">
+            <mat-form-field  appearance="fill"  class="tituloInput">
+              <mat-label>Asignacion...</mat-label>
+              <input spellcheck="false" formControlName="name" maxlength="60" matInput>
+            </mat-form-field>
+            <mat-form-field  appearance="fill"  class="tituloInput">
+              <mat-label>Asignacion II...</mat-label>
+              <input (change)="activateDualAss(i)" spellcheck="false" formControlName="nameSecond" maxlength="60" matInput>
+            </mat-form-field>
+            <button (click)="deleteCostAss(i)" type="button" mat-button mat-stroked-button color="accent" class="eleminarMainSub">Eliminar</button>
+            <div formArrayName="order" class="arrayFormSubConteo"  class="scExtra">
+              <div *ngFor="let order of listOfOrders[i].controls; index as y" textIndex = "y">
+                <div [formGroupName]="y" class="orderSC">
+                  <mat-form-field  appearance="fill" class="scDeno">
+                    <mat-label>Sub</mat-label>
+                    <input spellcheck="false" formControlName="name" maxlength="60" matInput>
+                  </mat-form-field>
+                  <mat-form-field  appearance="fill" class="scDeno">
+                    <mat-label>Sub II</mat-label>
+                    <input spellcheck="false" formControlName="nameSecond" maxlength="60" matInput>
+                  </mat-form-field>
+                  <mat-form-field  appearance="fill"  class="scDenoTwo">
+                    <mat-label>Cantidad</mat-label>
+                    <input (change)="sumCantidades(i, y)" pellcheck="false" formControlName="cantidad" type="number" min="0" step="1" matInput>
+                  </mat-form-field>
+                  <button (click)="deleteSubAsig(i,y)" type="button" mat-button mat-stroked-button color="accent" class="agregarCant">-</button>
+                  <button (click)="agregarSubAsig(i,y)" type="button" mat-button mat-stroked-button color="primary" class="dismCant">+</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+      <button [disabled]="subsAsignaciones >= 1" type="button" (click)="addSC()" mat-stroked-button color="accent" class="botonAgregarSubCont" mat-button>Sub-Asignar Cantidad</button>
+
       <!---
       <div class="uploads">
         <button type='button' class="ficha-btn">Subir Ficha</button>
@@ -39,6 +96,6 @@
 
 </div>
 <div mat-dialog-actions align="end">
-  <button type="submit" [disabled]="!myForm.valid"  mat-flat-button color="accent">Agregar</button>
+  <button type="submit" (click)="onSubmit(myForm.value)" [disabled]="!myForm.valid || !(disponibles[0] === 0 && disponibles[1] === 0)"  mat-flat-button color="accent">Agregar</button>
 </div>
 </form>

@@ -2,8 +2,10 @@ import { Component, OnInit, EventEmitter, Inject } from '@angular/core';
 
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 
-import { InventarioManagerService, Item} from '../../../inventario-manager.service';
+import { InventarioManagerService, Item, Marca} from '../../../inventario-manager.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { BehaviorSubject } from 'rxjs';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-editar-item-dialog',
@@ -26,6 +28,8 @@ export class EditarItemDialogComponent implements OnInit {
 
   onNewItem = new EventEmitter();
 
+  marcasList = new BehaviorSubject<Marca[]>([]);
+
   public tipoOn: string;
 
   myForm: FormGroup;
@@ -35,21 +39,22 @@ export class EditarItemDialogComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public item: Item) { }
 
   ngOnInit(): void {
+    this.inventarioMNG.getAllMarcas().subscribe((res: Marca[]) => {
+      this.marcasList.next(res);
+    });
     this.myForm = this.formBuilder.group({
       name: this.formBuilder.control(this.item.name,  Validators.compose([
         Validators.required,
         Validators.minLength(3),
-        Validators.maxLength(20)
+        Validators.maxLength(30)
       ])),
       priceIGV: this.formBuilder.control(this.item.priceIGV,  Validators.compose([
         Validators.required,
         Validators.pattern(/^\d*\.?\d{0,2}$/),
         Validators.minLength(1)
       ])),
-      cantidad: this.formBuilder.control(this.item.cantidad,  Validators.compose([
+      cantidad: this.formBuilder.control({value: this.item.cantidad, disabled: true},  Validators.compose([
         Validators.required,
-        Validators.pattern('^-?[0-9][^\.]*$'),
-        Validators.minLength(1)
       ])),
       unidadDeMedida: this.formBuilder.control(this.item.unidadDeMedida,  Validators.compose([
         Validators.required
@@ -57,6 +62,13 @@ export class EditarItemDialogComponent implements OnInit {
       ,
       description: this.formBuilder.control(this.item.description,  Validators.compose([
         Validators.required
+      ])),
+      costoPropio: this.formBuilder.control(this.item.costoPropio,  Validators.compose([
+        Validators.pattern(/^\d*\.?\d{0,2}$/),
+        Validators.minLength(1),
+        Validators.min(1)
+      ])),
+      marca: this.formBuilder.control(this.item.marca,  Validators.compose([
       ]))
     }
     );
@@ -126,5 +138,37 @@ export class EditarItemDialogComponent implements OnInit {
   onFileSelectPDF(files: FileList) {
     this.fileToUploadPDF = files.item(0);
     this.onSubmitPDF();
+  }
+
+  convertCostoPropio(){
+    if (this.myForm.get('costoPropio').value !== '') {
+      const numberPre: number = this.myForm.get('costoPropio').value;
+      const valid: boolean = this.myForm.get('costoPropio').valid;
+      this.myForm.get('costoPropio').setValue(this.rebrandNumber(valid, numberPre));
+    }
+  }
+
+  convertPriceIGV(){
+    const numberPre: number = this.myForm.get('priceIGV').value;
+    const valid: boolean = this.myForm.get('priceIGV').valid;
+    this.myForm.get('priceIGV').setValue(this.rebrandNumber(valid, numberPre));
+  }
+
+  rebrandNumber(valid: boolean, numberToRebrand: number) {
+    const stringNumber = numberToRebrand.toString().trim().replace(',', '.');
+    const indexOfComa = stringNumber.indexOf('.');
+    let newNumber = '';
+    if (valid) {
+      if (stringNumber.indexOf('.') === -1) {
+        newNumber = stringNumber + '.00';
+      } else if (stringNumber.charAt(indexOfComa + 1) === '') {
+        newNumber = stringNumber + '00';
+      } else if (stringNumber.charAt(indexOfComa + 2) === '') {
+        newNumber = stringNumber + '0';
+      } else {
+        newNumber = stringNumber;
+      }
+    }
+    return newNumber;
   }
 }

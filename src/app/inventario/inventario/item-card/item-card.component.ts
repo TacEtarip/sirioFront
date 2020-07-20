@@ -6,6 +6,8 @@ import { first } from 'rxjs/operators';
 import { EditarItemDialogComponent } from '../editar-item-dialog/editar-item-dialog.component';
 import { InventarioManagerService } from '../../../inventario-manager.service';
 import { BehaviorSubject } from 'rxjs';
+import { TemporalShowItemInfoComponent } from '../temporal-show-item-info/temporal-show-item-info.component';
+import { EditarCantidadesDialogComponent } from '../editar-cantidades-dialog/editar-cantidades-dialog.component';
 
 @Component({
   selector: 'app-item-card',
@@ -51,6 +53,7 @@ export class ItemCardComponent implements OnInit {
 
   openDialogEditar(): void {
     const dialogRef = this.dialog.open(EditarItemDialogComponent, {
+      width: '800px',
       data: this.itemInfo.value,
     });
 
@@ -60,6 +63,18 @@ export class ItemCardComponent implements OnInit {
         this.priceToShow.next(this.rebrandNumber(true, this.itemInfo.value.priceIGV));
         this.urlOfImage.next('https://inventario-sirio-dinar.herokuapp.com/inventario/image/' + this.itemInfo.value.photo);
       });
+    });
+  }
+
+  openDialogEditarCantidades() {
+    const dialofRef = this.dialog.open(EditarCantidadesDialogComponent, {
+      width: '800px',
+      data: this.itemInfo.value
+    });
+    dialofRef.afterClosed().pipe(first()).subscribe((res) => {
+      if (res) {
+      this.itemInfo.next(res);
+      }
     });
   }
 
@@ -79,6 +94,13 @@ export class ItemCardComponent implements OnInit {
       }
     }
     return newNumber;
+  }
+
+  openItemInfo() {
+    const dialogRef = this.dialog.open(TemporalShowItemInfoComponent, {
+      width: '600px',
+      data: this.item
+    });
   }
 
   descargarFicha() {

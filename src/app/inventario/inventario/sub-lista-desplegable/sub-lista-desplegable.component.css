@@ -1,7 +1,7 @@
 li,ul {
   text-decoration: none;
   list-style-type: none;
-  padding: 0;
+  padding: 0 0 0 15px;
   margin: 0;
   font-family: futura-pt, sans-serif;
   font-weight: 600;
@@ -9,10 +9,10 @@ li,ul {
 }
 
 .grupo {
-  min-height: 20px;
-  line-height: 40px;
+  min-height: 30px;
+  line-height: 30px;
   display: block;
-  padding: 4px 4px 4px 8px;
+  padding: 4px;
   border-radius: .3em;
   cursor: pointer;
   display: grid;
@@ -20,10 +20,10 @@ li,ul {
 }
 
 .grupo-interno {
-  min-height: 20px;
+  min-height: 30px;
   line-height: 30px;
   display: block;
-  padding: 0 15px;
+  padding: 0 20px;
   border-radius: .2em;
   cursor: pointer;
   display: grid;
@@ -44,20 +44,21 @@ li,ul {
 }
 
 li h2 {
-  color: #E87200;
-  font-size: 20px;
+  color: #d69b63;
+  font-size: 14px;
   display: inline-block;
   margin: 0;
   vertical-align: text-bottom;
   font-weight: 600;
 }
 
+
 .down-btn {
   background-image: url("/assets/down.svg");
   display: inline-block;
   width: 18px;
   height: 18px;
-  filter: invert(54%) sepia(35%) saturate(4661%) hue-rotate(3deg) brightness(92%) contrast(104%);
+  filter: invert(80%) sepia(7%) saturate(3541%) hue-rotate(330deg) brightness(92%) contrast(85%);
   transform: rotate(180deg);
   align-self: center;
   margin: auto;
@@ -98,7 +99,7 @@ li h2 {
 
 .agregar-sub-lista{
   margin-bottom: .2em;
-  color: #e68932;
+  color: #d8bb9f;
 }
 
 .eliminar {
@@ -113,7 +114,4 @@ li h2 {
     display: grid;
     grid-template-columns: 90% 10%;
 }
-}
-.mat-divider {
-  margin: .5em 1em;
 }

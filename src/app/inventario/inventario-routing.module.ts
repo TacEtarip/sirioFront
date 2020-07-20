@@ -5,6 +5,11 @@ import { InventarioComponent } from './inventario/inventario.component';
 
 const routes: Routes = [
   { path: '', component: InventarioComponent},
+
+  /*  { path: 'all', component: InventarioComponent, children: [
+    {path: 'test', component: TestComponentComponent}
+  ]},
+  {path: '', redirectTo: 'all', pathMatch: 'full'}*/
 ];
 
 @NgModule({

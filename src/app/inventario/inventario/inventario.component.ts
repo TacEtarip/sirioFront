@@ -7,13 +7,14 @@ import { ListaPlegableComponent } from './lista-plegable/lista-plegable.componen
 import { UploadsDialogComponent } from './uploads-dialog/uploads-dialog.component';
 import {InventarioManagerService, Item,  Tipo} from '../../inventario-manager.service';
 import { AuthService } from '../../auth.service';
-import { first } from 'rxjs/operators';
+import { first, debounceTime, skip} from 'rxjs/operators';
 import {MediaMatcher} from '@angular/cdk/layout';
 import {Router} from '@angular/router';
 import {  SeguroEliminarComponent } from './seguro-eliminar/seguro-eliminar.component';
 import { EditarClaseComponent } from './editar-clase/editar-clase.component';
 import { EliminarDialogComponent } from './eliminar-dialog/eliminar-dialog.component';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import { MarcasDialogComponent } from '../inventario/marcas-dialog/marcas-dialog.component';
 
 @Component({
   selector: 'app-inventario',
@@ -23,9 +24,14 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 })
 export class InventarioComponent implements OnInit, OnDestroy {
 
+
+  specialGetItem = true;
+
   mobileQuery: MediaQueryList;
   private mobileQueryListener: () => void;
 
+  selectedSort = 'date';
+  subORtipo = 'tipo';
 
   @ViewChildren(ListaPlegableComponent) listasPlegables: QueryList<ListaPlegableComponent>;
 
@@ -40,7 +46,11 @@ export class InventarioComponent implements OnInit, OnDestroy {
 
   keep = new BehaviorSubject<boolean>(true);
 
-  listaItemsCurrent = 'Todos';
+  order = new BehaviorSubject<string>('dsc');
+
+  listaItemsCurrent = 'Destacados';
+
+  currentListToDisplay = new BehaviorSubject<string>('Destacados');
 
   listItems = new BehaviorSubject<Item[]>([]);
 
@@ -53,6 +63,34 @@ export class InventarioComponent implements OnInit, OnDestroy {
     this.mobileQuery = media.matchMedia('(max-width: 820px)');
     this.mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this.mobileQueryListener);
+  }
+
+  ngOnInit(): void {
+    this.loadList();
+    // this.getItems(this.listaItemsCurrent);
+    this.currentListToDisplay.subscribe((cl: string) => {
+      if (this.specialGetItem) {
+        this.specialGetItem = false;
+      } else {
+        this.inventarioMNG.getItemsSorted(this.subORtipo, cl, this.selectedSort, this.order.value).subscribe((res: Item[]) => {
+          this.listItems.next(res);
+          this.keep.next(true);
+        });
+      }
+    });
+    this.order.pipe(skip(1), debounceTime(300)).subscribe((order: string) => {
+      this.inventarioMNG.getItemsSorted(this.subORtipo, this.currentListToDisplay.value,
+        this.selectedSort, order).subscribe((res: Item[]) => {
+        this.listItems.next(res);
+        this.keep.next(true);
+      });
+    });
+  }
+
+  loadListItems(loadInfo: {name: string, subORtipo: string}) {
+    this.keep.next(false);
+    this.subORtipo = loadInfo.subORtipo;
+    this.currentListToDisplay.next(loadInfo.name);
   }
 
   cerrarSesion() {
@@ -74,7 +112,6 @@ export class InventarioComponent implements OnInit, OnDestroy {
 
   openDialog() {
     this.dialogItemRef = this.dialog.open(NewItemDialogComponent);
-    this.dialogItemRef.componentInstance.tipoOn = this.listaItemsCurrent;
     this.dialogItemRef.componentInstance.onNewItem.pipe(first()).subscribe((cod: string) => {
       this.dialogItemRef.close();
       this.codigo = cod;
@@ -95,17 +132,13 @@ export class InventarioComponent implements OnInit, OnDestroy {
     this.dialogUploadRef.afterClosed().pipe(first()).subscribe(() => {
       this.codigo = null;
       this.keep.next(false);
-      this.getItems(this.listaItemsCurrent);
+      this.order.next('asc');
     });
   }
 
-  changeItemCurrentList(nuevoTipo: string) {
-    this.listaItemsCurrent = nuevoTipo;
-    this.keep.next(false);
-    if (this.listaItemsCurrent !== 'Todos') {
-      this.closeAllButOne(this.listaItemsCurrent);
-    }
-    this.getItems(this.listaItemsCurrent);
+  changeItemCurrentList(newCurrent: string) {
+    this.listaItemsCurrent = newCurrent;
+    this.order.next(this.order.value);
   }
 
   openDialogAgregarCat(): void {
@@ -125,46 +158,10 @@ export class InventarioComponent implements OnInit, OnDestroy {
     });
   }
 
-  getItems(current: string) {
-
-    if (current === 'Todos') {
-      this.inventarioMNG.getAllItems().subscribe((res: Item[]) => {
-        this.keep.next(true);
-        if (res != null) {
-          this.listItems.next(res);
-        } else {
-          alert('Error Al Cargar Lista De Items');
-        }
-      });
-    } else {
-      this.inventarioMNG.getAllItemsByType(current).subscribe((res: Item[]) => {
-        this.keep.next(true);
-        if (res != null) {
-          this.listItems.next(res);
-        } else {
-          alert('Error Al Cargar Lista De Items');
-        }
-      });
-    }
-  }
-
-  ngOnInit(): void {
-    this.loadList();
-    this.listItems.subscribe((value: Item[]) => {
-      if (this.listaItemsCurrent !== 'Todos') {
-        this.listasPlegables.forEach(lista => {
-          if (lista.tipoLista.name === this.listaItemsCurrent) {
-            lista.listaDeItems.next(value);
-            return ;
-          }
-        });
-      }
-    });
-    this.getItems(this.listaItemsCurrent);
-  }
-
   ngOnDestroy(): void {
    this.listItems.unsubscribe();
+   this.order.unsubscribe();
+   this.currentListToDisplay.unsubscribe();
    this.mobileQuery.removeListener(this.mobileQueryListener);
   }
 
@@ -181,10 +178,8 @@ export class InventarioComponent implements OnInit, OnDestroy {
     dialogRef.componentInstance.onEliminar.pipe(first()).subscribe( (tipoE: Tipo) => {
       this.inventarioMNG.eliminarTipo(tipoE.codigo).subscribe(() => {
         this.inventarioMNG.getTipos().subscribe(res => {
-          this.keep.next(false);
-          this.listaItemsCurrent = 'Todos';
-          this.getItems(this.listaItemsCurrent);
-          this.tiposSubject.next(res);
+          window.location.reload();
+          // this.tiposSubject.next(res);
         });
         });
     });
@@ -200,8 +195,6 @@ export class InventarioComponent implements OnInit, OnDestroy {
       dialogRef.close();
       this.inventarioMNG.updateTipoName(tipoE).pipe(first()).subscribe(() => {
         this.inventarioMNG.getTipos().subscribe(res => {
-          this.listaItemsCurrent = tipoE.name;
-          this.getItems(this.listaItemsCurrent);
           this.tiposSubject.next(res);
         });
         });
@@ -219,13 +212,39 @@ export class InventarioComponent implements OnInit, OnDestroy {
         this.inventarioMNG.eliminarItem(cod).subscribe((res) => {
           if (res) {
             this.keep.next(false);
-            this.getItems(this.listaItemsCurrent);
+            this.order.next(this.order.value);
             this.snackBar.open('Item Eliminado!!', '', {
               duration: 2000,
             });
           }
         });
       }
+    });
+  }
+
+  orderDsc() {
+    this.keep.next(false);
+    this.order.next('dsc');
+  }
+
+  orderAsc() {
+    this.keep.next(false);
+    this.order.next('asc');
+  }
+
+  onChageTipo() {
+    this.keep.next(false);
+    this.order.next(this.order.value);
+  }
+
+  reloadPage() {
+    window.location.reload();
+  }
+  ////////////////////////////////////////////////////////////
+
+  openDialogMarcas() {
+    const dialogRef = this.dialog.open(MarcasDialogComponent, {
+      width: '800px',
     });
   }
 

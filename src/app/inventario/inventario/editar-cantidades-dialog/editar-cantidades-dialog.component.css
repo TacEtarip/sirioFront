@@ -1,0 +1,123 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+h1 {
+  color: #014c7e;
+  font-family: jubilat, sans-serif;
+  font-weight: 400;
+  font-size: 26px;
+}
+
+* {
+  font-family: futura-pt, sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+b{
+  color: #014c7e;
+}
+
+.precioForm {
+  grid-column: span 2;
+}
+
+.hpc {
+  margin-bottom: 1em;
+}
+
+h2 {
+  color: #014c7e;
+}
+
+.botonAgregarSubCont {
+  grid-column: span 6;
+}
+
+b {
+  color: #ff7b00;
+  font-weight: 600;
+}
+
+img {
+  width: 40px;
+  height: 40px;
+  filter: invert(100%) sepia(0%) saturate(2113%) hue-rotate(327deg) brightness(115%) contrast(77%);
+  margin-bottom: 10px;
+}
+
+img:hover {
+  cursor: pointer;
+}
+
+.show {
+  display: block;
+}
+
+.dontShow {
+  display: none;
+}
+
+.gridDisplay {
+  display: grid;
+  column-gap: 1em;
+  grid-template-columns: repeat(6, 1fr);
+}
+
+.tituloInput {
+  grid-column: span 3;
+}
+
+.formArrayContainer {
+  grid-column: span 6;
+}
+
+.deleteBtn {
+  height: 59.5px;
+}
+
+.names {
+  grid-column: span 2;
+}
+
+.cantidad {
+  grid-column: span 1;
+}
+
+.comentario {
+  grid-column: span 4;
+}
+
+.comentarioSecond {
+  grid-column: span 3;
+}
+
+.example-right-align {
+  grid-column: span 2;
+}
+
+.gridInterna {
+  display: grid;
+  column-gap: 1em;
+  grid-template-columns: repeat(6, 1fr);
+}
+
+@media screen and (max-width: 800px) {
+  h1 {
+    color: #014c7e;
+    font-family: jubilat, sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+  }
+}
+.mat-divider {
+  margin-top: 1em;
+}

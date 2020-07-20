@@ -33,11 +33,26 @@ import { EditarClaseComponent } from './inventario/editar-clase/editar-clase.com
 import { EliminarDialogComponent } from './inventario/eliminar-dialog/eliminar-dialog.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatRippleModule} from '@angular/material/core';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { SubListaDesplegableComponent } from './inventario/sub-lista-desplegable/sub-lista-desplegable.component';
+import { AgregarSubCategoriasComponent } from './inventario/agregar-sub-categorias/agregar-sub-categorias.component';
+import { SubTipoEditarComponent } from './inventario/sub-tipo-editar/sub-tipo-editar.component';
+import { EliminarSubTipoComponent } from './inventario/eliminar-sub-tipo/eliminar-sub-tipo.component';
+import { TemporalShowItemInfoComponent } from './inventario/temporal-show-item-info/temporal-show-item-info.component';
+import { MarcasDialogComponent } from './inventario/marcas-dialog/marcas-dialog.component';
+import {MatListModule} from '@angular/material/list';
+import { ShowItemTemporalComponent } from './inventario/show-item-temporal/show-item-temporal.component';
+import {MatTableModule} from '@angular/material/table';
+import {MatSortModule} from '@angular/material/sort';
+import { EditarCantidadesDialogComponent } from './inventario/editar-cantidades-dialog/editar-cantidades-dialog.component';
+
 
 @NgModule({
   declarations: [InventarioComponent, ListaPlegableComponent, NewItemDialogComponent,
     VentaDialogComponent, AgregarClaseItemComponent, ItemCardComponent, UploadsDialogComponent,
-     EditarItemDialogComponent, SeguroEliminarComponent, EditarClaseComponent, EliminarDialogComponent],
+     EditarItemDialogComponent, SeguroEliminarComponent, EditarClaseComponent, EliminarDialogComponent,
+     SubListaDesplegableComponent, AgregarSubCategoriasComponent, SubTipoEditarComponent, EliminarSubTipoComponent,
+      TemporalShowItemInfoComponent, MarcasDialogComponent, ShowItemTemporalComponent, EditarCantidadesDialogComponent],
   imports: [
     CommonModule,
     InventarioRoutingModule,
@@ -59,7 +74,11 @@ import {MatRippleModule} from '@angular/material/core';
     MatTooltipModule,
     MatDividerModule,
     MatSnackBarModule,
-    MatRippleModule
+    MatRippleModule,
+    MatButtonToggleModule,
+    MatListModule,
+    MatTableModule,
+    MatSortModule
   ]
 })
 export class InventarioModule { }

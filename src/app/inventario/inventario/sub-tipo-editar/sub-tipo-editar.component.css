@@ -1,0 +1,62 @@
+h1 {
+  color: #014c7e;
+  font-family: jubilat, sans-serif;
+  font-weight: 400;
+  font-size: 26px;
+}
+
+* {
+  font-family: futura-pt, sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+.hpc {
+  margin-bottom: 1em;
+}
+
+h2 {
+  margin: .5em 0 .1em 0;
+}
+
+img {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 10px;
+  filter: invert(100%) sepia(0%) saturate(2113%) hue-rotate(327deg) brightness(115%) contrast(77%);
+}
+
+img:hover {
+  cursor: pointer;
+}
+
+b {
+  color: #ff7b00;
+  font-weight: 600;
+}
+
+h2 {
+  color: #005087;
+  font-size: 22px;
+}
+
+p {
+  font-size: 18px;
+}
+
+* {
+  font-family: futura-pt,sans-serif;
+}
+
+@media screen and (max-width: 800px) {
+  h1 {
+    color: #014c7e;
+    font-family: jubilat, sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+  }
+}
