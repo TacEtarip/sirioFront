@@ -7,11 +7,209 @@ import { catchError, mapTo, map, retry, tap, first } from 'rxjs/operators';
 })
 export class InventarioManagerService {
 
-  // baseUrl = 'https://inventario-sirio-dinar.herokuapp.com/';
-  baseUrl = 'http://localhost:5000/';
+  baseUrl = 'https://inventario-sirio-dinar.herokuapp.com/';
+  // baseUrl = 'http://localhost:5000/';
 
 
   constructor(private http: HttpClient) { }
+
+  anularVenta(venta: Venta): Observable<{message: string}> {
+    return this.http.put<{message: string}>(this.baseUrl + 'ventas/anularVenta/', { venta })
+    .pipe(first(),
+    catchError(error => {
+      switch (error.status) {
+        case 0:
+          alert('Error al tratar de conectar al servidor');
+          break;
+        case 700:
+          break;
+        default:
+          break;
+      }
+      return of(null);
+    }));
+  }
+
+  getVenta(ventaCod: string): Observable<Venta> {
+    return this.http.get<Venta>(this.baseUrl + 'ventas/obtenerVenta/' + ventaCod)
+          .pipe(first(),
+          catchError(error => {
+            switch (error.status) {
+              case 0:
+                alert('Error al tratar de conectar al servidor');
+                break;
+              case 700:
+                break;
+              default:
+                break;
+            }
+            return of(null);
+          }));
+  }
+
+  ejecutarVenta(venta: Venta): Observable<{message: string}> {
+    return this.http.post<{message: string}>(this.baseUrl + 'ventas/ejecutarVenta', {venta})
+            .pipe(first(),
+            catchError(error => {
+              switch (error.status) {
+                case 0:
+                  alert('Error al tratar de conectar al servidor');
+                  break;
+                case 700:
+                  break;
+                default:
+                  break;
+              }
+              return of(null);
+            }));
+  }
+
+
+  obtenerCardPreInfoVenta(codVenta: string): Observable<ItemsVentaForCard[]> {
+    return this.http
+    .post<ItemsVentaForCard[]>(this.baseUrl + 'ventas/ventasForCard', {codVenta})
+      .pipe(first(),
+            catchError(error => {
+              switch (error.status) {
+                case 0:
+                  alert('Error al tratar de conectar al servidor');
+                  break;
+                case 700:
+                  break;
+                default:
+                  break;
+              }
+              return of(null);
+            })
+            );
+  }
+
+
+  agregarItemVenta(itemVendido: ItemVendido, codigoVenta: string): Observable<{message: string}> {
+    return this.http
+            .post<{message: string}>(this.baseUrl + 'ventas/agregarItemVenta', {itemVendido, codigoVenta})
+              .pipe(first(),
+                    catchError(error => {
+                      switch (error.status) {
+                        case 0:
+                          alert('Error al tratar de conectar al servidor');
+                          break;
+                        case 700:
+                          break;
+                        default:
+                          break;
+                      }
+                      return of(null);
+                    })
+                    );
+  }
+
+  getVentasActivas(): Observable<Venta[]> {
+    return this.http.get<Venta[]>(this.baseUrl + 'ventas/ventasPendientes')
+            .pipe(first(),
+            catchError(error => {
+              switch (error.status) {
+                case 0:
+                  alert('Error al tratar de conectar al servidor');
+                  break;
+                case 700:
+                  break;
+                default:
+                  break;
+              }
+              return of(null);
+            })
+            );
+  }
+
+
+  generarVentaNueva(bodyToVenta: {venta: Venta}): Observable<{venta: Venta, message: string}> {
+    return this.http.post<{venta: Venta, message: string}>(this.baseUrl + 'ventas/agregarVenta', bodyToVenta)
+            .pipe(first(),
+            catchError(error => {
+              switch (error.status) {
+                case 0:
+                  alert('Error al tratar de conectar al servidor');
+                  break;
+                case 700:
+                  break;
+                default:
+                  break;
+              }
+              return of({venta: null, message: 'Error'});
+            })
+            );
+  }
+
+  generarVentaSimple(bodyToVenta: {venta: Venta}): Observable<{item: Item, message: string}> {
+    return this.http.post<{item: Item, message: string}>(this.baseUrl + 'ventas/ventaSimple', bodyToVenta)
+            .pipe(first(),
+            catchError(error => {
+              switch (error.status) {
+                case 0:
+                  alert('Error al tratar de conectar al servidor');
+                  break;
+                case 700:
+                  break;
+                default:
+                  break;
+              }
+              return of({item: null, message: 'Error'});
+            })
+            );
+  }
+
+  getDNI(dni: string): Observable<DNI> {
+    return this.http.get<DNI>(this.baseUrl + 'ventas/dni/' + dni.toString())
+            .pipe(first(),
+            catchError(error => {
+              switch (error.status) {
+                case 0:
+                  alert('Error al tratar de conectar al servidor');
+                  break;
+                case 422:
+                  alert('Numero De DNI Invalido');
+                  break;
+                case 404:
+                  alert('Documento No Encontrado');
+                  break;
+                case 700:
+                  break;
+                default:
+                  alert(error.error.errorMSG);
+                  break;
+              }
+              const errorItem: DNI = null;
+              return of(errorItem);
+            })
+            );
+  }
+
+  getRUC(dni: string): Observable<RUC> {
+    return this.http.get<RUC>(this.baseUrl + 'ventas/ruc/' + dni.toString())
+            .pipe(first(),
+            catchError(error => {
+              switch (error.status) {
+                case 0:
+                  alert('Error al tratar de conectar al servidor');
+                  break;
+                case 422:
+                  alert('Numero De RUC Invalido');
+                  break;
+                case 700:
+                  break;
+                case 404:
+                    alert('Documento No Encontrado');
+                    break;
+                default:
+                  alert(error.error.errorMSG);
+                  break;
+              }
+              const errorItem: RUC = null;
+              return of(errorItem);
+            })
+            );
+  }
 
   uploadVariacionSimple(uploadInfo: UploadCantidadSimple) {
     return this.http.put(this.baseUrl + 'inventario/uploadVariationSimple', uploadInfo)
@@ -92,7 +290,6 @@ export class InventarioManagerService {
     return this.http.post<Item>(this.baseUrl +  'inventario/addItem', item)
           .pipe(first(),
             catchError(error => {
-            console.log(error);
             switch (error.status) {
               case 0:
                 alert('Error al tratar de conectar al servidor');
@@ -147,7 +344,6 @@ export class InventarioManagerService {
   }
 
   getAllMarcas(): Observable<Marca[]> {
-    console.log('ji');
     return this.http.get<Marca[]>(this.baseUrl +  'inventario/marcas/getAll')
           .pipe(first(),
             catchError(error => {
@@ -246,7 +442,7 @@ export class InventarioManagerService {
           }));
   }
 
-  getItemsSorted(subORtipo: string,tipo: string, ordernarPor: string, orden: string): Observable<Item[]> {
+  getItemsSorted(subORtipo: string, tipo: string, ordernarPor: string, orden: string): Observable<Item[]> {
     return this.http.get<Item[]>(this.baseUrl +  'inventario/getAllItemsSort/' + subORtipo + '/' + tipo + '/' + ordernarPor + '/' + orden)
      .pipe(first(),
             catchError(error => {
@@ -463,25 +659,21 @@ export class InventarioManagerService {
 
 export interface ItemVendido {
   codigo: string;
+  name: string;
   priceIGV: number;
   priceNoIGV: number;
   cantidad: number;
+  totalPrice: number;
+  totalPriceNoIGV: number;
+  descripcion: string;
+  cantidadSC: CantidadSubConteo[];
 }
 
 export interface Documento {
   type: string;
+  name: string;
   codigo: number;
 }
-
-export interface Venta {
-  codigo: string;
-  totalPrice: number;
-  totalPriceNoIGV: number;
-  estado: string;
-  documento: Documento;
-  itemsVendidos: ItemVendido[];
-}
-
 
 interface Variaciones {
   date: Date;
@@ -564,4 +756,39 @@ export interface UploadCantidadSimple {
   comentario: string;
   costoVar: number;
   codigo: string;
+}
+
+export interface DNI {
+  dni: string;
+  nombre: string;
+}
+
+export interface RUC {
+  ruc: string;
+  nombre_o_razon_social: string;
+}
+
+export interface Venta {
+  codigo: string;
+  totalPrice: number;
+  totalPriceNoIGV: number;
+  estado: string;
+  documento: Documento;
+  itemsVendidos: ItemVendido[];
+}
+
+export interface CantidadSubConteo {
+  name: string;
+  nameSecond: string;
+  cantidadDisponible: number;
+  cantidadVenta: number;
+}
+
+export interface ItemsVentaForCard {
+  codigo: string;
+  name: string;
+  priceIGV: number;
+  priceNoIGV: number;
+  cantidadSC: CantidadSubConteo;
+  cantidad: number;
 }

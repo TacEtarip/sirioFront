@@ -1,0 +1,27 @@
+section {
+  padding: 2em;
+  display: grid;
+  height: 70vh;
+}
+
+div {
+  align-self: center;
+}
+
+h1 {
+  font-size: 400px;
+  margin: 0;
+  color: #E87200;
+  line-height: 290px;
+  text-align: center;
+  font-weight: 200;
+}
+h3 {
+  text-align: center;
+  margin: 0;
+  color: #095486;
+  margin-top: 2em;
+  font-family: futura-pt, sans-serif;
+  font-weight: 200;
+  font-size: 30px;
+}

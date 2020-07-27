@@ -24,9 +24,19 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import { VentasCardComponent } from './ventas/ventas-card/ventas-card.component';
 import {MatDividerModule, MatDivider} from '@angular/material/divider';
 import {MatTableModule} from '@angular/material/table';
+import { VentasActivasComponent } from './ventas/ventas-activas/ventas-activas.component';
+import { VentaActivaCardComponent } from './ventas/ventas-activas/venta-activa-card/venta-activa-card.component';
+import {MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { SeguroEjecDialogComponent } from './ventas/seguro-ejec-dialog/seguro-ejec-dialog.component';
+import { PostVentaComponent } from './ventas/post-venta/post-venta.component';
+import {MatRippleModule} from '@angular/material/core';
+import { HistorialVentasComponent } from './ventas/historial-ventas/historial-ventas.component';
+import { Eject404Component } from './ventas/eject404/eject404.component';
+
 
 @NgModule({
-  declarations: [VentasComponent, VentasCardComponent],
+  declarations: [VentasComponent, VentasCardComponent, VentasActivasComponent,
+    VentaActivaCardComponent, SeguroEjecDialogComponent, PostVentaComponent, HistorialVentasComponent, Eject404Component],
   imports: [
     CommonModule,
     VentasRoutingModule,
@@ -48,7 +58,9 @@ import {MatTableModule} from '@angular/material/table';
     MatTooltipModule,
     MatDividerModule,
     MatTableModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatProgressSpinnerModule,
+    MatRippleModule
   ]
 })
 export class VentasModule { }

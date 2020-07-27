@@ -45,6 +45,7 @@ import { ShowItemTemporalComponent } from './inventario/show-item-temporal/show-
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import { EditarCantidadesDialogComponent } from './inventario/editar-cantidades-dialog/editar-cantidades-dialog.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 @NgModule({
@@ -78,7 +79,8 @@ import { EditarCantidadesDialogComponent } from './inventario/editar-cantidades-
     MatButtonToggleModule,
     MatListModule,
     MatTableModule,
-    MatSortModule
+    MatSortModule,
+    MatProgressSpinnerModule
   ]
 })
 export class InventarioModule { }

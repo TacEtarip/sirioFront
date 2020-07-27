@@ -8,6 +8,7 @@ import { InventarioManagerService } from '../../../inventario-manager.service';
 import { BehaviorSubject } from 'rxjs';
 import { TemporalShowItemInfoComponent } from '../temporal-show-item-info/temporal-show-item-info.component';
 import { EditarCantidadesDialogComponent } from '../editar-cantidades-dialog/editar-cantidades-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-item-card',
@@ -26,7 +27,7 @@ export class ItemCardComponent implements OnInit {
 
   priceToShow = new BehaviorSubject<string>(null);
 
-  constructor(public dialog: MatDialog, private inventarioMNG: InventarioManagerService) { }
+  constructor(public dialog: MatDialog, private inventarioMNG: InventarioManagerService, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.itemInfo.next(this.item);
@@ -36,13 +37,33 @@ export class ItemCardComponent implements OnInit {
 
   openDialogVenta(): void {
     const dialogRef = this.dialog.open(VentaDialogComponent, {
-      width: '400px',
+      width: '600px',
       data: this.itemInfo.value,
     });
 
-    dialogRef.afterClosed().pipe(first()).subscribe(res => {
+    dialogRef.afterClosed().pipe(first()).subscribe((res: {item: Item, message: string}) => {
       if (res) {
-      alert(`Venta de ${this.item.name} exitosa!!`);
+        if (res.message === 'Falta') {
+          this.inventarioMNG.getItem(this.itemInfo.value.codigo).subscribe((resNew: Item) => {
+            this.itemInfo.next(res.item);
+          });
+        }
+        else  if (res.message === 'Succes') {
+          this.snackBar.open('Item Vendido!!', '', {
+          duration: 2000,
+          });
+          this.itemInfo.next(res.item);
+        }
+        else  if (res.message.split(' ')[0] === 'SuccesAG') {
+          this.snackBar.open('Venta Creada; Codigo: ' + res.message.split(' ')[1], '', {
+            duration: 2000,
+          });
+        }
+        else if (res.message.split('|')[0] === 'succesAI'){
+          this.snackBar.open(res.message.split('|')[1], '', {
+            duration: 2000,
+          });
+        }
       }
     });
   }

@@ -1,3 +1,14 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 h1 {
   color: #014c7e;
   font-family: jubilat, sans-serif;
@@ -21,7 +32,36 @@ b {
 }
 
 .hpc {
-  margin-bottom: 1em;
+  margin-bottom: 0;
+  grid-column: 1/7;
+}
+
+.ventaR {
+    top: 42%;
+    z-index: 6;
+    font-size: 32px;
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-family: futura-pt, sans-serif;
+    color: #FF6E40;
+    user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+}
+
+
+
+.totalGrid {
+  grid-column: 1/7;
+  margin: 1em 0;
+  align-self: flex-end;
+  text-align: right;
 }
 
 h2 {
@@ -34,8 +74,40 @@ img {
   filter: invert(100%) sepia(0%) saturate(2113%) hue-rotate(327deg) brightness(115%) contrast(77%);
 }
 
+.gridContainer {
+  column-gap: 1em;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+}
+
+.doubleGrid {
+  grid-column: 1/4;
+}
+
+.secondGrid {
+  display: grid;
+  column-gap: 1em;
+  grid-template-columns: repeat(8, 1fr);
+}
+
+.tripleGrid {
+  grid-column: span 2;
+}
+
+.arrayForm {
+  grid-column: 1/7;
+}
+
+.doubleGridTwo{
+  grid-column: 4/7;
+}
+
+.agregarVenta {
+  grid-column: 1/7;
+}
+
 .mat-dialog-content {
-  max-height: 40vh;
+  max-height: 50vh;
 }
 img:hover {
   cursor: pointer;

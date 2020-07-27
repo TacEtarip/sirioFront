@@ -17,11 +17,18 @@
   align-self: center;
   margin-bottom: 2.5px;
 }
+.contenidoMain {
+  padding: 3em;
+  padding-top: 100px;
+}
 
 .info {
   display: grid;
-  grid-template-columns: 50% 50%;
-  min-height: 70px;
+  background-color: #eaf6ff;
+  position: fixed;
+  top: 55;
+  width: 100%;
+  z-index: 10;
 }
 
 .info ::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
@@ -131,6 +138,15 @@ h4 {
   width: 100%;
 }
 
+.user-ctn h2 {
+  color: white;
+  text-align: center;
+  margin: 0;
+  margin-top: 6px;
+  font-size: 36px;
+  font-weight: 200;
+
+}
 
 .show-opc {
   margin: 1.5em 0;
@@ -151,24 +167,7 @@ li,ul {
 }
 
 
-li h2 {
-  color: #E87200;
-  font-size: 16px;
-  display: inline-block;
-  margin: 0;
-  vertical-align: text-bottom;
-  font-weight: 600;
-}
-.down-btn {
-  background-image: url("/assets/down.svg");
-  display: inline-block;
-  width: 18px;
-  height: 18px;
-  filter: invert(54%) sepia(35%) saturate(4661%) hue-rotate(3deg) brightness(92%) contrast(104%);
-  transform: rotate(90deg);
-  align-self: center;
-  margin: auto;
-}
+
 
 
 .logoShow {
@@ -258,8 +257,8 @@ h1 {
 }
 
 .info {
-  margin-bottom: 2em;
-  padding: 0em 3em;
+  margin-bottom: 0em;
+  padding: 1em 3em;
 }
 
 .agregar-card {
@@ -348,9 +347,7 @@ h1 {
   padding: 0em 2em;
 }
 
-.showBar {
-  display: none;
-}
+
 
 .toolBar {
   background-color: #005087;
@@ -383,8 +380,8 @@ h1 {
   line-height: 45px !important;
 }
 
-.addMarginTwo{
-  margin-left: .2em;
+.addMargin {
+  margin-left: .1em;
 }
 
 .cName {
@@ -433,7 +430,18 @@ h1 {
     grid-template-columns: repeat(3, 1fr);
   }
 
+  .user-photo {
+    width: 9vw;
+    height: 9vw;
+  }
 
+  .user-ctn {
+    width: 100%;
+  }
+
+  .user-ctn h2 {
+    font-size: 32px;
+  }
 
 }
 
@@ -511,23 +519,15 @@ h1 {
 }
 
 @media screen and (max-width: 700px) {
-
+  .user-ctn h2 {
+    font-size: 36px;
+  }
   .info {
-    padding: .5em 1em;
+
+    padding: 1em 1em;
     margin: 0;
   }
-  .user-photo {
-    width: 30vw;
-    height: 30vw;
-  }
 
-  .list-items {
-    max-height: none;
-  }
-  .menu {
-    width: 80%;
-    box-shadow: none;
-  }
 
   .mainCont {
     background-color: #f6fbff;

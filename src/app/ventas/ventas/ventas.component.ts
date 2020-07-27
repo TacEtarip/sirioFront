@@ -12,7 +12,7 @@ import {Router} from '@angular/router';
   templateUrl: './ventas.component.html',
   styleUrls: ['./ventas.component.css']
 })
-export class VentasComponent implements OnInit {
+export class VentasComponent implements OnInit, OnDestroy {
 
   mobileQuery: MediaQueryList;
   private mobileQueryListener: () => void;
@@ -23,9 +23,9 @@ export class VentasComponent implements OnInit {
               private auth: AuthService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
               private router: Router) {
                 this.nombreUsuario = auth.getDisplayUser();
-                this.mobileQuery = media.matchMedia('(max-width: 800px)');
+                this.mobileQuery = media.matchMedia('(max-width: 820px)');
                 this.mobileQueryListener = () => changeDetectorRef.detectChanges();
-                this.mobileQuery.addListener(this.mobileQueryListener);
+                this.mobileQuery.addEventListener('change', this.mobileQueryListener);
                }
 
   ngOnInit(): void {
@@ -36,6 +36,10 @@ export class VentasComponent implements OnInit {
     this.auth.cerrarSesion();
   }
 
+  goToVentaHistorial() {
+    this.router.navigate(['/ventas/historialVentas']);
+  }
+
   aVentas(){
     this.router.navigate(['/ventas']);
   }
@@ -44,4 +48,15 @@ export class VentasComponent implements OnInit {
     this.router.navigate(['/inventario']);
   }
 
+  reloadPage() {
+    window.location.reload();
+  }
+
+  ngOnDestroy(): void {
+    this.mobileQuery.removeEventListener('change', this.mobileQueryListener);
+   }
+
+   goToVentaActiva() {
+    this.router.navigateByUrl(`/ventas/ventasActivas`);
+   }
 }

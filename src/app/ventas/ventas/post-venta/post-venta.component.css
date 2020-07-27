@@ -17,11 +17,13 @@
   align-self: center;
   margin-bottom: 2.5px;
 }
+.contenidoMain {
+  padding: 3em;
+  padding-top: 100px;
+}
 
 .info {
-  display: grid;
-  grid-template-columns: 50% 50%;
-  min-height: 70px;
+  width: 100%;
 }
 
 .info ::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
@@ -67,29 +69,7 @@
 
 
 
-.main {
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
 
-.user-photo{
-  background-image: url("/assets/logo-sirio.jpg");
-  background-color: white;
-  background-position: center;
-  background-size: cover;
-}
-.example-viewport {
-  height: 90vh;
-  width: 100%;
-}
-.hideOver {
-  overflow: hidden;
-}
 .test {
   height: 100vh;
 }
@@ -115,79 +95,44 @@ h4 {
 }
 
 
-.menu {
-  overflow: hidden;
-  background-color: #005087;
-  width: 20%;
+
+.final {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 1em;
 }
 
+b {
+  color: #E87200;
+}
+
+.final button {
+  width: 140px;
+  height: 40px;
+  grid-column: 1/2;
+  align-self: flex-end;
+}
+
+h4 {
+  margin-bottom: .5em;
+}
+
+span {
+  color: #E87200;
+}
+
+.totales {
+  justify-self: end;
+  text-align: end;
+  margin-right: 1em
+}
 
 .mat-dialog-container {
   width: 800px;
 }
 
-.user-ctn {
-  display: flex;
-  width: 100%;
-}
 
 
-.show-opc {
-  margin: 1.5em 0;
-}
-
-.icon-img {
-  color: white;
-}
-
-li,ul {
-  text-decoration: none;
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  font-family: futura-pt, sans-serif;
-  font-weight: 600;
-  font-style: normal;
-}
-
-
-li h2 {
-  color: #E87200;
-  font-size: 16px;
-  display: inline-block;
-  margin: 0;
-  vertical-align: text-bottom;
-  font-weight: 600;
-}
-.down-btn {
-  background-image: url("/assets/down.svg");
-  display: inline-block;
-  width: 18px;
-  height: 18px;
-  filter: invert(54%) sepia(35%) saturate(4661%) hue-rotate(3deg) brightness(92%) contrast(104%);
-  transform: rotate(90deg);
-  align-self: center;
-  margin: auto;
-}
-
-
-.logoShow {
-  width: 200px;
-  height: auto;
-  align-self: center;
-  text-align: center;
-  display: block;
-  margin: auto;
-  cursor: pointer;
-}
-.user-photo {
-  width: 140px;
-  height: 140px;
-  margin: auto;
-  border-radius: 10em;
-  background-color: rgb(144, 142, 142);
-  text-align: center;
-}
 
 .mat-form-field + .mat-form-field {
   margin-left: 8px;
@@ -258,8 +203,7 @@ h1 {
 }
 
 .info {
-  margin-bottom: 2em;
-  padding: 0em 3em;
+  margin-bottom: 0em;
 }
 
 .agregar-card {
@@ -383,8 +327,8 @@ h1 {
   line-height: 45px !important;
 }
 
-.addMarginTwo{
-  margin-left: .2em;
+.addMargin {
+  margin-left: .1em;
 }
 
 .cName {
@@ -411,6 +355,29 @@ h1 {
   margin-left: 1em;
 }
 
+table {
+  width: 100%;
+}
+
+td, th {
+  width: 15%;
+}
+
+.atTheEND {
+  text-align: end !important;
+}
+
+.cuarenta {
+  width: 40%;
+}
+
+section {
+  padding: 1em 3em;
+  display: 	grid;
+  column-gap: 1em;
+  row-gap: 2em;
+}
+
 @media screen and (max-width: 1600px) {
 
   .menuPadding {
@@ -429,11 +396,26 @@ h1 {
     display: none;
   }
 
+  .mainPost {
+
+  }
+
   .content ::ng-deep .cdk-virtual-scroll-content-wrapper {
     grid-template-columns: repeat(3, 1fr);
   }
 
+  .user-photo {
+    width: 9vw;
+    height: 9vw;
+  }
 
+  .user-ctn {
+    width: 100%;
+  }
+
+  .user-ctn h2 {
+    font-size: 32px;
+  }
 
 }
 
@@ -511,9 +493,10 @@ h1 {
 }
 
 @media screen and (max-width: 700px) {
-
+  .user-ctn h2 {
+    font-size: 36px;
+  }
   .info {
-    padding: .5em 1em;
     margin: 0;
   }
   .user-photo {

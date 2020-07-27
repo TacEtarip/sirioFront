@@ -39,6 +39,11 @@ export class EditarItemDialogComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public item: Item) { }
 
   ngOnInit(): void {
+    this.inventarioMNG.getItem(this.item.codigo).subscribe((res) => {
+      if (res) {
+        this.item = res;
+      }
+    });
     this.inventarioMNG.getAllMarcas().subscribe((res: Marca[]) => {
       this.marcasList.next(res);
     });
@@ -66,7 +71,8 @@ export class EditarItemDialogComponent implements OnInit {
       costoPropio: this.formBuilder.control(this.item.costoPropio,  Validators.compose([
         Validators.pattern(/^\d*\.?\d{0,2}$/),
         Validators.minLength(1),
-        Validators.min(1)
+        Validators.min(1),
+        Validators.required
       ])),
       marca: this.formBuilder.control(this.item.marca,  Validators.compose([
       ]))

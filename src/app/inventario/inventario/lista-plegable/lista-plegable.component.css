@@ -52,6 +52,14 @@ li h2 {
   font-weight: 600;
 }
 
+li h2 {
+  font-size: 16px;
+}
+
+li {
+  margin: .2em 0;
+}
+
 .down-btn {
   background-image: url("/assets/down.svg");
   display: inline-block;
@@ -92,9 +100,7 @@ li h2 {
   display: block;
 }
 
-li h2 {
-  font-size: 16px;
-}
+
 
 .agregar-sub-lista{
   margin-bottom: .2em;
@@ -117,3 +123,5 @@ li h2 {
 .mat-divider {
   margin: .5em 1em;
 }
+
+

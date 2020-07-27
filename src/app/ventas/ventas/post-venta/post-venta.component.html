@@ -1,0 +1,49 @@
+<section class="mainPost">
+  <div class="info">
+    <h1>Venta <span>#{{(venta$|async).codigo}}</span> realizada con exito!</h1>
+  </div>
+  <div>
+    <table mat-table [dataSource]="dataSource$|async" >
+      <!-- Position Column -->
+      <ng-container matColumnDef="codigo">
+        <th  mat-header-cell *matHeaderCellDef> Cod. </th>
+        <td  mat-cell *matCellDef="let element"> {{element.codigo}} </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th class="cuarenta" mat-header-cell *matHeaderCellDef> Nombre </th>
+        <td class="cuarenta" mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="cantidad">
+        <th class="atTheEND" mat-header-cell *matHeaderCellDef> Cantidad </th>
+        <td class="atTheEND" mat-cell *matCellDef="let element"> {{element.cantidad}} </td>
+      </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="priceIGV">
+        <th class="atTheEND"  mat-header-cell *matHeaderCellDef> Precio/UD </th>
+        <td class="atTheEND"  mat-cell *matCellDef="let element"> {{element.priceIGV|currency:'S/ '}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="totalPrice">
+        <th class="atTheEND" mat-header-cell *matHeaderCellDef> Precio Total </th>
+        <td class="atTheEND" mat-cell *matCellDef="let element"> {{element.totalPrice|currency:'S/ '}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    </table>
+  </div>
+  <div class="final">
+    <button (click)="descargarPDF()" mat-flat-button color="primary">Descargar PDF</button>
+    <div class="totales">
+      <h4>Total Base: {{((venta$|async).totalPriceNoIGV)|currency:'S/ '}}</h4>
+      <h4>IGV 18%: {{((venta$|async).totalPrice - (venta$|async).totalPriceNoIGV)|currency:'S/ '}}</h4>
+      <h3>Total: {{((venta$|async).totalPrice)|currency:'S/ '}}</h3>
+    </div>
+  </div>
+</section>

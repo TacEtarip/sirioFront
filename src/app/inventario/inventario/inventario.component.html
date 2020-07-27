@@ -3,12 +3,20 @@
     <button (click)="snav.toggle()" class="sizeIcon" mat-icon-button><mat-icon class="sizeIcon">menu</mat-icon></button>
     <span class="toolBarName"> <b class="cName">Sirio Dinar</b>|Inventario</span>
     <span class="example-spacer"></span>
+
     <div class="usuario">
       <span class="nombreUsuario"> {{nombreUsuario}}</span>
       <mat-icon class="userIcon">person</mat-icon>
     </div>
+    <button (click)="aInventario()"  matTooltip="Inventario" mat-icon-button class="sizeIcon addMarginTwo">
+      <mat-icon class="sizeIcon  sizeShop">assignment</mat-icon>
+    </button>
+    <button (click)="aVentas()" matTooltip="Ventas" mat-icon-button class="sizeIcon addMargin">
+      <mat-icon class="sizeIcon  sizeShop">shopping_cart</mat-icon>
+    </button>
+
   </mat-toolbar>
-  <mat-sidenav-container class="mainCont" [style.marginTop.px]="mobileQuery.matches ? 50: 0">
+  <mat-sidenav-container class="mainCont" [style.marginTop.px]="mobileQuery.matches ? 55: 0">
   <mat-sidenav #snav style="overflow:hidden"
       [fixedInViewport]="mobileQuery.matches"  fixedTopGap="56" [mode]="mobileQuery.matches ? 'over' : 'side'" class="menu" [opened]="!mobileQuery.matches" >
     <div class="menuPadding">
