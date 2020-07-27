@@ -58,7 +58,7 @@ export class PostVentaComponent implements OnInit {
 
 
   descargarPDF() {
-    window.open('http://localhost:5000/inventario/pdf/' + this.venta$.value.codigo + '.pdf', '_blank');
+    window.open('https://inventario-sirio-dinar.herokuapp.com/inventario/pdf/' + this.venta$.value.codigo + '.pdf', '_blank');
   }
 
 }

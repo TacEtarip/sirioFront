@@ -188,25 +188,6 @@ li h2 {
   margin: auto;
   cursor: pointer;
 }
-.user-photo {
-  width: 140px;
-  height: 140px;
-  margin: auto;
-  border-radius: 10em;
-  background-color: rgb(144, 142, 142);
-  text-align: center;
-}
-
-.mat-form-field + .mat-form-field {
-  margin-left: 8px;
-}
-.mat-expansion-panel{
-  background-color: transparent;
-}
-
-.mat-expansion-panel:not([class*=mat-elevation-z]) {
-  box-shadow: none;
-}
 
 
 .main-ctt {
@@ -222,32 +203,6 @@ h1 {
   font-weight: 200;
 }
 
-.vender, .editar {
-  background-color: white;
-  color: #005087;
-  border: 1px solid rgb(170, 170, 170);
-  border-radius: .2em;
-  text-align: center;
-  outline: none;
-  text-decoration: none;
-  font-family: futura-pt, sans-serif;
-  font-weight: 600;
-  font-style: normal;
-  font-size: 14px;
-  padding: 0;
-}
-
-.plus-svg {
-  background-image: url("/assets/Plus_font_awesome.svg");
-  background-size: cover;
-  filter: invert(100%) sepia(5%) saturate(1820%) hue-rotate(262deg) brightness(116%) contrast(81%);
-  width: 280px;
-  height: 280px;
-  text-align: center;
-  margin: auto;
-  margin-top: 80px;
-
-}
 
 /*h5 {
   text-align: center;
@@ -259,24 +214,6 @@ h1 {
   font-style: normal;
 }*/
 
-
-.example-card {
-  width: auto;
-}
-
-.info {
-  margin-bottom: 2em;
-  padding: 0em 3em;
-}
-
-.agregar-card {
-  background-color: #dfdfdf44;
-  display: block;
-}
-
-.agregar-card:hover {
-  cursor: pointer;
-}
 
 
 /* width */
@@ -339,17 +276,6 @@ h1 {
   background-color: #014c7e;
 }
 
-.displayCheat {
-  display: none;
-}
-
-.displayCheatTwo {
-  display: block;
-}
-
-.displayCheatThree {
-  display: none;
-}
 
 .content ::ng-deep .cdk-virtual-scroll-content-wrapper {
   grid-template-columns: repeat(4, 1fr);
