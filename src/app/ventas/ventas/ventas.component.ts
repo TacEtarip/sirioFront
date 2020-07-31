@@ -25,7 +25,7 @@ export class VentasComponent implements OnInit, OnDestroy {
                 this.nombreUsuario = auth.getDisplayUser();
                 this.mobileQuery = media.matchMedia('(max-width: 820px)');
                 this.mobileQueryListener = () => changeDetectorRef.detectChanges();
-                this.mobileQuery.addEventListener('change', this.mobileQueryListener);
+                this.mobileQuery.addListener(this.mobileQueryListener);
                }
 
   ngOnInit(): void {
@@ -53,7 +53,7 @@ export class VentasComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.mobileQuery.removeEventListener('change', this.mobileQueryListener);
+    this.mobileQuery.removeListener(this.mobileQueryListener);
    }
 
    goToVentaActiva() {

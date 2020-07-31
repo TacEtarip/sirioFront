@@ -59,7 +59,7 @@ export class ListaPlegableComponent implements OnInit {
 
   closeAllSubList() {
     this.subListasPlegables.forEach(sublista => {
-        sublista.status = false;
+        sublista.status$.next(false);
     });
   }
 
@@ -101,7 +101,7 @@ export class ListaPlegableComponent implements OnInit {
   closeAllButOne(current: string) {
     this.subListasPlegables.forEach(sublista => {
       if (current !== sublista.nameSub) {
-        sublista.status = false;
+        sublista.status$.next(false);
       }
     });
   }

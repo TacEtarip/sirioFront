@@ -32,6 +32,11 @@ import { PostVentaComponent } from './ventas/post-venta/post-venta.component';
 import {MatRippleModule} from '@angular/material/core';
 import { HistorialVentasComponent } from './ventas/historial-ventas/historial-ventas.component';
 import { Eject404Component } from './ventas/eject404/eject404.component';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatDatepickerModule,  } from '@angular/material/datepicker';
+import { MatNativeDateModule, } from '@angular/material/core';
+
+
 
 
 @NgModule({
@@ -60,7 +65,10 @@ import { Eject404Component } from './ventas/eject404/eject404.component';
     MatTableModule,
     ReactiveFormsModule,
     MatProgressSpinnerModule,
-    MatRippleModule
+    MatRippleModule,
+    MatPaginatorModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ]
 })
 export class VentasModule { }

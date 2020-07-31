@@ -36,6 +36,7 @@ export class MarcasDialogComponent implements OnInit {
 
 
   onSubmit(marca: Marca) {
+    marca.name = marca.name.trim();
     this.inventarioMNG.addNewMarca(marca).subscribe((addedMarca: Marca) => {
       if (addedMarca !== null) {
         this.form.reset();

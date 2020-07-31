@@ -33,6 +33,8 @@ export class SubListaDesplegableComponent implements OnInit {
 
   status = false;
 
+  status$ = new BehaviorSubject<boolean>(false);
+
   constructor(public dialog: MatDialog, private inventarioMNG: InventarioManagerService) { }
 
   ngOnInit(): void {
@@ -40,11 +42,11 @@ export class SubListaDesplegableComponent implements OnInit {
   }
 
   openList(){
-    if (this.status) {
-      this.status = false;
+    if (this.status$.value) {
+      this.status$.next(false);
     }
     else {
-      this.status = true;
+      this.status$.next(true);
       this.loadListItemsSubTipo.emit(this.nameSub$.value);
       this.closeAllButThis.emit(this.nameSub$.value);
       this.inventarioMNG.getAllItemsOfSubType(this.nameSub$.value).subscribe((items: Item[]) => {

@@ -51,7 +51,7 @@ export class EditarItemDialogComponent implements OnInit {
       name: this.formBuilder.control(this.item.name,  Validators.compose([
         Validators.required,
         Validators.minLength(3),
-        Validators.maxLength(30)
+        Validators.maxLength(30),
       ])),
       priceIGV: this.formBuilder.control(this.item.priceIGV,  Validators.compose([
         Validators.required,
@@ -71,7 +71,7 @@ export class EditarItemDialogComponent implements OnInit {
       costoPropio: this.formBuilder.control(this.item.costoPropio,  Validators.compose([
         Validators.pattern(/^\d*\.?\d{0,2}$/),
         Validators.minLength(1),
-        Validators.min(1),
+        Validators.min(0),
         Validators.required
       ])),
       marca: this.formBuilder.control(this.item.marca,  Validators.compose([
@@ -111,6 +111,8 @@ export class EditarItemDialogComponent implements OnInit {
   onSubmit(item: Item) {
     const newItem: Item = item;
     newItem.codigo = this.item.codigo;
+    newItem.name = item.name.trim();
+    newItem.description = item.description.trim();
     this.inventarioMNG.updateItem(newItem).subscribe((addedItem: Item) => {
       if (addedItem !== null) {
         this.myForm.reset();

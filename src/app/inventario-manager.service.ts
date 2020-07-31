@@ -7,11 +7,48 @@ import { catchError, mapTo, map, retry, tap, first } from 'rxjs/operators';
 })
 export class InventarioManagerService {
 
-  baseUrl = 'https://inventario-sirio-dinar.herokuapp.com/';
-  // baseUrl = 'http://localhost:5000/';
+  // baseUrl = 'https://inventario-sirio-dinar.herokuapp.com/';
+  baseUrl = 'http://localhost:5000/';
 
 
   constructor(private http: HttpClient) { }
+
+
+
+  getCantidadVentasPorEstado(estado: string): Observable<{cantidadVentas: number}> {
+    return this.http.get<{cantidadVentas: number}>(this.baseUrl + 'ventas/getCantidadVentas/' + estado)
+      .pipe(first(),
+      catchError(error => {
+        switch (error.status) {
+        case 0:
+          alert('Error al tratar de conectar al servidor');
+          break;
+        case 700:
+          break;
+        default:
+          break;
+      }
+        return of(null);
+    }));
+  }
+
+
+  getVentasEJecutadas(limit: number, skip: number, dateOne: string, dateTwo: string): Observable<Venta[]> {
+    return this.http.get<Venta[]>(this.baseUrl + 'ventas/getEjecutadas/' + skip + '/' + limit + '/' + dateOne + '/' + dateTwo)
+            .pipe(first(),
+            catchError(error => {
+              switch (error.status) {
+                case 0:
+                  alert('Error al tratar de conectar al servidor');
+                  break;
+                case 700:
+                  break;
+                default:
+                  break;
+              }
+              return of(null);
+            }));
+  }
 
   anularVenta(venta: Venta): Observable<{message: string}> {
     return this.http.put<{message: string}>(this.baseUrl + 'ventas/anularVenta/', { venta })

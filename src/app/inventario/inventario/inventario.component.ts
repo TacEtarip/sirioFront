@@ -62,7 +62,8 @@ export class InventarioComponent implements OnInit, OnDestroy {
     this.nombreUsuario = auth.getDisplayUser();
     this.mobileQuery = media.matchMedia('(max-width: 820px)');
     this.mobileQueryListener = () => changeDetectorRef.detectChanges();
-    this.mobileQuery.removeEventListener('change', this.mobileQueryListener);
+    this.mobileQuery.addListener(this.mobileQueryListener);
+    //  .removeEventListener('change', this.mobileQueryListener);
   }
 
   ngOnInit(): void {
@@ -162,7 +163,8 @@ export class InventarioComponent implements OnInit, OnDestroy {
    this.listItems.unsubscribe();
    this.order.unsubscribe();
    this.currentListToDisplay.unsubscribe();
-   this.mobileQuery.removeEventListener('change', this.mobileQueryListener);
+   this.mobileQuery.removeListener(this.mobileQueryListener);
+   // this.mobileQuery.removeEventListener('change', this.mobileQueryListener);
   }
 
   aInventario() {

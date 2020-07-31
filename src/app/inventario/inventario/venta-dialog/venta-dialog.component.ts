@@ -295,20 +295,21 @@ export class VentaDialogComponent implements OnInit {
     } else{
       cSC = [];
     }
-    const total =  parseFloat(this.totalPriceIGV);
+    const total =  parseFloat(this.totalPriceIGV.replace(',', '.'));
     const totalNoIGV = Math.round(((total / 1.18) + Number.EPSILON) * 100) / 100;
     const itemVendido: ItemVendido =
     {codigo: this.item.codigo, name: this.item.name, priceIGV: preVentaInfo.priceIGV,
       priceNoIGV: preVentaInfo.priceNoIGV, descripcion: this.item.description,
-      cantidadSC: cSC, cantidad: preVentaInfo.cantidadVenta, totalPrice: parseFloat(this.totalPriceIGV), totalPriceNoIGV: totalNoIGV };
+      cantidadSC: cSC, cantidad: preVentaInfo.cantidadVenta, totalPrice: total, totalPriceNoIGV: totalNoIGV };
     if (this.item.subConteo) {
       itemVendido.cantidad = this.sum;
     }
     const bodyToSend: Venta =
     {documento: {type: preVentaInfo.documentoTipo, name: preVentaInfo.nameDocumento, codigo: preVentaInfo.docCod},
-     codigo: '', totalPrice: parseFloat(this.totalPriceIGV),
+     codigo: '', totalPrice: total,
      totalPriceNoIGV: totalNoIGV,
      estado, itemsVendidos: [itemVendido]};
+
 
     this.ventaEnCurso.next(true);
 
@@ -356,7 +357,7 @@ export class VentaDialogComponent implements OnInit {
   }
 
   agregarItemVenta(preVentaInfo: PreVentaSimpleInfo) {
-    const total =  parseFloat(this.totalPriceIGV);
+    const total =  parseFloat(this.totalPriceIGV.replace(',', '.'));
     const totalNoIGV = Math.round(((total / 1.18) + Number.EPSILON) * 100) / 100;
     const bodyToSend: ItemVendido = { codigo: this.item.codigo,
                                       name: this.item.name,

@@ -75,7 +75,7 @@ export class NewItemDialogComponent implements OnInit {
         Validators.required,
         Validators.pattern(/^\d*\.?\d{0,2}$/),
         Validators.minLength(1),
-        Validators.min(1)
+        Validators.min(0)
       ])),
       marca: this.formBuilder.control('',  Validators.compose([
       ])),
@@ -291,11 +291,23 @@ export class NewItemDialogComponent implements OnInit {
 
   onSubmit(item: Item) {
     const newItem: Item = item;
+    newItem.name = item.name.trim();
+    newItem.description = item.description.trim();
     newItem.tipo = this.data.parentTipoName;
     newItem.subTipo = this.data.subTipo;
 
     if (this.subConteo.length > 0) {
       newItem.subConteo = this.subConteo.at(0).value;
+      newItem.subConteo.name = newItem.subConteo.name.trim();
+      if (newItem.subConteo.nameSecond) {
+        newItem.subConteo.nameSecond = newItem.subConteo.nameSecond.trim();
+      }
+      newItem.subConteo.order.forEach( sc => {
+        sc.name = sc.name.trim();
+        if (sc.nameSecond) {
+          sc.nameSecond = sc.nameSecond.trim();
+        }
+      });
     } else {
       newItem.subConteo = undefined;
     }

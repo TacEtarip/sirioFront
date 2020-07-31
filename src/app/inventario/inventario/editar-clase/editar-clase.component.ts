@@ -28,6 +28,7 @@ export class EditarClaseComponent implements OnInit {
   }
 
   onSubmit(tipo: Tipo) {
+    tipo.name = tipo.name.trim();
     tipo.codigo = this.data.codigo;
     this.onSub.emit(tipo);
   }

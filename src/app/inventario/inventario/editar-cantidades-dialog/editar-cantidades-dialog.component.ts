@@ -55,7 +55,7 @@ export class EditarCantidadesDialogComponent implements OnInit {
       this.order = this.editarCantForm.get('order') as FormArray;
 
       this.data.subConteo.order.forEach( (ord: Order) => {
-        this.addOrder(ord.name, ord.nameSecond, true, ord.cantidad);
+        this.addOrder(ord.name, ord.nameSecond, true, true, ord.cantidad);
       });
     } else {
       this.editarCantForm = this.formBuilder.group({
@@ -78,14 +78,14 @@ export class EditarCantidadesDialogComponent implements OnInit {
 
   }
 
-  addOrder(orderName: string, orderSecondName: string, disabledValue: boolean, cantidad: number) {
+  addOrder(orderName: string, orderSecondName: string, disabledValue: boolean, disabledValueTwo: boolean, cantidad: number) {
     const fg = this.formBuilder.group({
       name: this.formBuilder.control({value: orderName, disabled: disabledValue}, Validators.compose([
       Validators.required,
       Validators.minLength(1),
       Validators.maxLength(20)
       ])),
-      nameSecond: this.formBuilder.control({value: orderSecondName, disabled: disabledValue}, Validators.compose([
+      nameSecond: this.formBuilder.control({value: orderSecondName, disabled: disabledValueTwo}, Validators.compose([
         Validators.required,
         Validators.minLength(1),
         Validators.maxLength(20)
@@ -101,7 +101,11 @@ export class EditarCantidadesDialogComponent implements OnInit {
   }
 
   agregarOrder() {
-    this.addOrder('', '', false, 0);
+    if (this.order.at(0).get('nameSecond').value) {
+      this.addOrder('', '', false, false, 0);
+    } else {
+      this.addOrder('', '', false, true, 0);
+    }
   }
 
   eliminarOrder(index: number) {
@@ -124,11 +128,17 @@ export class EditarCantidadesDialogComponent implements OnInit {
 
   actualizarCantidades(formInfo) {
     const infoToUpload: UploadCantidadSub = {
-      subConteo: { name: formInfo.name, nameSecond: formInfo.nameSecond, order: formInfo.order},
+      subConteo: { name: formInfo.name.trim(), nameSecond: formInfo.nameSecond.trim(), order: formInfo.order},
       cantidadAntigua: this.data.cantidad, cantidadNueva: this.cantidadTotal.value,
       costoVar: formInfo.costoVar,
-      comentario: formInfo.comentario, codigo: this.data.codigo
+      comentario: formInfo.comentario.trim(), codigo: this.data.codigo
     };
+    infoToUpload.subConteo.order.forEach( sc => {
+      sc.name = sc.name.trim();
+      if (sc.nameSecond) {
+        sc.nameSecond = sc.nameSecond.trim();
+      }
+    });
     this.inventarioMNG.uploadVariacion(infoToUpload).subscribe((res) => {
       if (res) {
         this.dialogRef.close(res);
@@ -147,7 +157,7 @@ export class EditarCantidadesDialogComponent implements OnInit {
       cantidadAntigua: this.data.cantidad,
       cantidadNueva: this.cantidadTotal.value,
       costoVar: formInfo.costoVar,
-      comentario: formInfo.comentario,
+      comentario: formInfo.comentario.trim(),
       codigo: this.data.codigo
     };
     this.inventarioMNG.uploadVariacionSimple(infoToUpload).subscribe((res) => {

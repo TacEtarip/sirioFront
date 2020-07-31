@@ -1,9 +1,9 @@
 <li class="list-plegable noselect">
   <div matRipple class="grupo noselect" (click)="openList()">
           <h2 class="grupo-name noselect">{{nameSub$|async}}</h2>
-          <div class="down-btn" [ngClass]="{'closed-btn': status === false, 'open-btn': status === true}"></div>
+          <div class="down-btn" [ngClass]="{'closed-btn': (status$|async) === false, 'open-btn': (status$|async) === true}"></div>
         </div>
-        <div  [ngClass]="{'closed': status === false}">
+        <div  [ngClass]="{'closed': (status$|async) === false}">
         <ul>
           <li matRipple (click)="openAgregarItemDialog()" class="agregar-sub-lista grupo-interno">
             Agregar

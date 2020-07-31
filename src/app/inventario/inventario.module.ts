@@ -46,6 +46,7 @@ import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import { EditarCantidadesDialogComponent } from './inventario/editar-cantidades-dialog/editar-cantidades-dialog.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatDatepickerModule } from '@angular/material/datepicker';
 
 
 @NgModule({
@@ -80,7 +81,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatListModule,
     MatTableModule,
     MatSortModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatDatepickerModule
   ]
 })
 export class InventarioModule { }
