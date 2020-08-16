@@ -3,7 +3,7 @@
   <div class="itemInfoGrid">
 
     <mat-accordion class="accordionInfo">
-      <mat-expansion-panel>
+      <mat-expansion-panel [expanded]="true">
         <mat-expansion-panel-header>
           <mat-panel-title>
             <h3>Descripción:</h3>
@@ -11,7 +11,7 @@
         </mat-expansion-panel-header>
         <p>{{data.description}}</p>
       </mat-expansion-panel>
-      <mat-expansion-panel *ngIf="data.marca">
+      <mat-expansion-panel [expanded]="false" *ngIf="data.marca">
         <mat-expansion-panel-header>
           <mat-panel-title>
             <h3 *ngIf="data.marca">Marca:</h3>
@@ -21,7 +21,7 @@
         </mat-expansion-panel-header>
         <h4>{{data.marca}}</h4>
       </mat-expansion-panel>
-      <mat-expansion-panel>
+      <mat-expansion-panel [expanded]="false">
         <mat-expansion-panel-header>
           <mat-panel-title>
             <h3>Precio:</h3>
@@ -31,7 +31,7 @@
         </mat-expansion-panel-header>
         <h4>Precio IGV: <b>{{(data.priceIGV|currency:'S/')}}</b> | Precio No IGV: <b>{{(data.priceNoIGV|currency:'S/')}}</b></h4>
       </mat-expansion-panel>
-      <mat-expansion-panel>
+      <mat-expansion-panel [expanded]="false">
         <mat-expansion-panel-header>
           <mat-panel-title>
             <h3>Cantidades:</h3>
@@ -40,6 +40,18 @@
           </mat-panel-description>
         </mat-expansion-panel-header>
         <h4>Total: <b>{{data.cantidad}} {{data.unidadDeMedida}}</b></h4>
+      </mat-expansion-panel>
+      <mat-expansion-panel [expanded]="false">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <h3>Reporte:</h3>
+          </mat-panel-title>
+          <mat-panel-description>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <h4 class="reporteText">Costo Propio: <span>{{data.costoPropio|currency:'S/'}}</span> </h4>
+        <h4 class="reporteText">Balance Total: <span [ngClass]="{'balanceNegativo': balance < 0}" >{{balance|currency:'S/'}}</span> </h4>
+        <button (click)="descargarReporteItem()" mat-stroked-button color="primary">Decargar Reporte</button>
       </mat-expansion-panel>
     </mat-accordion>
       <div *ngIf="data.subConteo" class="tablContenedor">

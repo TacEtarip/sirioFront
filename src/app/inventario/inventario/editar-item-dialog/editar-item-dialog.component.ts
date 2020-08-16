@@ -56,6 +56,7 @@ export class EditarItemDialogComponent implements OnInit {
       priceIGV: this.formBuilder.control(this.item.priceIGV,  Validators.compose([
         Validators.required,
         Validators.pattern(/^\d*\.?\d{0,2}$/),
+        Validators.min(0.01),
         Validators.minLength(1)
       ])),
       cantidad: this.formBuilder.control({value: this.item.cantidad, disabled: true},  Validators.compose([

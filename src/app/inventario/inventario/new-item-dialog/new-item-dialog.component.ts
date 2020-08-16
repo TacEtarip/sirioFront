@@ -57,7 +57,7 @@ export class NewItemDialogComponent implements OnInit {
         Validators.required,
         Validators.pattern(/^\d*\.?\d{0,2}$/),
         Validators.minLength(1),
-        Validators.min(0),
+        Validators.min(0.01)
       ])),
       cantidad: this.formBuilder.control(0,  Validators.compose([
         Validators.required,

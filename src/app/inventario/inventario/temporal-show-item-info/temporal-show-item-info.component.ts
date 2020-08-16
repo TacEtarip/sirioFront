@@ -3,7 +3,9 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Item } from '../../../inventario-manager.service';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
+import { saveAs } from 'file-saver';
 
+import { InventarioManagerService } from 'src/app/inventario-manager.service';
 
 export interface SubConteoOrder {
   name: string;
@@ -21,6 +23,7 @@ export class TemporalShowItemInfoComponent implements OnInit {
   panelOpenState = false;
   displayedColumnsPos: string[] = ['name', 'nameSecond', 'cantidad'];
   dataSource: MatTableDataSource<SubConteoOrder>;
+  balance = 0;
 
   datasourceTest: SubConteoOrder[] = [{name: 'Test1', nameSecond: 'test2', cantidad: 2}];
 
@@ -31,7 +34,7 @@ export class TemporalShowItemInfoComponent implements OnInit {
   }
 
 
-  constructor( public dialogRef: MatDialogRef<TemporalShowItemInfoComponent>,
+  constructor( private inventarioMNG: InventarioManagerService, public dialogRef: MatDialogRef<TemporalShowItemInfoComponent>,
                @Inject(MAT_DIALOG_DATA) public data: Item) {
                  if (data.subConteo) {
                   this.dataSource = new MatTableDataSource(data.subConteo.order);
@@ -39,7 +42,20 @@ export class TemporalShowItemInfoComponent implements OnInit {
               }
 
   ngOnInit(): void {
+    this.inventarioMNG.getItemBalance(this.data.codigo).subscribe((res) => {
+      if (res) {
+        this.balance = res.message;
+      }
+    });
     // this.dataSource.sort = this.sort;
+  }
+
+  descargarReporteItem() {
+    this.inventarioMNG.getExcelReportItem(this.data.codigo).subscribe((res) => {
+      if (res) {
+        saveAs(res);
+      }
+    });
   }
 
 }

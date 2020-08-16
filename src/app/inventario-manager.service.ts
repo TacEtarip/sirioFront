@@ -2,21 +2,117 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, mapTo, map, retry, tap, first } from 'rxjs/operators';
+
 @Injectable({
   providedIn: 'root'
 })
 export class InventarioManagerService {
 
-  // baseUrl = 'https://inventario-sirio-dinar.herokuapp.com/';
-  baseUrl = 'http://localhost:5000/';
+  baseUrl = 'https://inventario-sirio-dinar.herokuapp.com/';
+  // baseUrl = 'http://localhost:5000/';
 
 
   constructor(private http: HttpClient) { }
 
 
+  getItemBalance(codigo: string): Observable<{message: number}> {
+    return this.http.get<{message: number}>(this.baseUrl + 'inventario/getItemBalance/' + codigo)
+    .pipe( first(), catchError(error => {
+      switch (error.status) {
+      case 0:
+        alert('Error al tratar de conectar al servidor');
+        break;
+      case 700:
+        break;
+      default:
+        break;
+    }
+      return of(null);
+    }));
+  }
 
-  getCantidadVentasPorEstado(estado: string): Observable<{cantidadVentas: number}> {
-    return this.http.get<{cantidadVentas: number}>(this.baseUrl + 'ventas/getCantidadVentas/' + estado)
+  getExcelReportItem(codigo: string) {
+    return this.http.get(this.baseUrl + 'inventario/getItemReport/' + codigo, { responseType: 'blob' })
+    .pipe( first(), catchError(error => {
+      switch (error.status) {
+      case 0:
+        alert('Error al tratar de conectar al servidor');
+        break;
+      case 700:
+        break;
+      default:
+        break;
+    }
+      return of(null);
+  }));
+  }
+
+  getExcelReport(dateOne: string, dateTwo: string) {
+    return this.http.get(this.baseUrl + 'ventas/createExcelReport/' + dateOne + '/' + dateTwo, { responseType: 'blob' })
+    .pipe( first(), catchError(error => {
+      switch (error.status) {
+      case 0:
+        alert('Error al tratar de conectar al servidor');
+        break;
+      case 700:
+        break;
+      default:
+        break;
+    }
+      return of(null);
+  }));
+  }
+
+  anularVentaPost(venta: Venta): Observable<{message: string}> {
+    return this.http.put<{message: string}>(this.baseUrl + 'ventas/anularVentaPost', venta).pipe(first(),
+    catchError(error => {
+      switch (error.status) {
+      case 0:
+        alert('Error al tratar de conectar al servidor');
+        break;
+      case 700:
+        break;
+      default:
+        break;
+    }
+      return of(null);
+  }));
+  }
+
+  eliminarItemVentaSC(infoToDeleteItem: VentaSimpleEliminarSCInfo): Observable<Venta> {
+    return this.http.put<Venta>(this.baseUrl + 'ventas/eliminarItemSCVenta', infoToDeleteItem).pipe(first(),
+      catchError(error => {
+        switch (error.status) {
+        case 0:
+          alert('Error al tratar de conectar al servidor');
+          break;
+        case 700:
+          break;
+        default:
+          break;
+      }
+        return of(null);
+    }));
+  }
+
+  eliminarItemVenta(infoToDeleteItem: VentaSimpleEliminarInfo): Observable<Venta> {
+    return this.http.put<Venta>(this.baseUrl + 'ventas/eliminarItemVenta', infoToDeleteItem).pipe(first(),
+      catchError(error => {
+        switch (error.status) {
+        case 0:
+          alert('Error al tratar de conectar al servidor');
+          break;
+        case 700:
+          break;
+        default:
+          break;
+      }
+        return of(null);
+    }));
+  }
+
+  getCantidadVentasPorEstado(estado: string, dateOne: string, dateTwo: string): Observable<{cantidadVentas: number}> {
+    return this.http.get<{cantidadVentas: number}>(this.baseUrl + 'ventas/getCantidadVentas/' + estado + '/' + dateOne + '/' + dateTwo)
       .pipe(first(),
       catchError(error => {
         switch (error.status) {
@@ -69,6 +165,23 @@ export class InventarioManagerService {
 
   getVenta(ventaCod: string): Observable<Venta> {
     return this.http.get<Venta>(this.baseUrl + 'ventas/obtenerVenta/' + ventaCod)
+          .pipe(first(),
+          catchError(error => {
+            switch (error.status) {
+              case 0:
+                alert('Error al tratar de conectar al servidor');
+                break;
+              case 700:
+                break;
+              default:
+                break;
+            }
+            return of(null);
+          }));
+  }
+
+  getVentaCompleta(ventaCod: string): Observable<VentaCompleta> {
+    return this.http.get<VentaCompleta>(this.baseUrl + 'ventas/obtenerVenta/' + ventaCod)
           .pipe(first(),
           catchError(error => {
             switch (error.status) {
@@ -814,6 +927,16 @@ export interface Venta {
   itemsVendidos: ItemVendido[];
 }
 
+export interface VentaCompleta {
+  codigo: string;
+  totalPrice: number;
+  totalPriceNoIGV: number;
+  estado: string;
+  documento: Documento;
+  itemsVendidos: ItemVendido[];
+  date: string;
+}
+
 export interface CantidadSubConteo {
   name: string;
   nameSecond: string;
@@ -828,4 +951,22 @@ export interface ItemsVentaForCard {
   priceNoIGV: number;
   cantidadSC: CantidadSubConteo;
   cantidad: number;
+}
+
+
+export interface VentaSimpleEliminarInfo {
+  codigo: string;
+  itemCodigo: string;
+  totalItemPrice: number;
+  totalItemPriceNoIGV: number;
+}
+
+export interface VentaSimpleEliminarSCInfo {
+  codigo: string;
+  itemCodigo: string;
+  name: string;
+  nameSecond: string;
+  cantidadVenta: number;
+  totalPriceNoIGVSC: number;
+  totalPriceSC: number;
 }

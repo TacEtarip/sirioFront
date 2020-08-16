@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
-import { Venta, InventarioManagerService, ItemVendido } from 'src/app/inventario-manager.service';
+import { Venta, InventarioManagerService, ItemVendido, VentaCompleta } from 'src/app/inventario-manager.service';
 import { BehaviorSubject } from 'rxjs';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+
+import { SeguroAnularComponent } from '../seguro-anular/seguro-anular.component';
 
 interface TableData {
   codigo: string;
@@ -11,6 +14,7 @@ interface TableData {
   priceIGV: number;
   totalPrice: number;
 }
+
 
 export interface TableVentaInfo {
   codigo: string;
@@ -23,13 +27,13 @@ export interface TableVentaInfo {
 }
 
 @Component({
-  selector: 'app-post-venta',
-  templateUrl: './post-venta.component.html',
-  styleUrls: ['./post-venta.component.css']
+  selector: 'app-venta-ind-historia',
+  templateUrl: './venta-ind-historia.component.html',
+  styleUrls: ['./venta-ind-historia.component.css']
 })
-export class PostVentaComponent implements OnInit {
+export class VentaIndHistoriaComponent implements OnInit {
 
-  venta: Venta;
+  venta: VentaCompleta;
 
   date: string;
 
@@ -50,19 +54,20 @@ export class PostVentaComponent implements OnInit {
   costoTotal = new BehaviorSubject<number>(0);
 
 
-  dummyVenta: Venta = {codigo: '000000', totalPrice: 0, totalPriceNoIGV: 0,
-                                estado: '0000', documento: null, itemsVendidos: null};
+  dummyVenta: VentaCompleta = {codigo: '000000', totalPrice: 0, totalPriceNoIGV: 0,
+                                estado: '0000', documento: null, itemsVendidos: null, date: ''};
 
-  venta$ = new BehaviorSubject<Venta>(this.dummyVenta);
+  venta$ = new BehaviorSubject<VentaCompleta>(this.dummyVenta);
 
-  constructor(private activatedRoute: ActivatedRoute, private inventarioMNG: InventarioManagerService, private router: Router) {
+  constructor(private activatedRoute: ActivatedRoute, private inventarioMNG: InventarioManagerService,
+              private router: Router, public dialog: MatDialog) {
    }
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.pipe(first()).subscribe(param => {
-      const ruta = param.get('postVentaCod');
+      const ruta = param.get('ventaCod');
 
-      this.inventarioMNG.getVenta(ruta).subscribe((res: Venta) => {
+      this.inventarioMNG.getVentaCompleta(ruta).subscribe((res: VentaCompleta) => {
         if (res) {
           if (res.estado !== 'ejecutada') {
             this.router.navigate(['/ventas/eject/404']);
@@ -70,12 +75,14 @@ export class PostVentaComponent implements OnInit {
         } else {
           this.router.navigate(['/ventas/eject/404']);
         }
+        this.venta = res;
         for (const item of res.itemsVendidos) {
           this.dataSource.push({codigo: item.codigo, name: item.name,
                                 cantidad: item.cantidad, priceIGV: item.priceIGV,
                                 totalPrice: item.totalPrice});
         }
         this.venta$.next(res);
+        this.date = new Date(res.date).toLocaleTimeString();
         this.dataSource$.next(this.dataSource);
       });
 
@@ -104,7 +111,6 @@ export class PostVentaComponent implements OnInit {
     });
   }
 
-
   getTotal(n1: number, n2: number): number {
     return Math.round(((n1 * n2) + Number.EPSILON) * 100) / 100;
   }
@@ -115,6 +121,13 @@ export class PostVentaComponent implements OnInit {
       sum = sum + precio;
     });
     return sum;
+  }
+
+  anularVenta() {
+    this.dialog.open(SeguroAnularComponent, {
+      width: '600px',
+      data: this.venta$.value,
+    });
   }
 
   descargarPDF() {

@@ -92,7 +92,8 @@ export class VentaDialogComponent implements OnInit {
         ])),
         priceIGV: this.formBuilder.control({value: this.rebrandNumber(true, this.item.priceIGV) , disabled: true},  Validators.compose([
           Validators.required,
-          Validators.pattern(/^\d*\.?\d{0,2}$/)
+          Validators.pattern(/^\d*\.?\d{0,2}$/),
+          Validators.min(0.01)
         ])),
         priceNoIGV: this.formBuilder.control({value: this.item.priceNoIGV, disabled: true}),
         documentoTipo: this.formBuilder.control(this.tiposDocumentos[0].value,  Validators.compose([
@@ -162,6 +163,7 @@ export class VentaDialogComponent implements OnInit {
   }
 
   actTotal() {
+
     this.sum = 0;
     if (this.ventaForm.get('cantidadVenta').value <= 0 || (this.item.cantidad - this.ventaForm.get('cantidadVenta').value) < 0) {
       this.ventaForm.get('cantidadVenta').setErrors({incorrect: true});
@@ -201,7 +203,7 @@ export class VentaDialogComponent implements OnInit {
     return newNumber;
   }
 
-  changeNumber(){
+  changeNumberOut() {
     const numberPre: number = this.ventaForm.get('priceIGV').value;
     const numberNoIGVpre: number = this.getNoIGVPrice(numberPre);
     const valid: boolean = this.ventaForm.get('priceIGV').valid;
@@ -211,6 +213,31 @@ export class VentaDialogComponent implements OnInit {
 
     if (nmConvertido !== '') {
       this.ventaForm.get('priceIGV').setValue(nmConvertido);
+      this.ventaForm.get('priceNoIGV').setValue(nmNoIGVConvertido);
+      if (!this.item.subConteo) {
+        this.actTotal();
+      } else {
+        this.sum = 0;
+        // tslint:disable-next-line: prefer-for-of
+        for (let yindex = 0; yindex < this.cantidadList.controls.length; yindex++) {
+        this.sum = this.sum + this.cantidadList.at(yindex).get('cantidadVenta').value;
+    }
+        const precio: number = this.ventaForm.get('priceIGV').value;
+        this.totalPriceIGV = this.rebrandNumber(true, Math.round(((this.sum * precio) + Number.EPSILON) * 100) / 100).replace('.', ',');
+      }
+    }
+  }
+
+  changeNumber(){
+    const numberPre: number = this.ventaForm.get('priceIGV').value;
+    const numberNoIGVpre: number = this.getNoIGVPrice(numberPre);
+    const valid: boolean = this.ventaForm.get('priceIGV').valid;
+
+    const nmConvertido = this.rebrandNumber(valid, numberPre);
+    const nmNoIGVConvertido = this.rebrandNumber(valid, numberNoIGVpre);
+
+    if (nmConvertido !== '') {
+      // this.ventaForm.get('priceIGV').setValue(nmConvertido);
       this.ventaForm.get('priceNoIGV').setValue(nmNoIGVConvertido);
       if (!this.item.subConteo) {
         this.actTotal();
@@ -391,8 +418,8 @@ export class VentaDialogComponent implements OnInit {
     this.sum = 0;
     if ((listRequired.get('cantidadDisponible').value - listRequired.get('cantidadVenta').value) < 0
         || listRequired.get('cantidadVenta').value < 0 || listRequired.get('cantidadVenta').value === null) {
-        this.cantidadList.at(index).get('cantidadVenta').setValue(0);
-        this.actTotalForSubConteo(index);
+        this.cantidadList.at(index).get('cantidadVenta').setErrors({incorrect: true});
+        // this.actTotalForSubConteo(index);
     }
     else {
 

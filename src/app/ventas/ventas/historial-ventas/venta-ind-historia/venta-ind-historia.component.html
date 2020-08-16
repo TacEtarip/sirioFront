@@ -1,7 +1,9 @@
 <section class="mainPost">
   <div class="info">
-    <h1>Venta <span>#{{(venta$|async).codigo}}</span> realizada con exito!</h1>
+    <h1><span>#{{(venta$|async).codigo}}</span></h1>
+    <h5>Realizada: {{(venta$|async).date | date}} {{date}}</h5>
   </div>
+
   <mat-tab-group color="accent" dynamicHeight>
     <mat-tab  label="Conteo Simple">
       <div>
@@ -88,8 +90,13 @@
       </div>
     </mat-tab>
   </mat-tab-group>
+
   <div class="final">
-    <button (click)="descargarPDF()" mat-flat-button color="primary">Descargar PDF</button>
+    <div class="buttons">
+      <button class="marginBtn" (click)="descargarPDF()" mat-flat-button color="primary">Descargar PDF</button>
+      <button (click)="anularVenta()" mat-stroked-button color="accent">Anular Venta</button>
+    </div>
+
     <div class="totales">
       <h4>Total Base: {{((venta$|async).totalPriceNoIGV)|currency:'S/ '}}</h4>
       <h4>IGV 18%: {{((venta$|async).totalPrice - (venta$|async).totalPriceNoIGV)|currency:'S/ '}}</h4>
@@ -97,3 +104,4 @@
     </div>
   </div>
 </section>
+

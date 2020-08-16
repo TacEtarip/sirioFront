@@ -2,8 +2,8 @@
 
 @include mat-core();
 
-$primary: mat-palette($mat-blue);
-$accent:  mat-palette($mat-deep-orange, A200, A100, A400);
+$primary: mat-palette($mat-sirio-blue, A400, A100, A700);
+$accent:  mat-palette($mat-sirio-orange, A400, A100, A700);
 
 $theme: mat-light-theme($primary, $accent);
 

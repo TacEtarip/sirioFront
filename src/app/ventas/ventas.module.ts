@@ -33,15 +33,20 @@ import {MatRippleModule} from '@angular/material/core';
 import { HistorialVentasComponent } from './ventas/historial-ventas/historial-ventas.component';
 import { Eject404Component } from './ventas/eject404/eject404.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatDatepickerModule,  } from '@angular/material/datepicker';
-import { MatNativeDateModule, } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MAT_DATE_LOCALE, MAT_DATE_FORMATS, DateAdapter } from '@angular/material/core';
+import { MatMomentDateModule, MAT_MOMENT_DATE_FORMATS, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { VentaIndHistoriaComponent } from './ventas/historial-ventas/venta-ind-historia/venta-ind-historia.component';
+import {MatTabsModule} from '@angular/material/tabs';
+import { SeguroAnularComponent } from './ventas/historial-ventas/seguro-anular/seguro-anular.component';
 
 
 
 
 @NgModule({
   declarations: [VentasComponent, VentasCardComponent, VentasActivasComponent,
-    VentaActivaCardComponent, SeguroEjecDialogComponent, PostVentaComponent, HistorialVentasComponent, Eject404Component],
+    VentaActivaCardComponent, SeguroEjecDialogComponent, PostVentaComponent, HistorialVentasComponent,
+    Eject404Component, VentaIndHistoriaComponent, SeguroAnularComponent],
   imports: [
     CommonModule,
     VentasRoutingModule,
@@ -68,7 +73,17 @@ import { MatNativeDateModule, } from '@angular/material/core';
     MatRippleModule,
     MatPaginatorModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatMomentDateModule,
+    MatTabsModule
+  ],
+  providers: [
+    {provide: MAT_DATE_LOCALE, useValue: 'es'},
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
   ]
 })
 export class VentasModule { }

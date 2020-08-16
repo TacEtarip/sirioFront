@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ItemsVentaForCard, InventarioManagerService, Venta } from '../../../../inventario-manager.service';
+import { ItemsVentaForCard, InventarioManagerService, Venta, VentaSimpleEliminarInfo, VentaSimpleEliminarSCInfo } from '../../../../inventario-manager.service';
 import { BehaviorSubject } from 'rxjs';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import { SeguroEjecDialogComponent } from '../../seguro-ejec-dialog/seguro-ejec-dialog.component';
@@ -14,6 +14,7 @@ export interface TableVentaInfo {
   priceIGV: number;
   total: number;
   eliminar: boolean;
+  priceNoIGV: number;
 }
 
 @Component({
@@ -46,7 +47,7 @@ export class VentaActivaCardComponent implements OnInit {
             subName: infoVenta.cantidadSC.name, subNameSecond: infoVenta.cantidadSC.nameSecond,
             cantidad: infoVenta.cantidadSC.cantidadVenta, priceIGV: infoVenta.priceIGV,
             total: this.getTotal(infoVenta.cantidadSC.cantidadVenta, infoVenta.priceIGV) ,
-            eliminar: true};
+            eliminar: true, priceNoIGV: infoVenta.priceNoIGV};
           this.tableVentaInfo.push(tableInfo);
           this.precios.push(tableInfo.total);
         }
@@ -54,7 +55,7 @@ export class VentaActivaCardComponent implements OnInit {
           const tableInfo: TableVentaInfo = {codigo: infoVenta.codigo, name: infoVenta.name,
             subName: '...', subNameSecond: '...',
             cantidad: infoVenta.cantidad, priceIGV: infoVenta.priceIGV,
-            total: this.getTotal(infoVenta.cantidad, infoVenta.priceIGV), eliminar: true};
+            total: this.getTotal(infoVenta.cantidad, infoVenta.priceIGV), eliminar: true, priceNoIGV: infoVenta.priceNoIGV};
 
           this.tableVentaInfo.push(tableInfo);
           this.precios.push(tableInfo.total);
@@ -94,6 +95,56 @@ export class VentaActivaCardComponent implements OnInit {
 
   getTotalCost() {
     // return this.transactions.map(t => t.cost).reduce((acc, value) => acc + value, 0);
+  }
+
+  eliminarItem(info: TableVentaInfo) {
+    let countOfItem = 0;
+
+    for (const ventaInfo of this.tableVentaInfo$.value) {
+      if (ventaInfo.codigo === info.codigo) {
+        countOfItem++;
+      }
+      if (countOfItem > 1) {
+        break;
+      }
+    }
+
+
+    if (info.subName !== '...' && countOfItem > 1 && this.tableVentaInfo$.value.length > 1) {
+      let trueNameSecond = info.subNameSecond;
+      if (trueNameSecond === '...') {
+        trueNameSecond = '';
+      }
+      const eliminarItemSC: VentaSimpleEliminarSCInfo =
+              { codigo: this.ventaCod.codigo, itemCodigo: info.codigo, cantidadVenta: info.cantidad,
+                totalPriceSC:
+                info.total,
+                totalPriceNoIGVSC: (Math.round(((info.priceNoIGV * info.cantidad) + Number.EPSILON) * 100) / 100),
+                name: info.subName,
+                nameSecond: trueNameSecond };
+
+      this.inventarioMNG.eliminarItemVentaSC(eliminarItemSC).subscribe(res => {
+            if (res) {
+              window.location.reload();
+            }
+      });
+    }
+    else if (this.tableVentaInfo$.value.length > 1) {
+      const eliminarItemSimple: VentaSimpleEliminarInfo =
+      { codigo: this.ventaCod.codigo, itemCodigo: info.codigo,
+        totalItemPrice: info.total,
+        totalItemPriceNoIGV:
+        (Math.round(((info.priceNoIGV * info.cantidad) + Number.EPSILON) * 100) / 100)  };
+
+      this.inventarioMNG.eliminarItemVenta(eliminarItemSimple).subscribe(res => {
+        if (res) {
+          window.location.reload();
+        }
+      });
+    }
+    else {
+      this.anularVenta();
+    }
   }
 
 }

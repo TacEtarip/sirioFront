@@ -17,7 +17,7 @@
       </mat-form-field>
       <mat-form-field appearance="fill"  class="example-full-width doubleGridTwo">
         <mat-label>Precio</mat-label>
-        <input (change)="changeNumber()" name="priceIGV" id="priceIGV" formControlName="priceIGV" type="number" min="0" step="1" matInput>
+        <input (input)="changeNumber()" (focusout)="changeNumberOut()" name="priceIGV" id="priceIGV" formControlName="priceIGV" type="number" min="0" step="1" matInput>
         <span matPrefix>S/ </span>
       </mat-form-field>
 
@@ -27,7 +27,8 @@
       </mat-form-field>
       <mat-form-field *ngIf="!this.item.subConteo" appearance="fill"  class="example-full-width doubleGridTwo">
         <mat-label>Cantidad</mat-label>
-        <input (change)="actTotal()" (keypress)="resetSum()" name="cantidad" id="cantidad" formControlName="cantidadVenta" type="number" min="1" step="1" matInput>
+        <input (input)="actTotal()" (keypress)="resetSum()" name="cantidad" id="cantidad" formControlName="cantidadVenta" type="number" min="1" step="1" matInput>
+        <mat-error>Cantidad Invalida</mat-error>
       </mat-form-field>
 
 
@@ -49,7 +50,8 @@
             </mat-form-field>
             <mat-form-field  appearance="fill" class="cantidad tripleGrid">
               <mat-label>Cantidad</mat-label>
-              <input (change)="actTotalForSubConteo(i)" (keypress)="resetSum()" spellcheck="false" formControlName="cantidadVenta" type="number" min="0" step="1" matInput>
+              <input (input)="actTotalForSubConteo(i)" (keypress)="resetSum()" spellcheck="false" formControlName="cantidadVenta" type="number" min="0" step="1" matInput>
+              <mat-error>Cantidad Invalida</mat-error>
             </mat-form-field>
           </div>
         </div>

@@ -1,6 +1,5 @@
 b {
   color: #ff7b00;
-  font-family: jubilat, sans-serif;
   font-weight: 200;
 }
 
@@ -51,6 +50,22 @@ table {
 td, th {
   width: 33%;
 }
+
+
+.reporteText {
+  color: black;
+  margin-bottom: 1em;
+}
+
+
+.reporteText {
+  color: black;
+}
+
+.balanceNegativo {
+  color: rgb(230, 54, 30);
+}
+
 
 
 

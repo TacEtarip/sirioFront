@@ -13,7 +13,7 @@
       </mat-form-field>
       <mat-form-field appearance="fill"  class="example-full-width precioForm">
         <mat-label>Cantidad</mat-label>
-        <input (change)="changeCantidadMain()"  spellcheck="false" name="cantidad" id="cantidad" formControlName="cantidad" type="number" min="0" step="1" matInput>
+        <input (input)="changeCantidadMain()"  spellcheck="false" name="cantidad" id="cantidad" formControlName="cantidad" type="number" min="0" step="1" matInput>
       </mat-form-field>
       <mat-form-field appearance="fill" class="example-full-width precioForm">
         <mat-label>Unidad De Medida</mat-label>
@@ -71,7 +71,7 @@
                   </mat-form-field>
                   <mat-form-field  appearance="fill"  class="scDenoTwo">
                     <mat-label>Cantidad</mat-label>
-                    <input (change)="sumCantidades(i, y)" pellcheck="false" formControlName="cantidad" type="number" min="0" step="1" matInput>
+                    <input (input)="sumCantidades(i, y)" pellcheck="false" formControlName="cantidad" type="number" min="0" step="1" matInput>
                   </mat-form-field>
                   <button (click)="deleteSubAsig(i,y)" type="button" mat-button mat-stroked-button color="accent" class="agregarCant">-</button>
                   <button (click)="agregarSubAsig(i,y)" type="button" mat-button mat-stroked-button color="primary" class="dismCant">+</button>

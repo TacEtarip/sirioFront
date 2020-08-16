@@ -7,7 +7,7 @@
       <mat-label>Comentario...</mat-label>
       <input spellcheck="false" formControlName="comentario" maxlength="80" matInput>
     </mat-form-field>
-    <mat-form-field (change)="actCantidad()"  appearance="fill" class="cantidad">
+    <mat-form-field (input)="actCantidad()"  appearance="fill" class="cantidad">
       <mat-label>Cantidad...</mat-label>
       <input spellcheck="false" formControlName="cantidad" type="number" min="0" step="1" matInput>
     </mat-form-field>
@@ -48,7 +48,7 @@
         </mat-form-field>
         <mat-form-field  appearance="fill" class="cantidad">
           <mat-label>Cantidad</mat-label>
-          <input (change)="sumCantidades()"  spellcheck="false" formControlName="cantidad" type="number" min="0" step="1" matInput>
+          <input (input)="sumCantidades()"  spellcheck="false" formControlName="cantidad" type="number" min="0" step="1" matInput>
         </mat-form-field>
         <button (dblclick)="eliminarOrder(i)" type="button" mat-button mat-stroked-button color="accent" class="cantidad deleteBtn">-</button>
       </div>
