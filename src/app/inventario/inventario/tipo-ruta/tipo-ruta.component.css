@@ -200,6 +200,7 @@ li h2 {
 
 
 .main-ctt {
+  min-height: 90vh;
   grid-column: 3/13;
   padding: 1em 0em;
   background-color: #eaf6ff;
@@ -319,7 +320,7 @@ h1 {
   display: none;
 }
 
-.content ::ng-deep .cdk-virtual-scroll-content-wrapper {
+.cardsContainer {
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 0em;
   display: grid;
@@ -361,6 +362,14 @@ h1 {
 .example-is-mobile .example-toolbar {
   position: fixed;
   /* Make sure the toolbar will stay on top of the content as it scrolls past. */
+}
+
+.cargandoItems {
+  width: 100%;
+  height: 100px;
+  text-align: center;
+  margin-top: 2em;
+  margin-bottom: 2em;
 }
 
 ::ng-deep .sizeIcon{
@@ -409,6 +418,25 @@ h1 {
   margin-left: 1em;
 }
 
+.searchInput {
+  width: 42px;
+  transition: width 1s;
+  font-weight: 800;
+}
+
+.searchIcon:hover {
+  cursor: pointer;
+}
+
+form {
+  align-self: center;
+  margin-left: .5em;
+}
+
+.searchInput {
+  width: 300px;
+}
+
 @media screen and (max-width: 1600px) {
 
   .menuPadding {
@@ -427,7 +455,7 @@ h1 {
     display: none;
   }
 
-  .content ::ng-deep .cdk-virtual-scroll-content-wrapper {
+  .cardsContainer {
     grid-template-columns: repeat(3, 1fr);
   }
 
@@ -437,7 +465,7 @@ h1 {
 
 
 @media screen and (max-width: 1100px) {
-  .content ::ng-deep .cdk-virtual-scroll-content-wrapper {
+  .cardsContainer {
     grid-template-columns: repeat(2, 1fr);
   }
   .displayCheatThree {
@@ -466,7 +494,7 @@ h1 {
 
 
 @media screen and (max-width: 820px) {
-  .content ::ng-deep .cdk-virtual-scroll-content-wrapper {
+  .cardsContainer {
     grid-template-columns: repeat(2, 1fr);
   }
 
@@ -490,15 +518,12 @@ h1 {
   .menu ::ng-deep .mat-drawer-inner-container {
     overflow: auto;
   }
-  .list-items {
-    overflow: hidden ;
-    max-height: none;
-  }
+
 
 }
 
 @media screen and (max-width: 700px) {
-  .content ::ng-deep .cdk-virtual-scroll-content-wrapper {
+  .cardsContainer {
     grid-template-columns: repeat(1, 1fr);
   }
 

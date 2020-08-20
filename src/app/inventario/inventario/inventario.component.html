@@ -41,7 +41,10 @@
     </div>
     </div>
   </mat-sidenav>
-  <mat-sidenav-content class="hideOver">
+  <mat-sidenav-content id="listado">
+
+    <router-outlet></router-outlet>
+    <!--
     <section class="main-ctt">
       <div class="info">
         <h1>
@@ -67,6 +70,7 @@
         </div>
       </div>
       <div class="paddingToScroll">
+
       <cdk-virtual-scroll-viewport *ngIf="keep|async" itemSize="50" class="example-viewport content" minBufferPx="1200" maxBufferPx="1200">
         <app-item-card (deleteEvent)="openDialogEliminarItem($event)" [item]="item" *cdkVirtualFor="let item of (listItems|async)"></app-item-card>
         <div class="displayCheat"  [ngClass]="{'cheating': (listItems|async).length % 3!==0,'cheatingTwo': (listItems|async).length % 3===0}"></div>
@@ -76,6 +80,7 @@
       <div class="test"></div>
       </div>
     </section>
+  -->
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>

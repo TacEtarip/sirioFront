@@ -93,6 +93,7 @@ export class ItemCardComponent implements OnInit {
       data: this.itemInfo.value
     });
     dialofRef.afterClosed().pipe(first()).subscribe((res) => {
+      console.log(res);
       if (res) {
       this.itemInfo.next(res);
       }

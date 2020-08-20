@@ -15,6 +15,23 @@ export class InventarioManagerService {
   constructor(private http: HttpClient) { }
 
 
+  getItemsSearch(searchTerms: string): Observable<Item[]> {
+    return this.http.get<Item[]>(this.baseUrl + 'inventario/getItemsSearch/' + searchTerms)
+    .pipe( first(), catchError(error => {
+      switch (error.status) {
+      case 0:
+        alert('Error al tratar de conectar al servidor');
+        break;
+      case 700:
+        break;
+      default:
+        break;
+    }
+      return of(null);
+    }));
+  }
+
+
   getItemBalance(codigo: string): Observable<{message: number}> {
     return this.http.get<{message: number}>(this.baseUrl + 'inventario/getItemBalance/' + codigo)
     .pipe( first(), catchError(error => {
@@ -592,8 +609,8 @@ export class InventarioManagerService {
           }));
   }
 
-  getItemsSorted(subORtipo: string, tipo: string, ordernarPor: string, orden: string): Observable<Item[]> {
-    return this.http.get<Item[]>(this.baseUrl +  'inventario/getAllItemsSort/' + subORtipo + '/' + tipo + '/' + ordernarPor + '/' + orden)
+  getItemsSorted(subORtipo: string, tipo: string, ordernarPor: string, orden: string, limit: number): Observable<Item[]> {
+    return this.http.get<Item[]>(this.baseUrl +  'inventario/getAllItemsSort/' + subORtipo + '/' + tipo + '/' + ordernarPor + '/' + orden + '/' + limit)
      .pipe(first(),
             catchError(error => {
             switch (error.status) {

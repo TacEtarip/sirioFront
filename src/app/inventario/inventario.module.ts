@@ -47,6 +47,8 @@ import {MatSortModule} from '@angular/material/sort';
 import { EditarCantidadesDialogComponent } from './inventario/editar-cantidades-dialog/editar-cantidades-dialog.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatDatepickerModule } from '@angular/material/datepicker';
+import { TipoRutaComponent } from './inventario/tipo-ruta/tipo-ruta.component';
+import { SubTipoRutaComponent } from './inventario/sub-tipo-ruta/sub-tipo-ruta.component';
 
 
 @NgModule({
@@ -54,7 +56,8 @@ import {MatDatepickerModule } from '@angular/material/datepicker';
     VentaDialogComponent, AgregarClaseItemComponent, ItemCardComponent, UploadsDialogComponent,
      EditarItemDialogComponent, SeguroEliminarComponent, EditarClaseComponent, EliminarDialogComponent,
      SubListaDesplegableComponent, AgregarSubCategoriasComponent, SubTipoEditarComponent, EliminarSubTipoComponent,
-      TemporalShowItemInfoComponent, MarcasDialogComponent, ShowItemTemporalComponent, EditarCantidadesDialogComponent],
+      TemporalShowItemInfoComponent, MarcasDialogComponent, ShowItemTemporalComponent, EditarCantidadesDialogComponent,
+      TipoRutaComponent, SubTipoRutaComponent],
   imports: [
     CommonModule,
     InventarioRoutingModule,

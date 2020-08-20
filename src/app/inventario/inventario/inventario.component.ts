@@ -1,18 +1,19 @@
-import { Component, OnInit, ChangeDetectorRef, ViewChildren, QueryList, AfterViewInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { WindowScrollService } from './../../window-scroll.service';
+import { Component, OnInit, ChangeDetectorRef, ViewChildren, QueryList,
+  AfterViewInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import { NewItemDialogComponent } from './new-item-dialog/new-item-dialog.component';
 import { AgregarClaseItemComponent } from './agregar-clase-item/agregar-clase-item.component';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject, fromEvent } from 'rxjs';
 import { ListaPlegableComponent } from './lista-plegable/lista-plegable.component';
 import { UploadsDialogComponent } from './uploads-dialog/uploads-dialog.component';
 import {InventarioManagerService, Item,  Tipo} from '../../inventario-manager.service';
 import { AuthService } from '../../auth.service';
-import { first, debounceTime, skip} from 'rxjs/operators';
+import { first, debounceTime, skip, takeUntil, distinctUntilChanged} from 'rxjs/operators';
 import {MediaMatcher} from '@angular/cdk/layout';
-import {Router} from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import {  SeguroEliminarComponent } from './seguro-eliminar/seguro-eliminar.component';
 import { EditarClaseComponent } from './editar-clase/editar-clase.component';
-import { EliminarDialogComponent } from './eliminar-dialog/eliminar-dialog.component';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { MarcasDialogComponent } from '../inventario/marcas-dialog/marcas-dialog.component';
 
@@ -22,10 +23,11 @@ import { MarcasDialogComponent } from '../inventario/marcas-dialog/marcas-dialog
   styleUrls: ['./inventario.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InventarioComponent implements OnInit, OnDestroy {
+export class InventarioComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   specialGetItem = true;
+
 
   mobileQuery: MediaQueryList;
   private mobileQueryListener: () => void;
@@ -56,43 +58,56 @@ export class InventarioComponent implements OnInit, OnDestroy {
 
   nombreUsuario: string;
 
+  destroy = new Subject();
+
+  destroy$ = this.destroy.asObservable();
+
+
   constructor(public dialog: MatDialog, private inventarioMNG: InventarioManagerService,
               private auth: AuthService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
-              private router: Router, private snackBar: MatSnackBar) {
+              private router: Router, private snackBar: MatSnackBar, private ar: ActivatedRoute, private wss: WindowScrollService) {
     this.nombreUsuario = auth.getDisplayUser();
     this.mobileQuery = media.matchMedia('(max-width: 820px)');
     this.mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this.mobileQueryListener);
+
     //  .removeEventListener('change', this.mobileQueryListener);
+  }
+
+  getYPosition(e: Event): number {
+    return (e.target as Element).scrollTop;
   }
 
   ngOnInit(): void {
     this.loadList();
-    // this.getItems(this.listaItemsCurrent);
-    this.currentListToDisplay.subscribe((cl: string) => {
-      if (this.specialGetItem) {
-        this.specialGetItem = false;
-      } else {
-        this.inventarioMNG.getItemsSorted(this.subORtipo, cl, this.selectedSort, this.order.value).subscribe((res: Item[]) => {
-          this.listItems.next(res);
-          this.keep.next(true);
-        });
-      }
-    });
-    this.order.pipe(skip(1), debounceTime(300)).subscribe((order: string) => {
-      this.inventarioMNG.getItemsSorted(this.subORtipo, this.currentListToDisplay.value,
-        this.selectedSort, order).subscribe((res: Item[]) => {
-        this.listItems.next(res);
-        this.keep.next(true);
+  }
+
+  ngAfterViewInit(): void {
+    const documentScroll = document.getElementById('listado');
+    this.wss.elementScroll = documentScroll;
+    fromEvent(documentScroll, 'scroll')
+    .pipe(distinctUntilChanged(),
+    takeUntil(this.destroy$))
+      .subscribe((e: Event) => {
+        this.wss.scrollY.next(this.getYPosition(e));
+        this.wss.scrollH.next(documentScroll.scrollHeight);
+        const porcent = Math.round((this.wss.scrollY.value * 100 ) / (this.wss.scrollH.value - this.wss.elementScroll.clientHeight));
+        this.wss.porcent.next(porcent);
       });
-    });
   }
 
   loadListItems(loadInfo: {name: string, subORtipo: string}) {
-    this.keep.next(false);
     this.subORtipo = loadInfo.subORtipo;
     this.currentListToDisplay.next(loadInfo.name);
+    if (this.subORtipo === 'tipo') {
+      this.router.navigate(['/inventario', loadInfo.name]);
+    }
+    else {
+      const tipoRoute = this.router.url.slice(1).split('/')[1];
+      this.router.navigate(['/inventario', tipoRoute, loadInfo.name]);
+    }
   }
+
 
   cerrarSesion() {
     this.auth.cerrarSesion();
@@ -132,7 +147,6 @@ export class InventarioComponent implements OnInit, OnDestroy {
     this.dialogUploadRef.componentInstance.codigo = this.codigo;
     this.dialogUploadRef.afterClosed().pipe(first()).subscribe(() => {
       this.codigo = null;
-      this.keep.next(false);
       this.order.next('asc');
     });
   }
@@ -164,6 +178,7 @@ export class InventarioComponent implements OnInit, OnDestroy {
    this.order.unsubscribe();
    this.currentListToDisplay.unsubscribe();
    this.mobileQuery.removeListener(this.mobileQueryListener);
+   this.destroy.next();
    // this.mobileQuery.removeEventListener('change', this.mobileQueryListener);
   }
 
@@ -203,41 +218,9 @@ export class InventarioComponent implements OnInit, OnDestroy {
       });
   }
 
-  openDialogEliminarItem(item: Item) {
-    const dialogRef = this.dialog.open(EliminarDialogComponent, {
-      width: '600px',
-      data: item
-    });
 
-    dialogRef.afterClosed().pipe(first()).subscribe((cod: string) => {
-      if (cod) {
-        this.inventarioMNG.eliminarItem(cod).subscribe((res) => {
-          if (res) {
-            this.keep.next(false);
-            this.order.next(this.order.value);
-            this.snackBar.open('Item Eliminado!!', '', {
-              duration: 2000,
-            });
-          }
-        });
-      }
-    });
-  }
 
-  orderDsc() {
-    this.keep.next(false);
-    this.order.next('dsc');
-  }
 
-  orderAsc() {
-    this.keep.next(false);
-    this.order.next('asc');
-  }
-
-  onChageTipo() {
-    this.keep.next(false);
-    this.order.next(this.order.value);
-  }
 
   reloadPage() {
     window.location.reload();

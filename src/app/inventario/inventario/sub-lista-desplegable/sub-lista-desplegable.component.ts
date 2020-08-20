@@ -77,7 +77,7 @@ export class SubListaDesplegableComponent implements OnInit {
     });
 
     dialogRef.afterClosed().pipe(first()).subscribe(() => {
-      this.loadListItemsSubTipo.emit(this.nameSub$.value);
+      window.location.reload();
     });
   }
 
