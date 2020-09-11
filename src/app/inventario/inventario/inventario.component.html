@@ -41,9 +41,53 @@
     </div>
     </div>
   </mat-sidenav>
-  <mat-sidenav-content id="listado">
+    <mat-sidenav-content id="listado">
 
     <router-outlet></router-outlet>
+    <footer>
+      <div>
+        <div>
+          <h3>¿Quienes Somos?</h3>
+          <mat-divider></mat-divider>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur numquam excepturi perspiciatis laboriosam esse enim est nesciunt! Molestias officia distinctio voluptas, nam quibusdam magni voluptate obcaecati laborum odit ipsum eum.</p>
+        </div>
+      </div>
+
+      <mat-list role="list">
+        <div mat-subheader>Redes Sociales:</div>
+        <mat-list-item class="social-link" (click)="goToLink('https://www.facebook.com/siriodinar')">
+          <mat-icon mat-list-icon>facebook</mat-icon>
+          <div mat-line>fb.com/siriodinar</div>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item class="social-link" (click)="goToLink('https://www.instagram.com/dinarsirio/')">
+          <mat-icon mat-list-icon><i class="fab fa-instagram"></i></mat-icon>
+          <div mat-line>@dinarsirio</div>
+        </mat-list-item>
+      </mat-list>
+
+      <mat-list role="list">
+        <div mat-subheader>WhatsApps:</div>
+        <mat-list-item class="social-link" (click)="goToLink('w1')">
+          <mat-icon mat-list-icon>phone</mat-icon>
+          <div mat-line>+51 977 426 349</div>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item class="social-link" (click)="goToLink('w2')">
+          <mat-icon mat-list-icon>phone</mat-icon>
+          <div mat-line>+51 922 412 404</div>
+        </mat-list-item>
+      </mat-list>
+
+      <mat-list role="list">
+        <div mat-subheader>Dirección:</div>
+        <mat-list-item class="social-link" (click)="goToLink('https://www.google.com/maps/place/Felipe+Pardo+y+Aliaga+213,+Trujillo+13006/@-8.11283,-79.0178555,19z/data=!3m1!4b1!4m5!3m4!1s0x91ad162a59b1c931:0xda445057079ecc8!8m2!3d-8.1128313!4d-79.0173083?rapsrc=apiv3')">
+          <mat-icon mat-list-icon>room</mat-icon>
+          <div mat-line>Jr. Felipe Pardo Y Aliaga 213</div>
+          <div mat-line>Urb. Palermo. Trujillo, Perú.</div>
+        </mat-list-item>
+      </mat-list>
+    </footer>
     <!--
     <section class="main-ctt">
       <div class="info">

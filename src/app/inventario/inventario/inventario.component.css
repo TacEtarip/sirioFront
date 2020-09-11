@@ -129,6 +129,11 @@ h4 {
   width: 100%;
 }
 
+.social-link:hover {
+  cursor: pointer;
+  color: #E87200;
+}
+
 
 .show-opc {
   margin: 1.5em 0;
@@ -169,6 +174,15 @@ li h2 {
 }
 
 
+.logo-footer {
+  width: 120px;
+  height: auto;
+  align-self: center;
+  text-align: center;
+  display: block;
+  cursor: pointer;
+}
+
 .logoShow {
   width: 200px;
   height: auto;
@@ -201,7 +215,7 @@ li h2 {
 
 .main-ctt {
   grid-column: 3/13;
-  padding: 1em 0em;
+  padding: 1em 0em 6em 0em;
   background-color: #eaf6ff;
 }
 
@@ -250,6 +264,16 @@ h1 {
   font-style: normal;
 }*/
 
+footer {
+  padding: 3em 3em;
+  display: grid;
+  gap: 2em;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+}
+
+p {
+  font-family: futura-pt, sans-serif;
+}
 
 .example-card {
   width: auto;

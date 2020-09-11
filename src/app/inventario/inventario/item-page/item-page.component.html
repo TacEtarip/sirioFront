@@ -1,0 +1,150 @@
+<section  class="main-ctt">
+  <div *ngIf="!(item$|async)" class="cargandoItems">
+    <mat-spinner [ngStyle]="{margin: 'auto'}"></mat-spinner>
+  </div>
+  <main *ngIf="(item$|async)" class="header-item">
+    <div  class="images-container">
+      <div id="imgzoom"  class="zoom-container">
+        <img  *ngIf="(item$|async)" [src]="imageLink" width="354" height="354">
+      </div>
+      <div class="preview-img">
+        <!--
+        <img id="myimagePre" src="https://inventario-sirio-dinar.herokuapp.com/inventario/image/img-23SDBP9-1597381127996.png" width="50" height="50">
+        <img id="myimagePreSecond" src="https://inventario-sirio-dinar.herokuapp.com/inventario/image/img-23SDBP9-1597381127996.png" width="50" height="50">
+        <img id="myimagePreThird" src="https://inventario-sirio-dinar.herokuapp.com/inventario/image/img-23SDBP9-1597381127996.png" width="50" height="50">
+        -->
+      </div>
+      <div class="social" *ngIf="(item$|async)">
+        <h3 class="color-contacto">Contactanos:</h3>
+        <mat-list role="list">
+          <div mat-subheader>Redes Sociales:</div>
+          <mat-list-item class="social-link" (click)="goToLink('https://www.facebook.com/siriodinar')">
+            <mat-icon mat-list-icon>facebook</mat-icon>
+            <div mat-line>fb.com/siriodinar</div>
+          </mat-list-item>
+          <mat-list-item class="social-link" (click)="goToLink('https://www.instagram.com/dinarsirio/')">
+            <mat-icon mat-list-icon><i class="fab fa-instagram"></i></mat-icon>
+            <div mat-line>@dinarsirio</div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <div mat-subheader>WhatsApps:</div>
+          <mat-list-item class="social-link" (click)="goToLink('w1')">
+            <mat-icon mat-list-icon>phone</mat-icon>
+            <div mat-line>+51 977 426 349</div>
+          </mat-list-item>
+          <mat-list-item class="social-link" (click)="goToLink('w2')">
+            <mat-icon mat-list-icon>phone</mat-icon>
+            <div mat-line>+51 922 412 404</div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <div mat-subheader>Dirección:</div>
+          <mat-list-item class="social-link" (click)="goToLink('https://www.google.com/maps/place/Felipe+Pardo+y+Aliaga+213,+Trujillo+13006/@-8.11283,-79.0178555,19z/data=!3m1!4b1!4m5!3m4!1s0x91ad162a59b1c931:0xda445057079ecc8!8m2!3d-8.1128313!4d-79.0173083?rapsrc=apiv3')">
+            <mat-icon mat-list-icon>room</mat-icon>
+            <div mat-line>Jr. Felipe Pardo Y Aliaga 213</div>
+            <div mat-line>Urb. Palermo. Trujillo, Perú.</div>
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </div>
+    <!--
+    <div class="zoom-img">
+
+    </div>-->
+    <div *ngIf="(item$|async)" class="item-info">
+      <h1 >
+        {{(item$|async).name}}
+      </h1>
+      <p>
+        {{(item$|async).description}}
+      </p>
+      <h4>
+        Precio: {{(item$|async).priceIGV|currency:'S/'}} | Precio Sin IGV: {{(item$|async).priceNoIGV|currency:'S/'}} | Marca: {{(item$|async).marca}}
+      </h4>
+      <button (click)="descargarFicha()" [disabled]="!(item$|async).ficha" [ngStyle]="{'height': '36px'}" class="ficha-btn" mat-raised-button color="accent">Descargar Ficha Tecnica</button>
+      <button (click)="descargarReporteItem()" [ngStyle]="{'height': '36px'}" class="ficha-btn" mat-raised-button color="primary">Descargar Reporte</button>
+
+      <!--
+      <h3>Vender</h3>
+      <div class="pre-venta">
+      <mat-form-field   class="one-hundred">
+        <mat-label>Talla</mat-label>
+        <mat-select>
+          <mat-option value="xl">XL</mat-option>
+          <mat-option value="xl">S</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field  class="example-full-width doubleGrid">
+        <mat-label>Color</mat-label>
+        <mat-select>
+          <mat-option value="xl">Rojo</mat-option>
+          <mat-option value="xl">Azul</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width doubleGridTwo">
+        <mat-label>Cantidad</mat-label>
+        <input matInput type="number">
+      </mat-form-field>
+      <h2>S/5.00</h2>
+
+
+    </div>
+    <button mat-stroked-button color="accent" class="vender-btn">Vender</button>
+    <button mat-stroked-button color="accent" class="agregar-btn">Agregar a venta</button>
+    -->
+    <h3>Cantidades:</h3>
+
+    <div class="tablContenedor">
+      <mat-toolbar [ngStyle]="{'background': 'white'}">
+        <span>{{(item$|async).cantidad}} {{(item$|async).unidadDeMedida}} disponibles.</span>
+      </mat-toolbar>
+    </div>
+
+    <div *ngIf="(item$|async).subConteo" class="tablContenedor">
+      <table  mat-table [dataSource]="dataSource" matSort >
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{(item$|async).subConteo.name}} </th>
+          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+          <td mat-footer-cell *matFooterCellDef> Total </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="nameSecond">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{(item$|async).subConteo.nameSecond}} </th>
+          <td mat-cell *matCellDef="let element"> {{element.nameSecond}} </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="cantidad">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Cantidad </th>
+          <td mat-cell *matCellDef="let element"> {{element.cantidad}} </td>
+          <td mat-footer-cell *matFooterCellDef>{{(item$|async).cantidad}}</td>
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsPos"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsPos;"></tr>
+        <tr mat-footer-row *matFooterRowDef="displayedColumnsPos"></tr>
+      </table>
+
+    </div>
+
+    </div>
+  </main>
+  <section *ngIf="(item$|async)" class="other-items">
+    <h2>Productos relacionados</h2>
+    <div class="cards">
+      <div [ngStyle]="{'cursor': 'pointer'}" (click)="goToItem(itemRel.tipo, itemRel.subTipo, itemRel.codigo)" *ngFor="let itemRel of (itemsRelacionados$|async)" class="mini-card">
+        <h4>
+          {{itemRel.name}}
+        </h4>
+        <div  [ngStyle]="{'background-image': 'url(' + 'https://inventario-sirio-dinar.herokuapp.com/inventario/image/' + (itemRel.photo) + ')'}" class="card-image">
+        </div>
+      </div>
+    </div>
+  </section>
+</section>

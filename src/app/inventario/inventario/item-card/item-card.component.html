@@ -1,8 +1,8 @@
 <div class="item-card">
   <div class="title-card">
     <div class="title">
-    <h3 (click)="openItemInfo()" class="openItemInfo">{{(itemInfo|async).name}}</h3>
-    <h4  (click)="openItemInfo()"  class="openItemInfo">Stock: {{(itemInfo|async).cantidad}} {{(itemInfo|async).unidadDeMedida}} | {{(itemInfo|async).codigo}}</h4>
+    <h3 (click)="goToItemPage()" class="openItemInfo">{{(itemInfo|async).name}}</h3>
+    <h4  (click)="goToItemPage()"  class="openItemInfo">Stock: {{(itemInfo|async).cantidad}} {{(itemInfo|async).unidadDeMedida}} | {{(itemInfo|async).codigo}}</h4>
     </div>
     <mat-icon (click)="openDialogEliminar()" class="delete" [ngStyle]="{'color': '#e2e2e2', 'cursor': 'pointer'}">delete</mat-icon>
   </div>
@@ -17,6 +17,5 @@
       <button (click)="openDialogEditarCantidades()" class="editar editarCantidades"><mat-icon> bar_chart</mat-icon></button>
       <h6>S/{{priceToShow|async}}</h6>
     </div>
-    <button *ngIf="(itemInfo|async).ficha"  (click)="descargarFicha()"  class="ficha-btn">Descargar Ficha Tecnica</button>
    <!--<button disabled *ngIf="!(itemInfo|async).ficha" (click)="descargarFicha()"  class="ficha-btn noficha">Ficha Tecnica No Disponible</button>-->
 </div>

@@ -18,10 +18,12 @@
   margin-bottom: 2.5px;
 }
 
-.info {
-  display: grid;
-  grid-template-columns: 50% 50%;
-  min-height: 70px;
+.tablContenedor {
+  grid-column: span 4;
+}
+
+table {
+  width: 100%;
 }
 
 .info ::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
@@ -169,6 +171,9 @@ li h2 {
 }
 
 
+
+
+
 .logoShow {
   width: 200px;
   height: auto;
@@ -187,9 +192,7 @@ li h2 {
   text-align: center;
 }
 
-.mat-form-field + .mat-form-field {
-  margin-left: 8px;
-}
+
 .mat-expansion-panel{
   background-color: transparent;
 }
@@ -200,9 +203,7 @@ li h2 {
 
 
 .main-ctt {
-  min-height: 90vh;
-  grid-column: 3/13;
-  padding: 1em 0em 6em 0em;
+  min-height: 95vh;
   background-color: #eaf6ff;
 }
 
@@ -211,7 +212,7 @@ h1 {
   margin: 0;
   color: #005087;
   font-size: 50px;
-  font-weight: 200;
+  font-weight: 400;
 }
 
 .vender, .editar {
@@ -256,9 +257,18 @@ h1 {
   width: auto;
 }
 
+.cargandoItems {
+  width: 100%;
+  height: 100px;
+  text-align: center;
+  padding-top: 2em;
+  padding-bottom: 2em;
+}
+
 .info {
   margin-bottom: 2em;
-  padding: 0em 3em;
+  padding: 3em 3em;
+  display: grid;
 }
 
 .agregar-card {
@@ -327,6 +337,15 @@ h1 {
   padding-top: 0em;
 }
 
+.images {
+  display: grid;
+  grid-template-columns: 354px 50px;
+}
+
+img {
+  margin: 0;
+}
+
 .mainCont {
   flex: 1;
 }
@@ -349,14 +368,6 @@ h1 {
 
 .showBar {
   display: none;
-}
-
-.cargandoItems {
-  width: 100%;
-  height: 100px;
-  text-align: center;
-  padding-top: 2em;
-  padding-bottom: 2em;
 }
 
 .toolBar {
@@ -426,8 +437,65 @@ h1 {
   font-weight: 800;
 }
 
+.preview-img {
+  height: 50px;
+}
+
+.images-container {
+  display: grid;
+  grid-template-columns: 354px;
+  grid-template-rows: 354px 50px;
+  row-gap: 5px;
+  width: 354px;
+  padding-top: .8em;
+}
+
 .searchIcon:hover {
   cursor: pointer;
+}
+
+.header-item {
+  padding: 2.2em 3em;
+  display: grid;
+  column-gap: 3em;
+  grid-template-columns: .5fr 1fr 1fr;
+}
+
+p {
+  font-family: futura-pt, sans-serif;
+
+}
+
+.zoom-container {
+  height: 354px;
+  position: relative;
+}
+
+.zoom-img {
+  z-index: 50;
+  height: 354px;
+  width: 708px;
+  left: 440px;
+  top: 46px;
+  position: absolute;
+  background-image: url('https://inventario-sirio-dinar.herokuapp.com/inventario/image/img-23SDBP9-1597381127996.png');
+  background-size: 1416px 1416px;
+  background-repeat: no-repeat;
+}
+
+.img-magnifier-glass {
+  position: absolute;
+  border: 3px solid #000;
+  border-radius: 50%;
+  cursor: none;
+  /*Set the size of the magnifier glass:*/
+  width: 100px;
+  height: 100px;
+}
+
+.social-link:hover {
+  cursor: pointer;
+  color: #005087;
 }
 
 form {
@@ -437,6 +505,105 @@ form {
 
 .searchInput {
   width: 300px;
+}
+
+.item-info {
+  display: grid;
+  grid-column: span 2;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: max-content max-content max-content max-content max-content max-content;
+  gap: 2em;
+}
+p {
+  margin: 0;
+}
+
+.pre-venta {
+  grid-column: span 4;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5em;
+}
+
+.item-info h1, .item-info p, .item-info h4, .item-info h3 {
+  grid-column: span 4;
+}
+
+
+
+h3 {
+  font-weight: 400;
+  color: #005087;
+}
+
+.ficha-btn {
+  grid-column: span 1;
+}
+
+.color-contacto {
+  color: #E87200;
+}
+
+.example-card {
+  max-width: 400px;
+}
+
+.example-header-image {
+  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-size: cover;
+}
+
+.mini-card {
+  display: grid;
+  width: 100%;
+  -webkit-box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.1);
+  -moz-box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.1);
+  box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.1);
+  background-color: white;
+  border-radius: .3em;
+  grid-template-rows: 40px 160px;
+  height: 200px;
+
+  transition: .2s ease-out;
+}
+
+.other-items {
+  padding: 0em 3em 6em 3em;
+}
+
+.other-items h2 {
+  color: #E87200;
+  font-weight: 200;
+  margin-bottom: 2em;
+}
+
+.card-image {
+  background-size: cover;
+  border-bottom-left-radius: .3em;
+  border-bottom-right-radius: .3em;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.other-items h4 {
+  color: #005087;
+  font-family: futura-pt,sans-serif;
+  font-size: 12px;
+  font-weight: 200;
+  padding: .5em;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 2em;
+}
+
+.mini-card:hover {
+  -webkit-box-shadow: 0px 0px 6px 1px rgba(0,0,0,0.15);
+  -moz-box-shadow: 0px 0px 6px 1px rgba(0,0,0,0.15);
+  box-shadow: 0px 0px 9px 1px rgba(0,0,0,0.15);
+  transform: scale(1.02) translate(6px, -3px);
 }
 
 @media screen and (max-width: 1600px) {

@@ -15,6 +15,22 @@ export class InventarioManagerService {
   constructor(private http: HttpClient) { }
 
 
+  getItemsRelacionados(codigo: string, tipo: string): Observable<Item[]>{
+    return this.http.get<Item[]>(this.baseUrl + 'inventario/getItemsRelacionados/' + tipo + '/' + codigo)
+    .pipe( first(), catchError(error => {
+      switch (error.status) {
+      case 0:
+        alert('Error al tratar de conectar al servidor');
+        break;
+      case 700:
+        break;
+      default:
+        break;
+    }
+      return of(null);
+    }));
+  }
+
   getItemsSearch(searchTerms: string): Observable<Item[]> {
     return this.http.get<Item[]>(this.baseUrl + 'inventario/getItemsSearch/' + searchTerms)
     .pipe( first(), catchError(error => {

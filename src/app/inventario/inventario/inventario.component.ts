@@ -27,7 +27,8 @@ export class InventarioComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   specialGetItem = true;
-
+  whatsAppLinkOne = 'Buenas, me gustaria obtener más información.';
+  whatsAppLinkTwo = 'Buenas, me gustaria obtener más información.';
 
   mobileQuery: MediaQueryList;
   private mobileQueryListener: () => void;
@@ -100,12 +101,16 @@ export class InventarioComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subORtipo = loadInfo.subORtipo;
     this.currentListToDisplay.next(loadInfo.name);
     if (this.subORtipo === 'tipo') {
-      this.router.navigate(['/inventario', loadInfo.name]);
+      this.router.navigate(['/inventario', this.parsedRoute(loadInfo.name)]);
     }
     else {
       const tipoRoute = this.router.url.slice(1).split('/')[1];
-      this.router.navigate(['/inventario', tipoRoute, loadInfo.name]);
+      this.router.navigate(['/inventario', this.parsedRoute(tipoRoute), this.parsedRoute(loadInfo.name)]);
     }
+  }
+
+  parsedRoute(ruta: string) {
+    return ruta.trim().replace(/ /g, '_');
   }
 
 
@@ -220,7 +225,17 @@ export class InventarioComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
 
-
+  goToLink(url: string) {
+    if (url === 'w1') {
+      window.open(this.whatsAppLinkOne, '_blank');
+    }
+    else if (url === 'w2') {
+      window.open(this.whatsAppLinkTwo, '_blank');
+    }
+    else {
+      window.open(url, '_blank');
+    }
+  }
 
   reloadPage() {
     window.location.reload();

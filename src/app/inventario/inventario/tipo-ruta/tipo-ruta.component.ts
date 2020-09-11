@@ -63,6 +63,8 @@ export class TipoRutaComponent implements OnInit, OnDestroy, AfterViewInit {
         this.subORtipo = 'sub';
       }
 
+      ruta = this.inverseParseRoute(ruta);
+
       this.searched = false;
 
       this.currentListToDisplay.next(ruta);
@@ -95,13 +97,21 @@ export class TipoRutaComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
+  inverseParseRoute(route: string) {
+    return route.trim().replace(/_/g, ' ');
+  }
+
   ngAfterViewInit(): void {
+
+    if (this.wSS.elementScroll === undefined) {
+      const documentScroll = document.getElementById('listado');
+      this.wSS.elementScroll = documentScroll;
+    }
     const searchDoc = document.getElementById('searchBar');
 
     const eventSoure = fromEvent(searchDoc, 'keyup');
 
     this.subsSearch = eventSoure.pipe(pluck('target', 'value'), debounceTime(500), distinctUntilChanged()).subscribe((e: string) => {
-      console.log(e);
       if (this.searchForm.valid && e.length > 0) {
         this.loadSearchItems(e.trim());
         this.searched = true;

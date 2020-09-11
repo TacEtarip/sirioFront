@@ -9,6 +9,8 @@ import { BehaviorSubject } from 'rxjs';
 import { TemporalShowItemInfoComponent } from '../temporal-show-item-info/temporal-show-item-info.component';
 import { EditarCantidadesDialogComponent } from '../editar-cantidades-dialog/editar-cantidades-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router, ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-item-card',
@@ -27,7 +29,8 @@ export class ItemCardComponent implements OnInit {
 
   priceToShow = new BehaviorSubject<string>(null);
 
-  constructor(public dialog: MatDialog, private inventarioMNG: InventarioManagerService, private snackBar: MatSnackBar) { }
+  constructor(public dialog: MatDialog, private inventarioMNG: InventarioManagerService,
+              private snackBar: MatSnackBar, private router: Router) { }
 
   ngOnInit(): void {
     this.itemInfo.next(this.item);
@@ -127,6 +130,15 @@ export class ItemCardComponent implements OnInit {
 
   descargarFicha() {
     window.open('https://inventario-sirio-dinar.herokuapp.com/inventario/pdf/ficha-' + this.itemInfo.value.codigo + '.pdf', '_blank');
+  }
+
+  goToItemPage() {
+    this.router.navigate(['/inventario', this.parsedRoute(this.itemInfo.value.tipo),
+                          this.parsedRoute(this.itemInfo.value.subTipo), this.item.codigo]);
+  }
+
+  parsedRoute(ruta: string) {
+    return ruta.trim().replace(/ /g, '_');
   }
 
 }
