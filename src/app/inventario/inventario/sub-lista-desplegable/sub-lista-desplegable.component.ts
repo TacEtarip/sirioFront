@@ -5,6 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 import { NewItemDialogComponent } from '../new-item-dialog/new-item-dialog.component';
 import { UploadsDialogComponent } from '../uploads-dialog/uploads-dialog.component';
 import { SubTipoEditarComponent } from '../sub-tipo-editar/sub-tipo-editar.component';
+import { AuthService } from '../../../auth.service';
 
 import { Tipo, InventarioManagerService } from '../../../inventario-manager.service';
 import { first } from 'rxjs/operators';
@@ -35,7 +36,7 @@ export class SubListaDesplegableComponent implements OnInit {
 
   status$ = new BehaviorSubject<boolean>(false);
 
-  constructor(public dialog: MatDialog, private inventarioMNG: InventarioManagerService) { }
+  constructor(public dialog: MatDialog, private inventarioMNG: InventarioManagerService, public authService: AuthService) { }
 
   ngOnInit(): void {
     this.nameSub$.next(this.nameSub);

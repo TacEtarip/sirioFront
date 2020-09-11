@@ -17,6 +17,8 @@ import { EditarClaseComponent } from './editar-clase/editar-clase.component';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { MarcasDialogComponent } from '../inventario/marcas-dialog/marcas-dialog.component';
 
+
+
 @Component({
   selector: 'app-inventario',
   templateUrl: './inventario.component.html',
@@ -27,8 +29,8 @@ export class InventarioComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   specialGetItem = true;
-  whatsAppLinkOne = 'Buenas, me gustaria obtener más información.';
-  whatsAppLinkTwo = 'Buenas, me gustaria obtener más información.';
+  whatsAppLinkOne = 'https://wa.me/51977426349?text=' + 'Buenas, me gustaria obtener más información.';
+  whatsAppLinkTwo = 'https://wa.me/51922412404?text=' + 'Buenas, me gustaria obtener más información.';
 
   mobileQuery: MediaQueryList;
   private mobileQueryListener: () => void;
@@ -65,7 +67,7 @@ export class InventarioComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   constructor(public dialog: MatDialog, private inventarioMNG: InventarioManagerService,
-              private auth: AuthService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
+              public auth: AuthService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
               private router: Router, private snackBar: MatSnackBar, private ar: ActivatedRoute, private wss: WindowScrollService) {
     this.nombreUsuario = auth.getDisplayUser();
     this.mobileQuery = media.matchMedia('(max-width: 820px)');
@@ -238,7 +240,7 @@ export class InventarioComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   reloadPage() {
-    window.location.reload();
+    this.router.navigate(['/inventario']);
   }
   ////////////////////////////////////////////////////////////
 

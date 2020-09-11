@@ -439,7 +439,16 @@ form {
   width: 300px;
 }
 
-@media screen and (max-width: 1600px) {
+@media screen and (max-width: 1400px) {
+
+  .info {
+    grid-template-columns: none;
+    gap: 1em;
+  }
+
+  .acciones {
+    justify-content: unset;
+  }
 
   .menuPadding {
     padding: 1.5em 1em 2em 1em;
@@ -461,7 +470,9 @@ form {
     grid-template-columns: repeat(3, 1fr);
   }
 
-
+  h1 {
+    font-size: 40px;
+  }
 
 }
 
@@ -495,22 +506,58 @@ form {
 }
 
 
-@media screen and (max-width: 820px) {
+@media screen and (max-width: 822px) {
   .cardsContainer {
     grid-template-columns: repeat(2, 1fr);
   }
 
 }
 
-@media screen and (max-width: 820px) {
+@media screen and (max-width: 822px) {
+
+  .info {
+    padding: .5em 1em;
+    margin: 0;
+    margin-bottom: 8px;
+  }
 
   .toolBar {
     height: 56px;
   }
 
+  .info {
+    grid-template-columns: none;
+    gap: 16px;
+  }
+
+  .acciones {
+    display: grid;
+    margin: 0;
+    grid-template-columns: 96px calc(100% - 96px - 16px);
+    justify-content: unset;
+
+    gap: 16px;
+
+  }
+
+  .selectSort {
+    width: 100%;
+  }
+
+  .selectDescAsc {
+    width: 96px;
+  }
+
+  form {
+    grid-column: span 2;
+    margin: 0;
+  }
+  .selectDescAsc{
+    margin: 0;
+  }
 
   .info h1 {
-    font-size: 38px;
+    font-size: 24px;
   }
 
   .menu {
@@ -519,6 +566,10 @@ form {
   }
   .menu ::ng-deep .mat-drawer-inner-container {
     overflow: auto;
+  }
+
+  .paddingToScroll {
+    padding: 0;
   }
 
 
@@ -540,6 +591,7 @@ form {
   .info {
     padding: .5em 1em;
     margin: 0;
+    margin-bottom: 8px;
   }
   .user-photo {
     width: 30vw;
@@ -558,7 +610,5 @@ form {
     background-color: #f6fbff;
   }
 
-   .paddingToScroll {
-     padding: 1em;
-   }
+
 }

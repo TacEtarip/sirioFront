@@ -1,17 +1,17 @@
 <div class="main" [class.example-is-mobile]="mobileQuery.matches" >
   <mat-toolbar [ngStyle]="{'padding': '.5em'}" color="primary" class="example-toolbar toolBar">
     <button (click)="snav.toggle()" class="sizeIcon" mat-icon-button><mat-icon class="sizeIcon">menu</mat-icon></button>
-    <span class="toolBarName"> <b class="cName">Sirio Dinar</b>|Inventario</span>
+    <span class="toolBarName"> <b class="cName">Sirio Dinar</b></span>
     <span class="example-spacer"></span>
 
     <div class="usuario">
-      <span class="nombreUsuario"> {{nombreUsuario}}</span>
+      <span *ngIf="!mobileQuery.matches" class="nombreUsuario">{{nombreUsuario}}</span>
       <mat-icon class="userIcon">person</mat-icon>
     </div>
-    <button (click)="aInventario()"  matTooltip="Inventario" mat-icon-button class="sizeIcon addMarginTwo">
+    <button *ngIf="auth.loggedIn()" (click)="aInventario()"  matTooltip="Inventario" mat-icon-button class="sizeIcon addMarginTwo">
       <mat-icon class="sizeIcon  sizeShop">assignment</mat-icon>
     </button>
-    <button (click)="aVentas()" matTooltip="Ventas" mat-icon-button class="sizeIcon addMargin">
+    <button *ngIf="auth.loggedIn()" (click)="aVentas()" matTooltip="Ventas" mat-icon-button class="sizeIcon addMargin">
       <mat-icon class="sizeIcon  sizeShop">shopping_cart</mat-icon>
     </button>
 
@@ -20,10 +20,10 @@
   <mat-sidenav #snav style="overflow:hidden"
       [fixedInViewport]="mobileQuery.matches"  fixedTopGap="56" [mode]="mobileQuery.matches ? 'over' : 'side'" class="menu" [opened]="!mobileQuery.matches" >
     <div class="menuPadding">
-    <div class="user-ctn">
+    <div class="user-ctn" [ngClass]="{'marginForShow': !auth.loggedIn()}">
       <img (click)="reloadPage()" src="assets/logoRER.svg" class="logoShow">
     </div>
-    <div class="show-opc">
+    <div *ngIf="auth.loggedIn()" class="show-opc">
       <button (click)="openDialogAgregarCat()" mat-fab color="warn" aria-label="Example icon button with a home icon">
         <mat-icon class="icon-img">add_box</mat-icon>
       </button>
@@ -32,6 +32,7 @@
       </button>
     </div>
     <div class="options"></div>
+    <h2>Inventario</h2>
     <div class="list-items">
       <ul class="list-general">
         <app-lista-plegable (openDialogEliminarOnMain)="openDialogDelete($event)" (loadItemsOnMainTipo)="loadListItems($event)"

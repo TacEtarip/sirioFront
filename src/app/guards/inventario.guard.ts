@@ -12,7 +12,7 @@ export class InventarioGuard implements CanActivate, CanLoad {
     return this.canActivate();
   }
   canActivate() {
-    if (!this.auth.loggedIn()) {
+    if (this.auth.loggedIn()) {
       this.router.navigate(['/login']);
     }
     return this.auth.loggedIn();

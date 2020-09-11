@@ -30,7 +30,9 @@ li,ul {
   grid-template-columns: 100%;
   color: #f3e6d9;
   font-size: 14px;
-  font-weight: 600;
+  margin: .25em 0em .25em 0em;
+  font-weight: 200;
+  margin: .5em 0 .5em 0;
 }
 
 .noselect {
@@ -94,7 +96,8 @@ li h2 {
 }
 
 li h2 {
-  font-size: 16px;
+  font-size: 14px;
+  margin: .25em 0em .25em 0em;
 }
 
 .agregar-sub-lista{
@@ -105,6 +108,15 @@ li h2 {
 .eliminar {
   margin-bottom: .4em;
 }
+
+@media screen and (max-width: 1400px) {
+
+  .grupo-interno {
+    font-size: 12px;
+  }
+
+}
+
 @media screen and (max-width: 800px) and (orientation:portrait) {
 
   .grupo {
@@ -114,4 +126,7 @@ li h2 {
     display: grid;
     grid-template-columns: 90% 10%;
 }
+
+
 }
+

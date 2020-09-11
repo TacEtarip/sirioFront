@@ -7,6 +7,7 @@ import { AgregarSubCategoriasComponent } from '../agregar-sub-categorias/agregar
 import { InventarioManagerService } from '../../../inventario-manager.service';
 import { SubListaDesplegableComponent } from '../sub-lista-desplegable/sub-lista-desplegable.component';
 import { EliminarSubTipoComponent } from '../eliminar-sub-tipo/eliminar-sub-tipo.component';
+import { AuthService } from '../../../auth.service';
 
 import { Tipo } from '../../../inventario-manager.service';
 import { first, delay } from 'rxjs/operators';
@@ -32,7 +33,7 @@ export class ListaPlegableComponent implements OnInit {
 
   status = false;
 
-  constructor(public dialog: MatDialog, private inventarioMNG: InventarioManagerService) { }
+  constructor(public dialog: MatDialog, private inventarioMNG: InventarioManagerService, public authService: AuthService) { }
 
   ngOnInit(): void {
   }

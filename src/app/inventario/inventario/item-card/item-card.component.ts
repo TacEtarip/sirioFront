@@ -10,7 +10,7 @@ import { TemporalShowItemInfoComponent } from '../temporal-show-item-info/tempor
 import { EditarCantidadesDialogComponent } from '../editar-cantidades-dialog/editar-cantidades-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute } from '@angular/router';
-
+import { AuthService } from '../../../auth.service';
 
 @Component({
   selector: 'app-item-card',
@@ -29,8 +29,10 @@ export class ItemCardComponent implements OnInit {
 
   priceToShow = new BehaviorSubject<string>(null);
 
+
   constructor(public dialog: MatDialog, private inventarioMNG: InventarioManagerService,
-              private snackBar: MatSnackBar, private router: Router) { }
+              private snackBar: MatSnackBar, private router: Router, public authService: AuthService) {
+               }
 
   ngOnInit(): void {
     this.itemInfo.next(this.item);
@@ -73,6 +75,14 @@ export class ItemCardComponent implements OnInit {
 
   openDialogEliminar() {
     this.deleteEvent.emit(this.itemInfo.value);
+  }
+
+  goToLink(url: string) {
+    window.open(url, '_blank');
+  }
+
+  conectartWpp() {
+    window.open(`https://wa.me/51977426349?text=Buenas estoy interesado en ${this.item.name}, quisiera obtener más información`, '_blank');
   }
 
   openDialogEditar(): void {

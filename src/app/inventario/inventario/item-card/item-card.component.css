@@ -12,6 +12,18 @@
   background-position: center;
 }
 
+.img-of-product:hover {
+  cursor: pointer;
+}
+
+.precioPub {
+  grid-column: span 6;
+}
+
+.consumidor-btn {
+  grid-column: span 2;
+}
+
 
 .item-card {
   display: grid;
@@ -236,10 +248,10 @@ h1 {
   padding: .8em;
 }
 
-.vender, .editar {
+.vender, .editar, .whatsApp {
   background-color: white;
   color: #005087;
-  border: 1px solid rgb(170, 170, 170);
+  border: 1px solid rgb(226, 226, 226);
   border-radius: .2em;
   text-align: center;
   outline: none;
@@ -253,6 +265,10 @@ h1 {
 
 .vender {
   grid-column: span 2;
+}
+
+.whatsApp {
+  grid-column: span 4;
 }
 
 .plus-svg {
@@ -277,10 +293,11 @@ h5 {
   font-style: normal;
 }
 
-.vender:hover, .editar:hover {
+.vender:hover, .editar:hover, .whatsApp:hover {
   cursor: pointer;
   background-color: #e8700034;
 }
+
 
 .ficha-btn {
   background-color: white;

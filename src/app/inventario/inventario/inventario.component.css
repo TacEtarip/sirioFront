@@ -143,6 +143,16 @@ h4 {
   color: white;
 }
 
+a{
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover
+{
+    text-decoration:none;
+}
+
 li,ul {
   text-decoration: none;
   list-style-type: none;
@@ -184,7 +194,7 @@ li h2 {
 }
 
 .logoShow {
-  width: 200px;
+  width: 180px;
   height: auto;
   align-self: center;
   text-align: center;
@@ -192,6 +202,17 @@ li h2 {
   margin: auto;
   cursor: pointer;
 }
+
+h2 {
+  font-weight: 200;
+  font-family: futura-pt, sans-serif;
+  color: #E87200;
+}
+
+.marginForShow {
+  margin-bottom: 2em;
+}
+
 .user-photo {
   width: 140px;
   height: 140px;
@@ -433,7 +454,7 @@ p {
   margin-left: 1em;
 }
 
-@media screen and (max-width: 1600px) {
+@media screen and (max-width: 1400px) {
 
   .menuPadding {
     padding: 1.5em 1em 2em 1em;
@@ -455,6 +476,13 @@ p {
     grid-template-columns: repeat(3, 1fr);
   }
 
+  footer {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  footer div {
+    grid-column: span 3;
+  }
 
 
 }
@@ -470,6 +498,14 @@ p {
 
   .displayCheat {
     display: none;
+  }
+
+  footer {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  footer div {
+    grid-column: span 2;
   }
 }
 
@@ -498,6 +534,15 @@ p {
 
 @media screen and (max-width: 820px) {
 
+  .cName {
+    font-size: 20px;
+    margin: 0;
+  }
+
+  .toolBarName {
+    margin: 0;
+  }
+
   .toolBar {
     height: 56px;
   }
@@ -517,6 +562,17 @@ p {
   .list-items {
     overflow: hidden ;
     max-height: none;
+  }
+
+  footer {
+    padding: 3em 1.5em;
+    display: grid;
+    gap: 2em;
+    grid-template-columns: none;
+  }
+
+  footer div {
+    grid-column: unset;
   }
 
 }

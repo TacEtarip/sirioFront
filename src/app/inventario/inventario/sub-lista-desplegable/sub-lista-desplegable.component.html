@@ -5,15 +5,15 @@
         </div>
         <div  [ngClass]="{'closed': (status$|async) === false}">
         <ul>
-          <li matRipple (click)="openAgregarItemDialog()" class="agregar-sub-lista grupo-interno">
+          <li [ngStyle]="{'font-weight': '600'}" *ngIf="authService.loggedIn()" matRipple (click)="openAgregarItemDialog()" class="agregar-sub-lista grupo-interno">
             Agregar
             <img src="">
           </li>
-          <li matRipple (click)="openDialogEditar()" class="agregar-sub-lista grupo-interno">
+          <li  [ngStyle]="{'font-weight': '600'}" *ngIf="authService.loggedIn()" matRipple (click)="openDialogEditar()" class="agregar-sub-lista grupo-interno">
             Editar
             <img src="">
           </li>
-          <li matRipple (click)="openDialogEliminar()" class="agregar-sub-lista eliminar grupo-interno">
+          <li [ngStyle]="{'font-weight': '600'}" *ngIf="authService.loggedIn()" matRipple (click)="openDialogEliminar()" class="agregar-sub-lista eliminar grupo-interno">
             Eliminar
             <img src="">
           </li>

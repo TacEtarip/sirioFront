@@ -8,6 +8,7 @@ import { saveAs } from 'file-saver';
 import { InventarioManagerService } from 'src/app/inventario-manager.service';
 import { Subscription, BehaviorSubject, fromEvent, Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from '../../../auth.service';
 
 import { WindowScrollService } from '../../../window-scroll.service';
 
@@ -54,7 +55,7 @@ export class ItemPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   constructor(private inventarioMNG: InventarioManagerService,
-              private ar: ActivatedRoute, private router: Router, private wSS: WindowScrollService) {
+              private ar: ActivatedRoute, private router: Router, private wSS: WindowScrollService, public authService: AuthService) {
 
     let ruta = 'noone';
 

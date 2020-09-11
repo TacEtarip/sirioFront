@@ -45,7 +45,6 @@ li,ul {
 
 li h2 {
   color: #E87200;
-  font-size: 20px;
   display: inline-block;
   margin: 0;
   vertical-align: text-bottom;
@@ -110,7 +109,16 @@ li {
 .eliminar {
   margin-bottom: .4em;
 }
-@media screen and (max-width: 800px) and (orientation:portrait) {
+
+@media screen and (max-width: 1400px) {
+
+  li h2 {
+    font-size: 14px;
+  }
+
+}
+
+@media screen and (max-width: 800px) {
 
   .grupo {
     padding: 5px;
@@ -120,8 +128,10 @@ li {
     grid-template-columns: 90% 10%;
 }
 }
+
+
 .mat-divider {
-  margin: .5em 1em;
+  margin: .5em .5em;
 }
 
 

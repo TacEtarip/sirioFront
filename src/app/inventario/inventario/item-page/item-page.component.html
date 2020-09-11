@@ -3,7 +3,7 @@
     <mat-spinner [ngStyle]="{margin: 'auto'}"></mat-spinner>
   </div>
   <main *ngIf="(item$|async)" class="header-item">
-    <div  class="images-container">
+    <div class="images-container">
       <div id="imgzoom"  class="zoom-container">
         <img  *ngIf="(item$|async)" [src]="imageLink" width="354" height="354">
       </div>
@@ -27,14 +27,10 @@
             <div mat-line>@dinarsirio</div>
           </mat-list-item>
           <mat-divider></mat-divider>
-          <div mat-subheader>WhatsApps:</div>
+          <div mat-subheader>WhatsApp:</div>
           <mat-list-item class="social-link" (click)="goToLink('w1')">
             <mat-icon mat-list-icon>phone</mat-icon>
             <div mat-line>+51 977 426 349</div>
-          </mat-list-item>
-          <mat-list-item class="social-link" (click)="goToLink('w2')">
-            <mat-icon mat-list-icon>phone</mat-icon>
-            <div mat-line>+51 922 412 404</div>
           </mat-list-item>
           <mat-divider></mat-divider>
           <div mat-subheader>Dirección:</div>
@@ -51,6 +47,9 @@
 
     </div>-->
     <div *ngIf="(item$|async)" class="item-info">
+      <div class="small-img">
+        <img [src]="imageLink">
+      </div>
       <h1 >
         {{(item$|async).name}}
       </h1>
@@ -60,39 +59,9 @@
       <h4>
         Precio: {{(item$|async).priceIGV|currency:'S/'}} | Precio Sin IGV: {{(item$|async).priceNoIGV|currency:'S/'}} | Marca: {{(item$|async).marca}}
       </h4>
-      <button (click)="descargarFicha()" [disabled]="!(item$|async).ficha" [ngStyle]="{'height': '36px'}" class="ficha-btn" mat-raised-button color="accent">Descargar Ficha Tecnica</button>
-      <button (click)="descargarReporteItem()" [ngStyle]="{'height': '36px'}" class="ficha-btn" mat-raised-button color="primary">Descargar Reporte</button>
+      <button  (click)="descargarFicha()" [disabled]="!(item$|async).ficha" [ngStyle]="{'height': '36px'}" class="ficha-btn" mat-raised-button color="accent">Descargar Ficha Tecnica</button>
+      <button *ngIf="authService.loggedIn()" (click)="descargarReporteItem()" [ngStyle]="{'height': '36px'}" class="ficha-btn" mat-raised-button color="primary">Descargar Reporte</button>
 
-      <!--
-      <h3>Vender</h3>
-      <div class="pre-venta">
-      <mat-form-field   class="one-hundred">
-        <mat-label>Talla</mat-label>
-        <mat-select>
-          <mat-option value="xl">XL</mat-option>
-          <mat-option value="xl">S</mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field  class="example-full-width doubleGrid">
-        <mat-label>Color</mat-label>
-        <mat-select>
-          <mat-option value="xl">Rojo</mat-option>
-          <mat-option value="xl">Azul</mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field class="example-full-width doubleGridTwo">
-        <mat-label>Cantidad</mat-label>
-        <input matInput type="number">
-      </mat-form-field>
-      <h2>S/5.00</h2>
-
-
-    </div>
-    <button mat-stroked-button color="accent" class="vender-btn">Vender</button>
-    <button mat-stroked-button color="accent" class="agregar-btn">Agregar a venta</button>
-    -->
     <h3>Cantidades:</h3>
 
     <div class="tablContenedor">
