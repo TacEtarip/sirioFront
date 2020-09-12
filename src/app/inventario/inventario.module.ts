@@ -48,9 +48,8 @@ import { EditarCantidadesDialogComponent } from './inventario/editar-cantidades-
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatDatepickerModule } from '@angular/material/datepicker';
 import { TipoRutaComponent } from './inventario/tipo-ruta/tipo-ruta.component';
-import { SubTipoRutaComponent } from './inventario/sub-tipo-ruta/sub-tipo-ruta.component';
-import { ItemFullComponent } from './inventario/item-full/item-full.component';
 import { ItemPageComponent } from './inventario/item-page/item-page.component';
+import {MatMenuModule} from '@angular/material/menu';
 
 
 @NgModule({
@@ -59,7 +58,7 @@ import { ItemPageComponent } from './inventario/item-page/item-page.component';
      EditarItemDialogComponent, SeguroEliminarComponent, EditarClaseComponent, EliminarDialogComponent,
      SubListaDesplegableComponent, AgregarSubCategoriasComponent, SubTipoEditarComponent, EliminarSubTipoComponent,
       TemporalShowItemInfoComponent, MarcasDialogComponent, ShowItemTemporalComponent, EditarCantidadesDialogComponent,
-      TipoRutaComponent, SubTipoRutaComponent, ItemFullComponent, ItemPageComponent],
+      TipoRutaComponent, ItemPageComponent],
   imports: [
     CommonModule,
     InventarioRoutingModule,
@@ -87,7 +86,8 @@ import { ItemPageComponent } from './inventario/item-page/item-page.component';
     MatTableModule,
     MatSortModule,
     MatProgressSpinnerModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MatMenuModule
   ]
 })
 export class InventarioModule { }

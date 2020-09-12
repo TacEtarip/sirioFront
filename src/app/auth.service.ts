@@ -60,7 +60,6 @@ export class AuthService {
     localStorage.removeItem(this.SHOW_USER);
     localStorage.removeItem(this.USUARIO_USER);
     localStorage.removeItem(this.TOKEN_JWT);
-    window.location.reload();
   }
 
   public getUser(): string {

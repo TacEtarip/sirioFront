@@ -73,7 +73,6 @@ export class InventarioComponent implements OnInit, OnDestroy, AfterViewInit {
     this.mobileQuery = media.matchMedia('(max-width: 820px)');
     this.mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this.mobileQueryListener);
-
     //  .removeEventListener('change', this.mobileQueryListener);
   }
 
@@ -118,6 +117,7 @@ export class InventarioComponent implements OnInit, OnDestroy, AfterViewInit {
 
   cerrarSesion() {
     this.auth.cerrarSesion();
+    this.router.navigate(['/login']);
   }
 
   aVentas(){
@@ -191,6 +191,10 @@ export class InventarioComponent implements OnInit, OnDestroy, AfterViewInit {
 
   aInventario() {
     this.router.navigate(['/inventario']);
+  }
+
+  aToLogin() {
+    this.router.navigate(['/login']);
   }
 
   openDialogDelete(tipo: Tipo) {

@@ -118,6 +118,19 @@ export class ItemPageComponent implements OnInit, AfterViewInit, OnDestroy {
     window.open('https://inventario-sirio-dinar.herokuapp.com/inventario/pdf/ficha-' + this.item$.value.codigo + '.pdf', '_blank');
   }
 
+  refreshPage() {
+    window.location.reload();
+  }
+
+  goToTipo() {
+    this.router.navigate(['/inventario', this.parsedRoute(this.item$.value.tipo)]);
+  }
+
+  goToSubTipo() {
+    this.router.navigate(['/inventario', this.parsedRoute(this.item$.value.tipo),
+    this.parsedRoute(this.item$.value.subTipo)]);
+  }
+
   goToLink(url: string) {
     if (url === 'w1') {
       window.open(this.whatsAppLinkOne, '_blank');

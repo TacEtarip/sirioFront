@@ -6,6 +6,7 @@ import { NewItemDialogComponent } from '../new-item-dialog/new-item-dialog.compo
 import { UploadsDialogComponent } from '../uploads-dialog/uploads-dialog.component';
 import { SubTipoEditarComponent } from '../sub-tipo-editar/sub-tipo-editar.component';
 import { AuthService } from '../../../auth.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { Tipo, InventarioManagerService } from '../../../inventario-manager.service';
 import { first } from 'rxjs/operators';
@@ -36,7 +37,8 @@ export class SubListaDesplegableComponent implements OnInit {
 
   status$ = new BehaviorSubject<boolean>(false);
 
-  constructor(public dialog: MatDialog, private inventarioMNG: InventarioManagerService, public authService: AuthService) { }
+  constructor(public dialog: MatDialog, private inventarioMNG: InventarioManagerService,
+              public authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
     this.nameSub$.next(this.nameSub);
@@ -96,6 +98,16 @@ export class SubListaDesplegableComponent implements OnInit {
           this.nameSub$.next(res);
         }
     });
+  }
+
+  goToItemPage(item: Item) {
+    console.log(item);
+    this.router.navigate(['/inventario', this.parsedRoute(item.tipo),
+                          this.parsedRoute(item.subTipo), item.codigo]);
+  }
+
+  parsedRoute(ruta: string) {
+    return ruta.trim().replace(/ /g, '_');
   }
 
 }

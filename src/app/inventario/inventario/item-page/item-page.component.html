@@ -2,6 +2,19 @@
   <div *ngIf="!(item$|async)" class="cargandoItems">
     <mat-spinner [ngStyle]="{margin: 'auto'}"></mat-spinner>
   </div>
+  <div *ngIf="(item$|async)" class="navegacion">
+    <h5 (click)="goToTipo()">
+      {{(item$|async).tipo}}
+    </h5>
+    <i class="fas fa-chevron-right"></i>
+    <h5 (click)="goToSubTipo()">
+      {{(item$|async).subTipo}}
+    </h5>
+    <i class="fas fa-chevron-right"></i>
+    <h5 (click)="refreshPage()">
+      {{(item$|async).name}}
+    </h5>
+  </div>
   <main *ngIf="(item$|async)" class="header-item">
     <div class="images-container">
       <div id="imgzoom"  class="zoom-container">
@@ -17,20 +30,20 @@
       <div class="social" *ngIf="(item$|async)">
         <h3 class="color-contacto">Contactanos:</h3>
         <mat-list role="list">
+          <div mat-subheader>WhatsApp:</div>
+          <mat-list-item class="social-link" (click)="goToLink('w1')">
+            <mat-icon [ngStyle]="{'padding-bottom': '12px'}" mat-list-icon><i class="fa fa-whatsapp" aria-hidden="true"></i></mat-icon>
+            <div mat-line>+51 977 426 349</div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
           <div mat-subheader>Redes Sociales:</div>
           <mat-list-item class="social-link" (click)="goToLink('https://www.facebook.com/siriodinar')">
             <mat-icon mat-list-icon>facebook</mat-icon>
             <div mat-line>fb.com/siriodinar</div>
           </mat-list-item>
           <mat-list-item class="social-link" (click)="goToLink('https://www.instagram.com/dinarsirio/')">
-            <mat-icon mat-list-icon><i class="fab fa-instagram"></i></mat-icon>
+            <mat-icon [ngStyle]="{'padding-bottom': '12px'}" mat-list-icon><i class="fab fa-instagram"></i></mat-icon>
             <div mat-line>@dinarsirio</div>
-          </mat-list-item>
-          <mat-divider></mat-divider>
-          <div mat-subheader>WhatsApp:</div>
-          <mat-list-item class="social-link" (click)="goToLink('w1')">
-            <mat-icon mat-list-icon>phone</mat-icon>
-            <div mat-line>+51 977 426 349</div>
           </mat-list-item>
           <mat-divider></mat-divider>
           <div mat-subheader>Dirección:</div>
@@ -46,11 +59,13 @@
     <div class="zoom-img">
 
     </div>-->
+
     <div *ngIf="(item$|async)" class="item-info">
+
       <div class="small-img">
         <img [src]="imageLink">
       </div>
-      <h1 >
+      <h1>
         {{(item$|async).name}}
       </h1>
       <p>
@@ -59,9 +74,38 @@
       <h4>
         Precio: {{(item$|async).priceIGV|currency:'S/'}} | Precio Sin IGV: {{(item$|async).priceNoIGV|currency:'S/'}} | Marca: {{(item$|async).marca}}
       </h4>
+      <h4 [ngStyle]="{'color': '#E87200'}">
+        *Los precios son por unidad. No dude en consultarnos por precios al por mayor.
+      </h4>
       <button  (click)="descargarFicha()" [disabled]="!(item$|async).ficha" [ngStyle]="{'height': '36px'}" class="ficha-btn" mat-raised-button color="accent">Descargar Ficha Tecnica</button>
       <button *ngIf="authService.loggedIn()" (click)="descargarReporteItem()" [ngStyle]="{'height': '36px'}" class="ficha-btn" mat-raised-button color="primary">Descargar Reporte</button>
-
+      <div [ngStyle]="{'grid-column': '1/5'}" class="social socialTwo" *ngIf="(item$|async)">
+        <h3 class="color-contacto">Contactanos:</h3>
+        <mat-list role="list">
+          <div mat-subheader>Redes Sociales:</div>
+          <mat-list-item class="social-link" (click)="goToLink('https://www.facebook.com/siriodinar')">
+            <mat-icon mat-list-icon>facebook</mat-icon>
+            <div mat-line>fb.com/siriodinar</div>
+          </mat-list-item>
+          <mat-list-item class="social-link" (click)="goToLink('https://www.instagram.com/dinarsirio/')">
+            <mat-icon [ngStyle]="{'padding-bottom': '12px'}" mat-list-icon><i class="fab fa-instagram"></i></mat-icon>
+            <div mat-line>@dinarsirio</div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <div mat-subheader>WhatsApp:</div>
+          <mat-list-item class="social-link" (click)="goToLink('w1')">
+            <mat-icon [ngStyle]="{'padding-bottom': '12px'}" mat-list-icon><i class="fa fa-whatsapp" aria-hidden="true"></i></mat-icon>
+            <div mat-line>+51 977 426 349</div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <div mat-subheader>Dirección:</div>
+          <mat-list-item class="social-link" (click)="goToLink('https://www.google.com/maps/place/Felipe+Pardo+y+Aliaga+213,+Trujillo+13006/@-8.11283,-79.0178555,19z/data=!3m1!4b1!4m5!3m4!1s0x91ad162a59b1c931:0xda445057079ecc8!8m2!3d-8.1128313!4d-79.0173083?rapsrc=apiv3')">
+            <mat-icon mat-list-icon>room</mat-icon>
+            <div mat-line>Jr. Felipe Pardo Y Aliaga 213</div>
+            <div mat-line>Urb. Palermo. Trujillo, Perú.</div>
+          </mat-list-item>
+        </mat-list>
+      </div>
     <h3>Cantidades:</h3>
 
     <div class="tablContenedor">
@@ -103,6 +147,8 @@
     </div>
 
     </div>
+
+
   </main>
   <section *ngIf="(item$|async)" class="other-items">
     <h2>Productos relacionados</h2>

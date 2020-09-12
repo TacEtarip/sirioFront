@@ -5,8 +5,6 @@ import {  TipoRutaComponent } from './inventario/tipo-ruta/tipo-ruta.component';
 import { InventarioComponent } from './inventario/inventario.component';
 import { ItemPageComponent } from './inventario/item-page/item-page.component';
 
-import { SubTipoRutaComponent } from './inventario/sub-tipo-ruta/sub-tipo-ruta.component';
-
 const routes: Routes = [
   { path: '', component: InventarioComponent, children: [
     {path: ':tipo', component: TipoRutaComponent},

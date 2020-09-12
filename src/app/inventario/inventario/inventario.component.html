@@ -1,14 +1,28 @@
 <div class="main" [class.example-is-mobile]="mobileQuery.matches" >
   <mat-toolbar [ngStyle]="{'padding': '.5em'}" color="primary" class="example-toolbar toolBar">
     <button (click)="snav.toggle()" class="sizeIcon" mat-icon-button><mat-icon class="sizeIcon">menu</mat-icon></button>
-    <span class="toolBarName"> <b class="cName">Sirio Dinar</b></span>
+    <span  class="toolBarName"> <b (click)="aInventario()" [ngStyle]="{'cursor': 'pointer'}" class="cName">Sirio Dinar</b></span>
     <span class="example-spacer"></span>
 
-    <div class="usuario">
-      <span *ngIf="!mobileQuery.matches" class="nombreUsuario">{{nombreUsuario}}</span>
-      <mat-icon class="userIcon">person</mat-icon>
-    </div>
-    <button *ngIf="auth.loggedIn()" (click)="aInventario()"  matTooltip="Inventario" mat-icon-button class="sizeIcon addMarginTwo">
+    <button [matMenuTriggerFor]="menu"  mat-icon-button class="sizeIcon">
+        <mat-icon class="sizeIcon  sizeShop">person</mat-icon>
+     </button>
+    <mat-menu  #menu="matMenu">
+      <button disabled *ngIf="auth.loggedIn()"  mat-menu-item>
+        <mat-icon color="accent">person</mat-icon>
+        <span>{{nombreUsuario}}</span>
+      </button>
+      <button (click)="aToLogin()" *ngIf="!auth.loggedIn()"  mat-menu-item>
+        <mat-icon color="accent">power</mat-icon>
+        <span>Iniciar Sesión</span>
+      </button>
+      <button (click)="cerrarSesion()"  *ngIf="auth.loggedIn()" mat-menu-item>
+        <mat-icon color="accent">power_off</mat-icon>
+        <span>Cerrar Sesión</span>
+      </button>
+    </mat-menu>
+
+    <button *ngIf="auth.loggedIn()" (click)="aInventario()"  matTooltip="Inventario" mat-icon-button class="sizeIcon">
       <mat-icon class="sizeIcon  sizeShop">assignment</mat-icon>
     </button>
     <button *ngIf="auth.loggedIn()" (click)="aVentas()" matTooltip="Ventas" mat-icon-button class="sizeIcon addMargin">
@@ -48,9 +62,9 @@
     <footer>
       <div>
         <div>
-          <h3>¿Quienes Somos?</h3>
+          <h3 class="toMainPage" (click)="goToLink('http://www.siriodinar.com/inicio')" >¿Quienes Somos?</h3>
           <mat-divider></mat-divider>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur numquam excepturi perspiciatis laboriosam esse enim est nesciunt! Molestias officia distinctio voluptas, nam quibusdam magni voluptate obcaecati laborum odit ipsum eum.</p>
+          <p>Sirio Dinar es, como empresa, un operador logístico que brinda apoyo incondicional a medianas y grandes empresas que intentan expandirse en el mercado actual, brindando el servicio de desarrollo, diseño y soporte de productos para tu negocio.</p>
         </div>
       </div>
 
@@ -62,7 +76,7 @@
         </mat-list-item>
         <mat-divider></mat-divider>
         <mat-list-item class="social-link" (click)="goToLink('https://www.instagram.com/dinarsirio/')">
-          <mat-icon mat-list-icon><i class="fab fa-instagram"></i></mat-icon>
+          <mat-icon [ngStyle]="{'padding-bottom': '12px'}" mat-list-icon><i class="fab fa-instagram"></i></mat-icon>
           <div mat-line>@dinarsirio</div>
         </mat-list-item>
       </mat-list>
@@ -70,12 +84,12 @@
       <mat-list role="list">
         <div mat-subheader>WhatsApps:</div>
         <mat-list-item class="social-link" (click)="goToLink('w1')">
-          <mat-icon mat-list-icon>phone</mat-icon>
+          <mat-icon [ngStyle]="{'padding-bottom': '12px'}" mat-list-icon><i class="fa fa-whatsapp" aria-hidden="true"></i></mat-icon>
           <div mat-line>+51 977 426 349</div>
         </mat-list-item>
         <mat-divider></mat-divider>
         <mat-list-item class="social-link" (click)="goToLink('w2')">
-          <mat-icon mat-list-icon>phone</mat-icon>
+          <mat-icon [ngStyle]="{'padding-bottom': '12px'}" mat-list-icon><i class="fa fa-whatsapp" aria-hidden="true"></i></mat-icon>
           <div mat-line>+51 922 412 404</div>
         </mat-list-item>
       </mat-list>
@@ -89,43 +103,6 @@
         </mat-list-item>
       </mat-list>
     </footer>
-    <!--
-    <section class="main-ctt">
-      <div class="info">
-        <h1>
-          {{currentListToDisplay|async}}
-        </h1>
-        <div class="acciones">
-          <mat-button-toggle-group [value]="order|async" #group="matButtonToggleGroup" class="selectDescAsc">
-            <mat-button-toggle value="dsc" (click)="orderDsc()">
-              <mat-icon>sort</mat-icon>
-            </mat-button-toggle>
-            <mat-button-toggle value="asc" (click)="orderAsc()">
-              <mat-icon class="dscIcon">sort</mat-icon>
-            </mat-button-toggle>
-          </mat-button-toggle-group>
-          <mat-form-field appearance="fill" class="selectSort">
-            <mat-label>Ordernar Por:</mat-label>
-            <mat-select [(value)]="selectedSort" (selectionChange)="onChageTipo()" >
-              <mat-option value="date">Fecha</mat-option>
-              <mat-option value="name">Nombre</mat-option>
-              <mat-option value="priceIGV">Precio</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-      </div>
-      <div class="paddingToScroll">
-
-      <cdk-virtual-scroll-viewport *ngIf="keep|async" itemSize="50" class="example-viewport content" minBufferPx="1200" maxBufferPx="1200">
-        <app-item-card (deleteEvent)="openDialogEliminarItem($event)" [item]="item" *cdkVirtualFor="let item of (listItems|async)"></app-item-card>
-        <div class="displayCheat"  [ngClass]="{'cheating': (listItems|async).length % 3!==0,'cheatingTwo': (listItems|async).length % 3===0}"></div>
-        <div class="displayCheatTwo"  [ngClass]="{'cheating': (listItems|async).length % 4!==0,'cheatingTwo': (listItems|async).length % 4===0}"></div>
-        <div class="displayCheatThree"  [ngClass]="{'cheating': (listItems|async).length % 2!==0,'cheatingTwo': (listItems|async).length % 2===0}"></div>
-      </cdk-virtual-scroll-viewport>
-      <div class="test"></div>
-      </div>
-    </section>
-  -->
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>
