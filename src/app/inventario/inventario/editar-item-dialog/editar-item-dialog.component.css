@@ -313,3 +313,14 @@ td {
     line-height: 1.5em;
   }
 }
+.mat-dialog-content {
+  max-height: 50vh;
+}
+@media screen and (max-width: 600px) {
+  .mat-dialog-content {
+    max-height: 35vh;
+  }
+  .precioForm, .marca {
+    grid-column: span 4;
+  }
+}

@@ -41,11 +41,17 @@ img:hover {
   margin: 1em;
 }
 
+
+
 @media screen and (max-width: 800px) {
   h1 {
     color: #014c7e;
     font-family: jubilat, sans-serif;
     font-weight: 400;
     font-size: 20px;
+  }
+
+  .mat-dialog-actions {
+    row-gap: .5em;
   }
 }

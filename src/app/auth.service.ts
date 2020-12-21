@@ -26,11 +26,15 @@ export class AuthService {
       tap((res: Token) => this.doLoginUser(res)),
       mapTo(true),
       catchError(error => {
+        console.log(error);
         switch (error.status) {
           case 0:
             alert('Error al tratar de conectar al servidor');
             break;
           case 700:
+            break;
+          case 401:
+            alert('Su usuario o contraseña son incorrectas!');
             break;
           default:
             alert('Error al tratar de compropar credenciales');

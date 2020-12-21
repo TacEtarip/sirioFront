@@ -121,3 +121,36 @@ img:hover {
 .mat-divider {
   margin-top: 1em;
 }
+
+
+@media screen and (max-width: 600px) {
+  .mat-dialog-content {
+    max-height: 35vh;
+  }
+  h2 {
+    font-size: 18px;
+  }
+
+  h1 {
+    color: #014c7e;
+    font-family: jubilat, sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+  }
+
+  .cantidad {
+    grid-column: span 4;
+  }
+
+  .names {
+    grid-column: span 3;
+  }
+
+  .deleteBtn {
+    grid-column: span 2;
+  }
+
+  .formArrayContainer, .precioForm, .comentario {
+    grid-column: span 6;
+  }
+}

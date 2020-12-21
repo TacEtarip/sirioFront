@@ -56,13 +56,13 @@
           </div>
         </div>
       </div>
-      <mat-form-field  appearance="fill" class="example-full-width doubleGrid">
+      <mat-form-field  appearance="fill" class="example-full-width doubleGrid singleGrid">
         <mat-label>Tipo De Comprobante</mat-label>
         <mat-select #SELECT [(value)]="currentDocumentType" (ngModelChange)="changeValidators()" name="documentoTipo"  formControlName="documentoTipo">
           <mat-option *ngFor="let item of tiposDocumentos" [value]="item.value">{{item.viewValue}}</mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field id="busquedaDOC" appearance="fill"  class="example-full-width doubleGridTwo">
+      <mat-form-field id="busquedaDOC" appearance="fill"  class="example-full-width doubleGridTwo singleGrid">
         <mat-label  *ngIf="ventaForm.get('documentoTipo').value === 'factura'">RUC</mat-label>
         <mat-label *ngIf="ventaForm.get('documentoTipo').value === 'boleta'">DNI</mat-label>
         <input (keyup)="comprobarDOC()"  name="docCod" id="docCod" formControlName="docCod" matInput>

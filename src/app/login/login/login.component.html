@@ -4,14 +4,26 @@
   </section>
   <section class="main-login">
     <div class="inputlogin">
-      <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
-        <img src="/assets/sirioLogo.svg" class="logo forphone"/>
-        <label for="username">USUARIO</label>
-        <input minlength="4" spellcheck="false" type="text" name="username" id="username" formControlName="username" placeholder="Tu usuario..." maxlength = "40">
-        <label for="username">CONTRASEÑA</label>
-        <input minlength="8" spellcheck="false" type="password" name="password" id="password" formControlName="password" placeholder="Tu contraseña..." maxlength = "40">
-        <button  id="sendmail" type="submit" [disabled]="!form.valid" [ngClass]="{'disabled': form.valid === false}">Ingresar</button>
+      <form [formGroup]="form">
+        <mat-form-field appearance="fill" class="formstyle">
+          <mat-label>Ingresa tu usuario</mat-label>
+          <input (change)="trimThis('username')" name="username" id="username" formControlName="username" matInput>
+          <mat-error *ngIf="form.get('username').hasError('pattern')">Usuario no valido</mat-error>
+          <mat-error *ngIf="form.get('username').hasError('minlength')">Minimo 4 caracteres</mat-error>
+          <mat-error *ngIf="form.get('username').hasError('maxlength')">Maximo 8 caracteres</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="formstyle">
+          <mat-label>Ingresa tu contraseña</mat-label>
+          <input (keyup)="trimThis('password')"  name="password" id="password" formControlName="password" matInput [type]="hide ? 'password' : 'text'">
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error *ngIf="form.get('password').hasError('pattern')">La contraseña contiene caracteres invalidos</mat-error>
+          <mat-error *ngIf="form.get('username').hasError('minlength')">Minimo 4 caracteres</mat-error>
+          <mat-error *ngIf="form.get('password').hasError('maxlength')">Maximo 20 caracteres</mat-error>
+        </mat-form-field>
       </form>
+      <button (click)="onSubmit(form.value)" [disabled]="!form.valid" [ngStyle]="{width: '100%'}" color="accent" mat-flat-button>Ingresar</button>
     </div>
   </section>
 </section>

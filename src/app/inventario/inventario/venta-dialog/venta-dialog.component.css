@@ -122,3 +122,20 @@ img:hover {
     font-size: 20px;
   }
 }
+
+@media screen and (max-width: 600px) {
+  .tripleGrid {
+    grid-column: span 4;
+  }
+
+  .singleGrid {
+    grid-column: span 6;
+  }
+
+  h1 {
+    font-size: 16px;
+  }
+  .mat-dialog-content {
+    max-height: 35vh;
+  }
+}
