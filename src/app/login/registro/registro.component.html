@@ -1,0 +1,173 @@
+<mat-toolbar [ngStyle]="{'position': 'fixed' }" >
+  <span routerLink="/" [ngStyle]="{'cursor': 'pointer'}">Sirio <b>Dinar</b></span>
+  <span class="example-spacer"></span>
+  <span routerLink="/" class="changeColor" [ngStyle]="{'font-weight': 200, 'cursor': 'pointer'}">Inventario</span>
+  <button routerLink="/" class="changeColor" matTooltip="Inventario"  class="sizeIcon">
+    <mat-icon class="changeColor" [ngStyle]="{'color': '#005087'}">assignment</mat-icon>
+  </button>
+</mat-toolbar>
+<div class="bg">
+  <div *ngIf="!processdone && !(fromToken|async)" class="registerCard">
+    <h1>Registro</h1>
+      <form class="formMult"
+      [formGroup]="registroForm">
+        <div  class="formPone">
+          <mat-form-field appearance="fill" class="formstyle">
+            <mat-label>Ingresa tu nombre</mat-label>
+            <input (change)="trimThis('nombre')" name="nombre" id="nombre" formControlName="nombre" matInput>
+            <mat-error *ngIf="registroForm.get('nombre').invalid">Solo letras, minimo 3, maximo 25</mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="formstyle">
+            <mat-label>Ingresa tu apellido</mat-label>
+            <input (change)="trimThis('apellido')" name="apellido" id="apellido" formControlName="apellido" matInput>
+            <mat-error *ngIf="registroForm.get('apellido').invalid">Solo letras, minimo 3, maximo 25</mat-error>
+          </mat-form-field>
+          <mat-error [ngStyle]="{'font-weight': '200'}" *ngIf="emailExists|async">Email ya registrado</mat-error>
+          <mat-form-field appearance="fill" class="formstyle">
+            <mat-label>Ingresa tu email</mat-label>
+            <input (keydown)="invalidateForChangeEmail()"  (change)="trimThis('email')" name="email" id="email" formControlName="email" matInput>
+            <mat-error *ngIf="registroForm.get('email').hasError('email')">Ingrese un email valido</mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="formstyle">
+            <mat-label>Celular</mat-label>
+            <input (change)="trimThis('celular')" name="celular" id="celular" formControlName="celular" matInput>
+            <mat-error *ngIf="registroForm.get('celular').hasError('pattern')">Ingrese un formato de celular valido</mat-error>
+          </mat-form-field>
+        </div>
+        <div  class="formPone">
+          <mat-error [ngStyle]="{'font-weight': '200'}" *ngIf="userExists|async">Este usuario ya existe</mat-error>
+          <mat-error [ngStyle]="{'font-weight': '200', color: 'green'}" *ngIf="!(userExists|async) && registroForm.get('displayName').valid">Usuario disponible</mat-error>
+          <mat-form-field appearance="fill" class="formstyle">
+            <mat-label>Ingresa tu usuario</mat-label>
+            <input (keydown)="invalidateForChange()" autocomplete="off" (change)="trimThis('displayName')" name="displayName" id="displayName" formControlName="displayName" matInput>
+            <mat-icon [ngStyle]="{'color': !(userExists|async) ? 'green' : 'red'}" matSuffix>{{!(userExists|async) ? 'done' : 'clear'}}</mat-icon>
+            <mat-error *ngIf="registroForm.get('displayName').invalid">Solo numeros o letras, maximo 12 caracteres</mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="formstyle">
+            <mat-label>Ingresa tu contraseña</mat-label>
+            <input (keyup)="activarCompro()"  autocomplete="off" [type]="hide ? 'password' : 'text'" (change)="trimThis('password')" name="apellido" id="password" formControlName="password" matInput>
+            <button  mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-error *ngIf="registroForm.get('password').hasError('pattern')">Debe contener 1 mayuscula, 1 minuscula y 1 numero </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="formstyle">
+            <mat-label>Confirma tu contraseña</mat-label>
+            <input (keyup)="comprobarContra()" autocomplete="off" [type]="hide ? 'password' : 'text'" (change)="trimThis('passwordConf')" name="passwordConf" id="passwordConf" formControlName="passwordConf" matInput>
+            <button  mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-error *ngIf="registroForm.get('passwordConf').invalid">No coincide con tu contraseña</mat-error>
+          </mat-form-field>
+          <re-captcha
+            errorMode="handled"
+            [siteKey] = sitekey
+            formControlName = "captcha"
+            ></re-captcha>
+        </div>
+        <!--
+        <div class="formPone">
+          <mat-form-field  appearance="fill" class="formstyle">
+            <mat-label>Tipo de documento</mat-label>
+            <mat-select #SELECT (ngModelChange)="changeValidators()" name="documentoTipo"  formControlName="documentoTipo">
+              <mat-option *ngFor="let item of tiposDocumentos" [value]="item.value">{{item.viewValue}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field id="busquedaDOC" appearance="fill"  class="formstyle">
+            <mat-label  *ngIf="registroForm.get('documentoTipo').value === 'ruc'">RUC</mat-label>
+            <mat-label *ngIf="registroForm.get('documentoTipo').value === 'dni'">DNI</mat-label>
+            <input (keyup)="comprobarDOC()"  name="docCod" id="docCod" formControlName="docCod" matInput>
+          </mat-form-field>
+          <mat-form-field appearance="fill"  class="formstyle">
+            <mat-label>Nombre...</mat-label>
+            <input spellcheck="false" name="name" id="name" formControlName="nameDocumento"  matInput>
+          </mat-form-field>
+          <h4 [ngStyle]="{'font-size': '14px', 'font-weight': '200', 'color': 'grey'}">
+            *Necesitamos esta información para poder realizar tus comprobantes de pago (FACTURA/BOLETA).
+          </h4>
+        </div>
+        <div class="formPone">
+          <mat-form-field appearance="fill" class="formstyle">
+            <mat-label>Direccion...</mat-label>
+            <input autocomplete="off" (change)="trimThis('direccion')" name="direccion" id="direccion" formControlName="direccion" matInput>
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="formstyle">
+            <mat-label>Direccion Segunda Linea...</mat-label>
+            <input autocomplete="off" (change)="trimThis('direccionDos')" name="direccionDos" id="direccionDos" formControlName="direccionDos" matInput>
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="formstyle">
+            <mat-label>Ciudad</mat-label>
+            <input type="text"
+                   placeholder="Pick one"
+                   aria-label="Number"
+                   matInput
+                   formControlName="ciudad"
+                   [matAutocomplete]="auto"
+                   name="ciudad">
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let option of tiposDocumentos" [value]="option.value">
+                {{option.viewValue}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>-->
+      </form>
+      <button (click)="registrarUsuario(registroForm.value)" [disabled]="!registroForm.valid || (userExists|async) || (changingUser|async)"
+      *ngIf="state === 1" [ngStyle]="{'width': '100%'}"
+      mat-raised-button color="accent">Registrar</button>
+      <button *ngIf="state === 0" [disabled]="!siguienteGo() || (emailExists|async) || (changingEmail|async)" (click)="next()"
+      [ngStyle]="{'width': '100%'}" mat-raised-button color="accent">Siguiente</button>
+      <button [disabled]="state === 0" (click)="back()" [ngStyle]="{'width': '100%'}"  mat-raised-button color="primary">Anterior</button>
+      <h3 [ngStyle]="{'font-weight': '200'}">Registrarse con Google</h3>
+      <div (click)="accederConGoogle()" class="google">
+        <img src="assets/btn_google_light_normal_ios.svg" alt="">
+        <h3 [ngStyle]="{'color': 'white'}">ACEDER CON GOOGLE</h3>
+      </div>
+      <a class="regreso" href="/login">Regresar al inicio de sesión</a>
+  </div>
+  <div *ngIf="!processdone && (fromToken|async)" class="registerCard">
+    <h1>Registro</h1>
+      <form autocomplete="off" class="formMult"
+      [formGroup]="registroGoogleForm">
+        <div  class="formPone">
+          <mat-error [ngStyle]="{'font-weight': '200'}" *ngIf="userExistsG|async">Este usuario ya existe</mat-error>
+          <mat-error [ngStyle]="{'font-weight': '200', color: 'green'}" *ngIf="!(userExistsG|async) && registroGoogleForm.get('displayName').valid">Usuario disponible</mat-error>
+          <mat-form-field appearance="fill" class="formstyle">
+            <mat-label>Ingresa tu usuario</mat-label>
+            <input (keydown)="invalidateForChangeG()" autocomplete="off" (change)="trimThisG('displayName')" name="displayName" id="displayName" formControlName="displayName" matInput>
+            <mat-icon [ngStyle]="{'color': !(userExistsG|async) ? 'green' : 'red'}" matSuffix>{{!(userExistsG|async) ? 'done' : 'clear'}}</mat-icon>
+            <mat-error *ngIf="registroGoogleForm.get('displayName').invalid">Solo numeros o letras, maximo 12 caracteres</mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="formstyle">
+            <mat-label>Ingresa tu contraseña</mat-label>
+            <input (keyup)="activarCompro()"  autocomplete="off" [type]="hide ? 'password' : 'text'" (change)="trimThisG('password')" name="apellido" id="password" formControlName="password" matInput>
+            <button  mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-error *ngIf="registroForm.get('password').hasError('pattern')">Debe contener 1 mayuscula, 1 minuscula y 1 numero </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="formstyle">
+            <mat-label>Confirma tu contraseña</mat-label>
+            <input (keyup)="comprobarContra()" autocomplete="off" [type]="hide ? 'password' : 'text'" (change)="trimThisG('passwordConf')" name="passwordConf" id="passwordConf" formControlName="passwordConf" matInput>
+            <button  mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-error *ngIf="registroForm.get('passwordConf').invalid">No coincide con tu contraseña</mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="formstyle">
+            <mat-label>Celular</mat-label>
+            <input (change)="trimThisG('celular')" name="celular" id="celular" formControlName="celular" matInput>
+            <mat-error *ngIf="registroForm.get('celular').hasError('pattern')">Ingrese un formato de celular valido</mat-error>
+          </mat-form-field>
+        </div>
+      </form>
+      <button (click)="registrarUsuarioGoogle(registroGoogleForm.value)" [disabled]="!registroGoogleForm.valid || (userExistsG|async) || (changingUserG|async)"
+      [ngStyle]="{'width': '100%'}"
+      mat-raised-button color="accent">Registrar</button>
+      <a class="regreso" href="/login">Regresar al inicio de sesión</a>
+  </div>
+  <div *ngIf="processdone" class="registerCard registerCardPost">
+    <h4>{{(usuarioPost|async).displayName}}</h4>
+    <p class="textP">Para confirmar su registro dele click al link enviado a su correo electrónico.</p>
+  </div>
+</div>

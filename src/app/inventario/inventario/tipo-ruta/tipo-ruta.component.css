@@ -308,6 +308,10 @@ h1 {
   padding-top: 0em;
 }
 
+.full {
+  grid-template-columns: repeat(5, 1fr);
+}
+
 .mainCont {
   flex: 1;
 }
@@ -449,6 +453,10 @@ form {
 
   .cardsContainer {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  .full {
+    grid-template-columns: repeat(4, 1fr);
   }
 
   h1 {

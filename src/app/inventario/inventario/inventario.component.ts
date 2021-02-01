@@ -16,7 +16,7 @@ import {  SeguroEliminarComponent } from './seguro-eliminar/seguro-eliminar.comp
 import { EditarClaseComponent } from './editar-clase/editar-clase.component';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { MarcasDialogComponent } from '../inventario/marcas-dialog/marcas-dialog.component';
-
+import { SideopenService } from '../../sideopen.service';
 
 
 @Component({
@@ -70,7 +70,7 @@ export class InventarioComponent implements OnInit, OnDestroy, AfterViewInit {
               public auth: AuthService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
               private router: Router, private snackBar: MatSnackBar, private ar: ActivatedRoute, private wss: WindowScrollService) {
     this.nombreUsuario = auth.getDisplayUser();
-    this.mobileQuery = media.matchMedia('(max-width: 820px)');
+    this.mobileQuery = media.matchMedia('(max-width: 1080px)');
     this.mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this.mobileQueryListener);
     //  .removeEventListener('change', this.mobileQueryListener);
@@ -124,6 +124,13 @@ export class InventarioComponent implements OnInit, OnDestroy, AfterViewInit {
     this.router.navigate(['/ventas']);
   }
 
+  changeState() {
+    SideopenService.opened.next(true);
+  }
+
+  changeStateNeg() {
+    SideopenService.opened.next(false);
+  }
 
   closeAllButOne(current: string) {
     this.listasPlegables.forEach(lista => {

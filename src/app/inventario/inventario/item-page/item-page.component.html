@@ -66,7 +66,9 @@
         <img [src]="imageLink">
       </div>
       <h1>
-        {{(item$|async).name}}
+      {{(item$|async).name}}
+      <mat-icon *ngIf="(item$|async).oferta === 1 && authService.loggedIn() && authService.getTtype() !== 'low'" (click)="deConvertToFavorite()" [ngStyle]="{'cursor': 'pointer'}">favorite</mat-icon>
+      <mat-icon *ngIf="(item$|async).oferta === 0 && authService.loggedIn() && authService.getTtype() !== 'low'" (click)="convertToFavorite()" [ngStyle]="{'cursor': 'pointer'}">favorite_border</mat-icon>
       </h1>
       <p>
         {{(item$|async).description}}
@@ -78,7 +80,7 @@
         *Los precios son por unidad. No dude en consultarnos por precios al por mayor.
       </h4>
       <button  (click)="descargarFicha()" [disabled]="!(item$|async).ficha" [ngStyle]="{'height': '36px'}" class="ficha-btn" mat-raised-button color="accent">Descargar Ficha Tecnica</button>
-      <button *ngIf="authService.loggedIn()" (click)="descargarReporteItem()" [ngStyle]="{'height': '36px'}" class="ficha-btn" mat-raised-button color="primary">Descargar Reporte</button>
+      <button *ngIf="authService.loggedIn() &&  authService.getTtype() !== 'low' " (click)="descargarReporteItem()" [ngStyle]="{'height': '36px'}" class="ficha-btn" mat-raised-button color="primary">Descargar Reporte</button>
       <div [ngStyle]="{'grid-column': '1/5'}" class="social socialTwo" *ngIf="(item$|async)">
         <h3 class="color-contacto">Contactanos:</h3>
         <mat-list role="list">

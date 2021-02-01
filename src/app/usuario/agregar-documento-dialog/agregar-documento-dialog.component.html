@@ -1,0 +1,28 @@
+<h1 *ngIf="!user.documento" mat-dialog-title>Agregar Documento</h1>
+<h1 *ngIf="user.documento" mat-dialog-title>Actualizar Documento</h1>
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="documentoForm">
+    <mat-form-field  appearance="fill"  [ngStyle]="{'width': '100%'}">
+      <mat-label>Tipo De Comprobante</mat-label>
+      <mat-select #SELECT [(value)]="currentDocumentType"  name="tipoPersona"  formControlName="tipoPersona">
+        <mat-option *ngFor="let item of tiposDocumentos" [value]="item.value">{{item.viewValue}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field id="busquedaDOC" appearance="fill"   [ngStyle]="{'width': '100%'}">
+      <mat-label  *ngIf="documentoForm.get('tipoPersona').value === 'ruc'">RUC</mat-label>
+      <mat-label *ngIf="documentoForm.get('tipoPersona').value === 'dni'">DNI</mat-label>
+      <input (change)="trimThis('documento')" name="documento" id="documento" formControlName="documento" matInput>
+    </mat-form-field>
+    <mat-form-field appearance="fill"   [ngStyle]="{'width': '100%'}">
+      <mat-label>Nombre...</mat-label>
+      <input spellcheck="false" name="name" id="name" formControlName="nameDocumento" maxlength="60" matInput>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button *ngIf="user.documento" (click)="agregarDocumento(documentoForm.value)"
+  [disabled]="!documentoForm.valid || !comprobado" mat-stroked-button color="accent" cdkFocusInitial>Actualizar</button>
+  <button *ngIf="!user.documento" (click)="agregarDocumento(documentoForm.value)"
+  [disabled]="!documentoForm.valid || !comprobado" mat-stroked-button color="accent" cdkFocusInitial>Agregar</button>
+</mat-dialog-actions>

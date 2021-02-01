@@ -1,0 +1,163 @@
+.bg {
+  background: url('/assets/supply.jpg');
+  background-position: center;
+  background-size: cover;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+h2 {
+  margin: 0;
+}
+
+.formPone {
+  display: grid;
+  gap: .4em;
+}
+
+.registerCard {
+  background-color: rgb(248, 251, 253);
+  width: 312px;
+  align-self: center;
+  justify-self: center;
+  border-radius: 16px;
+  display: grid;
+  padding: 3em;
+  gap: 1em;
+  overflow: hidden;
+}
+
+.registerCardPost {
+  width: 468px;
+}
+
+.textP {
+  font-family: 'Roboto', sans-serif;
+  color: #005087;
+  font-weight: 200;
+  font-size: 2.5em;
+  margin: 0;
+}
+
+h4 {
+  color: #E87200;
+  font-size: 1.5em;
+  font-weight: 600;
+}
+
+
+a {
+  text-align: center;
+}
+
+h1, h4 {
+  margin: 0;
+}
+
+form {
+  display: grid;
+  grid-template-columns: 312px 312px;
+  gap: 3em;
+  width: 312px;
+}
+
+.formstyle {
+  width: 100%;
+}
+
+@keyframes formTwoNext {
+  0% {
+    transform: translateX(calc(0));
+    transition-timing-function: ease-out;
+  }
+  100% {
+    transition-timing-function: translateX(calc(-624px - 6em));
+    transform: translateX(0);
+  }
+}
+
+@keyframes formOneBack {
+  0% {
+    transform: translateX(calc(-312px - 3em));
+    transition-timing-function: ease-out;
+  }
+  100% {
+    transition-timing-function: ease-out;
+    transform: translateX(0);
+  }
+}
+
+@keyframes formOne {
+  0% {
+    transform:translateX(0);
+    transition-timing-function: ease-out;
+  }
+  100% {
+    transition-timing-function: ease-out;
+    transform: translateX(calc(-312px - 3em));
+  }
+}
+
+span {
+  color: #005087;
+}
+
+b {
+  font-weight: 500;
+  color: #E87200;
+}
+
+button {
+  border: none;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+.example-spacer {
+  flex: 1 auto;
+}
+
+.regreso {
+  color: #E87200;
+}
+
+.regreso:hover {
+  color: #005087;
+}
+
+.changeColor:hover {
+  color: #E87200;
+}
+
+::ng-deep .changeColor:hover {
+  color: #E87200 !important;
+}
+
+.google {
+  padding: 8px 16px;
+  background-color: #4285F4;
+  border-radius: 4px;
+  box-shadow: 0 3px 4px 0 rgba(0,0,0,.25);
+  align-items: center;
+  justify-content: center;
+  width: 280px;
+  display: grid;
+  grid-template-columns: 46px calc(280px - 46px);
+  cursor: pointer;
+  align-self: center;
+  justify-self: center;
+}
+
+H3 {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  color: black;
+  font-size: 14px;
+  text-align: center;
+}
+
+

@@ -30,7 +30,7 @@
     </div>
   </div>
   <div class="paddingToScroll">
-    <div class="cardsContainer">
+    <div class="cardsContainer" [ngClass]="{'full': !localOpened}">
       <app-item-card (deleteEvent)="openDialogEliminarItem($event)" *ngFor="let item of (listItems|async)" [item]="item"></app-item-card>
     </div>
     <div *ngIf="loadingNewItems$|async" class="cargandoItems">

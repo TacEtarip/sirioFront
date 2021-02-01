@@ -3,12 +3,14 @@
     <button (click)="snav.toggle()" class="sizeIcon" mat-icon-button><mat-icon class="sizeIcon">menu</mat-icon></button>
     <span  class="toolBarName"> <b (click)="aInventario()" [ngStyle]="{'cursor': 'pointer'}" class="cName">Sirio Dinar</b></span>
     <span class="example-spacer"></span>
-
+    <h2 [matMenuTriggerFor]="menu" [ngStyle]="{'color': 'white', 'font-weight': 400, 'cursor': 'pointer'}">
+      {{nombreUsuario}}
+    </h2>
     <button [matMenuTriggerFor]="menu"  mat-icon-button class="sizeIcon">
         <mat-icon class="sizeIcon  sizeShop">person</mat-icon>
      </button>
     <mat-menu  #menu="matMenu">
-      <button disabled *ngIf="auth.loggedIn()"  mat-menu-item>
+      <button routerLink="/usuario" *ngIf="auth.loggedIn()"  mat-menu-item>
         <mat-icon color="accent">person</mat-icon>
         <span>{{nombreUsuario}}</span>
       </button>
@@ -22,22 +24,22 @@
       </button>
     </mat-menu>
 
-    <button *ngIf="auth.loggedIn()" (click)="aInventario()"  matTooltip="Inventario" mat-icon-button class="sizeIcon">
+    <button (click)="aInventario()"  matTooltip="Inventario" mat-icon-button class="sizeIcon">
       <mat-icon class="sizeIcon  sizeShop">assignment</mat-icon>
     </button>
-    <button *ngIf="auth.loggedIn()" (click)="aVentas()" matTooltip="Ventas" mat-icon-button class="sizeIcon addMargin">
+    <button *ngIf="auth.loggedIn() && this.auth.getTtype() !== 'low'" (click)="aVentas()" matTooltip="Ventas" mat-icon-button class="sizeIcon addMargin">
       <mat-icon class="sizeIcon  sizeShop">shopping_cart</mat-icon>
     </button>
 
   </mat-toolbar>
   <mat-sidenav-container class="mainCont" [style.marginTop.px]="mobileQuery.matches ? 55: 0">
-  <mat-sidenav #snav style="overflow:hidden"
+  <mat-sidenav (closed)="changeStateNeg()" (opened)="changeState()" #snav style="overflow:hidden"
       [fixedInViewport]="mobileQuery.matches"  fixedTopGap="56" [mode]="mobileQuery.matches ? 'over' : 'side'" class="menu" [opened]="!mobileQuery.matches" >
     <div class="menuPadding">
-    <div class="user-ctn" [ngClass]="{'marginForShow': !auth.loggedIn()}">
+    <div class="user-ctn" [ngClass]="{'marginForShow': !auth.loggedIn()  && auth.getTtype() === 'low'}">
       <img (click)="reloadPage()" src="assets/logoRER.svg" class="logoShow">
     </div>
-    <div *ngIf="auth.loggedIn()" class="show-opc">
+    <div *ngIf="auth.loggedIn()  && auth.getTtype() !== 'low'" class="show-opc">
       <button (click)="openDialogAgregarCat()" mat-fab color="warn" aria-label="Example icon button with a home icon">
         <mat-icon class="icon-img">add_box</mat-icon>
       </button>

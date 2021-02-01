@@ -4,7 +4,7 @@
     <h3 (click)="goToItemPage()" class="openItemInfo">{{(itemInfo|async).name}}</h3>
     <h4  (click)="goToItemPage()"  class="openItemInfo">Stock: {{(itemInfo|async).cantidad}} {{(itemInfo|async).unidadDeMedida}} | {{(itemInfo|async).codigo}}</h4>
     </div>
-    <mat-icon *ngIf="authService.loggedIn()" (click)="openDialogEliminar()" class="delete" [ngStyle]="{'color': '#e2e2e2', 'cursor': 'pointer'}">delete</mat-icon>
+    <mat-icon *ngIf="authService.loggedIn() && authService.isAdmin()" (click)="openDialogEliminar()" class="delete" [ngStyle]="{'color': '#e2e2e2', 'cursor': 'pointer'}">delete</mat-icon>
   </div>
   <div (click)="goToItemPage()" [ngStyle]="{'background-image': 'url(' + (urlOfImage|async) + ')'}" class="img-of-product"></div>
   <!--
@@ -12,11 +12,11 @@
       {{(itemInfo|async).description}}
     </p>-->
     <div class="final-card">
-      <button [disabled]="!item.ficha" (click)="descargarFicha()" class="consumidor-btn" matTooltip="Ficha Tecnica" *ngIf="!authService.loggedIn()" mat-stroked-button color="primary"><i class="far fa-file-alt" style="font-size:24px"></i></button>
-      <button (click)="conectartWpp()" matTooltip="Contactar Por WhatsApp" *ngIf="!authService.loggedIn()" class="consumidor-btn" mat-stroked-button color="primary"><i class="fa fa-whatsapp" style="font-size:24px"></i></button>
-      <button *ngIf="authService.loggedIn()" (click)="openDialogVenta()" class="vender">Vender</button>
-      <button *ngIf="authService.loggedIn()" (click)="openDialogEditar()" class="editar"><mat-icon>edit</mat-icon></button>
-      <button *ngIf="authService.loggedIn()" (click)="openDialogEditarCantidades()" class="editar editarCantidades"><mat-icon>bar_chart</mat-icon></button>
+      <button [disabled]="!item.ficha" (click)="descargarFicha()" class="consumidor-btn" matTooltip="Ficha Tecnica" *ngIf="!authService.loggedIn() || authService.getTtype() === 'low'" mat-stroked-button color="primary"><i class="far fa-file-alt" style="font-size:24px"></i></button>
+      <button (click)="conectartWpp()" matTooltip="Contactar Por WhatsApp" *ngIf="!authService.loggedIn() || authService.getTtype() === 'low'" class="consumidor-btn" mat-stroked-button color="primary"><i class="fa fa-whatsapp" style="font-size:24px"></i></button>
+      <button *ngIf="authService.loggedIn()  && authService.getTtype() !== 'low'" (click)="openDialogVenta()" class="vender">Vender</button>
+      <button *ngIf="authService.loggedIn() && authService.getTtype() !== 'low'" (click)="openDialogEditar()" class="editar"><mat-icon>edit</mat-icon></button>
+      <button *ngIf="authService.loggedIn() && authService.getTtype() !== 'low'" (click)="openDialogEditarCantidades()" class="editar editarCantidades"><mat-icon>bar_chart</mat-icon></button>
       <h6>S/{{priceToShow|async}}</h6>
     </div>
    <!--<button disabled *ngIf="!(itemInfo|async).ficha" (click)="descargarFicha()"  class="ficha-btn noficha">Ficha Tecnica No Disponible</button>-->

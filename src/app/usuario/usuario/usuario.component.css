@@ -1,0 +1,112 @@
+.example-spacer {
+  flex: 1 auto;
+}
+
+.changeColor:hover {
+  color: #E87200;
+}
+
+::ng-deep .changeColor:hover {
+  color: #E87200 !important;
+}
+
+.bg {
+  background: url('/assets/supply.jpg');
+  background-position: center;
+  background-size: cover;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+
+span {
+  color: #005087;
+}
+
+b {
+  font-weight: 500;
+  color: #E87200;
+}
+
+button {
+  border: none;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+.profilecard {
+  background-color: white;
+  align-self: center;
+  justify-self: center;
+  border-radius: 16px;
+  display: grid;
+  padding: 3em;
+  gap: 54px;
+  overflow: auto;
+  grid-template-columns: 1fr 3fr;
+  height: calc(420px - 6em);
+  width: calc(940px - 6em);
+}
+
+.gridUno {
+  display: grid;
+  gap: 36px;
+  grid-template-rows: 1fr 3fr;
+}
+
+h4 {
+  font-size: 16px;
+  font-weight: 200;
+  margin: 0;
+  grid-row: 1;
+  grid-column: 1;
+  color: #E87200;
+  font-family: 'Roboto', sans-serif;
+}
+
+.gridDos {
+  gap: 18px;
+}
+
+.gridDos h3 {
+  color: black;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 200;
+  margin-top: 6px;
+  font-variant-numeric: oldstyle-nums;
+  width: fit-content;
+}
+
+.gridDos h4 {
+  color: #005087;
+  font-family: jubilat, sans-serif;
+  font-weight: 600;
+  margin-top: 18px;
+}
+
+.gridDos > h4:first-child {
+  margin-top: 9px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 32px;
+  grid-row: 1;
+  grid-column: 1;
+  color: #005087;
+}
+
+h3 {
+  margin: 0;
+  color: #005087;
+  font-size: '14px';
+}
+
+.comprasList {
+  overflow: auto;
+  height: 192px;
+}
+

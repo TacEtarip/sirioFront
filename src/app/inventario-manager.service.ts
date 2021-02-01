@@ -1,18 +1,52 @@
+import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, mapTo, map, retry, tap, first } from 'rxjs/operators';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InventarioManagerService {
 
-  baseUrl = 'https://inventario-sirio-dinar.herokuapp.com/';
-  // baseUrl = 'http://localhost:5000/';
+  // baseUrl = 'https://inventario-sirio-dinar.herokuapp.com/';
+  baseUrl = 'http://localhost:5000/';
 
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private auth: AuthService, private router: Router) { }
+
+  deConvertToFavorite(item: Item): Observable<Item> {
+    return this.http.post<Item>(this.baseUrl + 'inventario/toUnFavorite', item)
+    .pipe( first(), catchError(error => {
+      switch (error.status) {
+      case 0:
+        alert('Error al tratar de conectar al servidor');
+        break;
+      case 700:
+        break;
+      default:
+        break;
+    }
+      return of(null);
+    }));
+  }
+
+  convertToFavorite(item: Item): Observable<Item> {
+    return this.http.post<Item>(this.baseUrl + 'inventario/toFavorite', item)
+    .pipe( first(), catchError(error => {
+      switch (error.status) {
+      case 0:
+        alert('Error al tratar de conectar al servidor');
+        break;
+      case 700:
+        break;
+      default:
+        break;
+    }
+      return of(null);
+    }));
+  }
 
 
   getItemsDestacados(): Observable<Item[]>{
@@ -843,6 +877,11 @@ export class InventarioManagerService {
                                 alert('Error al tratar de conectar al servidor');
                                 break;
                               case 700:
+                                break;
+                              case 401:
+                                alert('Tu usuario no tiene permitido esta acción.');
+                                this.auth.cerrarSesion();
+                                this.router.navigate(['/login']);
                                 break;
                               default:
                                 alert(error.error.message);

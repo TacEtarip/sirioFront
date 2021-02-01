@@ -1,0 +1,31 @@
+
+<h1 *ngIf="!user.dirOne" mat-dialog-title>Agregar Dirección</h1>
+<h1 *ngIf="user.dirOne" mat-dialog-title>Actualizar Dirección</h1>
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="direccionForm">
+    <mat-form-field [ngStyle]="{'width': '100%'}" appearance="fill" class="formstyle">
+      <mat-label >Dirección</mat-label>
+      <input [ngStyle]="{'width': '100%'}" (change)="trimThis('dirOne')" name="dirOne" id="dirOne" formControlName="dirOne" matInput>
+      <mat-error *ngIf="direccionForm.get('dirOne').hasError('pattern')">Direccion invalida</mat-error>
+    </mat-form-field>
+    <mat-form-field [ngStyle]="{'width': '100%'}" appearance="fill" class="formstyle">
+      <mat-label >Dirección, segunda linea</mat-label>
+      <input [ngStyle]="{'width': '100%'}" (change)="trimThis('dirTwo')" name="dirTwo" id="dirTwo" formControlName="dirTwo" matInput>
+      <mat-error *ngIf="direccionForm.get('dirTwo').hasError('pattern')">Direccion invalida</mat-error>
+    </mat-form-field>
+    <mat-form-field [ngStyle]="{'width': '100%'}" appearance="fill" class="formstyle">
+      <mat-label >Referencia</mat-label>
+      <input [ngStyle]="{'width': '100%'}" (change)="trimThis('reference')" name="reference" id="reference" formControlName="reference" matInput>
+      <mat-error *ngIf="direccionForm.get('reference').hasError('pattern')">Referencia invalida</mat-error>
+    </mat-form-field>
+    <mat-form-field [ngStyle]="{'width': '100%'}" appearance="fill" class="formstyle">
+      <mat-label >Ciudad</mat-label>
+      <input [ngStyle]="{'width': '100%'}" (change)="trimThis('ciudad')" name="ciudad" id="ciudad" formControlName="ciudad" matInput>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button *ngIf="!user.dirOne" (click)="agregarDireccion(direccionForm.value)" [disabled]="!direccionForm.valid" mat-stroked-button color="accent" cdkFocusInitial>Agregar</button>
+  <button *ngIf="user.dirOne" (click)="agregarDireccion(direccionForm.value)" [disabled]="!direccionForm.valid" mat-stroked-button color="accent" cdkFocusInitial>Actualizar</button>
+</mat-dialog-actions>

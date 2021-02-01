@@ -9,6 +9,8 @@ import { skip, debounceTime, first, distinctUntilChanged, pluck } from 'rxjs/ope
 import { EliminarDialogComponent } from '../eliminar-dialog/eliminar-dialog.component';
 import { FormGroup, FormControl, Validators, FormBuilder, Form } from '@angular/forms';
 import { WindowScrollService } from '../../../window-scroll.service';
+import { SideopenService } from '../../../sideopen.service';
+import { TransitiveCompileNgModuleMetadata } from '@angular/compiler';
 
 @Component({
   selector: 'app-tipo-ruta',
@@ -39,6 +41,8 @@ export class TipoRutaComponent implements OnInit, OnDestroy, AfterViewInit {
 
   searchForm: FormGroup;
 
+  localOpened = true;
+
   constructor(public dialog: MatDialog, private inventarioMNG: InventarioManagerService,
               private router: Router, private snackBar: MatSnackBar, private ar: ActivatedRoute,
               private wSS: WindowScrollService, private fb: FormBuilder) {
@@ -47,7 +51,9 @@ export class TipoRutaComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     // this.getItems(this.listaItemsCurrent);
-
+    SideopenService.opened.pipe().subscribe((value) => {
+      this.localOpened = value;
+    });
     this.searchForm = this.fb.group({
       search: this.fb.control('', Validators.compose([
         Validators.pattern(/^[a-zA-Z0-9 ]*$/),
@@ -127,7 +133,7 @@ export class TipoRutaComponent implements OnInit, OnDestroy, AfterViewInit {
       if (p >= 70 && this.loadingNewItems$.value === false && this.listItems.value.length === 12 * this.numeroDeCargas) {
         this.loadingNewItems$.next(true);
         this.inventarioMNG.getItemsSorted(this.subORtipo, this.currentListToDisplay.value,
-          this.selectedSort, this.order.value, 12 * this.numeroDeCargas).subscribe((res: Item[]) => {
+          this.selectedSort, this.order.value, 12 * this.numeroDeCargas * 2).subscribe((res: Item[]) => {
             this.numeroDeCargas++;
             this.loadingNewItems$.next(false);
             const temporalList = this.listItems.value;

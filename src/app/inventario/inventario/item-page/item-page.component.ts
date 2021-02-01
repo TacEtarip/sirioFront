@@ -61,7 +61,6 @@ export class ItemPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.scrollY$ = this.wSS.scrollY$;
 
-
     this.subs = this.ar.paramMap.subscribe((param) => {
 
       if (wSS.elementScroll !== undefined) {
@@ -110,6 +109,22 @@ export class ItemPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.inventarioMNG.getExcelReportItem(this.item$.value.codigo).subscribe((res) => {
       if (res) {
         saveAs(res, `reporte-${this.item$.value.name}`);
+      }
+    });
+  }
+
+  deConvertToFavorite() {
+    this.inventarioMNG.deConvertToFavorite(this.item$.value).subscribe((res) => {
+      if (res) {
+        this.item$.next(res);
+      }
+    });
+  }
+
+  convertToFavorite() {
+    this.inventarioMNG.convertToFavorite(this.item$.value).subscribe((res) => {
+      if (res) {
+        this.item$.next(res);
       }
     });
   }

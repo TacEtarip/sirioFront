@@ -5,15 +5,15 @@
           </div>
           <div  [ngClass]="{'closed': status === false}">
           <ul>
-            <li *ngIf="authService.loggedIn()" matRipple (click)="openDialogSubCat()" class="agregar-sub-lista grupo-interno">
+            <li *ngIf="authService.loggedIn() && authService.getTtype() !== 'low'" matRipple (click)="openDialogSubCat()" class="agregar-sub-lista grupo-interno">
               Agregar Sub-Categoria
               <img src="">
             </li>
-            <li *ngIf="authService.loggedIn()" matRipple (click)="openDialogEditar()" class="agregar-sub-lista grupo-interno">
+            <li *ngIf="authService.loggedIn() && authService.getTtype() !== 'low'" matRipple (click)="openDialogEditar()" class="agregar-sub-lista grupo-interno">
               Editar
               <img src="">
             </li>
-            <li *ngIf="authService.loggedIn()" matRipple (click)="openDialogEliminar()" class="agregar-sub-lista eliminar grupo-interno">
+            <li *ngIf="authService.loggedIn() && authService.getTtype() !== 'low'" matRipple (click)="openDialogEliminar()" class="agregar-sub-lista eliminar grupo-interno">
               Eliminar
               <img src="">
             </li>

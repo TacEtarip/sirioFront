@@ -4,13 +4,11 @@
   </section>
   <section class="main-login">
     <div class="inputlogin">
-      <form [formGroup]="form">
+      <form [formGroup]="form" >
         <mat-form-field appearance="fill" class="formstyle">
           <mat-label>Ingresa tu usuario</mat-label>
           <input (change)="trimThis('username')" name="username" id="username" formControlName="username" matInput>
-          <mat-error *ngIf="form.get('username').hasError('pattern')">Usuario no valido</mat-error>
-          <mat-error *ngIf="form.get('username').hasError('minlength')">Minimo 4 caracteres</mat-error>
-          <mat-error *ngIf="form.get('username').hasError('maxlength')">Maximo 8 caracteres</mat-error>
+          <mat-error *ngIf="form.get('username').invalid">Solo numeros o letras, maximo 12 caracteres</mat-error>
         </mat-form-field>
         <mat-form-field appearance="fill" class="formstyle">
           <mat-label>Ingresa tu contraseña</mat-label>
@@ -18,12 +16,27 @@
           <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
           <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
           </button>
-          <mat-error *ngIf="form.get('password').hasError('pattern')">La contraseña contiene caracteres invalidos</mat-error>
-          <mat-error *ngIf="form.get('username').hasError('minlength')">Minimo 4 caracteres</mat-error>
-          <mat-error *ngIf="form.get('password').hasError('maxlength')">Maximo 20 caracteres</mat-error>
+          <mat-error *ngIf="form.get('password').hasError('pattern')">Debe contener 1 mayuscula, 1 minuscula y 1 numero </mat-error>
         </mat-form-field>
+        <re-captcha  *ngIf="(countCredentialsError|async) > 4"
+        errorMode="handled"
+        [siteKey] = sitekey
+        formControlName = "captcha"
+        ></re-captcha>
       </form>
-      <button (click)="onSubmit(form.value)" [disabled]="!form.valid" [ngStyle]="{width: '100%'}" color="accent" mat-flat-button>Ingresar</button>
+      <h4 [ngStyle]="{'margin-top': (countCredentialsError|async) > 4 ? '2em' : 0}" *ngIf="badCredentials">Su usuario o contraseña son incorrectos.</h4>
+      <button (click)="onSubmit(form.value)" [disabled]="!form.valid" [ngStyle]="{width: '100%'}"
+      color="accent" mat-flat-button>Ingresar</button>
+      <mat-divider [ngStyle]="{'margin':'1em'}"></mat-divider>
+      <h5>Ó</h5>
+      <mat-divider [ngStyle]="{'margin':'1em'}"></mat-divider>
+      <div (click)="accederConGoogle()" class="google">
+        <img src="assets/btn_google_light_normal_ios.svg" alt="">
+        <h3>ACCEDER CON GOOGLE</h3>
+      </div>
+      <mat-divider [ngStyle]="{'margin':'1em'}"></mat-divider>
+      <a href="/login/registro" [ngStyle]="{'color': '#E87200', 'font-size': '22px', 'display': 'block',
+      'font-weight': '400', 'text-align': 'center'}" >Crear una cuenta</a>
     </div>
   </section>
 </section>
