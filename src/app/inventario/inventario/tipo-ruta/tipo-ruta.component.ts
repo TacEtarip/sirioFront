@@ -5,7 +5,7 @@ import { AuthService } from 'src/app/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { InventarioManagerService, Item } from 'src/app/inventario-manager.service';
 import { MatDialog } from '@angular/material/dialog';
-import { skip, debounceTime, first, distinctUntilChanged, pluck } from 'rxjs/operators';
+import { skip, debounceTime, first, distinctUntilChanged, pluck, filter } from 'rxjs/operators';
 import { EliminarDialogComponent } from '../eliminar-dialog/eliminar-dialog.component';
 import { FormGroup, FormControl, Validators, FormBuilder, Form } from '@angular/forms';
 import { WindowScrollService } from '../../../window-scroll.service';
@@ -56,10 +56,24 @@ export class TipoRutaComponent implements OnInit, OnDestroy, AfterViewInit {
     });
     this.searchForm = this.fb.group({
       search: this.fb.control('', Validators.compose([
-        Validators.pattern(/^[a-zA-Z0-9 ]*$/),
-        Validators.minLength(3),
+        Validators.pattern(/^[a-zA-Z0-9.-_# ]*$/),
+        Validators.minLength(2),
       ]))
     });
+
+    this.subsSearch = this.searchForm.get('search').valueChanges.pipe(distinctUntilChanged(),
+    debounceTime(500)).subscribe((r: string) => {
+      if (r) {
+        if (this.searchForm.valid && r.length > 0 && !this.loadingNewItems$.value) {
+          this.loadSearchItems(r.trim());
+          this.searched = true;
+        }
+      } else if (this.searched === true) {
+        this.order.next(this.order.value);
+        this.searched = false;
+      }
+    });
+
 
     this.subs = this.ar.paramMap.subscribe(param => {
       let ruta = param.get('tipo');
@@ -98,7 +112,6 @@ export class TipoRutaComponent implements OnInit, OnDestroy, AfterViewInit {
           this.listItems.next(res);
           this.loadingNewItems$.next(false);
           this.searchForm.get('search').reset();
-
       });
     });
   }
@@ -115,7 +128,9 @@ export class TipoRutaComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     const searchDoc = document.getElementById('searchBar');
 
-    const eventSoure = fromEvent(searchDoc, 'keyup');
+
+
+    /*const eventSoure = fromEvent(searchDoc, 'keyup');
 
     this.subsSearch = eventSoure.pipe(pluck('target', 'value'), debounceTime(500), distinctUntilChanged()).subscribe((e: string) => {
       if (this.searchForm.valid && e.length > 0) {
@@ -126,7 +141,7 @@ export class TipoRutaComponent implements OnInit, OnDestroy, AfterViewInit {
         this.order.next(this.order.value);
         this.searched = false;
       }
-    });
+    });*/
 
     this.subsPorcent = this.wSS.porcent.pipe(distinctUntilChanged()).subscribe((p) => {
 
@@ -173,6 +188,7 @@ export class TipoRutaComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subsOrder.unsubscribe();
     this.subsPorcent.unsubscribe();
     this.subsSearch.unsubscribe();
+    this.loadingNewItems$.complete();
   }
 
   openDialogEliminarItem(item: Item) {

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { TemporalShowItemInfoComponent } from './temporal-show-item-info.component';
 
@@ -6,7 +6,7 @@ describe('TemporalShowItemInfoComponent', () => {
   let component: TemporalShowItemInfoComponent;
   let fixture: ComponentFixture<TemporalShowItemInfoComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ TemporalShowItemInfoComponent ]
     })

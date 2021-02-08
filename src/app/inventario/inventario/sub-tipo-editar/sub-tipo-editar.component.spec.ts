@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { SubTipoEditarComponent } from './sub-tipo-editar.component';
 
@@ -6,7 +6,7 @@ describe('SubTipoEditarComponent', () => {
   let component: SubTipoEditarComponent;
   let fixture: ComponentFixture<SubTipoEditarComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ SubTipoEditarComponent ]
     })

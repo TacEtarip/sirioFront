@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { NewItemDialogComponent } from './new-item-dialog.component';
 
@@ -6,7 +6,7 @@ describe('NewItemDialogComponent', () => {
   let component: NewItemDialogComponent;
   let fixture: ComponentFixture<NewItemDialogComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ NewItemDialogComponent ]
     })

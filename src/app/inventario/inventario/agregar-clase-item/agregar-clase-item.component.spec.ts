@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { AgregarClaseItemComponent } from './agregar-clase-item.component';
 
@@ -6,7 +6,7 @@ describe('AgregarClaseItemComponent', () => {
   let component: AgregarClaseItemComponent;
   let fixture: ComponentFixture<AgregarClaseItemComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ AgregarClaseItemComponent ]
     })

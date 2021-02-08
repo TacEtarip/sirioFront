@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { EliminarSubTipoComponent } from './eliminar-sub-tipo.component';
 
@@ -6,7 +6,7 @@ describe('EliminarSubTipoComponent', () => {
   let component: EliminarSubTipoComponent;
   let fixture: ComponentFixture<EliminarSubTipoComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ EliminarSubTipoComponent ]
     })

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { SeguroEjecDialogComponent } from './seguro-ejec-dialog.component';
 
@@ -6,7 +6,7 @@ describe('SeguroEjecDialogComponent', () => {
   let component: SeguroEjecDialogComponent;
   let fixture: ComponentFixture<SeguroEjecDialogComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ SeguroEjecDialogComponent ]
     })

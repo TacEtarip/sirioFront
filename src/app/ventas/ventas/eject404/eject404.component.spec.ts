@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { Eject404Component } from './eject404.component';
 
@@ -6,7 +6,7 @@ describe('Eject404Component', () => {
   let component: Eject404Component;
   let fixture: ComponentFixture<Eject404Component>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ Eject404Component ]
     })
