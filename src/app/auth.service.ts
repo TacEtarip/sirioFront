@@ -21,6 +21,7 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   x = 'TEST';
+  xy = 'X-TEST';
 
 
   cambiarContra(passwordForm: { passwordOld: string, password: string }, id: string): Observable<{ changed: boolean }> {
