@@ -73,7 +73,7 @@
       <h3 (click)="openAgregarDocumentoDialog()" *ngIf="!(user|async).documento" [ngStyle]="{'color': '#E87200', 'cursor': 'pointer'}">
         Agregar documento de identidad.
       </h3>
-      <button [ngStyle]="{'margin-top': '18px'}" mat-flat-button color="accent">Cambiar Contraseña</button>
+      <button (click)="openEditarContrasena()" [ngStyle]="{'margin-top': '18px'}" mat-flat-button color="accent">Cambiar Contraseña</button>
     </div>
   </div>
 </div>

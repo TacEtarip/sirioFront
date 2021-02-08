@@ -12,8 +12,8 @@ export class AgregarDireccionDialogComponent implements OnInit {
   direccionForm: FormGroup;
 
   constructor(@Inject(MAT_DIALOG_DATA) public user: FullUser,
-  public dialogRef: MatDialogRef<AgregarDireccionDialogComponent>,
-  private fb: FormBuilder, private auth: AuthService) { }
+              public dialogRef: MatDialogRef<AgregarDireccionDialogComponent>,
+              private fb: FormBuilder, private auth: AuthService) { }
 
   ngOnInit(): void {
     this.direccionForm = this.fb.group({
@@ -45,10 +45,12 @@ export class AgregarDireccionDialogComponent implements OnInit {
 
 
   agregarDireccion(direcionInfo: { dirOne: string, dirTwo: string, reference: string }): void {
+    this.direccionForm.disable();
     this.auth.agregarDireccion(direcionInfo, this.user._id).subscribe(res => {
       if (res) {
         this.dialogRef.close(res);
       }
+      this.direccionForm.enable();
     });
   }
 }

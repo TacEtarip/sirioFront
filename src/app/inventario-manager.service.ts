@@ -374,8 +374,8 @@ export class InventarioManagerService {
             );
   }
 
-  generarVentaSimple(bodyToVenta: {venta: Venta}): Observable<{item: Item, message: string}> {
-    return this.http.post<{item: Item, message: string}>(this.baseUrl + 'ventas/ventaSimple', bodyToVenta)
+  generarVentaSimple(bodyToVenta: {venta: Venta}): Observable<{message: string}> {
+    return this.http.post<{message: string}>(this.baseUrl + 'ventas/ventaSimple', bodyToVenta)
             .pipe(first(),
             catchError(error => {
               switch (error.status) {
@@ -387,7 +387,7 @@ export class InventarioManagerService {
                 default:
                   break;
               }
-              return of({item: null, message: 'Error'});
+              return of({message: 'Error'});
             })
             );
   }
@@ -911,6 +911,7 @@ export interface Documento {
   type: string;
   name: string;
   codigo: number;
+  direccion: string;
 }
 
 interface Variaciones {
@@ -1013,6 +1014,14 @@ export interface Venta {
   estado: string;
   documento: Documento;
   itemsVendidos: ItemVendido[];
+  vendedor: string;
+  tipoVendedor: string;
+  linkComprobante?: string;
+  medio_de_pago: string;
+  serie?: string;
+  numero?: number;
+  tipoComprobante?: string;
+  cliente_email?: string;
 }
 
 export interface VentaCompleta {

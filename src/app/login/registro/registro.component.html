@@ -63,6 +63,8 @@
             errorMode="handled"
             [siteKey] = sitekey
             formControlName = "captcha"
+            (error)="errored()"
+            (resolved)="resolved($event)"
             ></re-captcha>
         </div>
         <!--

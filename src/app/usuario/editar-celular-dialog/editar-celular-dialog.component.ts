@@ -32,10 +32,12 @@ export class EditarCelularDialogComponent implements OnInit {
   }
 
   actualizarCel(celularForm: { celular: string }): void {
+    this.celularForm.disable();
     this.auth.actCelular(celularForm.celular, this.user._id).subscribe(res => {
       if (res) {
         this.dialogRef.close(res);
       }
+      this.celularForm.enable();
     });
   }
 }

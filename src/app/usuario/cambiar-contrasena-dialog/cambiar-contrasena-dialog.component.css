@@ -1,0 +1,27 @@
+h4 {
+  color:  #E87200;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+h3 {
+  color:  #E87200;
+}
+
+
+.bloqueo{
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(65, 65, 65, 0.233);
+  z-index: 20;
+  display: grid;
+}
+
+form {
+  grid-template-columns: 10fr 1fr;
+}
+
+

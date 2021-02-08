@@ -1,8 +1,10 @@
-import { Component, OnInit, Inject, AfterContentInit } from '@angular/core';
+import { distinctUntilChanged } from 'rxjs/operators';
+import { AuthService } from './../../../auth.service';
+import { Component, OnInit, Inject, AfterContentInit, OnDestroy } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { Item, InventarioManagerService, Venta, ItemVendido, Documento, Order, DNI, RUC } from '../../../inventario-manager.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 
 
@@ -26,6 +28,11 @@ interface TipoDoc {
   viewValue: string;
 }
 
+interface MetodoPago {
+  value: string;
+  viewValue: string;
+}
+
 interface CantidadSubConteo {
   name: string;
   nameSecond: string;
@@ -43,6 +50,9 @@ interface PreVentaSimpleInfo {
   nameDocumento: string;
   priceIGV: number;
   cantidadList: CantidadSubConteo[];
+  metodoPagoOne: string;
+  metodoPagoTwo: string;
+  clienteEmail: string;
 }
 
 @Component({
@@ -50,7 +60,7 @@ interface PreVentaSimpleInfo {
   templateUrl: './venta-dialog.component.html',
   styleUrls: ['./venta-dialog.component.css']
 })
-export class VentaDialogComponent implements OnInit {
+export class VentaDialogComponent implements OnInit, OnDestroy {
 
   ventasActivas: Venta[];
 
@@ -64,6 +74,8 @@ export class VentaDialogComponent implements OnInit {
 
   documentAccepted = new BehaviorSubject<boolean>(false);
 
+  documentoFullInfo = new BehaviorSubject<any>(false);
+
   sum = 0;
 
   tiposDocumentos: TipoDoc[] = [
@@ -72,15 +84,31 @@ export class VentaDialogComponent implements OnInit {
     {value: 'boleta', viewValue: 'Boleta'},
   ];
 
+  metodosDePago: MetodoPago[] = [
+    {value: 'efectivo', viewValue: 'Efectivo'},
+    {value: 'tarjeta', viewValue: 'Tarjeta'},
+    {value: 'yape', viewValue: 'Yape'},
+    {value: 'otro', viewValue: 'Otro'}
+  ];
+
   currentDocumentType = this.tiposDocumentos[0].value;
+  currentMetodoPago = this.metodosDePago[0].value;
+
   totalPriceIGV: string;
+
+  subOne: Subscription;
 
   constructor(
     public dialogRef: MatDialogRef<VentaDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public item: Item,
     private formBuilder: FormBuilder,
     private inventarioMNG: InventarioManagerService,
-    private router: Router) { }
+    private router: Router, private auth: AuthService) { }
+
+
+  ngOnDestroy(): void {
+    this.subOne.unsubscribe();
+  }
 
   ngOnInit(): void {
       this.inventarioMNG.getVentasActivas().subscribe((res: Venta[]) => {
@@ -100,14 +128,23 @@ export class VentaDialogComponent implements OnInit {
           Validators.required
         ]))
         ,
-        docCod: this.formBuilder.control({value: '' , disabled: true},  Validators.compose([
+        docCod: this.formBuilder.control({ value: '' , disabled: true },  Validators.compose([
           Validators.required,
           Validators.pattern('^[0-9]*$'),
           Validators.minLength(11),
           Validators.maxLength(11)
         ])),
-        nameDocumento: this.formBuilder.control({value: '' , disabled: true},  Validators.compose([
+        nameDocumento: this.formBuilder.control({ value: '' , disabled: true },  Validators.compose([
           Validators.required,
+        ])),
+        metodoPagoOne: this.formBuilder.control('efectivo', Validators.required),
+        metodoPagoTwo: this.formBuilder.control({ value: '' , disabled: true }, Validators.compose([
+          Validators.required,
+          Validators.pattern(/^[a-zA-Z0-9.,_#\s]+$/),
+          Validators.minLength(2)
+        ])),
+        clienteEmail: this.formBuilder.control('', Validators.compose([
+          Validators.email
         ]))
       }
       );
@@ -132,6 +169,15 @@ export class VentaDialogComponent implements OnInit {
           }
         });
       }
+
+      this.subOne = this.ventaForm.get('metodoPagoOne').valueChanges.pipe(distinctUntilChanged()).subscribe(res => {
+        this.ventaForm.get('metodoPagoTwo').reset();
+        if (res === 'efectivo') {
+          this.ventaForm.get('metodoPagoTwo').disable();
+        } else {
+          this.ventaForm.get('metodoPagoTwo').enable();
+        }
+      });
 
     // this.totalPriceIGV = this.rebrandNumber(true, Math.round(((this.item.priceIGV * 1) + Number.EPSILON) * 100) / 100).replace('.', ',');
   }
@@ -280,20 +326,24 @@ export class VentaDialogComponent implements OnInit {
         this.inventarioMNG.getRUC(this.ventaForm.get('docCod').value).subscribe((res: RUC) => {
           if (res) {
             this.ventaForm.get('nameDocumento').setValue(res.nombre_o_razon_social);
+            this.documentoFullInfo.next(res);
             this.documentAccepted.next(true);
           }
           else {
             this.ventaForm.get('nameDocumento').setValue('');
+            this.documentoFullInfo.next(null);
             this.ventaForm.get('docCod').setErrors({incorrect: true});
           }
         });
       } else {
         this.inventarioMNG.getDNI(this.ventaForm.get('docCod').value).subscribe((res: DNI) => {
           if (res) {
+            this.documentoFullInfo.next(res);
             this.ventaForm.get('nameDocumento').setValue(res.nombre);
             this.documentAccepted.next(true);
           }
           else {
+            this.documentoFullInfo.next(null);
             this.ventaForm.get('nameDocumento').setValue('');
             this.ventaForm.get('docCod').setErrors({incorrect: true});
           }
@@ -332,11 +382,19 @@ export class VentaDialogComponent implements OnInit {
       itemVendido.cantidad = this.sum;
     }
     const bodyToSend: Venta =
-    {documento: {type: preVentaInfo.documentoTipo, name: preVentaInfo.nameDocumento, codigo: preVentaInfo.docCod},
-     codigo: '', totalPrice: total,
-     totalPriceNoIGV: totalNoIGV,
-     estado, itemsVendidos: [itemVendido]};
-
+    {
+      documento:
+        {
+          type: preVentaInfo.documentoTipo, name: preVentaInfo.nameDocumento,
+          codigo: preVentaInfo.docCod,
+          direccion: this.documentoFullInfo.value.direccion || '',
+        },
+        codigo: '', totalPrice: total,
+        totalPriceNoIGV: totalNoIGV,
+        estado, itemsVendidos: [itemVendido], vendedor: this.auth.getUser(),
+        tipoVendedor: this.auth.getTtype(), cliente_email: preVentaInfo.clienteEmail || undefined,
+        medio_de_pago: preVentaInfo.metodoPagoOne + '|' + (preVentaInfo.metodoPagoTwo || ' '),
+    };
 
     this.ventaEnCurso.next(true);
 
@@ -350,14 +408,12 @@ export class VentaDialogComponent implements OnInit {
     this.inventarioMNG.generarVentaSimple({venta: bodyToSend}).subscribe((res) => {
       this.ventaEnCurso.next(false);
       if (res.message.split('||')[0] === 'Succes') {
-        this.dialogRef.close({item: res.item, message: 'Succes'});
+        this.dialogRef.close();
         this.router.navigateByUrl(`/ventas/postVenta/${res.message.split('||')[1]}`);
       } else if (res.message === 'La Cantidad Ha Cambiado') {
         alert('Ya no disponemos con la cantidad necesaria para realizar la venta');
-        this.dialogRef.close({item: res.item, message: 'Falta'});
       } else {
         alert('Error al procesar la venta intentelo de nuevo en un momento!');
-        this.dialogRef.close({item: res.item, message: 'Error'});
       }
     });
 

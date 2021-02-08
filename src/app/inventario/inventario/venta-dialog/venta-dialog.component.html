@@ -56,6 +56,7 @@
           </div>
         </div>
       </div>
+
       <mat-form-field  appearance="fill" class="example-full-width doubleGrid singleGrid">
         <mat-label>Tipo De Comprobante</mat-label>
         <mat-select #SELECT [(value)]="currentDocumentType" (ngModelChange)="changeValidators()" name="documentoTipo"  formControlName="documentoTipo">
@@ -71,6 +72,21 @@
         <mat-label>Nombre...</mat-label>
         <input spellcheck="false" name="name" id="name" formControlName="nameDocumento" maxlength="60" matInput>
       </mat-form-field>
+      <mat-form-field currentMetodoPago  appearance="fill" class="example-full-width doubleGrid singleGrid">
+        <mat-label>Metodo de pago</mat-label>
+        <mat-select [(value)]="currentMetodoPago" name="metodoPagoOne"  formControlName="metodoPagoOne">
+          <mat-option *ngFor="let item of metodosDePago" [value]="item.value">{{item.viewValue}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field id="busquedaDOC" appearance="fill"  class="example-full-width doubleGridTwo singleGrid">
+        <mat-label>Descripción</mat-label>
+        <input name="metodoPagoTwo" id="metodoPagoTwo" formControlName="metodoPagoTwo" matInput>
+      </mat-form-field>
+      <mat-form-field appearance="fill"  class="example-full-width agregarVenta">
+        <mat-label>Cliente email...</mat-label>
+        <input spellcheck="false" name="clienteEmail" id="clienteEmail" formControlName="clienteEmail" matInput>
+      </mat-form-field>
+
       <div class="hpc">
         <mat-checkbox (click)="changePrice()">Habilitar precio</mat-checkbox>
       </div>

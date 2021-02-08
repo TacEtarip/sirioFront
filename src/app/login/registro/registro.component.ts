@@ -210,6 +210,14 @@ export class RegistroComponent implements OnInit, OnDestroy, AfterViewInit {
   });
   }
 
+  errored() {
+    alert(`reCAPTCHA error`);
+  }
+
+  resolved(captchaResponse) {
+    console.log(captchaResponse);
+  }
+
   confirmedValidator(controlName: string, matchingControlName: string){
     return (formGroup: FormGroup) => {
         const control = formGroup.controls[controlName];

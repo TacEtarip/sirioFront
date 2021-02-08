@@ -97,10 +97,12 @@ export class AgregarDocumentoDialogComponent implements OnInit {
   }
 
   agregarDocumento(documentoInfo: {tipoPersona: string, documento: string}) {
+    this.documentoForm.disable();
     this.auth.agregarDocumento(documentoInfo, this.user._id).subscribe(res => {
       if (res) {
         this.dialogRef.close(res);
       }
+      this.documentoForm.enable();
     });
   }
 }

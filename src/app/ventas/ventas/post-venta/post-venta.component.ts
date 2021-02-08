@@ -51,7 +51,8 @@ export class PostVentaComponent implements OnInit {
 
 
   dummyVenta: Venta = {codigo: '000000', totalPrice: 0, totalPriceNoIGV: 0,
-                                estado: '0000', documento: null, itemsVendidos: null};
+                                estado: '0000', documento: null, itemsVendidos: null,
+                                linkComprobante: '', vendedor: '', tipoVendedor: '', medio_de_pago: ''};
 
   venta$ = new BehaviorSubject<Venta>(this.dummyVenta);
 
@@ -119,6 +120,10 @@ export class PostVentaComponent implements OnInit {
 
   descargarPDF() {
     window.open('https://inventario-sirio-dinar.herokuapp.com/inventario/pdf/' + this.venta$.value.codigo + '.pdf', '_blank');
+  }
+
+  desargarPDFsunat() {
+    window.open(this.venta$.value.linkComprobante, '_blank');
   }
 
 }

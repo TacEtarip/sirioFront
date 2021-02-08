@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { EditarCelularDialogComponent } from '../editar-celular-dialog/editar-celular-dialog.component';
 import { AgregarDireccionDialogComponent  } from '../agregar-direccion-dialog/agregar-direccion-dialog.component';
 import { AgregarDocumentoDialogComponent } from '../agregar-documento-dialog/agregar-documento-dialog.component';
+import { CambiarContrasenaDialogComponent } from '../cambiar-contrasena-dialog/cambiar-contrasena-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -80,6 +81,19 @@ export class UsuarioComponent implements OnInit, OnDestroy {
       if (res) {
         this.user.next(res);
         this._snackBar.open('Documento Agregado', 'Ok', { duration: 1500 });
+      }
+    });
+  }
+
+  openEditarContrasena(): void {
+    const dialogRef = this.dialog.open(CambiarContrasenaDialogComponent, {
+      width: '600px',
+      data: this.user.value,
+    });
+    dialogRef.afterClosed().pipe(first()).subscribe((res: FullUser) => {
+      if (res) {
+        this.user.next(res);
+        this._snackBar.open('Contraseña Cambiada', 'Ok', { duration: 1500 });
       }
     });
   }

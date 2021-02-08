@@ -90,6 +90,7 @@
   </mat-tab-group>
   <div class="final">
     <button (click)="descargarPDF()" mat-flat-button color="primary">Descargar PDF</button>
+    <button (click)="desargarPDFsunat()" mat-flat-button color="primary">Descargar PDF SUNAT</button>
     <div class="totales">
       <h4>Total Base: {{((venta$|async).totalPriceNoIGV)|currency:'S/ '}}</h4>
       <h4>IGV 18%: {{((venta$|async).totalPrice - (venta$|async).totalPriceNoIGV)|currency:'S/ '}}</h4>

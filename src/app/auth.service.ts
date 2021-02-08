@@ -20,6 +20,50 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
+
+  cambiarContra(passwordForm: { passwordOld: string, password: string }, id: string): Observable<{ changed: boolean }> {
+    return this.http.post<{ changed: boolean }>(this.baseUrl + 'auth/cambiarContrasena', { ...passwordForm, id })
+    .pipe(first(), catchError( error => {
+      switch (error.status) {
+        case 0:
+          alert('Error al tratar de conectar al servidor');
+          break;
+        case 400:
+          alert('Error al llenar el formulario');
+          break;
+        case 500:
+          alert('Ocurrio un error inesperado en el servidor');
+          break;
+        default:
+          alert('Error desconocido');
+          break;
+      }
+      return of(null);
+    }));
+  }
+
+
+  confirmarContr(oldPassword: string, id: string): Observable<{ valid: boolean }> {
+    return this.http.post<{ valid: boolean }>(this.baseUrl + 'auth/confirmarContr', { oldPassword, id })
+    .pipe(first(), catchError( error => {
+      switch (error.status) {
+        case 0:
+          alert('Error al tratar de conectar al servidor');
+          break;
+        case 400:
+          alert('Error al llenar el formulario');
+          break;
+        case 500:
+          alert('Ocurrio un error inesperado en el servidor');
+          break;
+        default:
+          alert('Error desconocido');
+          break;
+      }
+      return of(null);
+    }));
+  }
+
   agregarDocumento(documentoInfo: any, id: string): Observable<FullUser> {
     return this.http.post<FullUser>(this.baseUrl + 'auth/agregarDocumento', { ...documentoInfo, id }).pipe(first(), catchError( error => {
       switch (error.status) {
