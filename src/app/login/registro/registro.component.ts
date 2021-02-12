@@ -83,7 +83,6 @@ export class RegistroComponent implements OnInit, OnDestroy, AfterViewInit {
           if (res) {
             this.temporalUserInfo = {nombre: res.given_name, apellido: res.family_name, email: res.email, googleCod: res.sub};
             this.fromToken.next(true);
-            console.log(this.temporalUserInfo);
           }
         });
       }
@@ -131,6 +130,7 @@ export class RegistroComponent implements OnInit, OnDestroy, AfterViewInit {
       ])),
       passwordConf: this.fb.control('', Validators.compose([
         Validators.required,
+        this.confirmarPasswordV2('password')
       ])),
       captcha: this.fb.control(null, Validators.required),
       /*
@@ -140,7 +140,7 @@ export class RegistroComponent implements OnInit, OnDestroy, AfterViewInit {
       direccion: this.fb.control(''),
       direccionDos: this.fb.control(''),
       ciudad: this.fb.control('Trujillo - La Libertad')*/
-    }, {validators: this.confirmedValidator('password', 'passwordConf')});
+    });
 
     this.registroGoogleForm = this.fb.group({
       celular: this.fb.control('', Validators.compose([
@@ -165,8 +165,9 @@ export class RegistroComponent implements OnInit, OnDestroy, AfterViewInit {
       ])),
       passwordConf: this.fb.control('', Validators.compose([
         Validators.required,
+        this.confirmarPasswordV2('password')
       ]))
-    }, {validators: this.confirmedValidator('password', 'passwordConf')});
+    });
     this.reaload.next(false);
     this.subFour = this.reaload.pipe(skip(1), first()).subscribe(() => window.location.reload());
   }
@@ -232,6 +233,17 @@ export class RegistroComponent implements OnInit, OnDestroy, AfterViewInit {
         }
     };
 }
+
+  confirmarPasswordV2(fildToGet: string): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: boolean } | null => {
+      if (control.parent) {
+        if (control.parent.get(fildToGet).value === control.value) {
+          return null;
+        }
+        return {error: true};
+      }
+    };
+  }
 
   equalsPassword(controlForm: string): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any} | null => {
@@ -303,8 +315,6 @@ export class RegistroComponent implements OnInit, OnDestroy, AfterViewInit {
         this.registroForm.reset();
         this.usuarioPost.next(res);
         this.processdone = true;
-        console.log(res);
-        console.log(this.usuarioPost.value);
         this.subThree = interval(5000).pipe(takeWhile( r => !this.reaload.value)).subscribe(() => {
           this.auth.isValid(res._id).subscribe((reloadRes) => {
             if (reloadRes) {

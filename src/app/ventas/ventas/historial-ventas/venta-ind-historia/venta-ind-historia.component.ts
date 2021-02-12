@@ -33,7 +33,7 @@ export interface TableVentaInfo {
 })
 export class VentaIndHistoriaComponent implements OnInit {
 
-  venta: VentaCompleta;
+  venta: Venta;
 
   date: string;
 
@@ -55,9 +55,9 @@ export class VentaIndHistoriaComponent implements OnInit {
 
 
   dummyVenta: VentaCompleta = {codigo: '000000', totalPrice: 0, totalPriceNoIGV: 0,
-                                estado: '0000', documento: null, itemsVendidos: null, date: ''};
+                                estado: '0000', documento: null, itemsVendidos: null, date: '' };
 
-  venta$ = new BehaviorSubject<VentaCompleta>(this.dummyVenta);
+  venta$ = new BehaviorSubject<Venta>(null);
 
   constructor(private activatedRoute: ActivatedRoute, private inventarioMNG: InventarioManagerService,
               private router: Router, public dialog: MatDialog) {
@@ -67,9 +67,9 @@ export class VentaIndHistoriaComponent implements OnInit {
     this.activatedRoute.paramMap.pipe(first()).subscribe(param => {
       const ruta = param.get('ventaCod');
 
-      this.inventarioMNG.getVentaCompleta(ruta).subscribe((res: VentaCompleta) => {
+      this.inventarioMNG.getVentaCompleta(ruta).subscribe((res: Venta) => {
         if (res) {
-          if (res.estado !== 'ejecutada') {
+          if (res.estado !== 'ejecutada' && res.estado !== 'anuladaPost') {
             this.router.navigate(['/ventas/eject/404']);
           }
         } else {
@@ -132,6 +132,14 @@ export class VentaIndHistoriaComponent implements OnInit {
 
   descargarPDF() {
     window.open('https://inventario-sirio-dinar.herokuapp.com/inventario/pdf/' + this.venta$.value.codigo + '.pdf', '_blank');
+  }
+
+  desargarPDFsunat() {
+    window.open(this.venta$.value.linkComprobante, '_blank');
+  }
+
+  descargarGUIA() {
+    window.open(this.venta$.value.guia_link, '_blank');
   }
 
 }

@@ -263,8 +263,8 @@ export class InventarioManagerService {
           }));
   }
 
-  getVentaCompleta(ventaCod: string): Observable<VentaCompleta> {
-    return this.http.get<VentaCompleta>(this.baseUrl + 'ventas/obtenerVenta/' + ventaCod)
+  getVentaCompleta(ventaCod: string): Observable<Venta> {
+    return this.http.get<Venta>(this.baseUrl + 'ventas/obtenerVenta/' + ventaCod)
           .pipe(first(),
           catchError(error => {
             switch (error.status) {
@@ -337,8 +337,8 @@ export class InventarioManagerService {
                     );
   }
 
-  getVentasActivas(): Observable<Venta[]> {
-    return this.http.get<Venta[]>(this.baseUrl + 'ventas/ventasPendientes')
+  getVentasActivas(): Observable<Venta> {
+    return this.http.get<Venta>(this.baseUrl + 'ventas/ventasPendientes')
             .pipe(first(),
             catchError(error => {
               switch (error.status) {
@@ -1022,6 +1022,20 @@ export interface Venta {
   numero?: number;
   tipoComprobante?: string;
   cliente_email?: string;
+  guia_serie?: string;
+  guia_numero?: string;
+  guia?: boolean;
+  peso?: number;
+  transportista_codigo?: string;
+  transportista_nombre?: string;
+  transportista_placa?: string;
+  partida_ubigeo?: string;
+  partida_direccion?: string;
+  llegada_ubigeo?: string;
+  llegada_direccion?: string;
+  bultos?: number;
+  guia_link?: string;
+  date?: string;
 }
 
 export interface VentaCompleta {

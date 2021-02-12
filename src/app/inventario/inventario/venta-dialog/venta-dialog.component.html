@@ -1,12 +1,13 @@
 <img src="assets/close.svg" mat-dialog-title matDialogClose class="close-btn">
 <h1 mat-dialog-title>Venta De: <b>{{item.name}}</b></h1>
-<form [formGroup]="ventaForm">
+<form  [formGroup]="ventaForm">
     <div mat-dialog-content class="gridContainer" >
       <mat-form-field appearance="fill" class="example-full-width agregarVenta">
         <mat-label>Agregar A Venta</mat-label>
-      <mat-select name="codigo" id="codigo" formControlName="selectAcction">
-        <mat-option value="noAgregar">No Agregar</mat-option>
-        <mat-option *ngFor="let venta of ventasActivas" [value]="venta.codigo">{{venta.codigo}}</mat-option>
+      <mat-select (ngModelChange)="resetSome()" name="codigo" id="codigo" formControlName="selectAcction">
+        <mat-option value="ventaSimple">Venta Simple</mat-option>
+        <mat-option *ngIf="!ventaActiva" value="crearVenta">Crear Venta</mat-option>
+        <mat-option *ngIf="ventaActiva" value="aVentaActiva">Añadir A Venta Activa</mat-option>
       </mat-select>
       </mat-form-field>
 
@@ -30,8 +31,6 @@
         <input (input)="actTotal()" (keypress)="resetSum()" name="cantidad" id="cantidad" formControlName="cantidadVenta" type="number" min="1" step="1" matInput>
         <mat-error>Cantidad Invalida</mat-error>
       </mat-form-field>
-
-
 
       <div *ngIf="this.item.subConteo" formArrayName="cantidadList" class="arrayForm">
         <div *ngFor="let sub of cantidadList.controls; index as i">
@@ -57,45 +56,186 @@
         </div>
       </div>
 
-      <mat-form-field  appearance="fill" class="example-full-width doubleGrid singleGrid">
+      <mat-form-field *ngIf="ventaForm.get('selectAcction').value === 'ventaSimple'"  appearance="fill" class="example-full-width doubleGrid singleGrid">
         <mat-label>Tipo De Comprobante</mat-label>
         <mat-select #SELECT [(value)]="currentDocumentType" (ngModelChange)="changeValidators()" name="documentoTipo"  formControlName="documentoTipo">
           <mat-option *ngFor="let item of tiposDocumentos" [value]="item.value">{{item.viewValue}}</mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field id="busquedaDOC" appearance="fill"  class="example-full-width doubleGridTwo singleGrid">
+      <mat-form-field *ngIf="ventaForm.get('selectAcction').value === 'ventaSimple'" id="busquedaDOC"
+      appearance="fill"  class="example-full-width doubleGridTwo singleGrid">
         <mat-label  *ngIf="ventaForm.get('documentoTipo').value === 'factura'">RUC</mat-label>
         <mat-label *ngIf="ventaForm.get('documentoTipo').value === 'boleta'">DNI</mat-label>
         <input (keyup)="comprobarDOC()"  name="docCod" id="docCod" formControlName="docCod" matInput>
       </mat-form-field>
-      <mat-form-field appearance="fill"  class="example-full-width agregarVenta">
+      <mat-form-field *ngIf="ventaForm.get('selectAcction').value === 'ventaSimple'" appearance="fill"  class="example-full-width agregarVenta">
         <mat-label>Nombre...</mat-label>
         <input spellcheck="false" name="name" id="name" formControlName="nameDocumento" maxlength="60" matInput>
       </mat-form-field>
-      <mat-form-field currentMetodoPago  appearance="fill" class="example-full-width doubleGrid singleGrid">
+      <mat-form-field *ngIf="ventaForm.get('selectAcction').value === 'ventaSimple'" currentMetodoPago  appearance="fill" class="example-full-width doubleGrid singleGrid">
         <mat-label>Metodo de pago</mat-label>
         <mat-select [(value)]="currentMetodoPago" name="metodoPagoOne"  formControlName="metodoPagoOne">
           <mat-option *ngFor="let item of metodosDePago" [value]="item.value">{{item.viewValue}}</mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field id="busquedaDOC" appearance="fill"  class="example-full-width doubleGridTwo singleGrid">
+      <mat-form-field *ngIf="ventaForm.get('selectAcction').value === 'ventaSimple'" id="busquedaDOC" appearance="fill"  class="example-full-width doubleGridTwo singleGrid">
         <mat-label>Descripción</mat-label>
         <input name="metodoPagoTwo" id="metodoPagoTwo" formControlName="metodoPagoTwo" matInput>
       </mat-form-field>
-      <mat-form-field appearance="fill"  class="example-full-width agregarVenta">
+      <mat-form-field *ngIf="ventaForm.get('selectAcction').value === 'ventaSimple'" appearance="fill"  class="example-full-width agregarVenta">
         <mat-label>Cliente email...</mat-label>
         <input spellcheck="false" name="clienteEmail" id="clienteEmail" formControlName="clienteEmail" matInput>
       </mat-form-field>
 
+      <!------------------------------------------------------------------------------------------------->
+      <h3 *ngIf="(generarGuia$|async) && ventaForm.get('documentoTipo').value !== 'noone' && ventaForm.get('selectAcction').value === 'ventaSimple'"
+      [ngStyle]="{'grid-column':'span 6', 'color': '#ff7b00'}">
+        Guía de remisión
+      </h3>
+      <mat-form-field *ngIf="(generarGuia$|async) && ventaForm.get('documentoTipo').value !== 'noone' && ventaForm.get('selectAcction').value === 'ventaSimple'"
+      appearance="fill" [ngStyle]="{'grid-column':'span 6'}"  class="example-full-width doubleGridTwo singleGrid">
+        <mat-label>Peso(Kg)...</mat-label>
+        <input spellcheck="false" name="peso" id="peso" formControlName="peso" matInput>
+      </mat-form-field>
+      <mat-form-field *ngIf="(generarGuia$|async) && ventaForm.get('documentoTipo').value !== 'noone' && ventaForm.get('selectAcction').value === 'ventaSimple'"
+      appearance="fill" [ngStyle]="{'grid-column':'span 4'}"  class="example-full-width doubleGrid">
+        <mat-label>Documento transportista...</mat-label>
+        <input spellcheck="false" name="documento_transportista" id="documento_transportista" formControlName="documento_transportista" matInput>
+      </mat-form-field>
+      <mat-form-field *ngIf="(generarGuia$|async) && ventaForm.get('documentoTipo').value !== 'noone' && ventaForm.get('selectAcction').value === 'ventaSimple'"
+      appearance="fill" [ngStyle]="{'grid-column':'span 2'}"  class="example-full-width doubleGrid">
+        <mat-label>Placa...</mat-label>
+        <input  name="placa_transportista" id="placa_transportista" formControlName="placa_transportista" matInput>
+      </mat-form-field>
+      <mat-form-field *ngIf="(generarGuia$|async) && ventaForm.get('documentoTipo').value !== 'noone' && ventaForm.get('selectAcction').value === 'ventaSimple'"
+      appearance="fill" class="example-full-width agregarVenta">
+        <mat-label>Nombre...</mat-label>
+        <input spellcheck="false" name="denomicaion_transportista" id="denomicaion_transportista" formControlName="denomicaion_transportista" matInput>
+      </mat-form-field>
+      <h5  *ngIf="(generarGuia$|async) && ventaForm.get('documentoTipo').value !== 'noone' && ventaForm.get('selectAcction').value === 'ventaSimple'"
+      [ngStyle]="{'grid-column':'span 6', 'color': '#ff7b00', 'margin': '1em 0 1em 0'}">
+        Punto de partida
+      </h5>
+      <mat-form-field *ngIf="(generarGuia$|async) && ventaForm.get('documentoTipo').value !== 'noone' && ventaForm.get('selectAcction').value === 'ventaSimple'"
+      [ngStyle]="{'grid-column':'span 2'}" appearance="fill" class="example-full-width">
+        <mat-label>Departamento</mat-label>
+        <input type="text"
+               matInput
+               formControlName="departamento"
+               [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let option of filterDepartamentos" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="(generarGuia$|async) && ventaForm.get('documentoTipo').value !== 'noone' && ventaForm.get('selectAcction').value === 'ventaSimple'"
+      appearance="fill" [ngStyle]="{'grid-column':'span 2'}" class="example-full-width">
+        <mat-label>Provincia</mat-label>
+        <input autocomplete="not-pro" type="text"
+               matInput
+               formControlName="provincia"
+               [matAutocomplete]="autoTwo">
+        <mat-autocomplete #autoTwo="matAutocomplete">
+          <mat-option *ngFor="let option of filterProvincias" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <mat-form-field *ngIf="(generarGuia$|async) && ventaForm.get('documentoTipo').value !== 'noone' && ventaForm.get('selectAcction').value === 'ventaSimple'"
+      appearance="fill" [ngStyle]="{'grid-column':'span 2'}" class="example-full-width">
+        <mat-label>Distrito</mat-label>
+        <input autocomplete="not-pro" type="text"
+               matInput
+               formControlName="distrito"
+               [matAutocomplete]="autoTrhee">
+        <mat-autocomplete #autoTrhee="matAutocomplete">
+          <mat-option *ngFor="let option of filterDistritos" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <mat-form-field *ngIf="(generarGuia$|async) && ventaForm.get('documentoTipo').value !== 'noone' && ventaForm.get('selectAcction').value === 'ventaSimple'"
+      appearance="fill"  class="example-full-width agregarVenta">
+        <mat-label>Direccion de partida...</mat-label>
+        <input spellcheck="false" name="direccion_partida" id="direccion_partida" formControlName="direccion_partida" matInput>
+      </mat-form-field>
+
+
+
+      <h5 *ngIf="(generarGuia$|async) && ventaForm.get('documentoTipo').value !== 'noone' && ventaForm.get('selectAcction').value === 'ventaSimple'"
+      [ngStyle]="{'grid-column':'span 6', 'color': '#ff7b00', 'margin': '1em 0 1em 0'}">
+        Punto de llegada
+      </h5>
+      <mat-form-field *ngIf="(generarGuia$|async) && ventaForm.get('documentoTipo').value !== 'noone' && ventaForm.get('selectAcction').value === 'ventaSimple'"
+      [ngStyle]="{'grid-column':'span 2'}" appearance="fill" class="example-full-width">
+        <mat-label>Departamento</mat-label>
+        <input type="text"
+               matInput
+               formControlName="departamento_llegada"
+               [matAutocomplete]="autoFour">
+        <mat-autocomplete #autoFour="matAutocomplete">
+          <mat-option *ngFor="let option of filterDepartamentosLlegada" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="(generarGuia$|async) && ventaForm.get('documentoTipo').value !== 'noone' && ventaForm.get('selectAcction').value === 'ventaSimple'"
+      appearance="fill" [ngStyle]="{'grid-column':'span 2'}" class="example-full-width">
+        <mat-label>Provincia</mat-label>
+        <input autocomplete="not-pro" type="text"
+               matInput
+               formControlName="provincia_llegada"
+               [matAutocomplete]="autoFive">
+        <mat-autocomplete #autoFive="matAutocomplete">
+          <mat-option *ngFor="let option of filterProvinciasLlegada" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <mat-form-field *ngIf="(generarGuia$|async) && ventaForm.get('documentoTipo').value !== 'noone' && ventaForm.get('selectAcction').value === 'ventaSimple'"
+      appearance="fill" [ngStyle]="{'grid-column':'span 2'}" class="example-full-width">
+        <mat-label>Distrito</mat-label>
+        <input autocomplete="not-pro" type="text"
+               matInput
+               formControlName="distrito_llegada"
+               [matAutocomplete]="autoSix">
+        <mat-autocomplete #autoSix="matAutocomplete">
+          <mat-option *ngFor="let option of filterDistritosLlegada" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <mat-form-field *ngIf="(generarGuia$|async) && ventaForm.get('documentoTipo').value !== 'noone' && ventaForm.get('selectAcction').value === 'ventaSimple'"
+      appearance="fill"  class="example-full-width agregarVenta">
+        <mat-label>Direccion de partida...</mat-label>
+        <input spellcheck="false" name="direccion_partida" id="direccion_partida" formControlName="direccion_llegada" matInput>
+      </mat-form-field>
+
       <div class="hpc">
-        <mat-checkbox (click)="changePrice()">Habilitar precio</mat-checkbox>
+        <mat-checkbox [ngStyle]="{'margin-right': '10px'}" (click)="changePrice()">Habilitar precio</mat-checkbox>
+        <mat-checkbox
+        *ngIf="ventaForm.get('selectAcction').value === 'ventaSimple'"
+        [disabled]="ventaForm.get('documentoTipo').value === 'noone'" (click)="activarGenerarGuiaForm()"
+        >Generar guia</mat-checkbox>
       </div>
       <h2 class="totalGrid">Total: S/ {{totalPriceIGV}}</h2>
     </div>
     <div mat-dialog-actions align="end">
-      <button (click)="ventaSimple(ventaForm.getRawValue())" type="button" [disabled]="!ventaForm.valid || ventaForm.get('selectAcction').value !== 'noAgregar' || sum <= 0 || (!(documentAccepted|async) && (SELECT.value != 'noone'))" mat-flat-button color="primary">Vender</button>
-      <button (click)="generarNuevaVenta(ventaForm.getRawValue())" type="button" [disabled]="!ventaForm.valid || ventaForm.get('selectAcction').value !== 'noAgregar' || sum <= 0 || (!(documentAccepted|async) && (SELECT.value != 'noone'))" mat-flat-button color="primary">Crear Venta</button>
-      <button (click)="agregarItemVenta(ventaForm.getRawValue())" class="lastBTN" type="button" [disabled]="!ventaForm.valid || ventaForm.get('selectAcction').value === 'noAgregar' || sum <= 0" mat-flat-button color="primary">Agregar A Venta</button>
+      <button (click)="ventaSimple(ventaForm.getRawValue())" type="button"
+      *ngIf="ventaForm.get('selectAcction').value === 'ventaSimple'"
+      [disabled]="!ventaForm.valid || sum <= 0 || (!(documentAccepted|async) && ventaForm.get('documentoTipo').value !== 'noone')"
+      mat-flat-button color="primary">Vender</button>
+      <button (click)="generarNuevaVenta(ventaForm.getRawValue())" type="button"
+      *ngIf="ventaForm.get('selectAcction').value === 'crearVenta'"
+      [disabled]="!ventaForm.valid || sum <= 0" mat-flat-button color="primary">Crear Venta</button>
+      <button
+      (click)="agregarItemVenta(ventaForm.getRawValue())" class="lastBTN" type="button"
+      *ngIf="ventaForm.get('selectAcction').value === 'aVentaActiva'"
+      [disabled]="!ventaForm.valid || sum <= 0" mat-flat-button color="primary">
+      Agregar A Venta</button>
     </div>
 </form>
 

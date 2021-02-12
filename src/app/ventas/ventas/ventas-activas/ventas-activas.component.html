@@ -1,9 +1,9 @@
 <section>
   <div class="info">
-    <h1 *ngIf="(ventasActivas|async).length > 0" >Venta Activa</h1>
-    <h1 *ngIf="(ventasActivas|async).length <= 0" >No hay ni una venta activa</h1>
+    <h1 *ngIf="(ventasActiva|async)" >Venta Activa</h1>
+    <h1 *ngIf="!(ventasActiva|async)" >No hay ni una venta activa</h1>
   </div>
-  <div class="contenidoMain">
-    <app-venta-activa-card *ngFor="let venta of (ventasActivas|async)" [ventaCod]="venta"></app-venta-activa-card>
+  <div *ngIf="ventasActiva|async" class="contenidoMain">
+    <app-venta-activa-card   [ventaCod]="(ventasActiva|async)"></app-venta-activa-card>
   </div>
 </section>

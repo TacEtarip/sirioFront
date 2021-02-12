@@ -31,7 +31,140 @@
       <mat-label>Cliente email...</mat-label>
       <input spellcheck="false" name="clienteEmail" id="clienteEmail" formControlName="clienteEmail" matInput>
     </mat-form-field>
+
+
+   <!------------------------------------------------------------------------------------------------->
+   <h3 *ngIf="(generarGuia$|async) && ventaEjecutarForm.get('documentoTipo').value !== 'noone'" class="fullC"
+   [ngStyle]="{'color': '#ff7b00'}">
+     Guía de remisión
+   </h3>
+   <mat-form-field *ngIf="(generarGuia$|async) && ventaEjecutarForm.get('documentoTipo').value !== 'noone'"
+   appearance="fill"  class="fullC">
+     <mat-label>Peso(Kg)...</mat-label>
+     <input spellcheck="false" name="peso" id="peso" formControlName="peso" matInput>
+   </mat-form-field>
+   <mat-form-field *ngIf="(generarGuia$|async) && ventaEjecutarForm.get('documentoTipo').value !== 'noone'"
+   appearance="fill"   class="oneC">
+     <mat-label>Documento transportista...</mat-label>
+     <input spellcheck="false" name="documento_transportista" id="documento_transportista" formControlName="documento_transportista" matInput>
+   </mat-form-field>
+   <mat-form-field *ngIf="(generarGuia$|async) && ventaEjecutarForm.get('documentoTipo').value !== 'noone'"
+   appearance="fill"   class="oneC">
+     <mat-label>Placa...</mat-label>
+     <input  name="placa_transportista" id="placa_transportista" formControlName="placa_transportista" matInput>
+   </mat-form-field>
+   <mat-form-field  *ngIf="(generarGuia$|async) && ventaEjecutarForm.get('documentoTipo').value !== 'noone'"
+   appearance="fill" class="fullC">
+     <mat-label>Nombre...</mat-label>
+     <input spellcheck="false" name="denomicaion_transportista" id="denomicaion_transportista" formControlName="denomicaion_transportista" matInput>
+   </mat-form-field>
+   <h5  *ngIf="(generarGuia$|async) && ventaEjecutarForm.get('documentoTipo').value !== 'noone'"
+   [ngStyle]="{ 'color': '#ff7b00', 'margin': '1em 0 1em 0'}">
+     Punto de partida
+   </h5>
+   <mat-form-field *ngIf="(generarGuia$|async) && ventaEjecutarForm.get('documentoTipo').value !== 'noone'"
+    appearance="fill" class="fullC">
+     <mat-label>Departamento</mat-label>
+     <input type="text"
+            matInput
+            formControlName="departamento"
+            [matAutocomplete]="auto">
+     <mat-autocomplete #auto="matAutocomplete">
+       <mat-option *ngFor="let option of filterDepartamentos" [value]="option">
+         {{option}}
+       </mat-option>
+     </mat-autocomplete>
+   </mat-form-field>
+
+   <mat-form-field *ngIf="(generarGuia$|async) && ventaEjecutarForm.get('documentoTipo').value !== 'noone'"
+   appearance="fill"  class="fullC">
+     <mat-label>Provincia</mat-label>
+     <input autocomplete="not-pro" type="text"
+            matInput
+            formControlName="provincia"
+            [matAutocomplete]="autoTwo">
+     <mat-autocomplete #autoTwo="matAutocomplete">
+       <mat-option *ngFor="let option of filterProvincias" [value]="option">
+         {{option}}
+       </mat-option>
+     </mat-autocomplete>
+   </mat-form-field>
+   <mat-form-field *ngIf="(generarGuia$|async) && ventaEjecutarForm.get('documentoTipo').value !== 'noone'"
+   appearance="fill"  class="fullC">
+     <mat-label>Distrito</mat-label>
+     <input autocomplete="not-pro" type="text"
+            matInput
+            formControlName="distrito"
+            [matAutocomplete]="autoTrhee">
+     <mat-autocomplete #autoTrhee="matAutocomplete">
+       <mat-option *ngFor="let option of filterDistritos" [value]="option">
+         {{option}}
+       </mat-option>
+     </mat-autocomplete>
+   </mat-form-field>
+   <mat-form-field *ngIf="(generarGuia$|async) && ventaEjecutarForm.get('documentoTipo').value !== 'noone'"
+   appearance="fill"  class="fullC">
+     <mat-label>Direccion de partida...</mat-label>
+     <input spellcheck="false" name="direccion_partida" id="direccion_partida" formControlName="direccion_partida" matInput>
+   </mat-form-field>
+
+
+
+   <h5 *ngIf="(generarGuia$|async) && ventaEjecutarForm.get('documentoTipo').value !== 'noone'"
+   [ngStyle]="{ 'color': '#ff7b00', 'margin': '1em 0 1em 0'}">
+     Punto de llegada
+   </h5>
+   <mat-form-field *ngIf="(generarGuia$|async) && ventaEjecutarForm.get('documentoTipo').value !== 'noone'"
+    appearance="fill" class="fullC">
+     <mat-label>Departamento</mat-label>
+     <input type="text"
+            matInput
+            formControlName="departamento_llegada"
+            [matAutocomplete]="autoFour">
+     <mat-autocomplete #autoFour="matAutocomplete">
+       <mat-option *ngFor="let option of filterDepartamentosLlegada" [value]="option">
+         {{option}}
+       </mat-option>
+     </mat-autocomplete>
+   </mat-form-field>
+
+   <mat-form-field *ngIf="(generarGuia$|async) && ventaEjecutarForm.get('documentoTipo').value !== 'noone'"
+   appearance="fill"  class="fullC">
+     <mat-label>Provincia</mat-label>
+     <input autocomplete="not-pro" type="text"
+            matInput
+            formControlName="provincia_llegada"
+            [matAutocomplete]="autoFive">
+     <mat-autocomplete #autoFive="matAutocomplete">
+       <mat-option *ngFor="let option of filterProvinciasLlegada" [value]="option">
+         {{option}}
+       </mat-option>
+     </mat-autocomplete>
+   </mat-form-field>
+   <mat-form-field *ngIf="(generarGuia$|async) && ventaEjecutarForm.get('documentoTipo').value !== 'noone'"
+   appearance="fill"  class="fullC">
+     <mat-label>Distrito</mat-label>
+     <input autocomplete="not-pro" type="text"
+            matInput
+            formControlName="distrito_llegada"
+            [matAutocomplete]="autoSix">
+     <mat-autocomplete #autoSix="matAutocomplete">
+       <mat-option *ngFor="let option of filterDistritosLlegada" [value]="option">
+         {{option}}
+       </mat-option>
+     </mat-autocomplete>
+   </mat-form-field>
+   <mat-form-field *ngIf="(generarGuia$|async) && ventaEjecutarForm.get('documentoTipo').value !== 'noone'"
+   appearance="fill"  class="fullC">
+     <mat-label>Direccion de partida...</mat-label>
+     <input spellcheck="false" name="direccion_partida" id="direccion_partida" formControlName="direccion_llegada" matInput>
+   </mat-form-field>
   </form>
+  <div class="hpc">
+    <mat-checkbox
+    [disabled]="ventaEjecutarForm.get('documentoTipo').value === 'noone'" (click)="activarGenerarGuiaForm()"
+    >Generar guia</mat-checkbox>
+  </div>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">

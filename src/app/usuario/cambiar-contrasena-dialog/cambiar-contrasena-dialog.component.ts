@@ -54,8 +54,9 @@ export class CambiarContrasenaDialogComponent implements OnInit, OnDestroy {
       ])),
       passwordConf: this.fb.control({value: '', disabled: true}, Validators.compose([
         Validators.required,
+        this.confirmarPasswordV2('password')
       ])),
-    }, {validators: this.confirmedValidator('password', 'passwordConf')});
+    });
 
     this.subOne = this.passwordForm.get('passwordOld').valueChanges.pipe(distinctUntilChanged(), debounceTime(800)).subscribe(res => {
       this.errorPassword = false;
@@ -80,6 +81,17 @@ export class CambiarContrasenaDialogComponent implements OnInit, OnDestroy {
         });
       }
     });
+  }
+
+  confirmarPasswordV2(fildToGet: string): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: boolean } | null => {
+      if (control.parent) {
+        if (control.parent.get(fildToGet).value === control.value) {
+          return null;
+        }
+        return {error: true};
+      }
+    };
   }
 
   confirmedValidator(controlName: string, matchingControlName: string){

@@ -253,7 +253,6 @@ export class AuthService {
           tap((res: Token) => this.doLoginUser(res)),
           mapTo({message: 'Redirecionando a la pagina principal.', code: 0}),
           catchError(error => {
-            console.log(error);
             switch (error.status) {
               case 0:
                 return of({message: 'Error al tratar de conectar al servidor', code: 2});

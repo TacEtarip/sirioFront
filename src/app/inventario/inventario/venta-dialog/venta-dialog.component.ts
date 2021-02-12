@@ -1,11 +1,12 @@
-import { distinctUntilChanged } from 'rxjs/operators';
+import { distinctUntilChanged, filter } from 'rxjs/operators';
 import { AuthService } from './../../../auth.service';
 import { Component, OnInit, Inject, AfterContentInit, OnDestroy } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder, FormArray, AbstractControl, ValidatorFn } from '@angular/forms';
 import { Item, InventarioManagerService, Venta, ItemVendido, Documento, Order, DNI, RUC } from '../../../inventario-manager.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import jsonCode from '../../../../assets/sunatCodes.json';
 
 
 export interface VentaSimple {
@@ -53,6 +54,18 @@ interface PreVentaSimpleInfo {
   metodoPagoOne: string;
   metodoPagoTwo: string;
   clienteEmail: string;
+  peso?: number;
+  documento_transportista?: string;
+  placa_transportista?: string;
+  denomicaion_transportista?: string;
+  departamento?: string;
+  provincia?: string;
+  distrito?: string;
+  direccion_partida?: string;
+  departamento_llegada?: string;
+  provincia_llegada?: string;
+  distrito_llegada?: string;
+  direccion_llegada?: string;
 }
 
 @Component({
@@ -62,7 +75,7 @@ interface PreVentaSimpleInfo {
 })
 export class VentaDialogComponent implements OnInit, OnDestroy {
 
-  ventasActivas: Venta[];
+  generarGuia$ = new BehaviorSubject<boolean>(false);
 
   ventaForm: FormGroup;
 
@@ -78,6 +91,8 @@ export class VentaDialogComponent implements OnInit, OnDestroy {
 
   sum = 0;
 
+  ubigeoPartida = '';
+
   tiposDocumentos: TipoDoc[] = [
     {value: 'noone', viewValue: 'Sin Documento'},
     {value: 'factura', viewValue: 'Factura'},
@@ -91,31 +106,73 @@ export class VentaDialogComponent implements OnInit, OnDestroy {
     {value: 'otro', viewValue: 'Otro'}
   ];
 
+  metodosDeTransporte: MetodoPago[] = [
+    {value: '01', viewValue: 'Publico'},
+    {value: '02', viewValue: 'Privado'},
+  ];
+
   currentDocumentType = this.tiposDocumentos[0].value;
   currentMetodoPago = this.metodosDePago[0].value;
+  currentTipoTransporte = this.metodosDeTransporte[0].value;
+
 
   totalPriceIGV: string;
 
   subOne: Subscription;
+
+  subI: Subscription;
+  subII: Subscription;
+  subIII: Subscription;
+  subIV: Subscription;
+  subV: Subscription;
+  subVI: Subscription;
+
+  sunatCodes: any;
+
+  filterDepartamentos: Array<any>;
+  filterProvincias: Array<any>;
+  filterDistritos: Array<any>;
+
+  filterDepartamentosLlegada: Array<any>;
+  filterProvinciasLlegada: Array<any>;
+  filterDistritosLlegada: Array<any>;
+
+  llegadaUbigeo = '';
+  partidaUbigeo = '';
+
+
+  indexProvincia = 0;
+
+  ventaActiva = '';
 
   constructor(
     public dialogRef: MatDialogRef<VentaDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public item: Item,
     private formBuilder: FormBuilder,
     private inventarioMNG: InventarioManagerService,
-    private router: Router, private auth: AuthService) { }
+    private router: Router, private auth: AuthService) {
+      this.sunatCodes = jsonCode;
+    }
 
 
   ngOnDestroy(): void {
     this.subOne.unsubscribe();
+    this.subI.unsubscribe();
+    this.subII.unsubscribe();
+    this.subIII.unsubscribe();
+    this.subIV.unsubscribe();
+    this.subV.unsubscribe();
+    this.subVI.unsubscribe();
+    this.generarGuia$.complete();
   }
 
   ngOnInit(): void {
-      this.inventarioMNG.getVentasActivas().subscribe((res: Venta[]) => {
-        this.ventasActivas = res;
+      this.inventarioMNG.getVentasActivas().subscribe((res) => {
+        this.ventaActiva = res.codigo;
       });
+
       this.ventaForm = this.formBuilder.group({
-        selectAcction: this.formBuilder.control('',  Validators.compose([
+        selectAcction: this.formBuilder.control('ventaSimple',  Validators.compose([
           Validators.required
         ])),
         priceIGV: this.formBuilder.control({value: this.rebrandNumber(true, this.item.priceIGV) , disabled: true},  Validators.compose([
@@ -145,9 +202,93 @@ export class VentaDialogComponent implements OnInit, OnDestroy {
         ])),
         clienteEmail: this.formBuilder.control('', Validators.compose([
           Validators.email
+        ])),
+        ///////////////////////////////////////////////////////////
+        ///
+        peso: this.formBuilder.control({value: '', disabled: true},  Validators.compose([
+          Validators.required,
+          Validators.pattern(/^\d*\.?\d{0,2}$/),
+          Validators.min(0.01)
+        ])),
+        ///
+        documento_transportista: this.formBuilder.control({ value: '', disabled: true }, Validators.compose([
+          Validators.required,
+          Validators.pattern(/^[0-9]{8}$|^[0-9]{11}$/g),
+        ])),
+        ///
+        placa_transportista: this.formBuilder.control({ value: '', disabled: true }, Validators.compose([
+          Validators.required,
+          Validators.pattern(/^[0-9a-zA-Z_-]{3,}$/),
+        ])),
+        ///
+        denomicaion_transportista: this.formBuilder.control({ value: '', disabled: true }),
+        //
+        departamento: this.formBuilder.control({ value: '', disabled: true }, Validators.compose([
+          Validators.required,
+          this.validateDepartamento
+        ])),
+        provincia: this.formBuilder.control({ value: '', disabled: true }, Validators.compose([
+          Validators.required,
+          this.validateProvincia('departamento')
+        ])),
+        distrito: this.formBuilder.control({ value: '', disabled: true }, Validators.compose([
+          Validators.required,
+          this.validateDistrito('departamento', 'provincia')
+        ])),
+        ///
+        direccion_partida: this.formBuilder.control({ value: '', disabled: true }, Validators.compose([
+          Validators.required,
+          Validators.pattern(/^[a-zA-Z0-9.,_#\s]+$/)
+        ])),
+        ///
+        departamento_llegada: this.formBuilder.control({ value: '', disabled: true }, Validators.compose([
+          Validators.required,
+          this.validateDepartamento
+        ])),
+        provincia_llegada: this.formBuilder.control({ value: '', disabled: true }, Validators.compose([
+          Validators.required,
+          this.validateProvincia('departamento_llegada')
+        ])),
+        distrito_llegada: this.formBuilder.control({ value: '', disabled: true }, Validators.compose([
+          Validators.required,
+          this.validateDistrito('departamento_llegada', 'provincia_llegada')
+        ])),
+        ///
+        direccion_llegada: this.formBuilder.control({ value: '', disabled: true }, Validators.compose([
+          Validators.required,
+          Validators.pattern(/^[a-zA-Z0-9.,_#\s]+$/)
         ]))
       }
       );
+
+      this.ventaForm.get('documento_transportista').valueChanges.pipe(distinctUntilChanged()).subscribe((value: string) => {
+        if (this.ventaForm.get('documento_transportista').valid) {
+          this.comprobarDocV2(value);
+        } else {
+          this.ventaForm.get('denomicaion_transportista').reset();
+        }
+      });
+
+      this.generarGuia$.pipe(distinctUntilChanged()).subscribe(generar => {
+        if (generar) {
+          this.ventaForm.get('peso').enable();
+          this.ventaForm.get('documento_transportista').enable();
+          this.ventaForm.get('placa_transportista').enable();
+          this.ventaForm.get('departamento').enable();
+          this.ventaForm.get('direccion_partida').enable();
+          this.ventaForm.get('departamento_llegada').enable();
+          this.ventaForm.get('direccion_llegada').enable();
+        } else {
+          this.ventaForm.get('peso').disable();
+          this.ventaForm.get('documento_transportista').disable();
+          this.ventaForm.get('placa_transportista').disable();
+          this.ventaForm.get('departamento').disable();
+          this.ventaForm.get('direccion_partida').disable();
+          this.ventaForm.get('departamento_llegada').disable();
+          this.ventaForm.get('direccion_llegada').disable();
+        }
+      });
+
       if (!this.item.subConteo) {
         this.ventaForm.addControl('cantidadDisponible',  this.formBuilder.control({value: this.item.cantidad, disabled: true},
           Validators.compose([
@@ -170,6 +311,31 @@ export class VentaDialogComponent implements OnInit, OnDestroy {
         });
       }
 
+      this.subI = this.ventaForm.get('departamento').valueChanges.pipe(distinctUntilChanged()).subscribe( (r: string) => {
+        this.checkDepartamento(r, 'provincia', 'departamento', 1);
+      });
+
+
+      this.subII = this.ventaForm.get('provincia').valueChanges.pipe(distinctUntilChanged()).subscribe( (r: string) => {
+        this.checkProvincia(r, 'provincia', 'departamento', 'distrito', 1);
+      });
+
+      this.subIII = this.ventaForm.get('distrito').valueChanges.pipe(distinctUntilChanged()).subscribe((r: string) => {
+        this.checkDistrito(r, 'provincia', 'distrito', 1);
+      });
+
+      this.subIV = this.ventaForm.get('departamento_llegada').valueChanges.pipe(distinctUntilChanged()).subscribe( (r: string) => {
+        this.checkDepartamento(r, 'provincia_llegada', 'departamento_llegada', 2);
+      });
+
+      this.subV = this.ventaForm.get('provincia_llegada').valueChanges.pipe(distinctUntilChanged()).subscribe( (r: string) => {
+        this.checkProvincia(r, 'provincia_llegada', 'departamento_llegada', 'distrito_llegada', 2);
+      });
+
+      this.subVI = this.ventaForm.get('distrito_llegada').valueChanges.pipe(distinctUntilChanged()).subscribe((r: string) => {
+        this.checkDistrito(r, 'provincia_llegada', 'distrito_llegada', 2);
+      });
+
       this.subOne = this.ventaForm.get('metodoPagoOne').valueChanges.pipe(distinctUntilChanged()).subscribe(res => {
         this.ventaForm.get('metodoPagoTwo').reset();
         if (res === 'efectivo') {
@@ -180,6 +346,144 @@ export class VentaDialogComponent implements OnInit, OnDestroy {
       });
 
     // this.totalPriceIGV = this.rebrandNumber(true, Math.round(((this.item.priceIGV * 1) + Number.EPSILON) * 100) / 100).replace('.', ',');
+  }
+
+  checkDepartamento(r: string, provincia: string, departamento: string, witchOne: number) {
+    if (witchOne === 1) {
+      this.filterDepartamentos = new Array();
+      this.filterProvincias = new Array();
+    } else {
+      this.filterDepartamentosLlegada = new Array();
+      this.filterProvinciasLlegada = new Array();
+    }
+    this.ventaForm.get(provincia).reset();
+    this.ventaForm.get(provincia).disable();
+    if (r) {
+      const testRegex = new RegExp('^' + r + '+[a-z ]*$', 'i');
+      jsonCode.forEach(element => {
+        if (testRegex.test(element.departamento)) {
+          if (witchOne === 1) {
+            this.filterDepartamentos.push(element.departamento);
+          } else {
+            this.filterDepartamentosLlegada.push(element.departamento);
+          }
+        }
+      });
+    }
+    if (this.ventaForm.get(departamento).valid) {
+        this.ventaForm.get(provincia).enable();
+    }
+  }
+
+  checkProvincia(r: string, provincia: string, departamento: string, distrito: string, witchOne: number) {
+    if (witchOne === 1) {
+      this.filterProvincias = new Array();
+      this.filterDistritos = new Array();
+    } else {
+      this.filterProvinciasLlegada = new Array();
+      this.filterDistritosLlegada = new Array();
+    }
+    this.ventaForm.get(distrito).reset();
+    this.ventaForm.get(distrito).disable();
+    if (r) {
+      const testRegex = new RegExp('^' + r + '+[a-z ]*$', 'i');
+      const index = jsonCode.findIndex(op => op.departamento === this.ventaForm.get(departamento).value.toUpperCase());
+      this.indexProvincia = index;
+      jsonCode[index].provincias.forEach(element => {
+        if (testRegex.test(element.provincia)) {
+          if (witchOne === 1) {
+            this.filterProvincias.push(element.provincia);
+          } else {
+            this.filterProvinciasLlegada.push(element.provincia);
+          }
+        }
+      });
+    }
+    if (this.ventaForm.get(provincia).valid) {
+      this.ventaForm.get(distrito).enable();
+    }
+  }
+
+  checkDistrito(r: string, provincia: string, distrito: string, witchOne: number) {
+    if (witchOne === 1) {
+      this.filterDistritos = new Array();
+    } else {
+      this.filterDistritosLlegada = new Array();
+    }
+    if (r) {
+      const testRegex = new RegExp('^' + r + '+[a-z ]*$', 'i');
+      const index = jsonCode[this.indexProvincia].provincias
+      .findIndex(op => op.provincia === this.ventaForm.get(provincia).value.toUpperCase());
+      jsonCode[this.indexProvincia].provincias[index].distritos.forEach(element => {
+        if (testRegex.test(element.distrito)) {
+          if (witchOne === 1) {
+            this.filterDistritos.push(element.distrito);
+          } else {
+            this.filterDistritosLlegada.push(element.distrito);
+          }
+        }
+      });
+    }
+  }
+
+  validateDepartamento(control: AbstractControl): {[key: string]: any} | null {
+    let match = 0;
+    jsonCode.forEach(op => {
+      if (op.departamento === control.value.toUpperCase()) {
+        match++;
+      }
+    });
+    if (match >= 1) {
+      return null;
+    } else {
+      return { valid: true };
+    }
+  }
+
+  validateProvincia(departamento: string): ValidatorFn {
+    return (control: AbstractControl): {[key: string]: boolean} | null => {
+      let match = 0;
+      if (control.parent.get(departamento).valid) {
+          const nIndex = jsonCode.findIndex(op => op.departamento === control.parent.get(departamento).value.toUpperCase());
+          jsonCode[nIndex].provincias.forEach(op => {
+            if (control.value) {
+              if (op.provincia === control.value.toUpperCase()) {
+              match++;
+            }
+            }
+        });
+      }
+
+      if (match >= 1) {
+        return null;
+      } else {
+        return { valid: true };
+      }
+    };
+  }
+
+  validateDistrito(departamento: string, provincia: string): ValidatorFn {
+    return (control: AbstractControl): {[key: string]: boolean} | null => {
+      let match = 0;
+      if (control.parent.get(departamento).valid && control.parent.get(provincia).valid) {
+          const dIndex = jsonCode.findIndex(op => op.departamento === control.parent.get(departamento).value.toUpperCase());
+          const pIndex = jsonCode[dIndex].provincias
+          .findIndex(op => op.provincia === control.parent.get(provincia).value.toUpperCase());
+          jsonCode[dIndex].provincias[pIndex].distritos.forEach(op => {
+          if (control.value) {
+            if (op.distrito === control.value.toUpperCase()) {
+             match++;
+           }
+          }
+        });
+      }
+
+      if (match >= 1) {
+        return null;
+      } else {
+        return { valid: true };
+      }
+    };
   }
 
   addOrder(orderName: string, orderSecondName: string, cantidad: number) {
@@ -206,6 +510,10 @@ export class VentaDialogComponent implements OnInit, OnDestroy {
      });
 
     this.cantidadList.push(fg);
+  }
+
+  activarGenerarGuiaForm() {
+    this.generarGuia$.next(!this.generarGuia$.value);
   }
 
   actTotal() {
@@ -247,6 +555,12 @@ export class VentaDialogComponent implements OnInit, OnDestroy {
       }
     }
     return newNumber;
+  }
+
+  resetSome() {
+    this.generarGuia$.next(false);
+    this.ventaForm.get('documentoTipo').setValue('noone');
+    this.ventaForm.get('metodoPagoOne').setValue('efectivo');
   }
 
   changeNumberOut() {
@@ -320,6 +634,31 @@ export class VentaDialogComponent implements OnInit, OnDestroy {
     }
   }
 
+  comprobarDocV2(doc: string) {
+    const docL = doc.length;
+    if (docL === 8) {
+      this.inventarioMNG.getDNI(doc).subscribe((res: DNI) => {
+        if (res) {
+          this.ventaForm.get('denomicaion_transportista').setValue(res.nombre);
+        }
+        else {
+          this.ventaForm.get('denomicaion_transportista').setValue('');
+          this.ventaForm.get('documento_transportista').setErrors({incorrect: true});
+        }
+      });
+    } else if (docL === 11) {
+      this.inventarioMNG.getRUC(doc).subscribe((res: RUC) => {
+        if (res) {
+          this.ventaForm.get('denomicaion_transportista').setValue(res.nombre_o_razon_social);
+        }
+        else {
+          this.ventaForm.get('denomicaion_transportista').setValue('');
+          this.ventaForm.get('documento_transportista').setErrors({incorrect: true});
+        }
+      });
+    }
+  }
+
   comprobarDOC() {
     if (this.ventaForm.get('docCod').valid && this.ventaForm.get('docCod').enabled) {
       if (this.ventaForm.get('documentoTipo').value === this.tiposDocumentos[1].value) {
@@ -333,6 +672,7 @@ export class VentaDialogComponent implements OnInit, OnDestroy {
             this.ventaForm.get('nameDocumento').setValue('');
             this.documentoFullInfo.next(null);
             this.ventaForm.get('docCod').setErrors({incorrect: true});
+            this.documentAccepted.next(false);
           }
         });
       } else {
@@ -346,6 +686,7 @@ export class VentaDialogComponent implements OnInit, OnDestroy {
             this.documentoFullInfo.next(null);
             this.ventaForm.get('nameDocumento').setValue('');
             this.ventaForm.get('docCod').setErrors({incorrect: true});
+            this.documentAccepted.next(false);
           }
         });
       }
@@ -364,11 +705,45 @@ export class VentaDialogComponent implements OnInit, OnDestroy {
     }
   }
 
+  crearNewVentaBody(preVentaInfo: PreVentaSimpleInfo) {
+    let cSC: any[];
+    if (this.item.subConteo) {
+      cSC = preVentaInfo.cantidadList;
+    } else{
+      cSC = [];
+    }
+    const total =  parseFloat(this.totalPriceIGV.replace(',', '.'));
+    const totalNoIGV = Math.round(((total / 1.18) + Number.EPSILON) * 100) / 100;
+    const itemVendido: ItemVendido =
+    {codigo: this.item.codigo, name: this.item.name, priceIGV: preVentaInfo.priceIGV,
+      priceNoIGV: preVentaInfo.priceNoIGV, descripcion: this.item.description,
+      cantidadSC: cSC, cantidad: preVentaInfo.cantidadVenta, totalPrice: total, totalPriceNoIGV: totalNoIGV };
+    if (this.item.subConteo) {
+      itemVendido.cantidad = this.sum;
+    }
+    const bodyToSend: Venta =
+    {
+      documento:  {
+        type: 'noone', name: '',
+        codigo: null,
+        direccion: '',
+      },
+        codigo: '', totalPrice: total,
+        totalPriceNoIGV: totalNoIGV,
+        estado: 'pendiente', itemsVendidos: [itemVendido], vendedor: this.auth.getUser(),
+        tipoVendedor: this.auth.getTtype(), cliente_email: '',
+        medio_de_pago: '',
+    };
+
+    this.ventaEnCurso.next(true);
+
+    return bodyToSend;
+  }
+
   ventaCMN(preVentaInfo: PreVentaSimpleInfo, estado: string) {
     let cSC: any[];
     if (this.item.subConteo) {
       cSC = preVentaInfo.cantidadList;
-
     } else{
       cSC = [];
     }
@@ -389,16 +764,38 @@ export class VentaDialogComponent implements OnInit, OnDestroy {
           codigo: preVentaInfo.docCod,
           direccion: this.documentoFullInfo.value.direccion || '',
         },
-        codigo: '', totalPrice: total,
+        codigo: '', totalPrice: total, guia: false,
         totalPriceNoIGV: totalNoIGV,
         estado, itemsVendidos: [itemVendido], vendedor: this.auth.getUser(),
-        tipoVendedor: this.auth.getTtype(), cliente_email: preVentaInfo.clienteEmail || undefined,
+        tipoVendedor: this.auth.getTtype(), cliente_email: preVentaInfo.clienteEmail || '',
         medio_de_pago: preVentaInfo.metodoPagoOne + '|' + (preVentaInfo.metodoPagoTwo || ' '),
     };
+
+    if (this.generarGuia$.value) {
+      bodyToSend.guia = true;
+      bodyToSend.peso = preVentaInfo.peso;
+      bodyToSend.transportista_placa = preVentaInfo.placa_transportista;
+      bodyToSend.transportista_codigo = preVentaInfo.documento_transportista;
+      bodyToSend.transportista_nombre = preVentaInfo.denomicaion_transportista;
+      bodyToSend.llegada_ubigeo =
+      this.getUbigeo(preVentaInfo.departamento_llegada, preVentaInfo.provincia_llegada, preVentaInfo.distrito_llegada);
+      bodyToSend.partida_ubigeo =
+      this.getUbigeo(preVentaInfo.departamento, preVentaInfo.provincia, preVentaInfo.distrito);
+      bodyToSend.llegada_direccion = preVentaInfo.direccion_llegada;
+      bodyToSend.partida_direccion = preVentaInfo.direccion_partida;
+      bodyToSend.bultos = itemVendido.cantidad;
+    }
 
     this.ventaEnCurso.next(true);
 
     return bodyToSend;
+  }
+
+  getUbigeo(departamento: string, provincia: string, distrito: string): string {
+    const indexD = jsonCode.findIndex(res => res.departamento === departamento);
+    const indexP = jsonCode[indexD].provincias.findIndex(res => res.provincia === provincia);
+    const distritoGet = jsonCode[indexD].provincias[indexP].distritos.find(res => res.distrito === distrito);
+    return distritoGet.codigo;
   }
 
   ventaSimple(preVentaInfo: PreVentaSimpleInfo) {
@@ -420,7 +817,7 @@ export class VentaDialogComponent implements OnInit, OnDestroy {
   }
 
   generarNuevaVenta(preVentaInfo: PreVentaSimpleInfo) {
-    const bodyToSend = this.ventaCMN(preVentaInfo, 'pendiente');
+    const bodyToSend = this.crearNewVentaBody(preVentaInfo);
     this.inventarioMNG.generarVentaNueva({venta: bodyToSend}).subscribe((res) => {
       this.ventaEnCurso.next(false);
       if (res) {
@@ -457,8 +854,9 @@ export class VentaDialogComponent implements OnInit, OnDestroy {
     } else {
       bodyToSend.cantidadSC = [];
     }
-
-    this.inventarioMNG.agregarItemVenta(bodyToSend, preVentaInfo.selectAcction).subscribe((res) => {
+    this.ventaEnCurso.next(true);
+    this.inventarioMNG.agregarItemVenta(bodyToSend, this.ventaActiva).subscribe((res) => {
+      this.ventaEnCurso.next(false);
       if (res) {
         this.dialogRef.close({item: this.item, message: `succesAI|${res.message}` });
       } else {
@@ -486,6 +884,9 @@ export class VentaDialogComponent implements OnInit, OnDestroy {
     const precio: number = this.ventaForm.get('priceIGV').value;
     this.totalPriceIGV = this.rebrandNumber(true, Math.round(((this.sum * precio) + Number.EPSILON) * 100) / 100).replace('.', ',');
   }
+  }
+
+  testValueForm(testV) {
   }
 
 }

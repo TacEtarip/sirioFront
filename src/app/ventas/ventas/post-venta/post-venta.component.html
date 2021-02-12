@@ -89,8 +89,11 @@
     </mat-tab>
   </mat-tab-group>
   <div class="final">
-    <button (click)="descargarPDF()" mat-flat-button color="primary">Descargar PDF</button>
-    <button (click)="desargarPDFsunat()" mat-flat-button color="primary">Descargar PDF SUNAT</button>
+    <div class="btns">
+      <button [ngStyle]="{'margin-right': '1em'}" *ngIf="(venta$|async).linkComprobante"  (click)="desargarPDFsunat()" mat-flat-button color="primary">Descargar PDF SUNAT</button>
+      <button *ngIf="(venta$|async).guia" [ngStyle]="{'margin-right': '1em'}" (click)="descargarGUIA()" mat-flat-button color="primary">Descargar Guía</button>
+      <button  (click)="descargarPDF()" mat-flat-button color="primary">Descargar PDF</button>
+    </div>
     <div class="totales">
       <h4>Total Base: {{((venta$|async).totalPriceNoIGV)|currency:'S/ '}}</h4>
       <h4>IGV 18%: {{((venta$|async).totalPrice - (venta$|async).totalPriceNoIGV)|currency:'S/ '}}</h4>

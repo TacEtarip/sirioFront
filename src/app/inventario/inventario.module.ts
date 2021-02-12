@@ -50,7 +50,8 @@ import {MatDatepickerModule } from '@angular/material/datepicker';
 import { TipoRutaComponent } from './inventario/tipo-ruta/tipo-ruta.component';
 import { ItemPageComponent } from './inventario/item-page/item-page.component';
 import {MatMenuModule} from '@angular/material/menu';
-
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [InventarioComponent, ListaPlegableComponent, NewItemDialogComponent,
@@ -87,7 +88,9 @@ import {MatMenuModule} from '@angular/material/menu';
     MatSortModule,
     MatProgressSpinnerModule,
     MatDatepickerModule,
-    MatMenuModule
+    MatMenuModule,
+    MatAutocompleteModule,
+    FormsModule
   ]
 })
 export class InventarioModule { }

@@ -11,11 +11,11 @@ export class VentasActivasComponent implements OnInit {
 
   constructor(private inventarioMNG: InventarioManagerService) { }
 
-  ventasActivas = new BehaviorSubject<Venta[]>([]);
+  ventasActiva = new BehaviorSubject<Venta>(null);
 
   ngOnInit(): void {
     this.inventarioMNG.getVentasActivas().subscribe((res) => {
-      this.ventasActivas.next(res);
+      this.ventasActiva.next(res);
     });
   }
 

@@ -126,4 +126,8 @@ export class PostVentaComponent implements OnInit {
     window.open(this.venta$.value.linkComprobante, '_blank');
   }
 
+  descargarGUIA() {
+    window.open(this.venta$.value.guia_link, '_blank');
+  }
+
 }

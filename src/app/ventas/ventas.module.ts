@@ -39,7 +39,8 @@ import { MatMomentDateModule, MAT_MOMENT_DATE_FORMATS, MAT_MOMENT_DATE_ADAPTER_O
 import { VentaIndHistoriaComponent } from './ventas/historial-ventas/venta-ind-historia/venta-ind-historia.component';
 import {MatTabsModule} from '@angular/material/tabs';
 import { SeguroAnularComponent } from './ventas/historial-ventas/seguro-anular/seguro-anular.component';
-
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -74,7 +75,9 @@ import { SeguroAnularComponent } from './ventas/historial-ventas/seguro-anular/s
     MatPaginatorModule,
     MatDatepickerModule,
     MatMomentDateModule,
-    MatTabsModule
+    MatTabsModule,
+    MatAutocompleteModule,
+    FormsModule
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'es'},
