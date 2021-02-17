@@ -79,7 +79,7 @@
    <mat-form-field *ngIf="(generarGuia$|async) && ventaEjecutarForm.get('documentoTipo').value !== 'noone'"
    appearance="fill"  class="fullC">
      <mat-label>Provincia</mat-label>
-     <input autocomplete="not-pro" type="text"
+     <input autocomplete="off" type="text"
             matInput
             formControlName="provincia"
             [matAutocomplete]="autoTwo">
@@ -92,7 +92,7 @@
    <mat-form-field *ngIf="(generarGuia$|async) && ventaEjecutarForm.get('documentoTipo').value !== 'noone'"
    appearance="fill"  class="fullC">
      <mat-label>Distrito</mat-label>
-     <input autocomplete="not-pro" type="text"
+     <input autocomplete="off" type="text"
             matInput
             formControlName="distrito"
             [matAutocomplete]="autoTrhee">
@@ -144,7 +144,7 @@
    <mat-form-field *ngIf="(generarGuia$|async) && ventaEjecutarForm.get('documentoTipo').value !== 'noone'"
    appearance="fill"  class="fullC">
      <mat-label>Distrito</mat-label>
-     <input autocomplete="not-pro" type="text"
+     <input autocomplete="off" type="text"
             matInput
             formControlName="distrito_llegada"
             [matAutocomplete]="autoSix">

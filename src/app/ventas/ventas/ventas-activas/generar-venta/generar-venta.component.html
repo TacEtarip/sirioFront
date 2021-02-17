@@ -1,0 +1,84 @@
+<h1 *ngIf="crear.crear" [ngStyle]="{'color': '#FF6E40'}" mat-dialog-title>Crear nueva venta</h1>
+<h1 *ngIf="!crear.crear" [ngStyle]="{'color': '#FF6E40'}" mat-dialog-title>Añadir item a venta</h1>
+<div mat-dialog-content>
+  <form  [formGroup]="ventaForm">
+    <mat-form-field  appearance="fill" class="fourSpan">
+      <mat-label>Nombre Item...</mat-label>
+      <input type="text" matInput formControlName="name" [matAutocomplete]="auto"  autocomplete="off">
+      <mat-autocomplete (optionSelected)="selectItem($event)" #auto="matAutocomplete" [displayWith]="displayFn" >
+        <mat-option *ngFor="let option of filteredItem$ | async" [value]="option">
+          {{option.name}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <mat-form-field class="twoSpan" appearance="fill">
+      <mat-label>Codigo...</mat-label>
+      <input autocomplete="off" name="codigo" id="codigo" formControlName="codigo" matInput>
+    </mat-form-field>
+    <mat-form-field appearance="fill"  class="threeSpan">
+      <mat-label>Precio No IGV</mat-label>
+      <input name="priceIGV" id="priceNoIGV" formControlName="priceNoIGV" type="number" min="0" step="1" matInput>
+      <span [ngStyle]="{'margin-right': '5px'}" matPrefix>S/ </span>
+    </mat-form-field>
+    <mat-form-field appearance="fill"  class="threeSpan">
+      <mat-label>Precio</mat-label>
+      <input (input)="changeNumber()" (focusout)="changeNumber()" name="priceIGV" id="priceIGV" formControlName="priceIGV" type="number" min="0" step="1" matInput>
+      <span [ngStyle]="{'margin-right': '5px'}" matPrefix>S/ </span>
+    </mat-form-field>
+    <mat-form-field  *ngIf="!(item$|async)" appearance="fill"  class="fullSpan">
+      <mat-label>Cantidad</mat-label>
+      <input (input)="actTotal('cantidad')" (keypress)="resetSum()" name="cantidadA" id="cantidadA" formControlName="cantidad" type="number" min="1" step="1" matInput>
+      <mat-error>Cantidad Invalida</mat-error>
+    </mat-form-field>
+    <mat-form-field *ngIf="(item$|async) && !(item$|async).subConteo" appearance="fill"  class="threeSpan">
+      <mat-label>Cantidad Disponible</mat-label>
+      <input name="cantidad" id="cantidadD" formControlName="cantidadDisponible" type="number" min="1" step="1" matInput>
+    </mat-form-field>
+    <mat-form-field  *ngIf="(item$|async) && !(item$|async).subConteo" appearance="fill"  class="threeSpan">
+      <mat-label>Cantidad</mat-label>
+      <input (input)="actTotal('cantidadVenta')" (keypress)="resetSum()" name="cantidad" id="cantidad" formControlName="cantidadVenta" type="number" min="1" step="1" matInput>
+      <mat-error>Cantidad Invalida</mat-error>
+    </mat-form-field>
+
+    <div *ngIf="(item$|async) && (item$|async).subConteo" formArrayName="cantidadList" class="fullSpan">
+      <div *ngFor="let sub of cantidadList.controls; index as i">
+        <div [formGroupName]="i" class="secondGrid">
+          <mat-form-field  appearance="fill" class="twoSpan">
+            <mat-label>Sub...</mat-label>
+            <input spellcheck="false" formControlName="name" maxlength="60" matInput>
+          </mat-form-field>
+          <mat-form-field  appearance="fill" class="twoSpan">
+            <mat-label>Sub II...</mat-label>
+            <input spellcheck="false" formControlName="nameSecond" maxlength="60" matInput>
+          </mat-form-field>
+          <mat-form-field  appearance="fill" class="twoSpan">
+            <mat-label>Cantidad Disponible</mat-label>
+            <input   spellcheck="false" formControlName="cantidadDisponible" type="number" min="0" step="1" matInput>
+          </mat-form-field>
+          <mat-form-field  appearance="fill" class="fullSpan">
+            <mat-label>Cantidad</mat-label>
+            <input (input)="actTotalForSubConteo(i)" (keypress)="resetSum()" spellcheck="false" formControlName="cantidadVenta" type="number" min="0" step="1" matInput>
+            <mat-error>Cantidad Invalida</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </form>
+  <h2 class="totalGrid">Total: S/ {{totalPriceIGV}}</h2>
+</div>
+<div align="end" mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button *ngIf="(item$|async) && crear.crear" (click)="generarNuevaVenta(ventaForm.getRawValue())" type="button"
+  [disabled]="!ventaForm.valid || sum <= 0" mat-flat-button color="primary">Crear Venta</button>
+  <button *ngIf="!(item$|async) && crear.crear" (click)="generarNuevaVenta(ventaForm.getRawValue())" type="button"
+  [disabled]="!ventaForm.valid" mat-flat-button color="primary">Crear Venta</button>
+
+  <button *ngIf="(item$|async) && !crear.crear" (click)="agregarItemVenta(ventaForm.getRawValue())" type="button"
+  [disabled]="!ventaForm.valid || sum <= 0" mat-flat-button color="primary">Agregar Item</button>
+  <button *ngIf="!(item$|async) && !crear.crear" (click)="agregarItemVenta(ventaForm.getRawValue())" type="button"
+  [disabled]="!ventaForm.valid" mat-flat-button color="primary">Agregar Item</button>
+</div>
+
+<div  *ngIf="ventaEnCurso$|async" id="overlay">
+  <mat-spinner class="ventaR" color="accent"></mat-spinner>
+</div>

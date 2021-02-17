@@ -133,7 +133,7 @@
       <mat-form-field *ngIf="(generarGuia$|async) && ventaForm.get('documentoTipo').value !== 'noone' && ventaForm.get('selectAcction').value === 'ventaSimple'"
       appearance="fill" [ngStyle]="{'grid-column':'span 2'}" class="example-full-width">
         <mat-label>Provincia</mat-label>
-        <input autocomplete="not-pro" type="text"
+        <input autocomplete="off" type="text"
                matInput
                formControlName="provincia"
                [matAutocomplete]="autoTwo">
@@ -185,7 +185,7 @@
       <mat-form-field *ngIf="(generarGuia$|async) && ventaForm.get('documentoTipo').value !== 'noone' && ventaForm.get('selectAcction').value === 'ventaSimple'"
       appearance="fill" [ngStyle]="{'grid-column':'span 2'}" class="example-full-width">
         <mat-label>Provincia</mat-label>
-        <input autocomplete="not-pro" type="text"
+        <input autocomplete="off" type="text"
                matInput
                formControlName="provincia_llegada"
                [matAutocomplete]="autoFive">
@@ -198,7 +198,7 @@
       <mat-form-field *ngIf="(generarGuia$|async) && ventaForm.get('documentoTipo').value !== 'noone' && ventaForm.get('selectAcction').value === 'ventaSimple'"
       appearance="fill" [ngStyle]="{'grid-column':'span 2'}" class="example-full-width">
         <mat-label>Distrito</mat-label>
-        <input autocomplete="not-pro" type="text"
+        <input autocomplete="off" type="text"
                matInput
                formControlName="distrito_llegada"
                [matAutocomplete]="autoSix">

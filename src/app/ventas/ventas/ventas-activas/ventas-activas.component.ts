@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { InventarioManagerService, Venta } from '../../../inventario-manager.service';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
-
+import { GenerarVentaComponent } from '../ventas-activas/generar-venta/generar-venta.component';
 @Component({
   selector: 'app-ventas-activas',
   templateUrl: './ventas-activas.component.html',
@@ -9,13 +10,46 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class VentasActivasComponent implements OnInit {
 
-  constructor(private inventarioMNG: InventarioManagerService) { }
+  constructor(private inventarioMNG: InventarioManagerService, public dialog: MatDialog) { }
 
   ventasActiva = new BehaviorSubject<Venta>(null);
+
+  load = new BehaviorSubject<boolean>(false);
 
   ngOnInit(): void {
     this.inventarioMNG.getVentasActivas().subscribe((res) => {
       this.ventasActiva.next(res);
+      this.load.next(true);
+    });
+  }
+
+  openCrearVentaDialog() {
+    const dialogRef = this.dialog.open(GenerarVentaComponent, {
+      width: '600px',
+      data: {
+        crear: true, ventaCod: ''
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((res: { message: string, venta: Venta }) => {
+      if (res && res.venta) {
+        this.ventasActiva.next(res.venta);
+      }
+    });
+  }
+
+  openAddItemDialog() {
+    const dialogRef = this.dialog.open(GenerarVentaComponent, {
+      width: '600px',
+      data: {
+        crear: false, ventaCod: this.ventasActiva.value.codigo
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((res: { message: string, venta: Venta }) => {
+      if (res && res.venta) {
+        this.ventasActiva.next(res.venta);
+      }
     });
   }
 

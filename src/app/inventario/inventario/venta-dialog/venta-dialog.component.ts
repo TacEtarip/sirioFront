@@ -821,12 +821,11 @@ export class VentaDialogComponent implements OnInit, OnDestroy {
     this.inventarioMNG.generarVentaNueva({venta: bodyToSend}).subscribe((res) => {
       this.ventaEnCurso.next(false);
       if (res) {
-        if (res.message === 'Ya tienes una venta pendiente') {
+        if (res.venta) {
+          this.dialogRef.close({  message: `SuccesAG ${res.venta.codigo}`, venta: res.venta });
+        } else {
           alert(res.message);
-          this.dialogRef.close({item: this.item, message: 'notVentaG'});
-        }
-        else {
-          this.dialogRef.close({item: this.item, message: `SuccesAG ${res.venta.codigo}`});
+          this.dialogRef.close({ message: 'notVentaG', venta: null });
         }
       }
       else {

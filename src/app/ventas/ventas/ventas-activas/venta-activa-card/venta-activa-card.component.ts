@@ -1,9 +1,12 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { filter } from 'rxjs/operators';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { ItemsVentaForCard, InventarioManagerService, Venta, VentaSimpleEliminarInfo, VentaSimpleEliminarSCInfo } from '../../../../inventario-manager.service';
 import { BehaviorSubject } from 'rxjs';
-import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import { MatDialog, MatDialogRef} from '@angular/material/dialog';
 import { SeguroEjecDialogComponent } from '../../seguro-ejec-dialog/seguro-ejec-dialog.component';
 import { Router } from '@angular/router';
+import { GenerarVentaComponent } from '../generar-venta/generar-venta.component';
+
 
 export interface TableVentaInfo {
   codigo: string;
@@ -22,10 +25,11 @@ export interface TableVentaInfo {
   templateUrl: './venta-activa-card.component.html',
   styleUrls: ['./venta-activa-card.component.css']
 })
-export class VentaActivaCardComponent implements OnInit {
+export class VentaActivaCardComponent implements OnInit, OnDestroy {
 
   @Input() ventaCod: Venta;
 
+  venta$ = new BehaviorSubject<Venta>(null);
 
   displayedColumnsVenta: string[] = ['codigo', 'name', 'subName', 'subNameSecond', 'cantidad', 'priceIGV', 'total', 'eliminar'];
 
@@ -37,10 +41,27 @@ export class VentaActivaCardComponent implements OnInit {
 
   costoTotal = new BehaviorSubject<number>(0);
 
-  constructor(private inventarioMNG: InventarioManagerService, public dialog: MatDialog, private router: Router) { }
+    constructor(private inventarioMNG: InventarioManagerService, public dialog: MatDialog, private router: Router) {
+    }
+  ngOnDestroy(): void {
+    this.venta$.complete();
+  }
 
   ngOnInit(): void {
-    this.inventarioMNG.obtenerCardPreInfoVenta(this.ventaCod.codigo).subscribe((res) => {
+    this.venta$.next(this.ventaCod);
+    this.venta$.subscribe((venta: Venta) => {
+      if (venta) {
+        this.crearCuadro(venta);
+      }
+    });
+  }
+
+  crearCuadro(venta: Venta) {
+    this.tableVentaInfo = [];
+    this.tableVentaInfo$.next([]);
+    this.precios = [];
+    this.costoTotal.next(0);
+    this.inventarioMNG.obtenerCardPreInfoVenta(venta.codigo).subscribe((res) => {
       res.forEach(infoVenta => {
         if (infoVenta.cantidadSC && infoVenta.cantidadSC.cantidadVenta > 0) {
           const tableInfo: TableVentaInfo = {codigo: infoVenta.codigo, name: infoVenta.name,
@@ -62,6 +83,7 @@ export class VentaActivaCardComponent implements OnInit {
         }
       });
       this.costoTotal.next(this.getVentaCostoTotal());
+      console.log('jere');
       this.tableVentaInfo$.next(this.tableVentaInfo);
     });
   }
@@ -81,14 +103,14 @@ export class VentaActivaCardComponent implements OnInit {
   ejecutarVenta() {
     this.dialog.open(SeguroEjecDialogComponent, {
       width: '600px',
-      data: this.ventaCod,
+      data: this.venta$.value,
     });
   }
 
   anularVenta() {
-    this.inventarioMNG.anularVenta(this.ventaCod).subscribe((res) => {
+    this.inventarioMNG.anularVenta(this.venta$.value).subscribe((res) => {
       if (res) {
-        this.router.navigate(['/inventario']);
+        window.location.reload();
       }
     });
   }
@@ -116,7 +138,7 @@ export class VentaActivaCardComponent implements OnInit {
         trueNameSecond = '';
       }
       const eliminarItemSC: VentaSimpleEliminarSCInfo =
-              { codigo: this.ventaCod.codigo, itemCodigo: info.codigo, cantidadVenta: info.cantidad,
+              { codigo: this.venta$.value.codigo, itemCodigo: info.codigo, cantidadVenta: info.cantidad,
                 totalPriceSC:
                 info.total,
                 totalPriceNoIGVSC: (Math.round(((info.priceNoIGV * info.cantidad) + Number.EPSILON) * 100) / 100),
@@ -131,7 +153,7 @@ export class VentaActivaCardComponent implements OnInit {
     }
     else if (this.tableVentaInfo$.value.length > 1) {
       const eliminarItemSimple: VentaSimpleEliminarInfo =
-      { codigo: this.ventaCod.codigo, itemCodigo: info.codigo,
+      { codigo: this.venta$.value.codigo, itemCodigo: info.codigo,
         totalItemPrice: info.total,
         totalItemPriceNoIGV:
         (Math.round(((info.priceNoIGV * info.cantidad) + Number.EPSILON) * 100) / 100)  };
@@ -147,4 +169,19 @@ export class VentaActivaCardComponent implements OnInit {
     }
   }
 
+  openAddItemDialog() {
+    const dialogRef = this.dialog.open(GenerarVentaComponent, {
+      width: '600px',
+      data: {
+        crear: false, ventaCod: this.venta$.value.codigo
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((res: { message: string, venta: Venta }) => {
+      if (res && res.venta) {
+        console.log(res);
+        this.venta$.next(res.venta);
+      }
+    });
+  }
 }

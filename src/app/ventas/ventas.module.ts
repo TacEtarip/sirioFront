@@ -41,13 +41,13 @@ import {MatTabsModule} from '@angular/material/tabs';
 import { SeguroAnularComponent } from './ventas/historial-ventas/seguro-anular/seguro-anular.component';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { FormsModule } from '@angular/forms';
-
+import { GenerarVentaComponent } from './ventas/ventas-activas/generar-venta/generar-venta.component';
 
 
 @NgModule({
   declarations: [VentasComponent, VentasCardComponent, VentasActivasComponent,
     VentaActivaCardComponent, SeguroEjecDialogComponent, PostVentaComponent, HistorialVentasComponent,
-    Eject404Component, VentaIndHistoriaComponent, SeguroAnularComponent],
+    Eject404Component, VentaIndHistoriaComponent, SeguroAnularComponent, GenerarVentaComponent],
   imports: [
     CommonModule,
     VentasRoutingModule,

@@ -318,7 +318,7 @@ export class InventarioManagerService {
   }
 
 
-  agregarItemVenta(itemVendido: ItemVendido, codigoVenta: string): Observable<{message: string}> {
+  agregarItemVenta(itemVendido: ItemVendido, codigoVenta: string): Observable<{message: string, venta: Venta}> {
     return this.http
             .post<{message: string}>(this.baseUrl + 'ventas/agregarItemVenta', {itemVendido, codigoVenta})
               .pipe(first(),
@@ -360,16 +360,18 @@ export class InventarioManagerService {
     return this.http.post<{venta: Venta, message: string}>(this.baseUrl + 'ventas/agregarVenta', bodyToVenta)
             .pipe(first(),
             catchError(error => {
+              let message = 'Error';
               switch (error.status) {
                 case 0:
-                  alert('Error al tratar de conectar al servidor');
+                  message = 'Error al tratar de conectar al servidor';
                   break;
-                case 700:
+                case 409:
+                  message = 'Ya posee una venta activa';
                   break;
                 default:
                   break;
               }
-              return of({venta: null, message: 'Error'});
+              return of({ venta: null, message });
             })
             );
   }
@@ -889,6 +891,29 @@ export class InventarioManagerService {
                           }
                             return of(false);
                         }));
+  }
+
+  getListOfItemsFilteredByRegex(value: string, limit = 0): Observable<Item[]> {
+    return this.http.post<Item[]>(this.baseUrl + 'inventario/getListOfItemsFilteredByRegex', { value, limit })
+        .pipe(first(),
+            catchError(error => {
+                switch (error.status) {
+                case 0:
+                  alert('Error al tratar de conectar al servidor');
+                  break;
+                case 700:
+                  break;
+                case 401:
+                  alert('Tu usuario no tiene permitido esta acción.');
+                  this.auth.cerrarSesion();
+                  this.router.navigate(['/login']);
+                  break;
+                default:
+                  alert(error.error.message);
+                  break;
+                }
+                return of(null);
+  }));
   }
 
 

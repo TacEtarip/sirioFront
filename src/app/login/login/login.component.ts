@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   accederConGoogle() {
-    window.open('http://localhost:5000/auth/google', '_self');
+    window.open('https://inventario-sirio-dinar.herokuapp.com/auth/google', '_self');
   }
 
 

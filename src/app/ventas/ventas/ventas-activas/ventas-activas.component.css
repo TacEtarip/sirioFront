@@ -18,17 +18,14 @@
   margin-bottom: 2.5px;
 }
 .contenidoMain {
-  padding: 3em;
-  padding-top: 100px;
+  padding: .5em 3em;
 }
 
 .info {
   display: grid;
   background-color: #eaf6ff;
-  position: fixed;
-  top: 55;
-  width: 100%;
-  z-index: 10;
+  width: calc(100%-6em);
+  gap: 1em;
 }
 
 .info ::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
@@ -59,6 +56,11 @@
 .mat-select {
   font-family: futura-pt, sans-serif;
   font-weight: 600;
+}
+
+section {
+  grid-template-rows: auto auto;
+  gap: 1em;
 }
 
 .selectDescAsc {
