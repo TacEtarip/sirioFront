@@ -83,7 +83,6 @@ export class VentaActivaCardComponent implements OnInit, OnDestroy {
         }
       });
       this.costoTotal.next(this.getVentaCostoTotal());
-      console.log('jere');
       this.tableVentaInfo$.next(this.tableVentaInfo);
     });
   }
@@ -179,7 +178,6 @@ export class VentaActivaCardComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((res: { message: string, venta: Venta }) => {
       if (res && res.venta) {
-        console.log(res);
         this.venta$.next(res.venta);
       }
     });

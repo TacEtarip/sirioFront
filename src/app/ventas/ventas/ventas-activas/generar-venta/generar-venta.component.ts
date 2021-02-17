@@ -91,7 +91,6 @@ export class GenerarVentaComponent implements OnInit {
 
 
     this.ventaForm.get('name').valueChanges.subscribe((changeV: string) => {
-      console.log(changeV);
       if (changeV) {
         this.filterItemValue(changeV);
       } else {
@@ -380,7 +379,6 @@ export class GenerarVentaComponent implements OnInit {
     this.invManager.agregarItemVenta(itemVendido, this.crear.ventaCod).subscribe((res) => {
       this.ventaEnCurso$.next(false);
       if (res) {
-        console.log(res);
         this.dialogRef.close({venta: res.venta, message: `succesAI|${res.message}` });
       } else {
         alert('Ocurrio un error desconocido.');
