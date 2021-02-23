@@ -1,8 +1,9 @@
+import { MatTableDataSource } from '@angular/material/table';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
-import { Venta, InventarioManagerService, ItemVendido, VentaCompleta } from 'src/app/inventario-manager.service';
-import { BehaviorSubject } from 'rxjs';
+import { Venta, InventarioManagerService, ItemVendido, VentaCompleta, Item, ItemsVentaForCard } from 'src/app/inventario-manager.service';
+import { BehaviorSubject, Subject } from 'rxjs';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 
 import { SeguroAnularComponent } from '../seguro-anular/seguro-anular.component';
@@ -41,21 +42,13 @@ export class VentaIndHistoriaComponent implements OnInit {
 
   displayedColumns: string[] = ['codigo', 'name', 'cantidad',  'priceIGV', 'totalPrice'];
 
-  dataSource: TableData[] = [];
+  dataSource$ = new BehaviorSubject<MatTableDataSource<ItemVendido>>(null);
 
-  dataSource$ = new BehaviorSubject<TableData[]>([]);
-
-  tableVentaInfo$ = new BehaviorSubject<TableVentaInfo[]>([]);
-
-  tableVentaInfo: TableVentaInfo[] = [];
+  tableVentaInfo$ = new BehaviorSubject<MatTableDataSource<ItemsVentaForCard>>(null);
 
   precios: number[] = [];
 
   costoTotal = new BehaviorSubject<number>(0);
-
-
-  dummyVenta: VentaCompleta = {codigo: '000000', totalPrice: 0, totalPriceNoIGV: 0,
-                                estado: '0000', documento: null, itemsVendidos: null, date: '' };
 
   venta$ = new BehaviorSubject<Venta>(null);
 
@@ -64,9 +57,8 @@ export class VentaIndHistoriaComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.activatedRoute.paramMap.pipe(first()).subscribe(param => {
+    this.activatedRoute.paramMap.pipe().subscribe(param => {
       const ruta = param.get('ventaCod');
-
       this.inventarioMNG.getVentaCompleta(ruta).subscribe((res: Venta) => {
         if (res) {
           if (res.estado !== 'ejecutada' && res.estado !== 'anuladaPost') {
@@ -76,37 +68,15 @@ export class VentaIndHistoriaComponent implements OnInit {
           this.router.navigate(['/ventas/eject/404']);
         }
         this.venta = res;
-        for (const item of res.itemsVendidos) {
-          this.dataSource.push({codigo: item.codigo, name: item.name,
-                                cantidad: item.cantidad, priceIGV: item.priceIGV,
-                                totalPrice: item.totalPrice});
-        }
+        const temp = new MatTableDataSource(res.itemsVendidos);
+        this.dataSource$.next(temp);
         this.venta$.next(res);
         this.date = new Date(res.date).toLocaleTimeString();
-        this.dataSource$.next(this.dataSource);
       });
 
       this.inventarioMNG.obtenerCardPreInfoVenta(ruta).subscribe((res) => {
-        res.forEach(infoVenta => {
-          if (infoVenta.cantidadSC && infoVenta.cantidadSC.cantidadVenta > 0) {
-            const tableInfo: TableVentaInfo = {codigo: infoVenta.codigo, name: infoVenta.name,
-              subName: infoVenta.cantidadSC.name, subNameSecond: infoVenta.cantidadSC.nameSecond,
-              cantidad: infoVenta.cantidadSC.cantidadVenta, priceIGV: infoVenta.priceIGV,
-              total: this.getTotal(infoVenta.cantidadSC.cantidadVenta, infoVenta.priceIGV)};
-            this.tableVentaInfo.push(tableInfo);
-            this.precios.push(tableInfo.total);
-          }
-          else if (!infoVenta.cantidadSC) {
-            const tableInfo: TableVentaInfo = {codigo: infoVenta.codigo, name: infoVenta.name,
-              subName: '...', subNameSecond: '...',
-              cantidad: infoVenta.cantidad, priceIGV: infoVenta.priceIGV,
-              total: this.getTotal(infoVenta.cantidad, infoVenta.priceIGV)};
-            this.tableVentaInfo.push(tableInfo);
-            this.precios.push(tableInfo.total);
-          }
-        });
-        this.costoTotal.next(this.getVentaCostoTotal());
-        this.tableVentaInfo$.next(this.tableVentaInfo);
+        const secondTEMP = new MatTableDataSource(res);
+        this.tableVentaInfo$.next(secondTEMP);
       });
     });
   }

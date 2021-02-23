@@ -1,0 +1,31 @@
+<h1 mat-dialog-title>Crear Cotización</h1>
+<mat-dialog-content class="mat-typography">
+  <form autocomplete="off" [formGroup]="documentoForm">
+    <mat-form-field appearance="fill">
+      <mat-label>Documento ...</mat-label>
+      <input spellcheck="false" name="codigo" id="codigo" formControlName="codigo" matInput>
+      <mat-error *ngIf="documentoForm.get('codigo').hasError('pattern')">Ingrese un formato valido</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Nombre...</mat-label>
+      <input spellcheck="false" name="name" id="name" formControlName="name" matInput>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Celular...</mat-label>
+      <input spellcheck="false" name="celular" id="celular" formControlName="celular" matInput>
+      <mat-error *ngIf="documentoForm.get('celular').hasError('pattern')">Ingrese un formato de celular valido</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>email...</mat-label>
+      <input spellcheck="false" name="email" id="email" formControlName="email" matInput>
+      <mat-error *ngIf="documentoForm.get('email').hasError('email')">Ingrese un formato valido</mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button cdkFocusInitial mat-button mat-dialog-close [mat-dialog-close]="true" color="accent">Cancelar</button>
+  <button *ngIf="!venta" [disabled]="!documentoForm.valid"
+  (click)="openCrearCotiDialog(documentoForm.getRawValue())"  mat-button color="primary">Siguiente</button>
+  <button *ngIf="venta" [disabled]="!documentoForm.valid"
+  (click)="clonarCoti(documentoForm.getRawValue())"  mat-button color="primary">Clonar</button>
+</mat-dialog-actions>

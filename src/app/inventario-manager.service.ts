@@ -130,6 +130,22 @@ export class InventarioManagerService {
   }));
   }
 
+  getExcelCoti(codigo: string) {
+    return this.http.post(this.baseUrl + 'coti/getExcelCoti', { codigo }, { responseType: 'blob' })
+    .pipe( first(), catchError(error => {
+      switch (error.status) {
+      case 0:
+        alert('Error al tratar de conectar al servidor');
+        break;
+      case 700:
+        break;
+      default:
+        break;
+    }
+      return of(null);
+  }));
+  }
+
   getExcelReport(dateOne: string, dateTwo: string) {
     return this.http.get(this.baseUrl + 'ventas/createExcelReport/' + dateOne + '/' + dateTwo, { responseType: 'blob' })
     .pipe( first(), catchError(error => {
@@ -229,6 +245,23 @@ export class InventarioManagerService {
             }));
   }
 
+  getCotis(limit: number, skip: number, dateOne: string, dateTwo: string, estado: string): Observable<Venta[]> {
+    return this.http.post<Venta[]>(this.baseUrl + 'coti/getPendientes', { limit, skip, dateOne, dateTwo, estado })
+            .pipe(first(),
+            catchError(error => {
+              switch (error.status) {
+                case 0:
+                  alert('Error al tratar de conectar al servidor');
+                  break;
+                case 700:
+                  break;
+                default:
+                  break;
+              }
+              return of(null);
+            }));
+  }
+
   anularVenta(venta: Venta): Observable<{message: string}> {
     return this.http.put<{message: string}>(this.baseUrl + 'ventas/anularVenta/', { venta })
     .pipe(first(),
@@ -265,6 +298,23 @@ export class InventarioManagerService {
 
   getVentaCompleta(ventaCod: string): Observable<Venta> {
     return this.http.get<Venta>(this.baseUrl + 'ventas/obtenerVenta/' + ventaCod)
+          .pipe(first(),
+          catchError(error => {
+            switch (error.status) {
+              case 0:
+                alert('Error al tratar de conectar al servidor');
+                break;
+              case 700:
+                break;
+              default:
+                break;
+            }
+            return of(null);
+          }));
+  }
+
+  getCotiCompleta(cotiCod: string): Observable<Venta> {
+    return this.http.get<Venta>(this.baseUrl + 'coti/obtenerCoti/' + cotiCod)
           .pipe(first(),
           catchError(error => {
             switch (error.status) {
@@ -317,10 +367,48 @@ export class InventarioManagerService {
             );
   }
 
+  obtenerCardCotiInfo(codCoti: string): Observable<ItemsVentaForCard[]> {
+    return this.http
+    .post<ItemsVentaForCard[]>(this.baseUrl + 'coti/cotiForCard', { codCoti })
+      .pipe(first(),
+            catchError(error => {
+              switch (error.status) {
+                case 0:
+                  alert('Error al tratar de conectar al servidor');
+                  break;
+                case 700:
+                  break;
+                default:
+                  break;
+              }
+              return of(null);
+            })
+            );
+  }
+
 
   agregarItemVenta(itemVendido: ItemVendido, codigoVenta: string): Observable<{message: string, venta: Venta}> {
     return this.http
             .post<{message: string}>(this.baseUrl + 'ventas/agregarItemVenta', {itemVendido, codigoVenta})
+              .pipe(first(),
+                    catchError(error => {
+                      switch (error.status) {
+                        case 0:
+                          alert('Error al tratar de conectar al servidor');
+                          break;
+                        case 700:
+                          break;
+                        default:
+                          break;
+                      }
+                      return of(null);
+                    })
+                    );
+  }
+
+  agregarItemCoti(itemVendido: ItemVendido, codigoCoti: string): Observable<{message: string, coti: Venta}> {
+    return this.http
+            .post<{message: string}>(this.baseUrl + 'coti/agregarItemCoti', { itemVendido, codigoCoti })
               .pipe(first(),
                     catchError(error => {
                       switch (error.status) {
@@ -372,6 +460,26 @@ export class InventarioManagerService {
                   break;
               }
               return of({ venta: null, message });
+            })
+            );
+  }
+
+  generarCotiNueva(bodyToVenta: {venta: Venta}): Observable<{coti: Venta, message: string}> {
+    return this.http.post<{coti: Venta, message: string}>(this.baseUrl + 'coti/generarCoti', bodyToVenta)
+            .pipe(first(),
+            catchError(error => {
+              let message = 'Error';
+              switch (error.status) {
+                case 0:
+                  message = 'Error al tratar de conectar al servidor';
+                  break;
+                case 409:
+                  message = 'Ya posee una venta activa';
+                  break;
+                default:
+                  break;
+              }
+              return of({ coti: null, message });
             })
             );
   }
@@ -880,16 +988,47 @@ export class InventarioManagerService {
                                 break;
                               case 700:
                                 break;
-                              case 401:
-                                alert('Tu usuario no tiene permitido esta acción.');
-                                this.auth.cerrarSesion();
-                                this.router.navigate(['/login']);
-                                break;
                               default:
                                 alert(error.error.message);
                                 break;
                           }
                             return of(false);
+                        }));
+  }
+
+  eliminarItemCoti(codigo: string, codigoItem: string, totalPrice: number, totalPriceNoIGV: number): Observable<Venta> {
+    return this.http.post<Venta>(this.baseUrl +  'coti/eliminarItemCoti', { codigo, codigoItem, totalPrice, totalPriceNoIGV })
+                    .pipe(first(),
+                          catchError(error => {
+                            switch (error.status) {
+                              case 0:
+                                alert('Error al tratar de conectar al servidor');
+                                break;
+                              case 700:
+                                break;
+                              default:
+                                alert(error.error.message);
+                                break;
+                          }
+                            return of(null);
+                        }));
+  }
+
+  eliminarCoti(codigo: string): Observable<{eliminada: boolean}> {
+    return this.http.put<{eliminada: boolean}>(this.baseUrl +  'coti/eliminarCoti', { codigo })
+                    .pipe(first(),
+                          catchError(error => {
+                            switch (error.status) {
+                              case 0:
+                                alert('Error al tratar de conectar al servidor');
+                                break;
+                              case 700:
+                                break;
+                              default:
+                                alert(error.error.message);
+                                break;
+                          }
+                            return of({eliminada: false});
                         }));
   }
 
@@ -902,11 +1041,6 @@ export class InventarioManagerService {
                   alert('Error al tratar de conectar al servidor');
                   break;
                 case 700:
-                  break;
-                case 401:
-                  alert('Tu usuario no tiene permitido esta acción.');
-                  this.auth.cerrarSesion();
-                  this.router.navigate(['/login']);
                   break;
                 default:
                   alert(error.error.message);
@@ -1061,6 +1195,7 @@ export interface Venta {
   bultos?: number;
   guia_link?: string;
   date?: string;
+  celular_cliente?: string;
 }
 
 export interface VentaCompleta {

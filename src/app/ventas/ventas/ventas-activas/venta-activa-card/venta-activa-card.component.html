@@ -55,6 +55,13 @@
         <td mat-footer-cell *matFooterCellDef> {{(costoTotal|async)|currency: 'S/ '}} </td>
       </ng-container>
 
+      <ng-container matColumnDef="editar">
+        <th mat-header-cell *matHeaderCellDef>  </th>
+        <td mat-cell *matCellDef="let tableVentaInfo">
+          <button (click)="editarAddItemDialog(tableVentaInfo)" mat-stroked-button  type="button" color="primary">Editar</button> </td>
+        <td mat-footer-cell *matFooterCellDef>  </td>
+      </ng-container>
+
       <ng-container matColumnDef="eliminar">
         <th mat-header-cell *matHeaderCellDef>  </th>
         <td mat-cell *matCellDef="let tableVentaInfo">  <button (dblclick)="eliminarItem(tableVentaInfo)" mat-stroked-button  type="button" color="accent">-</button> </td>

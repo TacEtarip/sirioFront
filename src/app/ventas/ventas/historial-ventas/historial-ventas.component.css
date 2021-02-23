@@ -20,37 +20,6 @@
   width: 100%;
 }
 
-.info ::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
-  padding: .5em .5em 0 .5em;
-}
-
-.info ::ng-deep .mat-form-field-wrapper {
-  padding: 0;
-}
-
-.info ::ng-deep .mat-form-field-underline {
-  display: none;
-}
-
-.acciones {
-  display: flex;
-  justify-content: flex-end;
-
-}
-
-.selectSort {
-  width: 140px;
-  align-self: center;
-  font-size: 14px;
-  font-family: futura-pt, sans-serif;
-}
-
-.mat-select {
-  font-family: futura-pt, sans-serif;
-  font-weight: 600;
-}
-
-
 
 h3 {
   margin: 0;
@@ -69,24 +38,6 @@ h4 {
 }
 
 
-
-.final {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  column-gap: 1em;
-}
-
-b {
-  color: #E87200;
-}
-
-.final button {
-  width: 140px;
-  height: 40px;
-  grid-column: 1/2;
-  align-self: flex-end;
-}
-
 h4 {
   margin-bottom: .5em;
 }
@@ -95,36 +46,6 @@ span {
   color: #E87200;
 }
 
-.totales {
-  justify-self: end;
-  text-align: end;
-  margin-right: 1em
-}
-
-.mat-dialog-container {
-  width: 800px;
-}
-
-
-
-
-.mat-form-field + .mat-form-field {
-  margin-left: 8px;
-}
-.mat-expansion-panel{
-  background-color: transparent;
-}
-
-.mat-expansion-panel:not([class*=mat-elevation-z]) {
-  box-shadow: none;
-}
-
-
-.main-ctt {
-  grid-column: 3/13;
-  padding: 1em 0em;
-  background-color: #eaf6ff;
-}
 
 
 h1 {
@@ -134,183 +55,7 @@ h1 {
   font-weight: 200;
 }
 
-.vender, .editar {
-  background-color: white;
-  color: #005087;
-  border: 1px solid rgb(170, 170, 170);
-  border-radius: .2em;
-  text-align: center;
-  outline: none;
-  text-decoration: none;
-  font-family: futura-pt, sans-serif;
-  font-weight: 600;
-  font-style: normal;
-  font-size: 14px;
-  padding: 0;
-}
 
-.plus-svg {
-  background-image: url("/assets/Plus_font_awesome.svg");
-  background-size: cover;
-  filter: invert(100%) sepia(5%) saturate(1820%) hue-rotate(262deg) brightness(116%) contrast(81%);
-  width: 280px;
-  height: 280px;
-  text-align: center;
-  margin: auto;
-  margin-top: 80px;
-
-}
-
-/*h5 {
-  text-align: center;
-  font-size: 40px;
-  color: #d4d4d4;
-  margin: 0;
-  font-family: futura-pt, sans-serif;
-  font-weight: 200;
-  font-style: normal;
-}*/
-
-
-.example-card {
-  width: auto;
-}
-
-.info {
-  margin-bottom: 0em;
-}
-
-.agregar-card {
-  background-color: #dfdfdf44;
-  display: block;
-}
-
-.agregar-card:hover {
-  cursor: pointer;
-}
-
-
-/* width */
-*  ::ng-deep ::-webkit-scrollbar {
-  width: 5px;
-}
-
-/* Track */
-* ::ng-deep ::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px grey;
-  border-radius: 5px;
-}
-
-/* Handle */
-* ::ng-deep ::-webkit-scrollbar-thumb {
-  background: rgb(184, 184, 184);
-  border-radius: 5px;
-}
-
-/* Handle on hover */
-* ::ng-deep ::-webkit-scrollbar-thumb:hover {
-  background: #949494;
-}
-
-/*
-.menu ::ng-deep ::-webkit-scrollbar {
-  width: 5px;
-}
-
-.menu ::ng-deep ::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px grey;
-  border-radius: 5px;
-}
-
-.menu ::ng-deep .mat-drawer-inner-container {
-  /*overflow: hidden;
-}*/
-
-
-.displayCheat {
-  display: none;
-}
-
-.displayCheatTwo {
-  display: block;
-}
-
-.displayCheatThree {
-  display: none;
-}
-
-
-.mainCont {
-  flex: 1;
-}
-
-
-.paddingToScroll {
-  padding: 0em 2em;
-}
-
-.showBar {
-  display: none;
-}
-
-.toolBar {
-  background-color: #005087;
-  -webkit-box-shadow: 0px 7px 5px -3px rgba(0,0,0,0.35);
-  -moz-box-shadow: 0px 7px 5px -3px rgba(0,0,0,0.35);
-  box-shadow: 0px 7px 5px -3px rgba(0,0,0,0.35);
-  z-index: 1000;
-}
-
-.example-is-mobile .example-toolbar {
-  position: fixed;
-  /* Make sure the toolbar will stay on top of the content as it scrolls past. */
-}
-
-::ng-deep .sizeIcon{
-  height:44px !important;
-  width:44px !important;
-  font-size:34px !important;
-  line-height: 42px !important;
-}
-
-::ng-deep .sizeShop {
-  font-size:24px !important;
-  line-height: 45px !important;
-}
-
-
-::ng-deep .sizePower {
-  font-size:33px !important;
-  line-height: 45px !important;
-}
-
-.addMargin {
-  margin-left: .1em;
-}
-
-.cName {
-  font-family: jubilat, sans-serif;
-  font-weight: 200;
-}
-
-.toolBarName {
-  margin-left: .4em;
-  font-family: futura-pt, sans-serif;
-  font-size: 26px;
-  font-weight: 200;
-}
-.example-spacer {
-  flex: 1 1 auto;
-}
-
-.menuPadding {
-  padding: 1.5em 1.5em 2em 1.5em;
-}
-
-.marcasBtn {
-  background-color: #095486;
-  margin-left: 1em;
-}
 
 table {
   width: 100%;

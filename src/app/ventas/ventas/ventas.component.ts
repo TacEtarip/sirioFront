@@ -59,4 +59,8 @@ export class VentasComponent implements OnInit, OnDestroy {
    goToVentaActiva() {
     this.router.navigateByUrl(`/ventas/ventasActivas`);
    }
+
+   goToCotizaciones() {
+    this.router.navigateByUrl(`/ventas/cotizaciones`);
+   }
 }

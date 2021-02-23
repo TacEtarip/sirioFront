@@ -3,7 +3,11 @@
     <h1><span>#{{(venta$|async).codigo}}</span></h1>
     <h5>Realizada: {{(venta$|async).date | date}} {{date}}</h5>
   </div>
-
+  <div>
+    <button (click)="openAddItemDialog()" [ngStyle]="{'margin-right': '.5em', 'width': '160px'}" mat-flat-button color="accent">Agregar Item</button>
+    <button (click)="openClonar()" [ngStyle]="{'margin-right': '.5em', 'width': '160px'}" mat-stroked-button color="primary">Clonar Cotización</button>
+    <button (dblclick)="eliminarCoti()" [ngStyle]="{'margin-right': '.5em', 'width': '160px'}" mat-stroked-button color="accent">Eliminar Cotización</button>
+  </div>
   <mat-tab-group color="accent" dynamicHeight>
     <mat-tab  label="Conteo Simple">
       <div>
@@ -35,6 +39,20 @@
           <ng-container matColumnDef="totalPrice">
             <th class="atTheEND" mat-header-cell *matHeaderCellDef> Precio Total </th>
             <td class="atTheEND" mat-cell *matCellDef="let element"> {{element.totalPrice|currency:'S/ '}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="editar">
+            <th class="atTheEND tableBtn" mat-header-cell *matHeaderCellDef> Editar </th>
+            <td class="atTheEND tableBtn" mat-cell *matCellDef="let element">
+              <button (click)="openEditarItemDialog(element)"  mat-stroked-button  type="button" color="primary">Editar</button>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="eliminar">
+            <th class="atTheEND tableBtn" mat-header-cell *matHeaderCellDef> Eliminar </th>
+            <td class="atTheEND tableBtn" mat-cell *matCellDef="let element">
+              <button (dblclick)="eliminarItem(element)"  mat-stroked-button  type="button" color="accent">-</button>
+            </td>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -95,10 +113,10 @@
 
   <div class="final">
     <div class="btns">
-      <button [ngStyle]="{'margin-right': '1em'}" *ngIf="(venta$|async).linkComprobante"  (click)="desargarPDFsunat()" mat-flat-button color="primary">Descargar PDF SUNAT</button>
-      <button *ngIf="(venta$|async).guia" [ngStyle]="{'margin-right': '1em'}" (click)="descargarGUIA()" mat-flat-button color="primary">Descargar Guía</button>
-      <button  [ngStyle]="{'margin-right': '1em'}"  (click)="descargarPDF()" mat-flat-button color="primary">Descargar PDF</button>
-      <button *ngIf="(venta$|async).estado === 'ejecutada'" [ngStyle]="{'margin-top': '1em'}" (click)="anularVenta()" mat-stroked-button color="accent">Anular Venta</button>
+      <h5>{{(venta$|async).documento.name}}-{{(venta$|async).documento.codigo}} </h5>
+      <h5>Celular: {{(venta$|async).celular_cliente || 'No se brindo'}} | email: {{(venta$|async).cliente_email || 'No se brindo'}}</h5>
+      <button (click)="descargarCotiExcel()" [ngStyle]="{'margin-right': '.5em', 'margin-top': '.5em','width': '160px'}"
+      mat-flat-button color="primary">Generar Excel</button>
     </div>
 
     <div class="totales">
@@ -108,4 +126,5 @@
     </div>
   </div>
 </section>
+
 

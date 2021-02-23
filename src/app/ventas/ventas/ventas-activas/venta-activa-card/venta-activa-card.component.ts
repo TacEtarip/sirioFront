@@ -1,3 +1,4 @@
+import { Item } from './../../../../inventario-manager.service';
 import { filter } from 'rxjs/operators';
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { ItemsVentaForCard, InventarioManagerService, Venta, VentaSimpleEliminarInfo, VentaSimpleEliminarSCInfo } from '../../../../inventario-manager.service';
@@ -11,12 +12,13 @@ import { GenerarVentaComponent } from '../generar-venta/generar-venta.component'
 export interface TableVentaInfo {
   codigo: string;
   name: string;
-  subName: string;
-  subNameSecond: string;
+  subName?: string;
+  subNameSecond?: string;
   cantidad: number;
   priceIGV: number;
   total: number;
-  eliminar: boolean;
+  eliminar?: boolean;
+  editar?: boolean;
   priceNoIGV: number;
 }
 
@@ -31,7 +33,7 @@ export class VentaActivaCardComponent implements OnInit, OnDestroy {
 
   venta$ = new BehaviorSubject<Venta>(null);
 
-  displayedColumnsVenta: string[] = ['codigo', 'name', 'subName', 'subNameSecond', 'cantidad', 'priceIGV', 'total', 'eliminar'];
+  displayedColumnsVenta: string[] = ['codigo', 'name', 'subName', 'subNameSecond', 'cantidad', 'priceIGV', 'total', 'editar', 'eliminar'];
 
   tableVentaInfo$ = new BehaviorSubject<TableVentaInfo[]>([]);
 
@@ -66,7 +68,7 @@ export class VentaActivaCardComponent implements OnInit, OnDestroy {
         if (infoVenta.cantidadSC && infoVenta.cantidadSC.cantidadVenta > 0) {
           const tableInfo: TableVentaInfo = {codigo: infoVenta.codigo, name: infoVenta.name,
             subName: infoVenta.cantidadSC.name, subNameSecond: infoVenta.cantidadSC.nameSecond,
-            cantidad: infoVenta.cantidadSC.cantidadVenta, priceIGV: infoVenta.priceIGV,
+            cantidad: infoVenta.cantidadSC.cantidadVenta, priceIGV: infoVenta.priceIGV, editar: true,
             total: this.getTotal(infoVenta.cantidadSC.cantidadVenta, infoVenta.priceIGV) ,
             eliminar: true, priceNoIGV: infoVenta.priceNoIGV};
           this.tableVentaInfo.push(tableInfo);
@@ -74,7 +76,7 @@ export class VentaActivaCardComponent implements OnInit, OnDestroy {
         }
         else if (!infoVenta.cantidadSC) {
           const tableInfo: TableVentaInfo = {codigo: infoVenta.codigo, name: infoVenta.name,
-            subName: '...', subNameSecond: '...',
+            subName: '...', subNameSecond: '...', editar: true,
             cantidad: infoVenta.cantidad, priceIGV: infoVenta.priceIGV,
             total: this.getTotal(infoVenta.cantidad, infoVenta.priceIGV), eliminar: true, priceNoIGV: infoVenta.priceNoIGV};
 
@@ -172,7 +174,21 @@ export class VentaActivaCardComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(GenerarVentaComponent, {
       width: '600px',
       data: {
-        crear: false, ventaCod: this.venta$.value.codigo
+        coti: false, crear: false, ventaCod: this.venta$.value.codigo
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((res: { message: string, venta: Venta }) => {
+      if (res && res.venta) {
+        this.venta$.next(res.venta);
+      }
+    });
+  }
+  editarAddItemDialog(item: TableVentaInfo) {
+    const dialogRef = this.dialog.open(GenerarVentaComponent, {
+      width: '600px',
+      data: {
+        coti: false, crear: false, ventaCod: this.venta$.value.codigo, item
       }
     });
 
@@ -183,3 +199,4 @@ export class VentaActivaCardComponent implements OnInit, OnDestroy {
     });
   }
 }
+

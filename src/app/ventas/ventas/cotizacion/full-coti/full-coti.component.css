@@ -64,15 +64,19 @@ table {
 }
 
 td, th {
-  width: 15%;
+  width: 12%;
 }
 
 .cuarenta {
-  width: 40%;
+  width: 32%;
+}
+
+.tableBtn {
+  width: 10%;
 }
 
 section {
-  padding: 1em 3em;
+  padding: 1em 3em 6em 3em;
   display: 	grid;
   column-gap: 1em;
   row-gap: 2em;
@@ -85,6 +89,7 @@ h5 {
   font-weight: 200;
   color: #005087;
 }
+
 
 .marginBtn {
   margin-right: .5em;

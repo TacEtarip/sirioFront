@@ -1,0 +1,52 @@
+section {
+  padding: 1em 3em;
+}
+
+h1 {
+  margin: 0;
+  color: #005087;
+  font-size: 50px;
+  font-weight: 200;
+}
+
+.info {
+  display: grid;
+  gap: 1em;
+}
+
+.example-container {
+  position: relative;
+  min-height: 200px;
+}
+
+.example-loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 56px;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+table {
+  width: 100%;
+}
+
+td, th {
+  width: 16%;
+}
+
+
+tr.mat-row:hover {
+  cursor: pointer;
+  background-color: #FAE0CB;
+}
+
+.documentoTable {
+  width: 50%;
+}
