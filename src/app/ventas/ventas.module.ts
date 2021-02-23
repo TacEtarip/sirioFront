@@ -21,7 +21,6 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatChipsModule} from '@angular/material/chips';
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import { VentasCardComponent } from './ventas/ventas-card/ventas-card.component';
 import {MatDividerModule, MatDivider} from '@angular/material/divider';
 import {MatTableModule} from '@angular/material/table';
 import { VentasActivasComponent } from './ventas/ventas-activas/ventas-activas.component';
@@ -42,12 +41,17 @@ import { SeguroAnularComponent } from './ventas/historial-ventas/seguro-anular/s
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { FormsModule } from '@angular/forms';
 import { GenerarVentaComponent } from './ventas/ventas-activas/generar-venta/generar-venta.component';
+import { CotizacionComponent } from './ventas/cotizacion/cotizacion.component';
+import { CotizacionCardComponent } from './ventas/cotizacion/cotizacion-card/cotizacion-card.component';
+import { GenerarCotiComponent } from './ventas/cotizacion/generar-coti/generar-coti.component';
+import { FullCotiComponent } from './ventas/cotizacion/full-coti/full-coti.component';
 
 
 @NgModule({
-  declarations: [VentasComponent, VentasCardComponent, VentasActivasComponent,
+  declarations: [VentasComponent, VentasActivasComponent,
     VentaActivaCardComponent, SeguroEjecDialogComponent, PostVentaComponent, HistorialVentasComponent,
-    Eject404Component, VentaIndHistoriaComponent, SeguroAnularComponent, GenerarVentaComponent],
+    Eject404Component, VentaIndHistoriaComponent, SeguroAnularComponent,
+    GenerarVentaComponent, CotizacionComponent, CotizacionCardComponent, GenerarCotiComponent, FullCotiComponent],
   imports: [
     CommonModule,
     VentasRoutingModule,

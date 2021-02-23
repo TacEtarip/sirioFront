@@ -12,13 +12,13 @@ import { GenerarVentaComponent } from '../generar-venta/generar-venta.component'
 export interface TableVentaInfo {
   codigo: string;
   name: string;
-  subName: string;
-  subNameSecond: string;
+  subName?: string;
+  subNameSecond?: string;
   cantidad: number;
   priceIGV: number;
   total: number;
-  eliminar: boolean;
-  editar: boolean;
+  eliminar?: boolean;
+  editar?: boolean;
   priceNoIGV: number;
 }
 
@@ -174,7 +174,7 @@ export class VentaActivaCardComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(GenerarVentaComponent, {
       width: '600px',
       data: {
-        crear: false, ventaCod: this.venta$.value.codigo
+        coti: false, crear: false, ventaCod: this.venta$.value.codigo
       }
     });
 
@@ -188,7 +188,7 @@ export class VentaActivaCardComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(GenerarVentaComponent, {
       width: '600px',
       data: {
-        crear: false, ventaCod: this.venta$.value.codigo, item
+        coti: false, crear: false, ventaCod: this.venta$.value.codigo, item
       }
     });
 

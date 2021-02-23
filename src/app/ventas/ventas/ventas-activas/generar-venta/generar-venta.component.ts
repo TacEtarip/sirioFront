@@ -66,7 +66,9 @@ export class GenerarVentaComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private invManager: InventarioManagerService,
               public dialogRef: MatDialogRef<GenerarVentaComponent>, private auth: AuthService,
-              @Inject(MAT_DIALOG_DATA) public crear: { crear: boolean, ventaCod: string, item: TableVentaInfo }) { }
+              @Inject(MAT_DIALOG_DATA) public crear:
+              { coti: boolean, crear: boolean, ventaCod: string, item: TableVentaInfo,
+                documento: { codigo: string, name: string, celular: string, email: string } }) { }
 
   ngOnInit(): void {
     this.ventaForm = this.fb.group({
@@ -165,13 +167,24 @@ export class GenerarVentaComponent implements OnInit {
           if (this.ventaForm.contains('cantidadVenta')) {
             this.ventaForm.get('cantidadVenta').setValue(this.crear.item.cantidad);
           } else if (this.ventaForm.contains('cantidadList')) {
-            this.invManager.getVenta(this.crear.ventaCod).subscribe(res => {
-              const itemToM = res.itemsVendidos.find(item => item.name === this.crear.item.name);
-              // tslint:disable-next-line: prefer-for-of
-              itemToM.cantidadSC.forEach((ele, index) => {
-                this.cantidadList.at(index).get('cantidadVenta').setValue(ele.cantidadVenta);
+            if (!this.crear.coti) {
+              this.invManager.getVenta(this.crear.ventaCod).subscribe(res => {
+                const itemToM = res.itemsVendidos.find(item => item.name === this.crear.item.name);
+                // tslint:disable-next-line: prefer-for-of
+                itemToM.cantidadSC.forEach((ele, index) => {
+                  this.cantidadList.at(index).get('cantidadVenta').setValue(ele.cantidadVenta);
+                });
               });
-            });
+            } else {
+              this.invManager.getCotiCompleta(this.crear.ventaCod).subscribe(res => {
+                const itemToM = res.itemsVendidos.find(item => item.name === this.crear.item.name);
+                // tslint:disable-next-line: prefer-for-of
+                itemToM.cantidadSC.forEach((ele, index) => {
+                  this.cantidadList.at(index).get('cantidadVenta').setValue(ele.cantidadVenta);
+                });
+              });
+            }
+
           }
         }
 
@@ -262,7 +275,8 @@ export class GenerarVentaComponent implements OnInit {
 
     this.sum = 0;
     if (this.item$.value &&
-      (this.ventaForm.get(nameFild).value <= 0 || (this.item$.value.cantidad - this.ventaForm.get(nameFild).value) < 0)) {
+      (this.ventaForm.get(nameFild).value <= 0 ||
+      ((this.item$.value.cantidad - this.ventaForm.get(nameFild).value) < 0 && !this.crear.coti))) {
       this.ventaForm.get(nameFild).setErrors({incorrect: true});
     }
     else {
@@ -303,13 +317,11 @@ export class GenerarVentaComponent implements OnInit {
   actTotalForSubConteo(index: number) {
     const listRequired = this.cantidadList.at(index);
     this.sum = 0;
-    if ((listRequired.get('cantidadDisponible').value - listRequired.get('cantidadVenta').value) < 0
+    if (((listRequired.get('cantidadDisponible').value - listRequired.get('cantidadVenta').value) < 0 && !this.crear.coti)
         || listRequired.get('cantidadVenta').value < 0 || listRequired.get('cantidadVenta').value === null) {
         this.cantidadList.at(index).get('cantidadVenta').setErrors({incorrect: true});
-        // this.actTotalForSubConteo(index);
     }
     else {
-
     // tslint:disable-next-line: prefer-for-of
     for (let yindex = 0; yindex < this.cantidadList.controls.length; yindex++) {
       this.sum = this.sum + this.cantidadList.at(yindex).get('cantidadVenta').value;
@@ -324,7 +336,7 @@ export class GenerarVentaComponent implements OnInit {
     return v.charAt(0) + v.charAt(1) + 'NI' + randomN.toString();
   }
 
-  crearNewVentaBody(preVentaInfo: PreVentaSimpleInfo) {
+  crearNewVentaBody(preVentaInfo: PreVentaSimpleInfo): Venta {
     let cSC: any[];
     if (this.item$.value && this.item$.value.subConteo) {
       cSC = preVentaInfo.cantidadList;
@@ -427,6 +439,80 @@ export class GenerarVentaComponent implements OnInit {
       } else {
         alert('Ocurrio un error desconocido.');
         this.dialogRef.close({venta: res.venta, message: 'error' });
+      }
+    });
+
+  }
+
+  generarNuevaCoti(preVentaInfo: PreVentaSimpleInfo) {
+    const bodyToSend = this.crearNewVentaBody(preVentaInfo);
+    bodyToSend.documento.codigo = parseInt(this.crear.documento.codigo, 10);
+    bodyToSend.cliente_email = this.crear.documento.email || '';
+    bodyToSend.celular_cliente = this.crear.documento.celular || '';
+    bodyToSend.documento.name = this.crear.documento.name;
+    if (this.crear.documento.codigo.length === 8) {
+      bodyToSend.documento.type = 'boleta';
+    } else {
+      bodyToSend.documento.type = 'factura';
+    }
+
+    this.invManager.generarCotiNueva({venta: bodyToSend}).subscribe((res) => {
+      this.ventaEnCurso$.next(false);
+      if (res) {
+        if (res.coti) {
+          this.dialogRef.close({  message: `SuccesAG ${res.coti.codigo}`, coti: res.coti });
+        } else {
+          alert(res.message);
+          this.dialogRef.close({ message: 'notVentaG', coti: null });
+        }
+      }
+      else {
+        alert('Error desconocido, intenta denuevo en un momento.');
+      }
+
+    });
+  }
+
+  agregarItemCoti(preVentaInfo: PreVentaSimpleInfo) {
+    let cSC: any[];
+    if (this.item$.value && this.item$.value.subConteo) {
+      cSC = preVentaInfo.cantidadList;
+    } else{
+      cSC = [];
+    }
+    let itemVendido: ItemVendido;
+    const total =  parseFloat(this.totalPriceIGV.replace(',', '.'));
+    const totalNoIGV = Math.round(((total / 1.18) + Number.EPSILON) * 100) / 100;
+    if (this.item$.value) {
+      itemVendido =
+      {codigo: this.item$.value.codigo, name: this.item$.value.name, priceIGV: preVentaInfo.priceIGV,
+        priceNoIGV: preVentaInfo.priceNoIGV, descripcion: this.item$.value.description,
+        cantidadSC: cSC, cantidad: preVentaInfo.cantidadVenta, totalPrice: total, totalPriceNoIGV: totalNoIGV };
+      if (this.item$.value.subConteo) {
+        itemVendido.cantidad = this.sum;
+      }
+    } else {
+      if (this.crear.item) {
+        itemVendido =
+        {codigo: this.crear.item.codigo, name: this.crear.item.name, priceIGV: preVentaInfo.priceIGV,
+          priceNoIGV: preVentaInfo.priceNoIGV, descripcion: '',
+          cantidadSC: cSC, cantidad: preVentaInfo.cantidad, totalPrice: total, totalPriceNoIGV: totalNoIGV };
+      } else {
+        itemVendido =
+        {codigo: this.generarCodigo(preVentaInfo.name), name: preVentaInfo.name, priceIGV: preVentaInfo.priceIGV,
+          priceNoIGV: preVentaInfo.priceNoIGV, descripcion: '',
+          cantidadSC: cSC, cantidad: preVentaInfo.cantidad, totalPrice: total, totalPriceNoIGV: totalNoIGV };
+      }
+
+    }
+    this.ventaEnCurso$.next(true);
+    this.invManager.agregarItemCoti(itemVendido, this.crear.ventaCod).subscribe((res) => {
+      this.ventaEnCurso$.next(false);
+      if (res) {
+        this.dialogRef.close({coti: res.coti, message: `succesAI|${res.message}` });
+      } else {
+        alert('Ocurrio un error desconocido.');
+        this.dialogRef.close({coti: res.coti, message: 'error' });
       }
     });
 

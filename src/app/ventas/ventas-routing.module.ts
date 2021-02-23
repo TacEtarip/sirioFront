@@ -1,8 +1,10 @@
+import { FullCotiComponent } from './ventas/cotizacion/full-coti/full-coti.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { VentasComponent } from './ventas/ventas.component';
 
+import { CotizacionComponent } from './ventas/cotizacion/cotizacion.component';
 import { PostVentaComponent } from './ventas/post-venta/post-venta.component';
 import { VentasActivasComponent } from './ventas/ventas-activas/ventas-activas.component';
 import { HistorialVentasComponent } from './ventas/historial-ventas/historial-ventas.component';
@@ -15,6 +17,8 @@ const routes: Routes = [
     {path: 'historialVentas', component: HistorialVentasComponent},
     {path: 'historialVentas/:ventaCod', component: VentaIndHistoriaComponent},
     {path: 'postVenta/:postVentaCod', component: PostVentaComponent},
+    {path: 'cotizaciones', component: CotizacionComponent},
+    {path: 'cotizaciones/:cotiCod', component: FullCotiComponent},
     {path: 'eject/404', component: Eject404Component},
     {path: '', redirectTo: 'ventasActivas', pathMatch: 'full'}
   ]},

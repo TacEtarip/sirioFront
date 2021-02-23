@@ -67,7 +67,7 @@
   </form>
   <h2 class="totalGrid">Total: S/ {{totalPriceIGV}}</h2>
 </div>
-<div align="end" mat-dialog-actions>
+<div *ngIf="!crear.coti" align="end" mat-dialog-actions>
   <button mat-button mat-dialog-close>Cancelar</button>
   <button *ngIf="(item$|async) && crear.crear" (click)="generarNuevaVenta(ventaForm.getRawValue())" type="button"
   [disabled]="!ventaForm.valid || sum <= 0" mat-flat-button color="primary">Crear Venta</button>
@@ -83,6 +83,18 @@
   [disabled]="!ventaForm.valid || sum <= 0" mat-flat-button color="primary">Editar</button>
   <button *ngIf="!(item$|async) && !crear.crear && crear.item" (click)="agregarItemVenta(ventaForm.getRawValue())" type="button"
   [disabled]="!ventaForm.valid" mat-flat-button color="primary">Editar</button>
+</div>
+
+<div *ngIf="crear.coti" align="end" mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button *ngIf="crear.crear" (click)="generarNuevaCoti(ventaForm.getRawValue())" type="button"
+  [disabled]="!ventaForm.valid || sum <= 0" mat-flat-button color="primary">Crear Cotizacion</button>
+
+  <button *ngIf="!crear.crear && !crear.item" (click)="agregarItemCoti(ventaForm.getRawValue())" type="button"
+  [disabled]="!ventaForm.valid || sum <= 0" mat-flat-button color="primary">Agregar Item</button>
+
+  <button *ngIf="!crear.crear && crear.item" (click)="agregarItemCoti(ventaForm.getRawValue())" type="button"
+  [disabled]="!ventaForm.valid || sum <= 0" mat-flat-button color="primary">Editar</button>
 </div>
 
 <div  *ngIf="ventaEnCurso$|async" id="overlay">

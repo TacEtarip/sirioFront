@@ -13,8 +13,8 @@ export class EditarCelularDialogComponent implements OnInit {
   celularForm: FormGroup;
 
   constructor(@Inject(MAT_DIALOG_DATA) public user: FullUser,
-  public dialogRef: MatDialogRef<EditarCelularDialogComponent>,
-  private fb: FormBuilder, private auth: AuthService) { }
+              public dialogRef: MatDialogRef<EditarCelularDialogComponent>,
+              private fb: FormBuilder, private auth: AuthService) { }
 
   ngOnInit(): void {
     this.celularForm = this.fb.group({
