@@ -6,7 +6,7 @@ import { AuthService } from '../../auth.service';
 import { first } from 'rxjs/operators';
 import {MediaMatcher} from '@angular/cdk/layout';
 import {Router} from '@angular/router';
-
+import { Title, Meta } from '@angular/platform-browser';
 @Component({
   selector: 'app-ventas',
   templateUrl: './ventas.component.html',
@@ -21,6 +21,8 @@ export class VentasComponent implements OnInit, OnDestroy {
 
   constructor(public dialog: MatDialog, private inventarioMNG: InventarioManagerService,
               private auth: AuthService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
+              private titleService: Title,
+              private metaTagService: Meta,
               private router: Router) {
                 this.nombreUsuario = auth.getDisplayUser();
                 this.mobileQuery = media.matchMedia('(max-width: 820px)');
@@ -29,7 +31,10 @@ export class VentasComponent implements OnInit, OnDestroy {
                }
 
   ngOnInit(): void {
-
+    this.titleService.setTitle('Sirio Dinar | Ventas');
+    this.metaTagService.updateTag(
+      { name: 'description', content: 'Vender articulos seguridad sirio' }
+    );
   }
 
   cerrarSesion() {

@@ -6,6 +6,7 @@ import { FormGroup, FormControl, Validators, FormBuilder, AbstractControl, Valid
 import anime from 'animejs';
 import { RecaptchaErrorParameters } from 'ng-recaptcha';
 import { distinctUntilChanged, first, debounceTime, timeInterval, tap, takeUntil, takeWhile, skip } from 'rxjs/operators';
+import { Title, Meta } from '@angular/platform-browser';
 
 interface TipoDoc {
   value: string;
@@ -74,7 +75,9 @@ export class RegistroComponent implements OnInit, OnDestroy, AfterViewInit {
 
   reaload = new BehaviorSubject<boolean>(false);
 
-  constructor(private fb: FormBuilder, private auth: AuthService, private ar: ActivatedRoute) {
+  constructor(private fb: FormBuilder, private auth: AuthService,
+              private titleService: Title,
+              private metaTagService: Meta, private ar: ActivatedRoute) {
     this.sitekey = '6Lc-GTIaAAAAABaw-oeMyoV6jZvkn9jRdaUwa_VT';
     this.ar.paramMap.pipe(first()).subscribe( param => {
       const token = param.get('googleToken');
@@ -90,6 +93,10 @@ export class RegistroComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.titleService.setTitle('Sirio Dinar | Registro');
+    this.metaTagService.updateTag(
+      { name: 'description', content: 'Registrar usuario en Sirio Dinar' }
+    );
     this.registroForm = this.fb.group({
       nombre: this.fb.control('', Validators.compose([
         Validators.required,

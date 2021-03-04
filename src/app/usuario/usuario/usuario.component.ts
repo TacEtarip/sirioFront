@@ -9,6 +9,7 @@ import { AgregarDocumentoDialogComponent } from '../agregar-documento-dialog/agr
 import { CambiarContrasenaDialogComponent } from '../cambiar-contrasena-dialog/cambiar-contrasena-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Title, Meta } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-usuario',
@@ -25,6 +26,8 @@ export class UsuarioComponent implements OnInit, OnDestroy {
 
 
   constructor(private auth: AuthService,  public dialog: MatDialog, private _snackBar: MatSnackBar,
+              private titleService: Title,
+              private metaTagService: Meta,
               private router: Router) {
     this.auth.getUserInfo(auth.getUser()).subscribe((res => {
       this.user.next(res);
@@ -42,7 +45,10 @@ export class UsuarioComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-
+    this.titleService.setTitle('Sirio Dinar | Usuario');
+    this.metaTagService.updateTag(
+      { name: 'description', content: 'Informacion de Sirio Dinar usuario' }
+    );
   }
 
   openEditarCelDialog(): void {

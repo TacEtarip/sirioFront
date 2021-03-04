@@ -37,7 +37,7 @@
       [fixedInViewport]="mobileQuery.matches"  fixedTopGap="56" [mode]="mobileQuery.matches ? 'over' : 'side'" class="menu" [opened]="!mobileQuery.matches" >
     <div class="menuPadding">
     <div class="user-ctn" [ngClass]="{'marginForShow': !auth.loggedIn()  && auth.getTtype() === 'low'}">
-      <img (click)="reloadPage()" src="assets/logoRER.svg" class="logoShow">
+      <img alt="Logo sirio dinar" (click)="reloadPage()" src="assets/logoRER.svg" class="logoShow">
     </div>
     <div *ngIf="auth.loggedIn()  && auth.getTtype() !== 'low'" class="show-opc">
       <button (click)="openDialogAgregarCat()" mat-fab color="warn" aria-label="Example icon button with a home icon">

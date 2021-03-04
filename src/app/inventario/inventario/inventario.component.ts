@@ -17,8 +17,7 @@ import { EditarClaseComponent } from './editar-clase/editar-clase.component';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { MarcasDialogComponent } from '../inventario/marcas-dialog/marcas-dialog.component';
 import { SideopenService } from '../../sideopen.service';
-
-
+import { Title, Meta } from '@angular/platform-browser';
 @Component({
   selector: 'app-inventario',
   templateUrl: './inventario.component.html',
@@ -68,7 +67,9 @@ export class InventarioComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(public dialog: MatDialog, private inventarioMNG: InventarioManagerService,
               public auth: AuthService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
-              private router: Router, private snackBar: MatSnackBar, private ar: ActivatedRoute, private wss: WindowScrollService) {
+              private router: Router, private snackBar: MatSnackBar, private ar: ActivatedRoute, private wss: WindowScrollService,
+              private titleService: Title,
+              private metaTagService: Meta) {
     this.nombreUsuario = auth.getDisplayUser();
     this.mobileQuery = media.matchMedia('(max-width: 1080px)');
     this.mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -81,6 +82,10 @@ export class InventarioComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.titleService.setTitle('Sirio Dinar | Inventario');
+    this.metaTagService.updateTag(
+      { name: 'description', content: 'Inventario de Sirio Dinar' }
+    );
     this.loadList();
   }
 

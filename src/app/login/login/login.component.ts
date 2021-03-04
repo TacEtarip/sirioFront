@@ -3,6 +3,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { AuthService, User } from '../../auth.service';
 import { Router } from '@angular/router';
+import { Title, Meta } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   sitekey: string;
   subOne: Subscription;
 
-  constructor(private formBuilder: FormBuilder, private auth: AuthService, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private auth: AuthService,
+              private titleService: Title,
+              private metaTagService: Meta,private router: Router) {
     this.sitekey = '6Lc-GTIaAAAAABaw-oeMyoV6jZvkn9jRdaUwa_VT';
   }
   ngOnDestroy(): void {
@@ -26,6 +29,10 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.titleService.setTitle('Sirio Dinar | Login');
+    this.metaTagService.updateTag(
+      { name: 'description', content: 'Iniciar sesion Sirio Dinar' }
+    );
     this.form = this.formBuilder.group({
       username: this.formBuilder.control('',  Validators.compose([
         Validators.required,

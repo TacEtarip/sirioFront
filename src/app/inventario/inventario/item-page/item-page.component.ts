@@ -11,6 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../auth.service';
 
 import { WindowScrollService } from '../../../window-scroll.service';
+import { Title, Meta } from '@angular/platform-browser';
 
 export interface SubConteoOrder {
   name: string;
@@ -55,7 +56,10 @@ export class ItemPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   constructor(private inventarioMNG: InventarioManagerService,
-              private ar: ActivatedRoute, private router: Router, private wSS: WindowScrollService, public authService: AuthService) {
+              private ar: ActivatedRoute, private router: Router,
+              private titleService: Title,
+              private metaTagService: Meta,
+              private wSS: WindowScrollService, public authService: AuthService) {
 
     let ruta = 'noone';
 
@@ -95,7 +99,10 @@ export class ItemPageComponent implements OnInit, AfterViewInit, OnDestroy {
    }
 
   ngOnInit(): void {
-
+    this.titleService.setTitle(`Sirio Dinar | ${this.item$.value.name}`);
+    this.metaTagService.updateTag(
+      { name: 'description', content: `Informacion de ${this.item$.value.name} en trujillo` }
+    );
   }
 
   ngAfterViewInit(): void {
