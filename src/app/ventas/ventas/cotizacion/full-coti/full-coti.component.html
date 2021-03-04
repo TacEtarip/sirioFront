@@ -117,6 +117,8 @@
       <h5>Celular: {{(venta$|async).celular_cliente || 'No se brindo'}} | email: {{(venta$|async).cliente_email || 'No se brindo'}}</h5>
       <button (click)="descargarCotiExcel()" [ngStyle]="{'margin-right': '.5em', 'margin-top': '.5em','width': '160px'}"
       mat-flat-button color="primary">Generar Excel</button>
+      <button (click)="descargarCotiPDF()" [ngStyle]="{'margin-right': '.5em', 'margin-top': '.5em','width': '160px'}"
+      mat-flat-button color="primary">Generar PDF</button>
     </div>
 
     <div class="totales">

@@ -45,13 +45,14 @@ import { CotizacionComponent } from './ventas/cotizacion/cotizacion.component';
 import { CotizacionCardComponent } from './ventas/cotizacion/cotizacion-card/cotizacion-card.component';
 import { GenerarCotiComponent } from './ventas/cotizacion/generar-coti/generar-coti.component';
 import { FullCotiComponent } from './ventas/cotizacion/full-coti/full-coti.component';
+import { PreExcelDialogComponent } from './ventas/cotizacion/pre-excel-dialog/pre-excel-dialog.component';
 
 
 @NgModule({
   declarations: [VentasComponent, VentasActivasComponent,
     VentaActivaCardComponent, SeguroEjecDialogComponent, PostVentaComponent, HistorialVentasComponent,
     Eject404Component, VentaIndHistoriaComponent, SeguroAnularComponent,
-    GenerarVentaComponent, CotizacionComponent, CotizacionCardComponent, GenerarCotiComponent, FullCotiComponent],
+    GenerarVentaComponent, CotizacionComponent, CotizacionCardComponent, GenerarCotiComponent, FullCotiComponent, PreExcelDialogComponent],
   imports: [
     CommonModule,
     VentasRoutingModule,

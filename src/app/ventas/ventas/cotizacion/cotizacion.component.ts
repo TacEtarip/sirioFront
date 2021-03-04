@@ -9,8 +9,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { GenerarCotiComponent } from './generar-coti/generar-coti.component';
-import { R } from '@angular/cdk/keycodes';
-
 @Component({
   selector: 'app-cotizacion',
   templateUrl: './cotizacion.component.html',

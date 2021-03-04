@@ -1,0 +1,26 @@
+form {
+  display: grid;
+}
+
+.fullSpan {
+  width: 100%;
+}
+
+.ventaR {
+  top: 42%;
+  z-index: 6;
+  font-size: 32px;
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: futura-pt, sans-serif;
+  color: #FF6E40;
+  user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+}

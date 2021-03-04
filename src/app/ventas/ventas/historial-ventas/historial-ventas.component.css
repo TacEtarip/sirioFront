@@ -83,6 +83,28 @@ tr.mat-row:hover {
   width: 40%;
 }
 
+.searchInput {
+  width: 42px;
+  transition: width 1s;
+  font-weight: 800;
+}
+
+.searchIcon:hover {
+  cursor: pointer;
+}
+
+.selectSort {
+  width: 100%;
+  align-self: center;
+  font-family: futura-pt, sans-serif;
+}
+
+.dates {
+  display: grid;
+  gap: 1em;
+  grid-template-columns: 360px 240px 240px 240px 240px;
+}
+
 section {
   padding: 1em 3em;
   display: 	grid;

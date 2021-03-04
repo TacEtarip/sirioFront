@@ -44,8 +44,8 @@ export class SeguroEjecDialogComponent implements OnInit, OnDestroy {
     {value: 'otro', viewValue: 'Otro'}
   ];
 
-  currentDocumentType = this.tiposDocumentos[0].value;
   currentMetodoPago = this.metodosDePago[0].value;
+  currentDocumentType = this.tiposDocumentos[0].value;
 
   documentoFullInfo = new BehaviorSubject<any>(false);
 
@@ -101,6 +101,10 @@ export class SeguroEjecDialogComponent implements OnInit, OnDestroy {
       clienteEmail: this.fb.control(this.venta.cliente_email || '', Validators.compose([
         Validators.email
       ])),
+
+      direccionExtra: this.fb.control({ value: '', disabled: false }, Validators.compose([
+        Validators.pattern(/^[a-zA-Z0-9.,_#\s\-]+$/)
+      ])),
        ///////////////////////////////////////////////////////////
         ///
         peso: this.fb.control({value: '', disabled: true},  Validators.compose([
@@ -136,7 +140,7 @@ export class SeguroEjecDialogComponent implements OnInit, OnDestroy {
         ///
         direccion_partida: this.fb.control({ value: '', disabled: true }, Validators.compose([
           Validators.required,
-          Validators.pattern(/^[a-zA-Z0-9.,_#\s]+$/)
+          Validators.pattern(/^[a-zA-Z0-9.,_#\s\-]+$/)
         ])),
         ///
         departamento_llegada: this.fb.control({ value: '', disabled: true }, Validators.compose([
@@ -154,7 +158,7 @@ export class SeguroEjecDialogComponent implements OnInit, OnDestroy {
         ///
         direccion_llegada: this.fb.control({ value: '', disabled: true }, Validators.compose([
           Validators.required,
-          Validators.pattern(/^[a-zA-Z0-9.,_#\s]+$/)
+          Validators.pattern(/^[a-zA-Z0-9.,_#\s\-]+$/)
         ]))
     });
     if (this.venta.documento.type !== 'noone') {
@@ -368,9 +372,9 @@ export class SeguroEjecDialogComponent implements OnInit, OnDestroy {
     nameDocumento: string, metodoPagoOne: string, metodoPagoTwo: string, clienteEmail: string,
     peso: number, placa_transportista: string, documento_transportista: string, denomicaion_transportista: string,
     departamento_llegada: string, provincia_llegada: string, distrito_llegada: string, departamento: string
-    provincia: string, distrito: string, direccion_llegada: string, direccion_partida: string }) {
+    provincia: string, distrito: string, direccion_llegada: string, direccion_partida: string, direccionExtra: string }) {
     this.venta.documento.codigo = ventaEjeInfo.docCod || undefined;
-    this.venta.documento.direccion = this.documentoFullInfo.value.direccion || undefined;
+    this.venta.documento.direccion = ventaEjeInfo.direccionExtra || undefined;
     this.venta.documento.name =  ventaEjeInfo.nameDocumento || undefined;
     this.venta.documento.type = ventaEjeInfo.documentoTipo;
     this.venta.medio_de_pago = ventaEjeInfo.metodoPagoOne + '|' + (ventaEjeInfo.metodoPagoTwo || ' ');
@@ -445,14 +449,16 @@ export class SeguroEjecDialogComponent implements OnInit, OnDestroy {
   comprobarDOC() {
     if (this.ventaEjecutarForm.get('docCod').valid && this.ventaEjecutarForm.get('docCod').enabled) {
       if (this.ventaEjecutarForm.get('documentoTipo').value === this.tiposDocumentos[1].value) {
-        this.inventarioMNG.getRUC(this.ventaEjecutarForm.get('docCod').value).subscribe((res: RUC) => {
+        this.inventarioMNG.getRUC(this.ventaEjecutarForm.get('docCod').value).subscribe((res: any) => {
           if (res) {
             this.ventaEjecutarForm.get('nameDocumento').setValue(res.nombre_o_razon_social);
+            this.ventaEjecutarForm.get('direccionExtra').setValue(res.direccion);
             this.documentoFullInfo.next(res);
             this.documentAccepted.next(true);
           }
           else {
             this.ventaEjecutarForm.get('nameDocumento').setValue('');
+            this.ventaEjecutarForm.get('direccionExtra').setValue('');
             this.documentoFullInfo.next(null);
             this.ventaEjecutarForm.get('docCod').setErrors({incorrect: true});
           }

@@ -4,6 +4,23 @@
   </h1>
   <div class="filtros">
     <div class="dates">
+      <mat-form-field [formGroup]="range" appearance="fill" class="selectSort searchInput">
+        <mat-label>Busqueda:</mat-label>
+        <input id="busqueda" matInput formControlName="busqueda">
+        <mat-icon class="searchIcon" matSuffix>search</mat-icon>
+      </mat-form-field>
+      <mat-form-field [formGroup]="range" currentMetodoPago  appearance="fill" class="oneC">
+        <mat-label>Tipo</mat-label>
+        <mat-select [(value)]="currentTipoV" name="tipo"  formControlName="tipo">
+          <mat-option *ngFor="let item of tiposV" [value]="item.value">{{item.viewValue}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field [formGroup]="range" currentMetodoPago  appearance="fill" class="oneC">
+        <mat-label>Estado</mat-label>
+        <mat-select [(value)]="currentMetodoBusqueda" name="estado"  formControlName="estado">
+          <mat-option *ngFor="let item of metodosDeBusqueda" [value]="item.value">{{item.viewValue}}</mat-option>
+        </mat-select>
+      </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Ingresa el rango de fecha</mat-label>
         <mat-date-range-input [formGroup]="range"   [max]="maxDate" [min]="minDate" [rangePicker]="picker">

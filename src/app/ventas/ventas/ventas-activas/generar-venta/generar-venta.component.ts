@@ -333,7 +333,7 @@ export class GenerarVentaComponent implements OnInit {
 
   generarCodigo(v: string): string {
     const randomN = Math.floor(Math.random() * 90 + 10);
-    return v.charAt(0) + v.charAt(1) + 'NI' + randomN.toString();
+    return (v.charAt(0) || 'X') + (v.charAt(1) || 'X') + 'NI' + randomN.toString();
   }
 
   crearNewVentaBody(preVentaInfo: PreVentaSimpleInfo): Venta {
@@ -348,8 +348,8 @@ export class GenerarVentaComponent implements OnInit {
     const totalNoIGV = Math.round(((total / 1.18) + Number.EPSILON) * 100) / 100;
     if (this.item$.value) {
       itemVendido =
-      {codigo: this.item$.value.codigo, name: this.item$.value.name, priceIGV: preVentaInfo.priceIGV,
-        priceNoIGV: preVentaInfo.priceNoIGV, descripcion: this.item$.value.description,
+      {codigo: this.item$.value.codigo, name: this.item$.value.name, priceIGV: preVentaInfo.priceIGV, photo: this.item$.value.photo,
+        priceNoIGV: preVentaInfo.priceNoIGV, descripcion: this.item$.value.description, unidadDeMedida: this.item$.value.unidadDeMedida,
         cantidadSC: cSC, cantidad: preVentaInfo.cantidadVenta, totalPrice: total, totalPriceNoIGV: totalNoIGV };
       if (this.item$.value.subConteo) {
         itemVendido.cantidad = this.sum;
@@ -357,9 +357,10 @@ export class GenerarVentaComponent implements OnInit {
     } else {
       itemVendido =
       {codigo: this.generarCodigo(preVentaInfo.name), name: preVentaInfo.name, priceIGV: preVentaInfo.priceIGV,
-        priceNoIGV: preVentaInfo.priceNoIGV, descripcion: '',
+        priceNoIGV: preVentaInfo.priceNoIGV, descripcion: '', unidadDeMedida: 'UND', photo: 'noPhoto.jpg',
         cantidadSC: cSC, cantidad: preVentaInfo.cantidad, totalPrice: total, totalPriceNoIGV: totalNoIGV };
     }
+
 
     const bodyToSend: Venta =
     {
@@ -376,7 +377,7 @@ export class GenerarVentaComponent implements OnInit {
     };
 
     this.ventaEnCurso$.next(true);
-
+    console.log(bodyToSend);
     return bodyToSend;
   }
 
@@ -412,7 +413,7 @@ export class GenerarVentaComponent implements OnInit {
     if (this.item$.value) {
       itemVendido =
       {codigo: this.item$.value.codigo, name: this.item$.value.name, priceIGV: preVentaInfo.priceIGV,
-        priceNoIGV: preVentaInfo.priceNoIGV, descripcion: this.item$.value.description,
+        priceNoIGV: preVentaInfo.priceNoIGV, descripcion: this.item$.value.description, unidadDeMedida: this.item$.value.unidadDeMedida,
         cantidadSC: cSC, cantidad: preVentaInfo.cantidadVenta, totalPrice: total, totalPriceNoIGV: totalNoIGV };
       if (this.item$.value.subConteo) {
         itemVendido.cantidad = this.sum;
@@ -421,12 +422,12 @@ export class GenerarVentaComponent implements OnInit {
       if (this.crear.item) {
         itemVendido =
         {codigo: this.crear.item.codigo, name: this.crear.item.name, priceIGV: preVentaInfo.priceIGV,
-          priceNoIGV: preVentaInfo.priceNoIGV, descripcion: '',
+          priceNoIGV: preVentaInfo.priceNoIGV, descripcion: '', unidadDeMedida: this.crear.item.unidadDeMedida || 'UND',
           cantidadSC: cSC, cantidad: preVentaInfo.cantidad, totalPrice: total, totalPriceNoIGV: totalNoIGV };
       } else {
         itemVendido =
         {codigo: this.generarCodigo(preVentaInfo.name), name: preVentaInfo.name, priceIGV: preVentaInfo.priceIGV,
-          priceNoIGV: preVentaInfo.priceNoIGV, descripcion: '',
+          priceNoIGV: preVentaInfo.priceNoIGV, descripcion: '', unidadDeMedida: 'UND',
           cantidadSC: cSC, cantidad: preVentaInfo.cantidad, totalPrice: total, totalPriceNoIGV: totalNoIGV };
       }
 
@@ -485,8 +486,8 @@ export class GenerarVentaComponent implements OnInit {
     const totalNoIGV = Math.round(((total / 1.18) + Number.EPSILON) * 100) / 100;
     if (this.item$.value) {
       itemVendido =
-      {codigo: this.item$.value.codigo, name: this.item$.value.name, priceIGV: preVentaInfo.priceIGV,
-        priceNoIGV: preVentaInfo.priceNoIGV, descripcion: this.item$.value.description,
+      {codigo: this.item$.value.codigo, name: this.item$.value.name, priceIGV: preVentaInfo.priceIGV, photo: this.item$.value.photo,
+        priceNoIGV: preVentaInfo.priceNoIGV, descripcion: this.item$.value.description, unidadDeMedida: this.item$.value.unidadDeMedida,
         cantidadSC: cSC, cantidad: preVentaInfo.cantidadVenta, totalPrice: total, totalPriceNoIGV: totalNoIGV };
       if (this.item$.value.subConteo) {
         itemVendido.cantidad = this.sum;
@@ -494,13 +495,13 @@ export class GenerarVentaComponent implements OnInit {
     } else {
       if (this.crear.item) {
         itemVendido =
-        {codigo: this.crear.item.codigo, name: this.crear.item.name, priceIGV: preVentaInfo.priceIGV,
-          priceNoIGV: preVentaInfo.priceNoIGV, descripcion: '',
+        {codigo: this.crear.item.codigo, name: this.crear.item.name, priceIGV: preVentaInfo.priceIGV, photo: 'noPhoto.jpg',
+          priceNoIGV: preVentaInfo.priceNoIGV, descripcion: '', unidadDeMedida: this.crear.item.unidadDeMedida || 'UND',
           cantidadSC: cSC, cantidad: preVentaInfo.cantidad, totalPrice: total, totalPriceNoIGV: totalNoIGV };
       } else {
         itemVendido =
         {codigo: this.generarCodigo(preVentaInfo.name), name: preVentaInfo.name, priceIGV: preVentaInfo.priceIGV,
-          priceNoIGV: preVentaInfo.priceNoIGV, descripcion: '',
+          priceNoIGV: preVentaInfo.priceNoIGV, descripcion: '', unidadDeMedida: 'UND', photo: 'noPhoto.jpg',
           cantidadSC: cSC, cantidad: preVentaInfo.cantidad, totalPrice: total, totalPriceNoIGV: totalNoIGV };
       }
 

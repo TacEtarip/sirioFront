@@ -8,6 +8,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { GenerarVentaComponent } from '../../ventas-activas/generar-venta/generar-venta.component';
 import { TableVentaInfo } from '../../ventas-activas/venta-activa-card/venta-activa-card.component';
 import { GenerarCotiComponent } from '../generar-coti/generar-coti.component';
+import { PreExcelDialogComponent } from '../pre-excel-dialog/pre-excel-dialog.component';
 import { saveAs } from 'file-saver';
 
 interface TableData {
@@ -153,10 +154,16 @@ export class FullCotiComponent implements OnInit {
   }
 
   descargarCotiExcel() {
-    this.inventarioMNG.getExcelCoti(this.venta$.value.codigo).subscribe((res) => {
-      if (res) {
-        saveAs(res);
-      }
+    this.dialog.open(PreExcelDialogComponent, {
+      width: '600px',
+      data: { cotiCod: this.venta$.value.codigo, pdf: false }
+    });
+  }
+
+  descargarCotiPDF() {
+    this.dialog.open(PreExcelDialogComponent, {
+      width: '600px',
+      data: { cotiCod: this.venta$.value.codigo, pdf: true }
     });
   }
 

@@ -17,6 +17,10 @@
       <mat-label>Nombre...</mat-label>
       <input spellcheck="false" name="name" id="name" formControlName="nameDocumento" maxlength="60" matInput>
     </mat-form-field>
+    <mat-form-field appearance="fill"  class="fullC">
+      <mat-label>Dirección...</mat-label>
+      <input spellcheck="false" name="direccionExtra" id="direccionExtra" formControlName="direccionExtra" matInput>
+    </mat-form-field>
     <mat-form-field currentMetodoPago  appearance="fill" class="oneC">
       <mat-label>Metodo de pago</mat-label>
       <mat-select [(value)]="currentMetodoPago" name="metodoPagoOne"  formControlName="metodoPagoOne">

@@ -130,8 +130,24 @@ export class InventarioManagerService {
   }));
   }
 
-  getExcelCoti(codigo: string) {
-    return this.http.post(this.baseUrl + 'coti/getExcelCoti', { codigo }, { responseType: 'blob' })
+  getExcelCoti(codigo: string, extra: { observaciones: string, envio: number, otro: number, porPagar: number }, imagen: boolean) {
+    return this.http.post(this.baseUrl + 'coti/getExcelCoti', { codigo, extra, imagen }, { responseType: 'blob' })
+    .pipe( first(), catchError(error => {
+      switch (error.status) {
+      case 0:
+        alert('Error al tratar de conectar al servidor');
+        break;
+      case 700:
+        break;
+      default:
+        break;
+    }
+      return of(null);
+  }));
+  }
+
+  getPdfCoti(codigo: string, extra: { observaciones: string, envio: number, otro: number, porPagar: number }, imagen: boolean) {
+    return this.http.post(this.baseUrl + 'coti/getPdfCoti', { codigo, extra, imagen }, { responseType: 'blob' })
     .pipe( first(), catchError(error => {
       switch (error.status) {
       case 0:
@@ -210,8 +226,10 @@ export class InventarioManagerService {
     }));
   }
 
-  getCantidadVentasPorEstado(estado: string, dateOne: string, dateTwo: string): Observable<{cantidadVentas: number}> {
-    return this.http.get<{cantidadVentas: number}>(this.baseUrl + 'ventas/getCantidadVentas/' + estado + '/' + dateOne + '/' + dateTwo)
+  getCantidadVentasPorEstado(estado: string[], dateOne: string, dateTwo: string, tipo: string[],
+                             busqueda: string): Observable<{cantidadVentas: number}> {
+    return this.http.post<{cantidadVentas: number}>(this.baseUrl + 'ventas/getCantidadVentas',
+    {estado, dateOne, dateTwo, tipo, busqueda: busqueda || ''})
       .pipe(first(),
       catchError(error => {
         switch (error.status) {
@@ -228,8 +246,10 @@ export class InventarioManagerService {
   }
 
 
-  getVentasEJecutadas(limit: number, skip: number, dateOne: string, dateTwo: string): Observable<Venta[]> {
-    return this.http.get<Venta[]>(this.baseUrl + 'ventas/getEjecutadas/' + skip + '/' + limit + '/' + dateOne + '/' + dateTwo)
+  getVentasEJecutadas(limit: number, skip: number, dateOne: string, dateTwo: string,
+                      estado: string[], tipo: string[], busqueda: string): Observable<Venta[]> {
+    return this.http.post<Venta[]>(this.baseUrl + 'ventas/getEjecutadas',
+    { limit, skip, dateOne, dateTwo, estado, tipo, busqueda: busqueda || '' })
             .pipe(first(),
             catchError(error => {
               switch (error.status) {
@@ -1064,6 +1084,8 @@ export interface ItemVendido {
   totalPriceNoIGV: number;
   descripcion: string;
   cantidadSC: CantidadSubConteo[];
+  unidadDeMedida?: string;
+  photo?: string;
 }
 
 export interface Documento {
@@ -1222,6 +1244,7 @@ export interface ItemsVentaForCard {
   priceNoIGV: number;
   cantidadSC: CantidadSubConteo;
   cantidad: number;
+  unidadDeMedida?: string;
 }
 
 

@@ -20,6 +20,7 @@ export interface TableVentaInfo {
   eliminar?: boolean;
   editar?: boolean;
   priceNoIGV: number;
+  unidadDeMedida?: string;
 }
 
 @Component({
@@ -66,7 +67,7 @@ export class VentaActivaCardComponent implements OnInit, OnDestroy {
     this.inventarioMNG.obtenerCardPreInfoVenta(venta.codigo).subscribe((res) => {
       res.forEach(infoVenta => {
         if (infoVenta.cantidadSC && infoVenta.cantidadSC.cantidadVenta > 0) {
-          const tableInfo: TableVentaInfo = {codigo: infoVenta.codigo, name: infoVenta.name,
+          const tableInfo: TableVentaInfo = {codigo: infoVenta.codigo, name: infoVenta.name, unidadDeMedida: infoVenta.unidadDeMedida || 'UND',
             subName: infoVenta.cantidadSC.name, subNameSecond: infoVenta.cantidadSC.nameSecond,
             cantidad: infoVenta.cantidadSC.cantidadVenta, priceIGV: infoVenta.priceIGV, editar: true,
             total: this.getTotal(infoVenta.cantidadSC.cantidadVenta, infoVenta.priceIGV) ,
@@ -76,7 +77,7 @@ export class VentaActivaCardComponent implements OnInit, OnDestroy {
         }
         else if (!infoVenta.cantidadSC) {
           const tableInfo: TableVentaInfo = {codigo: infoVenta.codigo, name: infoVenta.name,
-            subName: '...', subNameSecond: '...', editar: true,
+            subName: '...', subNameSecond: '...', editar: true, unidadDeMedida: infoVenta.unidadDeMedida || 'UND',
             cantidad: infoVenta.cantidad, priceIGV: infoVenta.priceIGV,
             total: this.getTotal(infoVenta.cantidad, infoVenta.priceIGV), eliminar: true, priceNoIGV: infoVenta.priceNoIGV};
 

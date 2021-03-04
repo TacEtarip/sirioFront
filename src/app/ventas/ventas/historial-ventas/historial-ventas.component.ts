@@ -5,7 +5,7 @@ import { InventarioManagerService, Venta } from '../../../inventario-manager.ser
 import { BehaviorSubject, Subject } from 'rxjs';
 import {MatDatepickerInputEvent} from '@angular/material/datepicker';
 import {FormGroup, FormControl, FormBuilder, Validator, Validators} from '@angular/forms';
-import { first } from 'rxjs/operators';
+import { first, distinctUntilChanged, debounceTime } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
 
@@ -31,6 +31,23 @@ export class HistorialVentasComponent implements OnInit, AfterViewInit, OnDestro
   inDateSearch = new BehaviorSubject<boolean>(false);
 
   gettingInfo$ = new BehaviorSubject<boolean>(true);
+
+  metodosDeBusqueda: { value: string[], viewValue: string }[] = [
+    { value: ['ejecutada'], viewValue: 'Ejecutadas' },
+    { value: ['anuladaPost'], viewValue: 'Anuladas' },
+    { value: ['ejecutada', 'anuladaPost'], viewValue: 'Todas' }
+  ];
+
+  currentMetodoBusqueda = this.metodosDeBusqueda[0].value;
+
+  tiposV: { value: string[], viewValue: string }[] = [
+    { value: ['boleta', 'factura', 'noone'], viewValue: 'Todas' },
+    { value: ['factura'], viewValue: 'Facturas' },
+    { value: ['boleta'], viewValue: 'Boletas' },
+    { value: ['noone'], viewValue: 'Sin Documento' },
+  ];
+
+  currentTipoV = this.tiposV[0].value;
   // dataSource$ = new BehaviorSubject<MatTableDataSource<PeriodicElement>>(null);
 
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
@@ -55,13 +72,15 @@ export class HistorialVentasComponent implements OnInit, AfterViewInit, OnDestro
    }
 
    ngAfterViewInit(): void {
-    this.inventarioMNG.getVentasEJecutadas(10, 0, 'noone', 'noone').subscribe(res => {
+    this.inventarioMNG.getVentasEJecutadas(10, 0, 'noone', 'noone', this.range.get('estado').value,
+    this.range.get('tipo').value, this.range.get('busqueda').value).subscribe(res => {
       const temp = new MatTableDataSource(res);
       this.dataSource$.next(temp);
       this.gettingInfo$.next(false);
     });
 
-    this.inventarioMNG.getCantidadVentasPorEstado('ejecutada', 'noone', 'noone').subscribe(res => {
+    this.inventarioMNG.getCantidadVentasPorEstado(this.range.get('estado').value, 'noone', 'noone',
+    this.range.get('tipo').value, this.range.get('busqueda').value).subscribe(res => {
       this.ventasLength$.next(res.cantidadVentas);
     });
 
@@ -78,13 +97,34 @@ export class HistorialVentasComponent implements OnInit, AfterViewInit, OnDestro
         Validators.required
       ])),
       end: this.fb.control({value: '', disabled: false}, Validators.compose([
-        Validators.required
       ])),
+      estado: this.fb.control(this.metodosDeBusqueda[0].value),
+      tipo: this.fb.control(this.currentTipoV),
+      busqueda: this.fb.control('', Validators.compose([
+        Validators.pattern(/^[a-zA-Z0-9.-_# ]*$/),
+        Validators.minLength(2),
+      ]))
+    });
+
+    this.range.get('estado').valueChanges.pipe(distinctUntilChanged()).subscribe(res => {
+      this.cargarVentas();
+    });
+
+    this.range.get('tipo').valueChanges.pipe(distinctUntilChanged()).subscribe(res => {
+      this.cargarVentas();
+    });
+
+    this.range.get('busqueda').valueChanges.pipe(distinctUntilChanged(), debounceTime(500)).subscribe(res => {
+      if (this.range.get('busqueda').valid) {
+        this.cargarVentas();
+      }
     });
   }
 
   newSource(index: number) {
-      this.inventarioMNG.getVentasEJecutadas(10, index * 10, this.startISO$.value, this.endISO$.value).subscribe(res => {
+      this.inventarioMNG.getVentasEJecutadas(10, index * 10, this.startISO$.value,
+         this.endISO$.value, this.range.get('estado').value, this.range.get('tipo').value,
+         this.range.get('busqueda').value).subscribe(res => {
         this.gettingInfo$.next(false);
         const temp = new MatTableDataSource(res);
         this.dataSource$.next(temp);
@@ -94,32 +134,38 @@ export class HistorialVentasComponent implements OnInit, AfterViewInit, OnDestro
     this.paginator.page.unsubscribe();
   }
 
+  cargarVentas() {
+    if (this.paginator.hasPreviousPage()) {
+      this.paginator.firstPage();
+    } else {
+      this.gettingInfo$.next(true);
+      this.inventarioMNG.getVentasEJecutadas(10, 0, this.startISO$.value,
+        this.endISO$.value, this.range.get('estado').value, this.range.get('tipo').value,
+        this.range.get('busqueda').value).subscribe(res => {
+        this.gettingInfo$.next(false);
+        const temp = new MatTableDataSource(res);
+        this.dataSource$.next(temp);
+      });
+    }
+
+    this.inventarioMNG
+    .getCantidadVentasPorEstado(this.range.get('estado').value, this.startISO$.value, this.endISO$.value, this.range.get('tipo').value,
+    this.range.get('busqueda').value)
+    .subscribe(res => {
+      if (res) {
+        this.ventasLength$.next(res.cantidadVentas);
+      } else {
+        this.ventasLength$.next(0);
+      }
+    });
+  }
+
   datePicked() {
     if (this.range.valid) {
-
       this.startISO$.next(this.range.get('start').value.toISOString());
       this.endISO$.next(this.range.get('end').value.toISOString());
+      this.cargarVentas();
       // this.inDateSearch.next(true);
-      if (this.paginator.hasPreviousPage()) {
-        this.paginator.firstPage();
-      } else {
-        this.gettingInfo$.next(true);
-        this.inventarioMNG.getVentasEJecutadas(10, 0, this.startISO$.value, this.endISO$.value).subscribe(res => {
-          this.gettingInfo$.next(false);
-          const temp = new MatTableDataSource(res);
-          this.dataSource$.next(temp);
-        });
-      }
-
-      this.inventarioMNG
-      .getCantidadVentasPorEstado('ejecutada', this.startISO$.value, this.endISO$.value)
-      .subscribe(res => {
-        if (res) {
-          this.ventasLength$.next(res.cantidadVentas);
-        } else {
-          this.ventasLength$.next(0);
-        }
-      });
     }
   }
 
