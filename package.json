@@ -12,8 +12,7 @@
     "serve:ssr": "node dist/inventarioSirioFront/server/main.js",
     "build:ssr": "ng build --prod && ng run inventarioSirioFront:server:production",
     "prerender": "ng run inventarioSirioFront:prerender",
-    "start:heroku":"node dist/inventarioSirioFront/server",
-    "postinstall":"npm run build:ssr"
+    "start:heroku":"node dist/inventarioSirioFront/server/main.js"
   },
   "private": true,
   "dependencies": {
