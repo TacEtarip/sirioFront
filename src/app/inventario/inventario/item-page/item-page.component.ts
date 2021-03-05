@@ -77,6 +77,10 @@ export class ItemPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
       this.inventarioMNG.getItem(ruta).subscribe(res => {
         this.item$.next(res);
+        this.titleService.setTitle(`Sirio Dinar | ${this.item$.value.name}`);
+        this.metaTagService.updateTag(
+          { name: 'description', content: `Informacion de ${this.item$.value.name} en trujillo` }
+        );
         const mensajeInicio = 'Buenas estoy interesado en ';
         const mensajeFinal = ' quisiera obtener más información';
         this.whatsAppLinkOne = 'https://wa.me/51977426349?text=' + mensajeInicio + this.item$.value.name + mensajeFinal;
@@ -99,10 +103,7 @@ export class ItemPageComponent implements OnInit, AfterViewInit, OnDestroy {
    }
 
   ngOnInit(): void {
-    this.titleService.setTitle(`Sirio Dinar | ${this.item$.value.name}`);
-    this.metaTagService.updateTag(
-      { name: 'description', content: `Informacion de ${this.item$.value.name} en trujillo` }
-    );
+
   }
 
   ngAfterViewInit(): void {
