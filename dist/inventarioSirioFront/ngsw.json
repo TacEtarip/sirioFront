@@ -1,0 +1,143 @@
+{
+  "configVersion": 1,
+  "timestamp": 1614891669618,
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/1-es2015.ef2e207b0c67d3484d21.js",
+        "/1-es5.ef2e207b0c67d3484d21.js",
+        "/10-es2015.400c82a79d95b27be6a4.js",
+        "/10-es5.400c82a79d95b27be6a4.js",
+        "/11-es2015.0b9b5f6f330308fb4eb8.js",
+        "/11-es5.0b9b5f6f330308fb4eb8.js",
+        "/12-es2015.eecb500ab393de1e51f8.js",
+        "/12-es5.eecb500ab393de1e51f8.js",
+        "/13-es2015.f552f4e829803e4d86f8.js",
+        "/13-es5.f552f4e829803e4d86f8.js",
+        "/2-es2015.f049474386f28071f57d.js",
+        "/2-es5.f049474386f28071f57d.js",
+        "/3-es2015.46d67aef40b522161f4d.js",
+        "/3-es5.46d67aef40b522161f4d.js",
+        "/4-es2015.c32f2d60c035294d8018.js",
+        "/4-es5.c32f2d60c035294d8018.js",
+        "/5-es2015.3b9c9e9d68a2cf00c648.js",
+        "/5-es5.3b9c9e9d68a2cf00c648.js",
+        "/favicon.ico",
+        "/index.html",
+        "/main-es2015.0837a09a31484fff4a8e.js",
+        "/main-es5.0837a09a31484fff4a8e.js",
+        "/manifest.webmanifest",
+        "/polyfills-es2015.ceff84c1fb0c4c6ad3ea.js",
+        "/polyfills-es5.cb9d2f65e96cde23f551.js",
+        "/runtime-es2015.d3d4b81bea651f13db00.js",
+        "/runtime-es5.d3d4b81bea651f13db00.js",
+        "/styles.0e002b0e7203598e63e2.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/assets/Plus_font_awesome.svg",
+        "/assets/btn_google_light_normal_ios.svg",
+        "/assets/close.svg",
+        "/assets/down.svg",
+        "/assets/guante-badana-blanco-clute.jpg",
+        "/assets/icons/icon-128x128.png",
+        "/assets/icons/icon-144x144.png",
+        "/assets/icons/icon-152x152.png",
+        "/assets/icons/icon-192x192.png",
+        "/assets/icons/icon-384x384.png",
+        "/assets/icons/icon-512x512.png",
+        "/assets/icons/icon-72x72.png",
+        "/assets/icons/icon-96x96.png",
+        "/assets/logo-sirio.jpg",
+        "/assets/logoRER.svg",
+        "/assets/sirioLogo.svg",
+        "/assets/sunatCodes.json",
+        "/assets/supply.jpg"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/1-es2015.ef2e207b0c67d3484d21.js": "a44ca20aee2792b9c5868bc80290c760fc34151f",
+    "/1-es5.ef2e207b0c67d3484d21.js": "300e6d189e03b5090a2695356302ceac39198b4c",
+    "/10-es2015.400c82a79d95b27be6a4.js": "41999cddc2ce462a871fef7edb1ecae6ba52a3d9",
+    "/10-es5.400c82a79d95b27be6a4.js": "5eb8216f825fc827099703cf8d7e75416686759e",
+    "/11-es2015.0b9b5f6f330308fb4eb8.js": "637edec53e28e509a7d106ee4b37ff0eb85e0c59",
+    "/11-es5.0b9b5f6f330308fb4eb8.js": "bb629a09778acab6ab01af53f2476ee31a22c87a",
+    "/12-es2015.eecb500ab393de1e51f8.js": "38da1deb48f510462b8b6c0096f9dcd666408d92",
+    "/12-es5.eecb500ab393de1e51f8.js": "88d34dd1bb83ed7c950b43f606e3cb40c064b61c",
+    "/13-es2015.f552f4e829803e4d86f8.js": "af3d444318ed1b3f9cebbc7e9d24cf1bf8ccefd5",
+    "/13-es5.f552f4e829803e4d86f8.js": "c6d2559489768a0e01e9197c68ea1779ebb23258",
+    "/2-es2015.f049474386f28071f57d.js": "8ffcab2d53d0901cbc2d1ceb8547c88694c8bac3",
+    "/2-es5.f049474386f28071f57d.js": "09e6103f49e64d836ea56bdbce54e259756b42d2",
+    "/3-es2015.46d67aef40b522161f4d.js": "be3b54dc62dc8569d6acb7f6b451ea660c03f30f",
+    "/3-es5.46d67aef40b522161f4d.js": "faefddcb5958b886187822df1cd2ded7ea4cfc47",
+    "/4-es2015.c32f2d60c035294d8018.js": "ee278783fbb88d38975854a01da62c362e4ed132",
+    "/4-es5.c32f2d60c035294d8018.js": "e62a41a26e99a485bd197cd1708e2091811c5dce",
+    "/5-es2015.3b9c9e9d68a2cf00c648.js": "96576cb69d43416ce73fa9beb6eab8e6ccbdb741",
+    "/5-es5.3b9c9e9d68a2cf00c648.js": "59878e533b3919d60ac8d3d5a0d1735fd1088808",
+    "/assets/Plus_font_awesome.svg": "9bb82bafbcbe4c7899db9716c11831c62446decd",
+    "/assets/btn_google_light_normal_ios.svg": "acf03701cc9a227a8e7ddef11aead86c5df8b4ff",
+    "/assets/close.svg": "b47f3ff1e4a73cc0059baef71786b7b83140034a",
+    "/assets/down.svg": "6fd525c3a2b0f9ebc1bf3fc850a88adc9ae701f4",
+    "/assets/guante-badana-blanco-clute.jpg": "a0781663daf1985978fd17c3eb72d1c0225ce4e6",
+    "/assets/icons/icon-128x128.png": "d7230baeb9e07b8f738a68c110904d57e7ca184c",
+    "/assets/icons/icon-144x144.png": "ad58f19d72dff3a296b2a5426518d42911549d92",
+    "/assets/icons/icon-152x152.png": "aa050921df8ed74ced7da2954cd9bba5caa8abb9",
+    "/assets/icons/icon-192x192.png": "06e63b2450d6f7d308d4754b01e51ab81150d63f",
+    "/assets/icons/icon-384x384.png": "efa9c12154d06863f0f89e40a3d427ba88ffcdfb",
+    "/assets/icons/icon-512x512.png": "dda7761e57ab0471f9a09b592fa2041a3721fe7d",
+    "/assets/icons/icon-72x72.png": "74c799cb093f7d54f9745fe696a6e719a65fd786",
+    "/assets/icons/icon-96x96.png": "b54c2cbf05219463048cf2502c7d37f1a9ffc5d5",
+    "/assets/logo-sirio.jpg": "f38cb60d551dd55d9146a13e9b16cdd72fe6a72c",
+    "/assets/logoRER.svg": "0c1f2383ea9d0e211c8ab6d9c60c7b04fcc935e7",
+    "/assets/sirioLogo.svg": "f8b97deb45f9cca31e08a06a2cc73e81221f41d5",
+    "/assets/sunatCodes.json": "3eb6bf8e2d337f4f715e017c35e0947cfe2fe101",
+    "/assets/supply.jpg": "0d3573aebc671fa516a727bec501834152fb0659",
+    "/favicon.ico": "cb766362eac40acb039f6ed56aa01c9575f757b2",
+    "/index.html": "c73a9da3ffa13767d7f07dbbc1a1abc82500635b",
+    "/main-es2015.0837a09a31484fff4a8e.js": "a58b6874957bb43d8663d3403d5688084c404e7e",
+    "/main-es5.0837a09a31484fff4a8e.js": "42cf4c4bf03d65b1ef42d017bdfa2e2d458372f3",
+    "/manifest.webmanifest": "28d8c8d8d7f43ad6fec0a2f0a77aa71787bda1af",
+    "/polyfills-es2015.ceff84c1fb0c4c6ad3ea.js": "0bc370f3340fd0f53e1a6e6e7986a08bc6dcedf0",
+    "/polyfills-es5.cb9d2f65e96cde23f551.js": "01b2d3410abaa6bd83cc066879fe9c9d90af3438",
+    "/runtime-es2015.d3d4b81bea651f13db00.js": "5f9de6f6f413a07bf5930940aba7e706dbddba8c",
+    "/runtime-es5.d3d4b81bea651f13db00.js": "34212a96634ba1b1a45b0ce86b825818f8128828",
+    "/styles.0e002b0e7203598e63e2.css": "4cac45935c7e11545258ab83487f9316430bb461"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ],
+  "navigationRequestStrategy": "performance"
+}
