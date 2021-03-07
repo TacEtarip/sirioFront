@@ -23,6 +23,9 @@ export class AuthInterceptor implements HttpInterceptor {
     let reqToSend: HttpRequest<any>;
 
     const reqWithAuth = request.clone({
+      setHeaders: {
+        Authorization: 'JWT ' + this.auth.getToken() + ' ' + this.auth.getUser() + ' ' + this.auth.getTtype(),
+      },
       withCredentials: true,
     });
 
