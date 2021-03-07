@@ -20,13 +20,11 @@ export class WindowScrollService {
   constructor(@Inject(PLATFORM_ID) private platformId: any) { }
 
   updateScrollY(value: number): void {
-    if (isPlatformBrowser(this.platformId)) {
       this.scrollY.next(value);
-    }
   }
 
   scrollToTop() {
-    if (isPlatformBrowser(this.platformId)) {
+    if (this.elementScroll) {
       this.elementScroll.scroll(0, 0);
     }
   }

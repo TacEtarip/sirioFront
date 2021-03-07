@@ -10,6 +10,7 @@ import { FormGroup, Validators, FormBuilder, Form } from '@angular/forms';
 import { WindowScrollService } from '../../../window-scroll.service';
 import { SideopenService } from '../../../sideopen.service';
 import { isPlatformBrowser } from '@angular/common';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-tipo-ruta',
@@ -44,6 +45,7 @@ export class TipoRutaComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(public dialog: MatDialog, private inventarioMNG: InventarioManagerService,
               private router: Router, private snackBar: MatSnackBar, private ar: ActivatedRoute,
+              @Inject(DOCUMENT) private document: Document,
               private wSS: WindowScrollService, private fb: FormBuilder, @Inject(PLATFORM_ID) private platformId: any) {
                 if (isPlatformBrowser(this.platformId)) {
                   this.scrollY$ = this.wSS.scrollY$;
@@ -127,14 +129,14 @@ export class TipoRutaComponent implements OnInit, OnDestroy, AfterViewInit {
 
     if (isPlatformBrowser(this.platformId)) {
       if (this.wSS.elementScroll === undefined) {
-        const documentScroll = document.getElementById('listado');
+        const documentScroll = this.document.getElementById('listado');
         this.wSS.elementScroll = documentScroll;
       }
     }
 
 
     if (isPlatformBrowser(this.platformId)) {
-      const searchDoc = document.getElementById('searchBar');
+      const searchDoc = this.document.getElementById('searchBar');
     }
 
 

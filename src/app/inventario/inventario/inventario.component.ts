@@ -1,6 +1,7 @@
 import { WindowScrollService } from './../../window-scroll.service';
 import { Component, OnInit, ChangeDetectorRef, ViewChildren, QueryList,
   AfterViewInit, OnDestroy, ChangeDetectionStrategy, PLATFORM_ID, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import { NewItemDialogComponent } from './new-item-dialog/new-item-dialog.component';
 import { AgregarClaseItemComponent } from './agregar-clase-item/agregar-clase-item.component';
@@ -69,7 +70,7 @@ export class InventarioComponent implements OnInit, OnDestroy, AfterViewInit {
               public auth: AuthService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
               private router: Router, private snackBar: MatSnackBar, private ar: ActivatedRoute, private wss: WindowScrollService,
               private titleService: Title, @Inject(PLATFORM_ID) private platformId: any,
-              private metaTagService: Meta) {
+              private metaTagService: Meta, @Inject(DOCUMENT) private document: Document) {
     this.nombreUsuario = auth.getDisplayUser();
     this.mobileQuery = media.matchMedia('(max-width: 1080px)');
     this.mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -90,8 +91,7 @@ export class InventarioComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    if(isPlatformBrowser(this.platformId)) {
-      const documentScroll = document.getElementById('listado');
+      const documentScroll = this.document.getElementById('listado');
       this.wss.elementScroll = documentScroll;
       fromEvent(documentScroll, 'scroll')
       .pipe(distinctUntilChanged(),
@@ -102,7 +102,6 @@ export class InventarioComponent implements OnInit, OnDestroy, AfterViewInit {
           const porcent = Math.round((this.wss.scrollY.value * 100 ) / (this.wss.scrollH.value - this.wss.elementScroll.clientHeight));
           this.wss.porcent.next(porcent);
         });
-    }
   }
 
   loadListItems(loadInfo: {name: string, subORtipo: string}) {

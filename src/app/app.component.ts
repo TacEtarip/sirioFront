@@ -4,6 +4,7 @@ import { SwUpdate } from '@angular/service-worker';
 import { Meta } from '@angular/platform-browser';
 import { BehaviorSubject } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
+import { DOCUMENT } from '@angular/common';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -14,11 +15,12 @@ export class AppComponent implements OnDestroy, OnInit {
   static isBrowser = new BehaviorSubject<boolean>(null);
   title = 'inventarioSirioFront';
   subI: Subscription;
-  constructor(update: SwUpdate, private metaTagService: Meta, @Inject(PLATFORM_ID) private platformId: any) {
+  constructor(update: SwUpdate, private metaTagService: Meta, @Inject(DOCUMENT) private document: Document,
+              @Inject(PLATFORM_ID) private platformId: any) {
     AppComponent.isBrowser.next(isPlatformBrowser(platformId));
     this.subI = update.available.subscribe(event => {
       if (this.promptUser(event)) {
-        update.activateUpdate().then(() => document.location.reload());
+        update.activateUpdate().then(() => this.document.location.reload());
       }
     });
   }
