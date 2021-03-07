@@ -1,8 +1,8 @@
 import { Router } from '@angular/router';
-import { Inject, Injectable, Optional, PLATFORM_ID } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { catchError, mapTo, map, retry, tap, first } from 'rxjs/operators';
+import { catchError, mapTo, first } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -10,8 +10,8 @@ import { AuthService } from './auth.service';
 })
 export class InventarioManagerService {
 
-  baseUrl = 'https://inventario-sirio-dinar.herokuapp.com/';
-  // baseUrl = 'http://localhost:5000/';
+  // baseUrl = 'https://inventario-sirio-dinar.herokuapp.com/';
+  baseUrl = 'http://localhost:5000/';
 
 
   constructor(private http: HttpClient, private auth: AuthService, private router: Router,

@@ -7,7 +7,6 @@ import { AppServerModule } from './src/main.server';
 import { APP_BASE_HREF } from '@angular/common';
 import { existsSync } from 'fs';
 import { REQUEST, RESPONSE } from '@nguniversal/express-engine/tokens';
-import { NgxRequest, NgxResponse } from '@gorniv/ngx-universal';
 import helmet from 'helmet';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
@@ -76,6 +75,7 @@ export function app(): express.Express {
   });
 
   server.use(cors());
+  server.use(cookieParser());
   // server.use(enforce.HTTPS({ trustProtoHeader: true }));
   // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
   /*server.engine('html', ngExpressEngine({
@@ -148,22 +148,6 @@ export function app(): express.Express {
       providers: [
         { provide: APP_BASE_HREF,
           useValue: req.baseUrl },
-          {
-            provide: REQUEST,
-            useValue: req,
-          },
-          {
-            provide: RESPONSE,
-            useValue: res,
-          },
-          {
-            provide: NgxRequest,
-            useValue: req,
-          },
-          {
-            provide: NgxResponse,
-            useValue: res,
-          },
         {
           provide: 'ORIGIN_URL',
           useValue: `${http}://${req.headers.host}`,
@@ -177,8 +161,7 @@ function run(): void {
 
   // Start up the Node server
   const server = app();
-  server.use(compression());
-  server.use(cookieParser());
+  server.use(compression);
   server.listen(port, () => {
     console.log(`Node Express server listening on http://localhost:${port}`);
   });

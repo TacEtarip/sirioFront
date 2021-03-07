@@ -1,5 +1,4 @@
 import { Component, OnInit, Inject, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Item } from '../../../inventario-manager.service';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';

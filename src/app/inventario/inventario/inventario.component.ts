@@ -1,6 +1,6 @@
 import { WindowScrollService } from './../../window-scroll.service';
 import { Component, OnInit, ChangeDetectorRef, ViewChildren, QueryList,
-  AfterViewInit, OnDestroy, ChangeDetectionStrategy, InjectionToken, PLATFORM_ID, Inject } from '@angular/core';
+  AfterViewInit, OnDestroy, ChangeDetectionStrategy, PLATFORM_ID, Inject } from '@angular/core';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import { NewItemDialogComponent } from './new-item-dialog/new-item-dialog.component';
 import { AgregarClaseItemComponent } from './agregar-clase-item/agregar-clase-item.component';
@@ -9,7 +9,7 @@ import { ListaPlegableComponent } from './lista-plegable/lista-plegable.componen
 import { UploadsDialogComponent } from './uploads-dialog/uploads-dialog.component';
 import {InventarioManagerService, Item,  Tipo} from '../../inventario-manager.service';
 import { AuthService } from '../../auth.service';
-import { first, debounceTime, skip, takeUntil, distinctUntilChanged} from 'rxjs/operators';
+import { first, takeUntil, distinctUntilChanged} from 'rxjs/operators';
 import {MediaMatcher} from '@angular/cdk/layout';
 import { Router, ActivatedRoute } from '@angular/router';
 import {  SeguroEliminarComponent } from './seguro-eliminar/seguro-eliminar.component';

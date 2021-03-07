@@ -8,7 +8,7 @@ import { AgregarDireccionDialogComponent  } from '../agregar-direccion-dialog/ag
 import { AgregarDocumentoDialogComponent } from '../agregar-documento-dialog/agregar-documento-dialog.component';
 import { CambiarContrasenaDialogComponent } from '../cambiar-contrasena-dialog/cambiar-contrasena-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { Title, Meta } from '@angular/platform-browser';
 
 @Component({

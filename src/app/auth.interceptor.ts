@@ -23,7 +23,7 @@ export class AuthInterceptor implements HttpInterceptor {
     let reqToSend: HttpRequest<any>;
 
     const reqWithAuth = request.clone({
-      withCredentials: true
+      withCredentials: true,
     });
 
     if (this.router.url !== '/login') {
