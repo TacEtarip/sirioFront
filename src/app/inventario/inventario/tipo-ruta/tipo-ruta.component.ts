@@ -1,17 +1,15 @@
-import { Component, OnInit, OnDestroy, HostListener, AfterViewInit, PLATFORM_ID, Inject } from '@angular/core';
-import { BehaviorSubject, Observable, Subscription, fromEvent } from 'rxjs';
+import { Component, OnInit, OnDestroy, AfterViewInit, PLATFORM_ID, Inject } from '@angular/core';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AuthService } from 'src/app/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { InventarioManagerService, Item } from 'src/app/inventario-manager.service';
 import { MatDialog } from '@angular/material/dialog';
-import { skip, debounceTime, first, distinctUntilChanged, pluck, filter } from 'rxjs/operators';
+import { skip, debounceTime, first, distinctUntilChanged } from 'rxjs/operators';
 import { EliminarDialogComponent } from '../eliminar-dialog/eliminar-dialog.component';
-import { FormGroup, FormControl, Validators, FormBuilder, Form } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder, Form } from '@angular/forms';
 import { WindowScrollService } from '../../../window-scroll.service';
 import { SideopenService } from '../../../sideopen.service';
-import { TransitiveCompileNgModuleMetadata } from '@angular/compiler';
-import { isPlatformBrowser, isPlatformServer } from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-tipo-ruta',

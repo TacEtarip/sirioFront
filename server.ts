@@ -48,6 +48,8 @@ enableProdMode();
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
   const server = express();
+  server.use(compression());
+
   const distFolder = join(process.cwd(), 'dist/inventarioSirioFront/browser');
   const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
 
@@ -176,7 +178,6 @@ function run(): void {
 
   // Start up the Node server
   const server = app();
-  server.use(compression());
   server.listen(port, () => {
     console.log(`Node Express server listening on http://localhost:${port}`);
   });

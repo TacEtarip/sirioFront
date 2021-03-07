@@ -1,11 +1,9 @@
 import { Inject, Injectable, Optional, PLATFORM_ID } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { map, mapTo, catchError, tap, first } from 'rxjs/operators';
-import { Observable, of, throwError, observable } from 'rxjs';
-import { StringMap } from '@angular/compiler/src/compiler_facade_interface';
+import { Observable, of, throwError } from 'rxjs';
 import {AppComponent} from './app.component';
-import { CookieService } from 'ngx-cookie-service';
-import { isPlatformBrowser, isPlatformServer } from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
 import { REQUEST } from '@nguniversal/express-engine/tokens';
 class LocalStorage implements Storage {
   [name: string]: any;
@@ -32,7 +30,7 @@ export class AuthService {
   TOKEN_JWT = 'jwt_token';
   loggedInUSER: string = null;
 
-  constructor(private http: HttpClient, private cs: CookieService,
+  constructor(private http: HttpClient,
               @Inject(PLATFORM_ID) private platformId: any, @Optional() @Inject(REQUEST) private request: any) {
     this.storage = new LocalStorage();
     AppComponent.isBrowser.subscribe(isBrowser => {
@@ -321,7 +319,7 @@ export class AuthService {
   private doLoginUser(res: Token) {
     if (res.success === true) {
       this.http.post('/auth/signIn', { jwt: res.token, type: res.type, usershow: res.displayName, usuario:  res.username.toLowerCase()})
-      .subscribe((resT: any) => console.log(resT));
+      .subscribe();
       this.storage.setItem(this.USUARIO_USER, res.username.toLowerCase());
       this.storage.setItem(this.SHOW_USER, res.displayName);
       this.storage.setItem(this.TYPE_USER, res.type);
