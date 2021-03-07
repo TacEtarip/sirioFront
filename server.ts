@@ -1,3 +1,4 @@
+
 import 'zone.js/dist/zone-node';
 import { ngExpressEngine } from '@nguniversal/express-engine';
 import express from 'express';
@@ -54,9 +55,10 @@ export function app(): express.Express {
   const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
 
   const redirectohttps = true;
+
   server.use((req, res, next) => {
     if (req.url === '/index.html') {
-     return res.redirect(301, 'https://' + req.hostname);
+      return res.redirect(301, 'https://' + req.hostname);
     }
 
     if (
@@ -74,7 +76,7 @@ export function app(): express.Express {
     next();
   });
 
-  server.use(cors());
+  server.use(helmet({contentSecurityPolicy: false}));
   server.use(cookieParser());
   // server.use(enforce.HTTPS({ trustProtoHeader: true }));
   // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
@@ -92,38 +94,46 @@ export function app(): express.Express {
   server.get('/auth/signOut', (req, res) => {
     res.cookie('jwt_token', '', {
     maxAge: -1,
-    httpOnly: true
+      httpOnly: true,
+      secure: true
     });
     res.cookie('usuario_tipo', '', {
       maxAge: -1,
-      httpOnly: true
+      httpOnly: true,
+      secure: true
     });
     res.cookie('usuario_user_show', '', {
       maxAge: -1,
-      httpOnly: true
+      httpOnly: true,
+      secure: true
     });
     res.cookie('usuario_user', '', {
       maxAge: -1,
-      httpOnly: true
+      httpOnly: true,
+      secure: true
     });
     res.status(200).send({status: 'signed out'});
   });
   server.post('/auth/signIn', express.json(), express.urlencoded({extended: true}), (req, res) => {
     res.cookie('jwt_token', req.body.jwt, {
       maxAge: 24 * 60 * 60 * 60 * 1000,
-      httpOnly: true
+      httpOnly: true,
+      secure: true
     });
     res.cookie('usuario_tipo', req.body.type, {
       maxAge: 24 * 60 * 60 * 60 * 1000,
-      httpOnly: true
+      httpOnly: true,
+      secure: true
     });
     res.cookie('usuario_user_show', req.body.usershow, {
       maxAge: 24 * 60 * 60 * 60 * 1000,
-      httpOnly: true
+      httpOnly: true,
+      secure: true
     });
     res.cookie('usuario_user', req.body.usuario, {
       maxAge: 24 * 60 * 60 * 60 * 1000,
       httpOnly: true,
+      secure: true
     });
     res.status(200).send({status: 'authenticated'});
   });
@@ -161,7 +171,7 @@ function run(): void {
 
   // Start up the Node server
   const server = app();
-  server.use(compression);
+  server.use(compression());
   server.listen(port, () => {
     console.log(`Node Express server listening on http://localhost:${port}`);
   });
