@@ -7,6 +7,7 @@ import { AppServerModule } from './src/main.server';
 import { APP_BASE_HREF } from '@angular/common';
 import { existsSync } from 'fs';
 import { REQUEST, RESPONSE } from '@nguniversal/express-engine/tokens';
+import { NgxRequest, NgxResponse } from '@gorniv/ngx-universal';
 import helmet from 'helmet';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
@@ -54,10 +55,9 @@ export function app(): express.Express {
   const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
 
   const redirectohttps = true;
-
   server.use((req, res, next) => {
     if (req.url === '/index.html') {
-      res.redirect(301, 'https://' + req.hostname);
+     return res.redirect(301, 'https://' + req.hostname);
     }
 
     if (
@@ -70,13 +70,12 @@ export function app(): express.Express {
         next();
         return;
       }
-      res.redirect(301, 'https://' + req.hostname + req.url);
+      return res.redirect(301, 'https://' + req.hostname + req.url);
     }
     next();
   });
 
-  server.use(helmet({contentSecurityPolicy: false}));
-  server.use(cookieParser());
+  server.use(cors());
   // server.use(enforce.HTTPS({ trustProtoHeader: true }));
   // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
   /*server.engine('html', ngExpressEngine({
@@ -149,6 +148,22 @@ export function app(): express.Express {
       providers: [
         { provide: APP_BASE_HREF,
           useValue: req.baseUrl },
+          {
+            provide: REQUEST,
+            useValue: req,
+          },
+          {
+            provide: RESPONSE,
+            useValue: res,
+          },
+          {
+            provide: NgxRequest,
+            useValue: req,
+          },
+          {
+            provide: NgxResponse,
+            useValue: res,
+          },
         {
           provide: 'ORIGIN_URL',
           useValue: `${http}://${req.headers.host}`,
@@ -162,7 +177,8 @@ function run(): void {
 
   // Start up the Node server
   const server = app();
-  server.use(compression);
+  server.use(compression());
+  server.use(cookieParser());
   server.listen(port, () => {
     console.log(`Node Express server listening on http://localhost:${port}`);
   });
