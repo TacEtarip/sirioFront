@@ -20,6 +20,7 @@ export class AutoComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+
     this.ar.paramMap.pipe(first()).subscribe( param => {
       const token = param.get('token');
       this.auth.loginFast(token).subscribe((res) => {

@@ -1,8 +1,9 @@
 import { Subscription } from 'rxjs';
-import { Component, ChangeDetectionStrategy, OnDestroy, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnDestroy, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import { Meta } from '@angular/platform-browser';
-
+import { BehaviorSubject } from 'rxjs';
+import { isPlatformBrowser } from '@angular/common';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -10,11 +11,11 @@ import { Meta } from '@angular/platform-browser';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnDestroy, OnInit {
+  static isBrowser = new BehaviorSubject<boolean>(null);
   title = 'inventarioSirioFront';
   subI: Subscription;
-
-  constructor(update: SwUpdate, private metaTagService: Meta) {
-
+  constructor(update: SwUpdate, private metaTagService: Meta, @Inject(PLATFORM_ID) private platformId: any) {
+    AppComponent.isBrowser.next(isPlatformBrowser(platformId));
     this.subI = update.available.subscribe(event => {
       if (this.promptUser(event)) {
         update.activateUpdate().then(() => document.location.reload());

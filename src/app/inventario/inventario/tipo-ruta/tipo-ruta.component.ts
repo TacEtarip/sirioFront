@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, HostListener, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, AfterViewInit, PLATFORM_ID, Inject } from '@angular/core';
 import { BehaviorSubject, Observable, Subscription, fromEvent } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/auth.service';
@@ -11,6 +11,7 @@ import { FormGroup, FormControl, Validators, FormBuilder, Form } from '@angular/
 import { WindowScrollService } from '../../../window-scroll.service';
 import { SideopenService } from '../../../sideopen.service';
 import { TransitiveCompileNgModuleMetadata } from '@angular/compiler';
+import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 
 @Component({
   selector: 'app-tipo-ruta',
@@ -45,8 +46,10 @@ export class TipoRutaComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(public dialog: MatDialog, private inventarioMNG: InventarioManagerService,
               private router: Router, private snackBar: MatSnackBar, private ar: ActivatedRoute,
-              private wSS: WindowScrollService, private fb: FormBuilder) {
-                this.scrollY$ = this.wSS.scrollY$;
+              private wSS: WindowScrollService, private fb: FormBuilder, @Inject(PLATFORM_ID) private platformId: any) {
+                if (isPlatformBrowser(this.platformId)) {
+                  this.scrollY$ = this.wSS.scrollY$;
+                }
               }
 
   ngOnInit(): void {
@@ -94,7 +97,9 @@ export class TipoRutaComponent implements OnInit, OnDestroy, AfterViewInit {
       this.searchForm.get('search').reset();
 
       this.inventarioMNG.getItemsSorted(this.subORtipo, ruta, this.selectedSort, this.order.value, 12).subscribe((res: Item[]) => {
-        this.wSS.scrollToTop();
+        if (isPlatformBrowser(this.platformId)) {
+          this.wSS.scrollToTop();
+        }
         this.listItems.next(res);
         this.numeroDeCargas = 1;
         this.loadingNewItems$.next(false);
@@ -122,11 +127,17 @@ export class TipoRutaComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit(): void {
 
-    if (this.wSS.elementScroll === undefined) {
-      const documentScroll = document.getElementById('listado');
-      this.wSS.elementScroll = documentScroll;
+    if (isPlatformBrowser(this.platformId)) {
+      if (this.wSS.elementScroll === undefined) {
+        const documentScroll = document.getElementById('listado');
+        this.wSS.elementScroll = documentScroll;
+      }
     }
-    const searchDoc = document.getElementById('searchBar');
+
+
+    if (isPlatformBrowser(this.platformId)) {
+      const searchDoc = document.getElementById('searchBar');
+    }
 
 
 
@@ -184,11 +195,13 @@ export class TipoRutaComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy(): void {
-    this.subs.unsubscribe();
-    this.subsOrder.unsubscribe();
-    this.subsPorcent.unsubscribe();
-    this.subsSearch.unsubscribe();
-    this.loadingNewItems$.complete();
+    if (isPlatformBrowser(this.platformId)) {
+      this.subs.unsubscribe();
+      this.subsOrder.unsubscribe();
+      this.subsPorcent.unsubscribe();
+      this.subsSearch.unsubscribe();
+      this.loadingNewItems$.complete();
+    }
   }
 
   openDialogEliminarItem(item: Item) {

@@ -1,24 +1,50 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, Optional, PLATFORM_ID } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { map, mapTo, catchError, tap, first } from 'rxjs/operators';
 import { Observable, of, throwError, observable } from 'rxjs';
 import { StringMap } from '@angular/compiler/src/compiler_facade_interface';
+import {AppComponent} from './app.component';
+import { CookieService } from 'ngx-cookie-service';
+import { isPlatformBrowser, isPlatformServer } from '@angular/common';
+import { REQUEST } from '@nguniversal/express-engine/tokens';
+class LocalStorage implements Storage {
+  [name: string]: any;
+  readonly length: number;
+  clear(): void {}
+  getItem(key: string): string | null { return undefined; }
+  key(index: number): string | null { return undefined; }
+  removeItem(key: string): void {}
+  setItem(key: string, value: string): void {}
+}
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-
-  baseUrl = 'https://inventario-sirio-dinar.herokuapp.com/';
-  // baseUrl = 'http://localhost:5000/';
+  private storage: Storage;
+  // baseUrl = 'https://inventario-sirio-dinar.herokuapp.com/';
+  baseUrl = 'http://localhost:5000/';
   USUARIO_USER = 'usuario_user';
   SHOW_USER = 'usuario_user_show';
   TYPE_USER = 'usuario_tipo';
   TOKEN_JWT = 'jwt_token';
   loggedInUSER: string = null;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private cs: CookieService,
+              @Inject(PLATFORM_ID) private platformId: any, @Optional() @Inject(REQUEST) private request: any) {
+    this.storage = new LocalStorage();
+    AppComponent.isBrowser.subscribe(isBrowser => {
+      if (isBrowser) {
+        this.storage = localStorage;
+      }
+    });
+  }
+
+  [name: string]: any;
+
+  length: number;
 
   cambiarContra(passwordForm: { passwordOld: string, password: string }, id: string): Observable<{ changed: boolean }> {
     return this.http.post<{ changed: boolean }>(this.baseUrl + 'auth/cambiarContrasena', { ...passwordForm, id })
@@ -294,9 +320,11 @@ export class AuthService {
 
   private doLoginUser(res: Token) {
     if (res.success === true) {
-      localStorage.setItem(this.USUARIO_USER, res.username.toLowerCase());
-      localStorage.setItem(this.SHOW_USER, res.displayName);
-      localStorage.setItem(this.TYPE_USER, res.type);
+      this.http.post('/auth/signIn', { jwt: res.token, type: res.type, usershow: res.displayName, usuario:  res.username.toLowerCase()})
+      .subscribe((resT: any) => console.log(resT));
+      this.storage.setItem(this.USUARIO_USER, res.username.toLowerCase());
+      this.storage.setItem(this.SHOW_USER, res.displayName);
+      this.storage.setItem(this.TYPE_USER, res.type);
       this.loggedInUSER = res.username;
       this.storeToken(res.token);
     } else {
@@ -305,30 +333,43 @@ export class AuthService {
   }
 
   private storeToken(token: string) {
-    localStorage.setItem(this.TOKEN_JWT, token);
+    this.storage.setItem(this.TOKEN_JWT, token);
   }
 
   public cerrarSesion() {
-    localStorage.removeItem(this.SHOW_USER);
-    localStorage.removeItem(this.USUARIO_USER);
-    localStorage.removeItem(this.TOKEN_JWT);
-    localStorage.removeItem(this.TYPE_USER);
+    this.http.get<any>('/auth/signOut').subscribe();
+    this.storage.removeItem(this.SHOW_USER);
+    this.storage.removeItem(this.USUARIO_USER);
+    this.storage.removeItem(this.TOKEN_JWT);
+    this.storage.removeItem(this.TYPE_USER);
   }
 
   public getUser(): string {
-    return localStorage.getItem(this.USUARIO_USER);
+    if (isPlatformBrowser(this.platformId)) {
+      return localStorage.getItem(this.USUARIO_USER);
+    }
+    return this.request.cookies.usuario_user;
   }
 
   public getDisplayUser(): string {
-    return localStorage.getItem(this.SHOW_USER);
+    if (isPlatformBrowser(this.platformId)) {
+      return localStorage.getItem(this.SHOW_USER);
+    }
+    return this.request.cookies.usuario_user_show;
   }
 
   public getToken(): string {
-    return localStorage.getItem(this.TOKEN_JWT);
+    if (isPlatformBrowser(this.platformId)) {
+      return localStorage.getItem(this.TOKEN_JWT);
+    }
+    return this.request.cookies.jwt_token;
   }
 
   public getTtype(): string {
-    return localStorage.getItem(this.TYPE_USER);
+    if (isPlatformBrowser(this.platformId)) {
+      return localStorage.getItem(this.TYPE_USER);
+    }
+    return this.request.cookies.usuario_tipo;
   }
 
   public isAdmin(): boolean {
@@ -339,7 +380,14 @@ export class AuthService {
   }
 
   public loggedIn() {
-    return !!localStorage.getItem(this.TOKEN_JWT);
+    let logged = false;
+    if (isPlatformBrowser(this.platformId)) {
+      return !!localStorage.getItem(this.TOKEN_JWT);
+    }
+    if (this.request.cookies.jwt_token) {
+      logged = true;
+    }
+    return logged;
   }
 }
 

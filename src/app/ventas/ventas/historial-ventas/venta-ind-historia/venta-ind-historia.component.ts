@@ -1,5 +1,5 @@
 import { MatTableDataSource } from '@angular/material/table';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { Venta, InventarioManagerService, ItemVendido, VentaCompleta, Item, ItemsVentaForCard } from 'src/app/inventario-manager.service';
@@ -7,6 +7,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 
 import { SeguroAnularComponent } from '../seguro-anular/seguro-anular.component';
+import { isPlatformBrowser } from '@angular/common';
 
 interface TableData {
   codigo: string;
@@ -53,7 +54,7 @@ export class VentaIndHistoriaComponent implements OnInit {
   venta$ = new BehaviorSubject<Venta>(null);
 
   constructor(private activatedRoute: ActivatedRoute, private inventarioMNG: InventarioManagerService,
-              private router: Router, public dialog: MatDialog) {
+              private router: Router, public dialog: MatDialog, @Inject(PLATFORM_ID) private platformId: any) {
    }
 
   ngOnInit(): void {
@@ -67,11 +68,13 @@ export class VentaIndHistoriaComponent implements OnInit {
         } else {
           this.router.navigate(['/ventas/eject/404']);
         }
-        this.venta = res;
-        const temp = new MatTableDataSource(res.itemsVendidos);
-        this.dataSource$.next(temp);
-        this.venta$.next(res);
-        this.date = new Date(res.date).toLocaleTimeString();
+        if (res !== null) {
+          this.venta = res;
+          const temp = new MatTableDataSource(res.itemsVendidos);
+          this.dataSource$.next(temp);
+          this.venta$.next(res);
+          this.date = new Date(res.date).toLocaleTimeString();
+        }
       });
 
       this.inventarioMNG.obtenerCardPreInfoVenta(ruta).subscribe((res) => {
@@ -101,15 +104,21 @@ export class VentaIndHistoriaComponent implements OnInit {
   }
 
   descargarPDF() {
-    window.open('https://inventario-sirio-dinar.herokuapp.com/inventario/pdf/' + this.venta$.value.codigo + '.pdf', '_blank');
+    if (isPlatformBrowser(this.platformId)) {
+      window.open('https://inventario-sirio-dinar.herokuapp.com/inventario/pdf/' + this.venta$.value.codigo + '.pdf', '_blank');
+    }
   }
 
   desargarPDFsunat() {
-    window.open(this.venta$.value.linkComprobante, '_blank');
+    if (isPlatformBrowser(this.platformId)) {
+      window.open(this.venta$.value.linkComprobante, '_blank');
+    }
   }
 
   descargarGUIA() {
-    window.open(this.venta$.value.guia_link, '_blank');
+    if (isPlatformBrowser(this.platformId)) {
+      window.open(this.venta$.value.guia_link, '_blank');
+    }
   }
 
 }

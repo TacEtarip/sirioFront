@@ -12,14 +12,15 @@ export class VentasGuard implements CanActivate, CanLoad {
     return this.canActivate();
   }
   canActivate() {
-    if (!this.auth.loggedIn() || this.auth.getTtype() === 'low') {
+    if (!this.auth.loggedIn()) {
       this.router.navigate(['/login']);
+      return false;
     }
-    let guard = this.auth.loggedIn();
     if (this.auth.getTtype() === 'low') {
-      guard = false;
+      this.router.navigate(['/inventario']);
+      return false;
     }
-    return guard;
+    return true;
   }
 
 }

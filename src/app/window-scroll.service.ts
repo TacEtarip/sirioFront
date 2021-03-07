@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { first } from 'rxjs/operators';
+import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -16,14 +17,18 @@ export class WindowScrollService {
 
   porcent = new BehaviorSubject(0);
 
-  constructor() { }
+  constructor(@Inject(PLATFORM_ID) private platformId: any) { }
 
   updateScrollY(value: number): void {
-    this.scrollY.next(value);
+    if (isPlatformBrowser(this.platformId)) {
+      this.scrollY.next(value);
+    }
   }
 
   scrollToTop() {
-    this.elementScroll.scroll(0, 0);
+    if (isPlatformBrowser(this.platformId)) {
+      this.elementScroll.scroll(0, 0);
+    }
   }
 
 }

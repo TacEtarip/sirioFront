@@ -4,7 +4,7 @@ import { Item } from '../../../inventario-manager.service';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import { saveAs } from 'file-saver';
-
+import { DOCUMENT } from '@angular/common';
 import { InventarioManagerService } from 'src/app/inventario-manager.service';
 import { Subscription, BehaviorSubject, fromEvent, Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -58,7 +58,7 @@ export class ItemPageComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(private inventarioMNG: InventarioManagerService,
               private ar: ActivatedRoute, private router: Router,
               private titleService: Title,
-              private metaTagService: Meta,
+              private metaTagService: Meta, @Inject(DOCUMENT) private document: Document,
               private wSS: WindowScrollService, public authService: AuthService) {
 
     let ruta = 'noone';
@@ -108,7 +108,7 @@ export class ItemPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     if (this.wSS.elementScroll === undefined) {
-      const documentScroll = document.getElementById('listado');
+      const documentScroll = this.document.getElementById('listado');
       this.wSS.elementScroll = documentScroll;
     }
   }

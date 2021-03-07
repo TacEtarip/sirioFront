@@ -9,9 +9,11 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { AuthInterceptor } from './auth.interceptor';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 @NgModule({
   declarations: [
     AppComponent,
+    NotFoundPageComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

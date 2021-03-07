@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, Optional, PLATFORM_ID } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, mapTo, map, retry, tap, first } from 'rxjs/operators';
@@ -10,11 +10,12 @@ import { AuthService } from './auth.service';
 })
 export class InventarioManagerService {
 
-  baseUrl = 'https://inventario-sirio-dinar.herokuapp.com/';
-  // baseUrl = 'http://localhost:5000/';
+  // baseUrl = 'https://inventario-sirio-dinar.herokuapp.com/';
+  baseUrl = 'http://localhost:5000/';
 
 
-  constructor(private http: HttpClient, private auth: AuthService, private router: Router) { }
+  constructor(private http: HttpClient, private auth: AuthService, private router: Router,
+             ) { }
 
   deConvertToFavorite(item: Item): Observable<Item> {
     return this.http.post<Item>(this.baseUrl + 'inventario/toUnFavorite', item)

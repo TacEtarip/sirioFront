@@ -1,6 +1,6 @@
 import { WindowScrollService } from './../../window-scroll.service';
 import { Component, OnInit, ChangeDetectorRef, ViewChildren, QueryList,
-  AfterViewInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+  AfterViewInit, OnDestroy, ChangeDetectionStrategy, InjectionToken, PLATFORM_ID, Inject } from '@angular/core';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import { NewItemDialogComponent } from './new-item-dialog/new-item-dialog.component';
 import { AgregarClaseItemComponent } from './agregar-clase-item/agregar-clase-item.component';
@@ -18,6 +18,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import { MarcasDialogComponent } from '../inventario/marcas-dialog/marcas-dialog.component';
 import { SideopenService } from '../../sideopen.service';
 import { Title, Meta } from '@angular/platform-browser';
+import { isPlatformBrowser } from '@angular/common';
 @Component({
   selector: 'app-inventario',
   templateUrl: './inventario.component.html',
@@ -64,11 +65,10 @@ export class InventarioComponent implements OnInit, OnDestroy, AfterViewInit {
 
   destroy$ = this.destroy.asObservable();
 
-
   constructor(public dialog: MatDialog, private inventarioMNG: InventarioManagerService,
               public auth: AuthService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
               private router: Router, private snackBar: MatSnackBar, private ar: ActivatedRoute, private wss: WindowScrollService,
-              private titleService: Title,
+              private titleService: Title, @Inject(PLATFORM_ID) private platformId: any,
               private metaTagService: Meta) {
     this.nombreUsuario = auth.getDisplayUser();
     this.mobileQuery = media.matchMedia('(max-width: 1080px)');
@@ -90,17 +90,19 @@ export class InventarioComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    const documentScroll = document.getElementById('listado');
-    this.wss.elementScroll = documentScroll;
-    fromEvent(documentScroll, 'scroll')
-    .pipe(distinctUntilChanged(),
-    takeUntil(this.destroy$))
-      .subscribe((e: Event) => {
-        this.wss.scrollY.next(this.getYPosition(e));
-        this.wss.scrollH.next(documentScroll.scrollHeight);
-        const porcent = Math.round((this.wss.scrollY.value * 100 ) / (this.wss.scrollH.value - this.wss.elementScroll.clientHeight));
-        this.wss.porcent.next(porcent);
-      });
+    if(isPlatformBrowser(this.platformId)) {
+      const documentScroll = document.getElementById('listado');
+      this.wss.elementScroll = documentScroll;
+      fromEvent(documentScroll, 'scroll')
+      .pipe(distinctUntilChanged(),
+      takeUntil(this.destroy$))
+        .subscribe((e: Event) => {
+          this.wss.scrollY.next(this.getYPosition(e));
+          this.wss.scrollH.next(documentScroll.scrollHeight);
+          const porcent = Math.round((this.wss.scrollY.value * 100 ) / (this.wss.scrollH.value - this.wss.elementScroll.clientHeight));
+          this.wss.porcent.next(porcent);
+        });
+    }
   }
 
   loadListItems(loadInfo: {name: string, subORtipo: string}) {
@@ -193,11 +195,13 @@ export class InventarioComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy(): void {
-   this.listItems.unsubscribe();
-   this.order.unsubscribe();
-   this.currentListToDisplay.unsubscribe();
-   this.mobileQuery.removeListener(this.mobileQueryListener);
-   this.destroy.next();
+    if (isPlatformBrowser(this.platformId)) {
+      this.listItems.unsubscribe();
+      this.order.unsubscribe();
+      this.currentListToDisplay.unsubscribe();
+      this.destroy.unsubscribe();
+    }
+    this.mobileQuery.removeListener(this.mobileQueryListener);
    // this.mobileQuery.removeEventListener('change', this.mobileQueryListener);
   }
 
