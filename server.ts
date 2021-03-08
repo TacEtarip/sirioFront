@@ -12,7 +12,6 @@ import { existsSync } from 'fs';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 import * as compression from 'compression';
-import throng from 'throng';
 
 // tslint:disable-next-line: no-string-literal
 
@@ -177,13 +176,14 @@ export function app(): express.Express {
   return server;
 }
 
-
-
 function run(): void {
   const port = process.env.PORT || 4000;
+
   // Start up the Node server
   const server = app();
-  server.listen(port);
+  server.listen(port, () => {
+    console.log(`Node Express server listening on http://localhost:${port}`);
+  });
 }
 
 // Webpack will replace 'require' with '__webpack_require__'
@@ -193,8 +193,7 @@ declare const __non_webpack_require__: NodeRequire;
 const mainModule = __non_webpack_require__.main;
 const moduleFilename = mainModule && mainModule.filename || '';
 if (moduleFilename === __filename || moduleFilename.includes('iisnode')) {
-  const WORKERS = process.env.WEB_CONCURRENCY || 1;
-  throng({worker: run, count: WORKERS});
+  run();
 }
 
 export * from './src/main.server';
