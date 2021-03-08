@@ -9,7 +9,6 @@ import { REQUEST } from '@nguniversal/express-engine/tokens';
 })
 export class AuthService {
 
-  private storage: Storage;
   baseUrl = 'https://inventario-sirio-dinar.herokuapp.com/';
   // baseUrl = 'http://localhost:5000/';
   USUARIO_USER = 'usuario_user';
@@ -302,9 +301,11 @@ export class AuthService {
     if (res.success === true) {
       this.http.post('/auth/signIn', { jwt: res.token, type: res.type, usershow: res.displayName, usuario:  res.username.toLowerCase()})
       .subscribe();
-      this.storage.setItem(this.USUARIO_USER, res.username.toLowerCase());
-      this.storage.setItem(this.SHOW_USER, res.displayName);
-      this.storage.setItem(this.TYPE_USER, res.type);
+      if (isPlatformBrowser(this.platformId)) {
+        localStorage.setItem(this.USUARIO_USER, res.username.toLowerCase());
+        localStorage.setItem(this.SHOW_USER, res.displayName);
+        localStorage.setItem(this.TYPE_USER, res.type);
+      }
       this.loggedInUSER = res.username;
       this.storeToken(res.token);
     } else {
@@ -313,15 +314,19 @@ export class AuthService {
   }
 
   private storeToken(token: string) {
-    this.storage.setItem(this.TOKEN_JWT, token);
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem(this.TOKEN_JWT, token);
+    }
   }
 
   public cerrarSesion() {
     this.http.get<any>('/auth/signOut').subscribe();
-    this.storage.removeItem(this.SHOW_USER);
-    this.storage.removeItem(this.USUARIO_USER);
-    this.storage.removeItem(this.TOKEN_JWT);
-    this.storage.removeItem(this.TYPE_USER);
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem(this.SHOW_USER);
+      localStorage.removeItem(this.USUARIO_USER);
+      localStorage.removeItem(this.TOKEN_JWT);
+      localStorage.removeItem(this.TYPE_USER);
+    }
   }
 
   public getUser(): string {
