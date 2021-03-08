@@ -42,7 +42,9 @@
     "helmet": "^4.4.1",
     "moment": "^2.27.0",
     "ng-recaptcha": "^7.0.1",
+    "reflect-metadata": "^0.1.13",
     "rxjs": "~6.6.3",
+    "throng": "^5.0.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
   },
