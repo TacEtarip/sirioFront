@@ -1,8 +1,8 @@
-import { distinctUntilChanged, filter } from 'rxjs/operators';
+import { distinctUntilChanged } from 'rxjs/operators';
 import { AuthService } from './../../../auth.service';
-import { Component, OnInit, Inject, AfterContentInit, OnDestroy } from '@angular/core';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { FormGroup, FormControl, Validators, FormBuilder, FormArray, AbstractControl, ValidatorFn } from '@angular/forms';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { FormGroup, Validators, FormBuilder, FormArray, AbstractControl, ValidatorFn } from '@angular/forms';
 import { Item, InventarioManagerService, Venta, ItemVendido, Documento, Order, DNI, RUC } from '../../../inventario-manager.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { Router } from '@angular/router';

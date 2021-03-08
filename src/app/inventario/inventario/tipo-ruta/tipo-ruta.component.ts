@@ -6,7 +6,7 @@ import { InventarioManagerService, Item } from 'src/app/inventario-manager.servi
 import { MatDialog } from '@angular/material/dialog';
 import { skip, debounceTime, first, distinctUntilChanged } from 'rxjs/operators';
 import { EliminarDialogComponent } from '../eliminar-dialog/eliminar-dialog.component';
-import { FormGroup, Validators, FormBuilder, Form } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { WindowScrollService } from '../../../window-scroll.service';
 import { SideopenService } from '../../../sideopen.service';
 import { isPlatformBrowser } from '@angular/common';
@@ -127,17 +127,13 @@ export class TipoRutaComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit(): void {
 
-    if (isPlatformBrowser(this.platformId)) {
       if (this.wSS.elementScroll === undefined) {
         const documentScroll = this.document.getElementById('listado');
         this.wSS.elementScroll = documentScroll;
       }
-    }
 
 
-    if (isPlatformBrowser(this.platformId)) {
       const searchDoc = this.document.getElementById('searchBar');
-    }
 
 
 
@@ -154,7 +150,7 @@ export class TipoRutaComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     });*/
 
-    this.subsPorcent = this.wSS.porcent.pipe(distinctUntilChanged()).subscribe((p) => {
+      this.subsPorcent = this.wSS.porcent.pipe(distinctUntilChanged()).subscribe((p) => {
 
       if (p >= 70 && this.loadingNewItems$.value === false && this.listItems.value.length === 12 * this.numeroDeCargas) {
         this.loadingNewItems$.next(true);

@@ -2,20 +2,8 @@ import { Inject, Injectable, Optional, PLATFORM_ID } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, mapTo, catchError, tap, first } from 'rxjs/operators';
 import { Observable, of, throwError } from 'rxjs';
-import {AppComponent} from './app.component';
 import { isPlatformBrowser } from '@angular/common';
 import { REQUEST } from '@nguniversal/express-engine/tokens';
-class LocalStorage implements Storage {
-  [name: string]: any;
-  readonly length: number;
-  clear(): void {}
-  getItem(key: string): string | null { return undefined; }
-  key(index: number): string | null { return undefined; }
-  removeItem(key: string): void {}
-  setItem(key: string, value: string): void {}
-}
-
-
 @Injectable({
   providedIn: 'root'
 })
@@ -32,12 +20,6 @@ export class AuthService {
 
   constructor(private http: HttpClient,
               @Inject(PLATFORM_ID) private platformId: any, @Optional() @Inject(REQUEST) private request: any) {
-    this.storage = new LocalStorage();
-    AppComponent.isBrowser.subscribe(isBrowser => {
-      if (isBrowser) {
-        this.storage = localStorage;
-      }
-    });
   }
 
   [name: string]: any;

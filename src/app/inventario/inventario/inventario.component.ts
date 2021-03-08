@@ -12,10 +12,9 @@ import {InventarioManagerService, Item,  Tipo} from '../../inventario-manager.se
 import { AuthService } from '../../auth.service';
 import { first, takeUntil, distinctUntilChanged} from 'rxjs/operators';
 import {MediaMatcher} from '@angular/cdk/layout';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import {  SeguroEliminarComponent } from './seguro-eliminar/seguro-eliminar.component';
 import { EditarClaseComponent } from './editar-clase/editar-clase.component';
-import {MatSnackBar} from '@angular/material/snack-bar';
 import { MarcasDialogComponent } from '../inventario/marcas-dialog/marcas-dialog.component';
 import { SideopenService } from '../../sideopen.service';
 import { Title, Meta } from '@angular/platform-browser';
@@ -68,7 +67,7 @@ export class InventarioComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(public dialog: MatDialog, private inventarioMNG: InventarioManagerService,
               public auth: AuthService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
-              private router: Router, private snackBar: MatSnackBar, private ar: ActivatedRoute, private wss: WindowScrollService,
+              private router: Router, private wss: WindowScrollService,
               private titleService: Title, @Inject(PLATFORM_ID) private platformId: any,
               private metaTagService: Meta, @Inject(DOCUMENT) private document: Document) {
     this.nombreUsuario = auth.getDisplayUser();
