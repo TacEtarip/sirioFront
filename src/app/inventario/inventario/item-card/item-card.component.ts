@@ -37,7 +37,8 @@ export class ItemCardComponent implements OnInit {
   ngOnInit(): void {
     this.itemInfo.next(this.item);
     this.priceToShow.next(this.rebrandNumber(true, this.itemInfo.value.priceIGV));
-    this.urlOfImage.next('https://inventario-sirio-dinar.herokuapp.com/inventario/image/' + this.itemInfo.value.photo);
+    const preImageArray = this.itemInfo.value.photo.split('.');
+    this.urlOfImage.next('https://siriouploads.s3.amazonaws.com/' + `${preImageArray[0]}.webp`);
   }
 
   openDialogVenta(): void {

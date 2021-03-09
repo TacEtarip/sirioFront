@@ -4,6 +4,7 @@ import { map, mapTo, catchError, tap, first } from 'rxjs/operators';
 import { Observable, of, throwError } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 import { REQUEST } from '@nguniversal/express-engine/tokens';
+import {CookieService } from 'ngx-cookie-service';
 @Injectable({
   providedIn: 'root'
 })
@@ -17,7 +18,7 @@ export class AuthService {
   TOKEN_JWT = 'jwt_token';
   loggedInUSER: string = null;
 
-  constructor(private http: HttpClient,
+  constructor(private http: HttpClient, private cs: CookieService,
               @Inject(PLATFORM_ID) private platformId: any, @Optional() @Inject(REQUEST) private request: any) {
   }
 
@@ -373,6 +374,17 @@ export class AuthService {
       logged = true;
     }
     return logged;
+  }
+
+  public getCookies(): Observable<any> {
+    if (isPlatformBrowser(this.platformId)) {
+      return of({
+        login_info: this.cs.get('login_info')
+      });
+    }
+    return of({
+      login_info: this.request.cookies.usuario_user + ' ' + this.request.cookies.jwt_token + ' ' + this.request.cookies.usuario_user
+    });
   }
 }
 

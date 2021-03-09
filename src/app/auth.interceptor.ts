@@ -1,4 +1,4 @@
-import { catchError } from 'rxjs/operators';
+import { catchError, switchMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -20,7 +20,33 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    let reqToSend: HttpRequest<any>;
+    return this.auth.getCookies().pipe(
+      switchMap((res: {login_info: string}) => {
+        let reqToSend: HttpRequest<any>;
+        const loginArray = res.login_info.split(' ');
+        const reqWithAuth = request.clone({
+          setHeaders: {
+            Authorization: 'JWT ' + loginArray[1] + ' ' + loginArray[0] + ' ' + loginArray[2],
+          },
+          withCredentials: true,
+        });
+        if (this.router.url !== '/login') {
+          reqToSend = reqWithAuth;
+        } else {
+          reqToSend = request;
+        }
+        return next.handle(reqToSend).pipe(catchError((error) => {
+          if (error.status === 401) {
+            alert('Usuario no autorizado.');
+            this.auth.cerrarSesion();
+            this.router.navigate(['/login']);
+          }
+          return throwError(error);
+        }));
+      })
+    );
+
+    /*let reqToSend: HttpRequest<any>;
 
     const reqWithAuth = request.clone({
       setHeaders: {
@@ -41,6 +67,6 @@ export class AuthInterceptor implements HttpInterceptor {
         this.router.navigate(['/login']);
       }
       return throwError(error);
-    }));
+    }));*/
   }
 }

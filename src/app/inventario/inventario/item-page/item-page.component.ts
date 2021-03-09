@@ -89,7 +89,8 @@ export class ItemPageComponent implements OnInit, AfterViewInit, OnDestroy {
           this.itemsRelacionados$.next(relRes);
         });
 
-        this.imageLink = 'https://inventario-sirio-dinar.herokuapp.com/inventario/image/' + this.item$.value.photo;
+        const preImageArray = this.item$.value.photo.split('.');
+        this.imageLink = 'https://siriouploads.s3.amazonaws.com/' + `${preImageArray[0]}.webp`;
         this.item = res;
         if (this.item && this.item.subConteo) {
           this.dataSource = new MatTableDataSource(this.item.subConteo.order);

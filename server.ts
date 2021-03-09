@@ -97,53 +97,55 @@ export function app(): express.Express {
     res.cookie('jwt_token', '', {
       maxAge: -1,
       httpOnly: true,
-      sameSite: 'none',
-      secure: true
+
     });
     res.cookie('usuario_tipo', '', {
       maxAge: -1,
       httpOnly: true,
-      sameSite: 'none',
-      secure: true
+
     });
     res.cookie('usuario_user_show', '', {
       maxAge: -1,
       httpOnly: true,
-      sameSite: 'none',
-      secure: true
+
     });
     res.cookie('usuario_user', '', {
       maxAge: -1,
       httpOnly: true,
-      sameSite: 'none',
-      secure: true
+
     });
-    res.status(200).send({status: 'signed out'});
+
+    res.cookie('login_info', '', {
+      maxAge: -1,
+      httpOnly: false,
+    });
+    res.status(200).send({status: 'authenticated'});
   });
   server.post('/auth/signIn', express.json(), express.urlencoded({extended: true}), (req, res) => {
     res.cookie('jwt_token', req.body.jwt, {
       maxAge: 24 * 60 * 60 * 60 * 1000,
       httpOnly: true,
-      sameSite: 'none',
-      secure: true
+
     });
     res.cookie('usuario_tipo', req.body.type, {
       maxAge: 24 * 60 * 60 * 60 * 1000,
       httpOnly: true,
-      sameSite: 'none',
-      secure: true
+
     });
     res.cookie('usuario_user_show', req.body.usershow, {
       maxAge: 24 * 60 * 60 * 60 * 1000,
       httpOnly: true,
-      sameSite: 'none',
-      secure: true
+
     });
     res.cookie('usuario_user', req.body.usuario, {
       maxAge: 24 * 60 * 60 * 60 * 1000,
       httpOnly: true,
-      sameSite: 'none',
-      secure: true
+
+    });
+
+    res.cookie('login_info', req.body.usuario + ' ' + req.body.jwt + ' ' + req.body.type, {
+      maxAge: 24 * 60 * 60 * 60 * 1000,
+      httpOnly: false,
     });
     res.status(200).send({status: 'authenticated'});
   });
