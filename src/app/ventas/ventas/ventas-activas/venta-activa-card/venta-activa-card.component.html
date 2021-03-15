@@ -4,7 +4,7 @@
     <h3  class="openItemInfo">#{{(venta$|async).codigo}}</h3>
     </div>
     <div class="btns">
-      <button (dblclick)="anularVenta()" type="button" class="anular" color="accent" mat-stroked-button>Anular</button>
+      <button  (click)="anularVenta()" type="button" class="anular" color="accent" mat-stroked-button>Anular</button>
       <button [ngStyle]="{'margin-left': '.5em'}" (click)="openAddItemDialog()" type="button" class="agr" color="primary" mat-stroked-button>Agregar Item</button>
       <button (click)="ejecutarVenta()" type="button" class="ejecutar" color="primary" mat-stroked-button>Ejecutar</button>
     </div>

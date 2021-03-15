@@ -3,16 +3,19 @@
     <button (click)="snav.toggle()" class="sizeIcon" mat-icon-button><mat-icon class="sizeIcon">menu</mat-icon></button>
     <span  class="toolBarName"> <b (click)="aInventario()" [ngStyle]="{'cursor': 'pointer'}" class="cName">Sirio Dinar</b></span>
     <span class="example-spacer"></span>
-    <h2 [matMenuTriggerFor]="menu" [ngStyle]="{'color': 'white', 'font-weight': 400, 'cursor': 'pointer'}">
-      {{nombreUsuario}}
-    </h2>
-    <button [matMenuTriggerFor]="menu"  mat-icon-button class="sizeIcon">
+    <div matTooltip="Usuario" class="perfilBtns" [ngStyle]="{'cursor': 'pointer', 'padding-bottom': '2px' }" [matMenuTriggerFor]="menu">
+      <span *ngIf="!mobileQuery.matches">{{nombreUsuario}}</span>
+      <mat-icon [ngStyle]="{'align-self': 'center', 'font-size': '26px' }" color="white">person</mat-icon>
+    </div>
+    <!--
+    <button matTooltip="Usuario"  [matMenuTriggerFor]="menu"   >
         <mat-icon class="sizeIcon  sizeShop">person</mat-icon>
-     </button>
+        {{nombreUsuario}}
+     </button>-->
     <mat-menu  #menu="matMenu">
       <button routerLink="/usuario" *ngIf="auth.loggedIn()"  mat-menu-item>
-        <mat-icon color="accent">person</mat-icon>
-        <span>{{nombreUsuario}}</span>
+        <mat-icon color="accent">account_box</mat-icon>
+        Perfil
       </button>
       <button (click)="aToLogin()" *ngIf="!auth.loggedIn()"  mat-menu-item>
         <mat-icon color="accent">power</mat-icon>

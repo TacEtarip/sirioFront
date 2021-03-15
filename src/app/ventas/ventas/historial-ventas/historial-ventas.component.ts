@@ -3,11 +3,11 @@ import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import { InventarioManagerService, Venta } from '../../../inventario-manager.service';
 import { BehaviorSubject, Subject } from 'rxjs';
-import {MatDatepickerInputEvent} from '@angular/material/datepicker';
-import {FormGroup, FormControl, FormBuilder, Validator, Validators} from '@angular/forms';
+import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { first, distinctUntilChanged, debounceTime } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
+import anime from 'animejs';
 
 @Component({
   selector: 'app-historial-ventas',
@@ -20,6 +20,8 @@ export class HistorialVentasComponent implements OnInit, AfterViewInit, OnDestro
 
   minDate: Date;
   maxDate: Date;
+
+  showF = false;
 
   endISO$ = new BehaviorSubject<string>('noone');
   startISO$ = new BehaviorSubject<string>('noone');
@@ -167,6 +169,50 @@ export class HistorialVentasComponent implements OnInit, AfterViewInit, OnDestro
       this.cargarVentas();
       // this.inDateSearch.next(true);
     }
+  }
+
+  animateTrans(showF: boolean) {
+    return anime.timeline({
+      duration: 250,
+      easing: 'linear',
+    });
+  }
+
+  showFilters() {
+    this.showF = !this.showF;
+    if (this.showF) {
+      this.animateTrans(this.showF)
+    .add({
+      targets: '.sm1',
+      height: this.getAnimationH(this.showF),
+    })
+    .add({
+      targets: '.sm2',
+      height: this.getAnimationH(this.showF),
+    }, '-=100')
+    .add({
+      targets: '.sm3',
+      height: this.getAnimationH(this.showF),
+    }, '-=100');
+    } else {
+      this.animateTrans(this.showF)
+      .add({
+        targets: '.sm3',
+        height: this.getAnimationH(this.showF),
+      })
+      .add({
+        targets: '.sm2',
+        height: this.getAnimationH(this.showF),
+      }, '-=100')
+      .add({
+        targets: '.sm1',
+        height: this.getAnimationH(this.showF),
+      }, '-=100');
+    }
+  }
+
+  getAnimationH(showF: boolean): any {
+    return showF ? '81px' : '0px';
   }
 
   goToFullItemPage(row: Venta) {

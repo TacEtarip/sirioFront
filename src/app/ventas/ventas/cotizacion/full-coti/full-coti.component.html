@@ -3,14 +3,14 @@
     <h1><span>#{{(venta$|async).codigo}}</span></h1>
     <h5>Realizada: {{(venta$|async).date | date}} {{date}}</h5>
   </div>
-  <div>
-    <button (click)="openAddItemDialog()" [ngStyle]="{'margin-right': '.5em', 'width': '160px'}" mat-flat-button color="accent">Agregar Item</button>
-    <button (click)="openClonar()" [ngStyle]="{'margin-right': '.5em', 'width': '160px'}" mat-stroked-button color="primary">Clonar Cotización</button>
-    <button (dblclick)="eliminarCoti()" [ngStyle]="{'margin-right': '.5em', 'width': '160px'}" mat-stroked-button color="accent">Eliminar Cotización</button>
+  <div class="cotiBtns">
+    <button (click)="openAddItemDialog()"  mat-flat-button color="accent">Agregar Item</button>
+    <button (click)="openClonar()"  mat-stroked-button color="primary">Clonar Cotización</button>
+    <button (dblclick)="eliminarCoti()"  mat-stroked-button color="accent">Eliminar Cotización</button>
   </div>
   <mat-tab-group color="accent" dynamicHeight>
     <mat-tab  label="Conteo Simple">
-      <div>
+      <div class="tableCont">
         <table mat-table [dataSource]="(dataSource$|async)" >
           <!-- Position Column -->
           <ng-container matColumnDef="codigo">
@@ -61,7 +61,7 @@
       </div>
     </mat-tab>
     <mat-tab label="Conteo Detallado">
-      <div class="contenidoCardVentas">
+      <div class="contenidoCardVentas tableCont">
         <table mat-table [dataSource]="(tableVentaInfo$|async)" class="mat-elevation-z8">
           <!-- Item Column -->
           <ng-container matColumnDef="codigo">
@@ -115,10 +115,11 @@
     <div class="btns">
       <h5>{{(venta$|async).documento.name}}-{{(venta$|async).documento.codigo}} </h5>
       <h5>Celular: {{(venta$|async).celular_cliente || 'No se brindo'}} | email: {{(venta$|async).cliente_email || 'No se brindo'}}</h5>
-      <button (click)="descargarCotiExcel()" [ngStyle]="{'margin-right': '.5em', 'margin-top': '.5em','width': '160px'}"
+      <button (click)="descargarCotiExcel()"
       mat-flat-button color="primary">Generar Excel</button>
-      <button (click)="descargarCotiPDF()" [ngStyle]="{'margin-right': '.5em', 'margin-top': '.5em','width': '160px'}"
-      mat-flat-button color="primary">Generar PDF</button>
+      <!--
+      <button (click)="descargarCotiPDF()"
+      mat-flat-button color="primary">Generar PDF</button>-->
     </div>
 
     <div class="totales">

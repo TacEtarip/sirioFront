@@ -1,15 +1,12 @@
-<mat-toolbar [ngStyle]="{'position': 'fixed' }" >
-  <span routerLink="/" [ngStyle]="{'cursor': 'pointer'}">Sirio <b>Dinar</b></span>
+<mat-toolbar class="toolbar">
+  <a  href="http://www.siriodinar.com/inicio" class="nombrePrincipal"  [ngStyle]="{'cursor': 'pointer'}">Sirio <b>Dinar</b></a>
   <span class="example-spacer"></span>
-  <span routerLink="/" class="changeColor" [ngStyle]="{'font-weight': 200, 'cursor': 'pointer'}">Inventario</span>
-  <button routerLink="/" class="changeColor" matTooltip="Inventario"  class="sizeIcon">
-    <mat-icon class="changeColor" [ngStyle]="{'color': '#005087'}">assignment</mat-icon>
-  </button>
+  <a class="topLink" href="/"><mat-icon [ngStyle]="{'margin-right': '2px'}" class="changeColor" >assignment</mat-icon> <span>Inventario</span> </a>
 </mat-toolbar>
 <div class="bg">
   <div *ngIf="!processdone && !(fromToken|async)" class="registerCard">
     <h1>Registro</h1>
-      <form autocomplete="off" class="formMult"
+      <form class="formMult"
       [formGroup]="registroForm">
         <div  class="formPone">
           <mat-form-field appearance="fill" class="formstyle">

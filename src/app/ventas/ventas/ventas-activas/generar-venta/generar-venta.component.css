@@ -56,3 +56,13 @@ form {
   -webkit-user-select: none;
   -o-user-select: none;
 }
+
+
+@media screen and (max-width: 550px) {
+  .fourSpan, .twoSpan {
+    grid-column: span 6;
+  }
+  .mat-dialog-content {
+    max-height: 35vh;
+  }
+}

@@ -1,7 +1,9 @@
+<mat-toolbar [ngStyle]="{'position': 'fixed', top: 0 }" >
+  <a  href="http://www.siriodinar.com/inicio" class="nombrePrincipal"  [ngStyle]="{'cursor': 'pointer'}">Sirio <b>Dinar</b></a>
+  <span class="example-spacer"></span>
+  <a class="topLink" href="/"><mat-icon [ngStyle]="{'margin-right': '2px'}" class="changeColor" >assignment</mat-icon> <span>Inventario</span> </a>
+</mat-toolbar>
 <section class="login">
-  <section class="show">
-    <img src="/assets/sirioLogo.svg" class="logo"/>
-  </section>
   <section class="main-login">
     <div class="inputlogin">
       <form [formGroup]="form" >

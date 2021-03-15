@@ -1,10 +1,7 @@
-<mat-toolbar [ngStyle]="{'position': 'fixed' }" >
-  <span [ngStyle]="{ 'cursor': 'pointer'}" (click)="goToInv()" routerLinkActive="active">Sirio <b>Dinar</b></span>
+<mat-toolbar class="toolbar">
+  <a  href="http://www.siriodinar.com/inicio" class="nombrePrincipal"  [ngStyle]="{'cursor': 'pointer'}">Sirio <b>Dinar</b></a>
   <span class="example-spacer"></span>
-  <span (click)="goToInv()" class="changeColor" [ngStyle]="{'font-weight': 200, 'cursor': 'pointer'}">Inventario</span>
-  <button (click)="goToInv()" class="changeColor" matTooltip="Inventario"  class="sizeIcon">
-    <mat-icon class="changeColor" [ngStyle]="{'color': '#005087'}">assignment</mat-icon>
-  </button>
+  <a class="topLink" href="/"><mat-icon [ngStyle]="{'margin-right': '2px'}" class="changeColor" >assignment</mat-icon> <span>Inventario</span> </a>
 </mat-toolbar>
 <div class="bg">
   <div  class="profilecard">
@@ -39,6 +36,7 @@
         </div>
       </div>
     </div>
+    <mat-divider class="divider"></mat-divider>
     <div *ngIf="(user|async)" class="gridDos">
       <h4>
         Nombre:
@@ -46,6 +44,7 @@
       <h3>
         {{(user|async).nombre}} {{(user|async).apellido}}
       </h3>
+      <mat-divider class="divider"></mat-divider>
       <h4>
         Direccion:
       </h4>
@@ -56,6 +55,7 @@
       <h3 (click)="openAgregarDireccionDialog()" *ngIf="!(user|async).dirOne" [ngStyle]="{'color': '#E87200', 'cursor': 'pointer'}">
         Agregar dirección.
       </h3>
+      <mat-divider class="divider"></mat-divider>
       <h4>
         Celular:
       </h4>
@@ -63,6 +63,7 @@
         {{(userPhone|async)}}
         <i (click)="openEditarCelDialog()" matTooltip="Editar" [ngStyle]="{'color': '#E87200', 'padding-left': '12px', 'cursor': 'pointer'}" class="far fa-edit"></i>
       </h3>
+      <mat-divider class="divider"></mat-divider>
       <h4>
         DNI/RUC:
       </h4>
@@ -73,7 +74,10 @@
       <h3 (click)="openAgregarDocumentoDialog()" *ngIf="!(user|async).documento" [ngStyle]="{'color': '#E87200', 'cursor': 'pointer'}">
         Agregar documento de identidad.
       </h3>
-      <button (click)="openEditarContrasena()" [ngStyle]="{'margin-top': '18px'}" mat-flat-button color="accent">Cambiar Contraseña</button>
+      <mat-divider class="divider"></mat-divider>
+      <button class="btn fbtn" (click)="openEditarContrasena()" [ngStyle]="{'margin-top': '18px'}" mat-raised-button color="primary">Cambiar Contraseña</button>
+      <button class="btn" [ngStyle]="{'margin-top': '18px', width: '160px'}" mat-raised-button color="primary">Ver Reporte</button>
+      <button color="accent" class="btn" (click)="openEditarContrasena()" [ngStyle]="{'margin-top': '18px', width: '160px'}"  mat-raised-button>Cerrar Sesión</button>
     </div>
   </div>
 </div>

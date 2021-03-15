@@ -2,3 +2,9 @@ form {
   display: grid;
   gap: 1em;
 }
+
+@media screen and (max-width: 550px) {
+  .mat-dialog-content {
+    max-height: 35vh;
+  }
+}

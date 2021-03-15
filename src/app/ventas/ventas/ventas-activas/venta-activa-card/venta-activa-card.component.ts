@@ -1,13 +1,12 @@
-import { Item } from './../../../../inventario-manager.service';
-import { filter } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { ItemsVentaForCard, InventarioManagerService, Venta, VentaSimpleEliminarInfo, VentaSimpleEliminarSCInfo } from '../../../../inventario-manager.service';
+import { InventarioManagerService, Venta, VentaSimpleEliminarInfo, VentaSimpleEliminarSCInfo } from '../../../../inventario-manager.service';
 import { BehaviorSubject } from 'rxjs';
 import { MatDialog, MatDialogRef} from '@angular/material/dialog';
 import { SeguroEjecDialogComponent } from '../../seguro-ejec-dialog/seguro-ejec-dialog.component';
 import { Router } from '@angular/router';
 import { GenerarVentaComponent } from '../generar-venta/generar-venta.component';
-
+import { SeguroCheckComponent } from '../../seguro-check/seguro-check.component';
 
 export interface TableVentaInfo {
   codigo: string;
@@ -110,11 +109,22 @@ export class VentaActivaCardComponent implements OnInit, OnDestroy {
   }
 
   anularVenta() {
-    this.inventarioMNG.anularVenta(this.venta$.value).subscribe((res) => {
-      if (res) {
-        window.location.reload();
-      }
+    const seguroAnularD = this.dialog.open(SeguroCheckComponent, {
+      width: '600px',
+      data: {titulo: 'Anular venta', mensaje: '¿Estas seguro?', texto_boton: 'Anular'},
     });
+
+    seguroAnularD.afterClosed().pipe(first()).subscribe(resCheck => {
+      console.log(resCheck);
+      if(resCheck) {
+        this.inventarioMNG.anularVenta(this.venta$.value).subscribe((res) => {
+          if (res) {
+            window.location.reload();
+          }
+        });
+      }
+    })
+
   }
 
   getTotalCost() {

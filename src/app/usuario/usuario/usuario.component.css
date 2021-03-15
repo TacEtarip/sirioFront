@@ -9,20 +9,20 @@
 ::ng-deep .changeColor:hover {
   color: #E87200 !important;
 }
+.toolbar {
+  z-index: 100;
+}
 
 .bg {
   background: url('/assets/supply.jpg');
   background-position: center;
   background-size: cover;
   width: 100%;
-  height: 100vh;
+  height: calc(100vh - 64px);
   display: flex;
   justify-content: center;
 }
 
-span {
-  color: #005087;
-}
 
 b {
   font-weight: 500;
@@ -110,3 +110,94 @@ h3 {
   height: 192px;
 }
 
+.btn {
+  margin-left: 10px;
+}
+
+a {
+  font-family: futura-pt, sans-serif;
+  margin: 0;
+}
+
+.nombrePrincipal {
+  text-decoration: none;
+  font-size: 20px;
+  font-family: 'Roboto', sans-serif;
+  color: #E87200;
+}
+
+
+.nombrePrincipal b {
+  color: #005087;
+}
+
+.topLink {
+  text-decoration: none;
+  font-size: 20px;
+  color: #005087;
+  display: contents;
+  font-weight: 600;
+}
+
+.topLink:hover {
+  color: #E87200;
+}
+
+.divider {
+  margin-top: 5px;
+  display: none;
+}
+
+.btn.fbtn {
+  margin-left: 0;
+}
+
+@media screen and (max-width: 800px) and (orientation: portrait) {
+  .profilecard {
+   transform: scale(.9);
+   height: calc(470px - 6em);
+  }
+
+  .btn {
+    margin-left: 0;
+    margin-right: 10px;
+  }
+}
+
+@media screen and (max-width: 550px) and (orientation: portrait) {
+  .profilecard {
+    grid-template-columns: 1fr;
+    padding: 3em;
+    align-self: initial;
+    height: auto;
+    width: 100%;
+    gap: 0;
+  }
+
+  .btn {
+    display: block;
+    margin-left: 0;
+  }
+
+  .bg {
+    height: auto;
+    background-image: none;
+  }
+
+  .compras {
+    display: none;
+  }
+
+  .gridUno {
+    display: block;
+  }
+
+  .divider {
+    margin-top: 5px;
+    display: block;
+  }
+
+  .notDivide {
+    display: block;
+  }
+}

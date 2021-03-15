@@ -46,13 +46,15 @@ import { CotizacionCardComponent } from './ventas/cotizacion/cotizacion-card/cot
 import { GenerarCotiComponent } from './ventas/cotizacion/generar-coti/generar-coti.component';
 import { FullCotiComponent } from './ventas/cotizacion/full-coti/full-coti.component';
 import { PreExcelDialogComponent } from './ventas/cotizacion/pre-excel-dialog/pre-excel-dialog.component';
+import { MatMenuModule } from '@angular/material/menu';
+import { SeguroCheckComponent } from './ventas/seguro-check/seguro-check.component';
 
 
 @NgModule({
   declarations: [VentasComponent, VentasActivasComponent,
     VentaActivaCardComponent, SeguroEjecDialogComponent, PostVentaComponent, HistorialVentasComponent,
     Eject404Component, VentaIndHistoriaComponent, SeguroAnularComponent,
-    GenerarVentaComponent, CotizacionComponent, CotizacionCardComponent, GenerarCotiComponent, FullCotiComponent, PreExcelDialogComponent],
+    GenerarVentaComponent, CotizacionComponent, CotizacionCardComponent, GenerarCotiComponent, FullCotiComponent, PreExcelDialogComponent, SeguroCheckComponent],
   imports: [
     CommonModule,
     VentasRoutingModule,
@@ -82,7 +84,8 @@ import { PreExcelDialogComponent } from './ventas/cotizacion/pre-excel-dialog/pr
     MatMomentDateModule,
     MatTabsModule,
     MatAutocompleteModule,
-    FormsModule
+    FormsModule,
+    MatMenuModule
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'es'},

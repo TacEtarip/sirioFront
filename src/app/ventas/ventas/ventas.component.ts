@@ -20,12 +20,12 @@ export class VentasComponent implements OnInit, OnDestroy {
   nombreUsuario: string;
 
   constructor(public dialog: MatDialog, private inventarioMNG: InventarioManagerService,
-              private auth: AuthService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
+              public auth: AuthService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
               private titleService: Title,
               private metaTagService: Meta,
               private router: Router) {
                 this.nombreUsuario = auth.getDisplayUser();
-                this.mobileQuery = media.matchMedia('(max-width: 820px)');
+                this.mobileQuery = media.matchMedia('(max-width: 1080px)');
                 this.mobileQueryListener = () => changeDetectorRef.detectChanges();
                 this.mobileQuery.addListener(this.mobileQueryListener);
                }
@@ -68,4 +68,8 @@ export class VentasComponent implements OnInit, OnDestroy {
    goToCotizaciones() {
     this.router.navigateByUrl(`/ventas/cotizaciones`);
    }
+
+   aToLogin() {
+    this.router.navigate(['/login']);
+  }
 }

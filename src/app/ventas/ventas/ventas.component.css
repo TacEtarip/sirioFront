@@ -18,6 +18,18 @@
   margin-bottom: 2.5px;
 }
 
+.perfilBtns {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 4px;
+  margin-right: 8px;
+}
+
+.perfilBtns span {
+  font-weight: 200;
+  padding-top: .2em;
+}
+
 .info {
   display: grid;
   grid-template-columns: 50% 50%;

@@ -50,3 +50,40 @@ tr.mat-row:hover {
 .documentoTable {
   width: 50%;
 }
+
+@media screen and (max-width: 700px) {
+  section {
+    padding: 1em 1em;
+  }
+
+  .dates {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  h1 {
+    font-size: 35px;
+  }
+
+  .showMobile {
+    overflow: hidden;
+    height: 0;
+  }
+
+  .filtrosVer {
+    display: grid;
+  }
+
+  table {
+    width: 600px;
+  }
+
+  .example-container, .contenidoMain {
+    overflow: auto;
+  }
+
+  .mat-paginator {
+    width: 600px;
+  }
+
+}
