@@ -76,7 +76,7 @@ export class RegistroComponent implements OnInit, OnDestroy, AfterViewInit {
   reaload = new BehaviorSubject<boolean>(false);
 
   constructor(private fb: FormBuilder, private auth: AuthService,
-              private titleService: Title,
+              private titleService: Title, private router: Router,
               private metaTagService: Meta, private ar: ActivatedRoute) {
     this.sitekey = '6Lc-GTIaAAAAABaw-oeMyoV6jZvkn9jRdaUwa_VT';
     this.ar.paramMap.pipe(first()).subscribe( param => {
@@ -176,7 +176,11 @@ export class RegistroComponent implements OnInit, OnDestroy, AfterViewInit {
       ]))
     });
     this.reaload.next(false);
-    this.subFour = this.reaload.pipe(skip(1), first()).subscribe(() => window.location.reload());
+    this.subFour = this.reaload.subscribe((resR) => {
+      if (resR === true) {
+        window.location.reload();
+      }
+    });
   }
 
   accederConGoogle() {
@@ -223,7 +227,7 @@ export class RegistroComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   resolved(captchaResponse) {
-    console.log(captchaResponse);
+    // console.log(captchaResponse);
   }
 
   confirmedValidator(controlName: string, matchingControlName: string){
@@ -315,6 +319,7 @@ export class RegistroComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   registrarUsuario(userRegister: UserRegister) {
+    this.reaload.next(false);
     this.registroForm.disable();
     this.registroGoogleForm.disable();
     this.auth.registerLow(userRegister).subscribe((res) => {
@@ -336,21 +341,14 @@ export class RegistroComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   registrarUsuarioGoogle(userRegisterGoogle: {displayName: string, password: string, celular: string}) {
+    this.reaload.next(false);
     this.registroGoogleForm.disable();
     const userRegister = { ...userRegisterGoogle, ...this.temporalUserInfo };
-    this.auth.registerLow(userRegister).subscribe((res) => {
-      if (res) {
-        this.registroGoogleForm.reset();
-        this.usuarioPost.next(res);
-        this.processdone = true;
-        this.subThree = interval(5000).pipe(takeWhile( r => !this.reaload.value)).subscribe(() => {
-          this.auth.isValid(res._id).subscribe((reloadRes) => {
-            if (reloadRes) {
-              this.reaload.next(true);
-            }
-          });
-        });
+    this.auth.registerLowGoogle(userRegister).subscribe((res) => {
+      if (res && res.code === 0) {
+        this.router.navigate(['/inventario']);
       } else {
+        alert(res.message);
         this.registroGoogleForm.enable();
       }
     });

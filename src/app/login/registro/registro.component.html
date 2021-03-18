@@ -6,7 +6,7 @@
 <div class="bg">
   <div *ngIf="!processdone && !(fromToken|async)" class="registerCard">
     <h1>Registro</h1>
-      <form class="formMult"
+      <form  autocomplete="off" class="formMult"
       [formGroup]="registroForm">
         <div  class="formPone">
           <mat-form-field appearance="fill" class="formstyle">
@@ -126,7 +126,7 @@
   </div>
   <div *ngIf="!processdone && (fromToken|async)" class="registerCard">
     <h1>Registro</h1>
-      <form autocomplete="off" autocomplete="off" class="formMult"
+      <form  autocomplete="off" class="formMult"
       [formGroup]="registroGoogleForm">
         <div  class="formPone">
           <mat-error [ngStyle]="{'font-weight': '200'}" *ngIf="userExistsG|async">Este usuario ya existe</mat-error>

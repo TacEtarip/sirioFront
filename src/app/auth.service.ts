@@ -189,6 +189,24 @@ export class AuthService {
     }));
   }
 
+  registerLowGoogle(userRegister: UserRegister): Observable<{message: string, code: number}> {
+    return this.http.post<Token>(this.baseUrl + 'auth/registerlow', userRegister)
+    .pipe(first(),
+          tap((res: Token) => this.doLoginUser(res)),
+          mapTo({message: 'Redirecionando a la pagina principal.', code: 0}),
+          catchError(error => {
+            switch (error.status) {
+              case 0:
+                return of({message: 'Error al tratar de conectar al servidor', code: 2});
+              case 400:
+                return of({message: 'Redirecionando a la pagina de login', code: 1});
+              default:
+                break;
+            }
+            return of({message: 'Ocurrio un error desconocido', code: 3});
+          }));
+  }
+
   isValid(idUser: string): Observable<boolean> {
     return this.http.post<{reload: boolean}>(this.baseUrl + 'auth/isValid', { idUser }).pipe(
       first(),
