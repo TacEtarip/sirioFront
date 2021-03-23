@@ -190,7 +190,7 @@ export class AuthService {
   }
 
   registerLowGoogle(userRegister: UserRegister): Observable<{message: string, code: number}> {
-    return this.http.post<Token>(this.baseUrl + 'auth/registerlow', userRegister)
+    return this.http.post<Token>(this.baseUrl + 'auth/loginGoogleRegistro', userRegister)
     .pipe(first(),
           tap((res: Token) => this.doLoginUser(res)),
           mapTo({message: 'Redirecionando a la pagina principal.', code: 0}),

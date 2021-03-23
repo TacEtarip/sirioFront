@@ -1,9 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef, ViewChildren, QueryList, AfterViewInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
-import {MatDialog, MatDialogRef} from '@angular/material/dialog';
-import { BehaviorSubject } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
 import {InventarioManagerService, Item } from '../../inventario-manager.service';
 import { AuthService } from '../../auth.service';
-import { first } from 'rxjs/operators';
 import {MediaMatcher} from '@angular/cdk/layout';
 import {Router} from '@angular/router';
 import { Title, Meta } from '@angular/platform-browser';

@@ -54,4 +54,8 @@ img:hover {
   .mat-dialog-actions {
     row-gap: .5em;
   }
+
+  .mat-dialog-content {
+    max-height: 35vh;
+  }
 }

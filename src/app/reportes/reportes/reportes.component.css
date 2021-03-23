@@ -1,0 +1,110 @@
+.toolBar {
+  background-color: white;
+  -webkit-box-shadow: 0px 7px 5px -3px rgba(0,0,0,0.35);
+  -moz-box-shadow: 0px 7px 5px -3px rgba(0,0,0,0.35);
+  box-shadow: 0px 7px 5px -3px rgba(0,0,0,0.35);
+  z-index: 1000;
+  position: fixed;
+}
+
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+::ng-deep .sizeIcon{
+  height:44px !important;
+  width:44px !important;
+  font-size:34px !important;
+  line-height: 42px !important;
+}
+
+::ng-deep .sizeShop {
+  font-size:24px !important;
+  line-height: 45px !important;
+}
+
+
+.toolBarName {
+  margin-left: .1em;
+  font-family: futura-pt, sans-serif;
+  font-size: 26px;
+  font-weight: 200;
+}
+
+.cName {
+  /**#005087;*/
+  font-family: jubilat, sans-serif;
+  font-weight: 400;
+  /*color: #E87200;*/
+  color: #005087;
+}
+
+
+.perfilBtns {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 4px;
+  margin-right: 8px;
+}
+
+.perfilBtns span {
+  font-weight: 200;
+  padding-top: .2em;
+}
+
+::ng-deep .sizeShop {
+  font-size:24px !important;
+  line-height: 45px !important;
+}
+
+
+.sidenav {
+  width: 17%;
+  border-right: solid .4px lightgrey;
+  height: calc(100vh - 64px);
+  position: fixed;
+  overflow: auto;
+}
+
+.mainCtn {
+  margin-left: 17%;
+}
+
+.mainSpace {
+  padding-top: 64px;
+}
+
+li,ul {
+  text-decoration: none;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  font-family: futura-pt, sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.mat-list-item:hover {
+  cursor: pointer;
+  background-color: #fddab9;
+}
+
+h1 {
+  margin: 0;
+  font-size: 3em;
+  font-weight: 600;
+  color: #E87200;
+}
+
+.titulo {
+  padding: 1em;
+}
+
+.mat-list-base:first-of-type {
+  padding: 0;
+}
+
+.selected {
+  background-color: #cdeafd;
+}
