@@ -1071,6 +1071,24 @@ export class InventarioManagerService {
   }));
   }
 
+  getGraphOverTimeInfo(): Observable<any[]> {
+    return this.http.get<any[]>(this.baseUrl + 'ventas/getInfoToPlotVentasOverTime')
+    .pipe(first(),
+    catchError(error => {
+        switch (error.status) {
+        case 0:
+          alert('Error al tratar de conectar al servidor');
+          break;
+        case 700:
+          break;
+        default:
+          alert(error.error.message);
+          break;
+        }
+        return of(null);
+    }));;
+  }
+
 
 
 }
@@ -1087,6 +1105,7 @@ export interface ItemVendido {
   cantidadSC: CantidadSubConteo[];
   unidadDeMedida?: string;
   photo?: string;
+  priceCosto?: number;
 }
 
 export interface Documento {

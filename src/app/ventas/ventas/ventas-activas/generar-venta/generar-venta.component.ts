@@ -41,6 +41,7 @@ interface PreVentaSimpleInfo {
   distrito_llegada?: string;
   direccion_llegada?: string;
   cantidad?: number;
+  costoPropioUnidad?: number;
 }
 
 @Component({
@@ -82,6 +83,11 @@ export class GenerarVentaComponent implements OnInit {
         Validators.min(0.01)
       ])),
       priceNoIGV: this.fb.control({ value: '', disabled: true }),
+      costoPropioUnidad: this.fb.control({ value: '' , disabled: false },  Validators.compose([
+        Validators.required,
+        Validators.pattern(/^\d*\.?\d{0,2}$/),
+        Validators.min(0.01)
+      ])),
       cantidad: this.fb.control('', Validators.compose([
         Validators.required,
         Validators.pattern(/^[0-9]{0,}$/),
@@ -111,6 +117,7 @@ export class GenerarVentaComponent implements OnInit {
     }
 
     this.item$.subscribe(val => {
+      this.ventaForm.get('costoPropioUnidad').enable();
       this.ventaForm.get('codigo').setValue('');
       this.ventaForm.removeControl('cantidadDisponible');
       this.ventaForm.removeControl('cantidadVenta');
@@ -131,6 +138,7 @@ export class GenerarVentaComponent implements OnInit {
         this.ventaForm.get('cantidad').setValue(this.crear.item.cantidad);
       }
       if (val) {
+        this.ventaForm.get('costoPropioUnidad').disable();
         this.ventaForm.removeControl('cantidad');
         if (!val.subConteo) {
           this.ventaForm.removeControl('cantidadList');
@@ -350,7 +358,8 @@ export class GenerarVentaComponent implements OnInit {
       itemVendido =
       {codigo: this.item$.value.codigo, name: this.item$.value.name, priceIGV: preVentaInfo.priceIGV, photo: this.item$.value.photo,
         priceNoIGV: preVentaInfo.priceNoIGV, descripcion: this.item$.value.description, unidadDeMedida: this.item$.value.unidadDeMedida,
-        cantidadSC: cSC, cantidad: preVentaInfo.cantidadVenta, totalPrice: total, totalPriceNoIGV: totalNoIGV };
+        cantidadSC: cSC, cantidad: preVentaInfo.cantidadVenta, totalPrice: total,
+        totalPriceNoIGV: totalNoIGV, priceCosto: this.item$.value.costoPropio };
       if (this.item$.value.subConteo) {
         itemVendido.cantidad = this.sum;
       }
@@ -358,6 +367,7 @@ export class GenerarVentaComponent implements OnInit {
       itemVendido =
       {codigo: this.generarCodigo(preVentaInfo.name), name: preVentaInfo.name, priceIGV: preVentaInfo.priceIGV,
         priceNoIGV: preVentaInfo.priceNoIGV, descripcion: '', unidadDeMedida: 'UND', photo: 'noPhoto.jpg',
+        priceCosto: preVentaInfo.costoPropioUnidad,
         cantidadSC: cSC, cantidad: preVentaInfo.cantidad, totalPrice: total, totalPriceNoIGV: totalNoIGV };
     }
 
@@ -377,7 +387,6 @@ export class GenerarVentaComponent implements OnInit {
     };
 
     this.ventaEnCurso$.next(true);
-    console.log(bodyToSend);
     return bodyToSend;
   }
 
@@ -413,6 +422,7 @@ export class GenerarVentaComponent implements OnInit {
     if (this.item$.value) {
       itemVendido =
       {codigo: this.item$.value.codigo, name: this.item$.value.name, priceIGV: preVentaInfo.priceIGV,
+        priceCosto: this.item$.value.costoPropio,
         priceNoIGV: preVentaInfo.priceNoIGV, descripcion: this.item$.value.description, unidadDeMedida: this.item$.value.unidadDeMedida,
         cantidadSC: cSC, cantidad: preVentaInfo.cantidadVenta, totalPrice: total, totalPriceNoIGV: totalNoIGV };
       if (this.item$.value.subConteo) {
@@ -422,12 +432,13 @@ export class GenerarVentaComponent implements OnInit {
       if (this.crear.item) {
         itemVendido =
         {codigo: this.crear.item.codigo, name: this.crear.item.name, priceIGV: preVentaInfo.priceIGV,
+          priceCosto: preVentaInfo.costoPropioUnidad,
           priceNoIGV: preVentaInfo.priceNoIGV, descripcion: '', unidadDeMedida: this.crear.item.unidadDeMedida || 'UND',
           cantidadSC: cSC, cantidad: preVentaInfo.cantidad, totalPrice: total, totalPriceNoIGV: totalNoIGV };
       } else {
         itemVendido =
         {codigo: this.generarCodigo(preVentaInfo.name), name: preVentaInfo.name, priceIGV: preVentaInfo.priceIGV,
-          priceNoIGV: preVentaInfo.priceNoIGV, descripcion: '', unidadDeMedida: 'UND',
+          priceNoIGV: preVentaInfo.priceNoIGV, descripcion: '', unidadDeMedida: 'UND', priceCosto: preVentaInfo.costoPropioUnidad,
           cantidadSC: cSC, cantidad: preVentaInfo.cantidad, totalPrice: total, totalPriceNoIGV: totalNoIGV };
       }
 
@@ -486,7 +497,9 @@ export class GenerarVentaComponent implements OnInit {
     const totalNoIGV = Math.round(((total / 1.18) + Number.EPSILON) * 100) / 100;
     if (this.item$.value) {
       itemVendido =
-      {codigo: this.item$.value.codigo, name: this.item$.value.name, priceIGV: preVentaInfo.priceIGV, photo: this.item$.value.photo,
+      {
+        priceCosto: this.item$.value.costoPropio,
+        codigo: this.item$.value.codigo, name: this.item$.value.name, priceIGV: preVentaInfo.priceIGV, photo: this.item$.value.photo,
         priceNoIGV: preVentaInfo.priceNoIGV, descripcion: this.item$.value.description, unidadDeMedida: this.item$.value.unidadDeMedida,
         cantidadSC: cSC, cantidad: preVentaInfo.cantidadVenta, totalPrice: total, totalPriceNoIGV: totalNoIGV };
       if (this.item$.value.subConteo) {
@@ -495,12 +508,15 @@ export class GenerarVentaComponent implements OnInit {
     } else {
       if (this.crear.item) {
         itemVendido =
-        {codigo: this.crear.item.codigo, name: this.crear.item.name, priceIGV: preVentaInfo.priceIGV, photo: 'noPhoto.jpg',
+        { priceCosto: preVentaInfo.costoPropioUnidad,
+          codigo: this.crear.item.codigo, name: this.crear.item.name, priceIGV: preVentaInfo.priceIGV, photo: 'noPhoto.jpg',
           priceNoIGV: preVentaInfo.priceNoIGV, descripcion: '', unidadDeMedida: this.crear.item.unidadDeMedida || 'UND',
           cantidadSC: cSC, cantidad: preVentaInfo.cantidad, totalPrice: total, totalPriceNoIGV: totalNoIGV };
       } else {
         itemVendido =
-        {codigo: this.generarCodigo(preVentaInfo.name), name: preVentaInfo.name, priceIGV: preVentaInfo.priceIGV,
+        {
+          priceCosto: preVentaInfo.costoPropioUnidad,
+          codigo: this.generarCodigo(preVentaInfo.name), name: preVentaInfo.name, priceIGV: preVentaInfo.priceIGV,
           priceNoIGV: preVentaInfo.priceNoIGV, descripcion: '', unidadDeMedida: 'UND', photo: 'noPhoto.jpg',
           cantidadSC: cSC, cantidad: preVentaInfo.cantidad, totalPrice: total, totalPriceNoIGV: totalNoIGV };
       }

@@ -69,10 +69,22 @@
 
 .mainCtn {
   margin-left: 17%;
+  padding: 2em;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1em;
 }
 
 .mainSpace {
   padding-top: 64px;
+}
+
+.firstChart {
+  width: 100%;
+  height: 400px;
+  display: grid;
+  grid-template-rows: auto auto;
+  gap: 2em;
 }
 
 li,ul {
@@ -88,6 +100,11 @@ li,ul {
 .mat-list-item:hover {
   cursor: pointer;
   background-color: #fddab9;
+}
+
+.reporteChartOne .mat-list-item:hover {
+  background-color: #ffffff;
+  cursor: auto;
 }
 
 h1 {
@@ -107,4 +124,14 @@ h1 {
 
 .selected {
   background-color: #cdeafd;
+}
+
+h2 {
+  margin: 0;
+  color: #005087;
+}
+
+.reporteChartOne {
+  display: grid;
+  grid-template-rows: max-content  auto;
 }

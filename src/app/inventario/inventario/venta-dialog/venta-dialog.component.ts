@@ -716,7 +716,7 @@ export class VentaDialogComponent implements OnInit, OnDestroy {
     const totalNoIGV = Math.round(((total / 1.18) + Number.EPSILON) * 100) / 100;
     const itemVendido: ItemVendido =
     {codigo: this.item.codigo, name: this.item.name, priceIGV: preVentaInfo.priceIGV,
-      priceNoIGV: preVentaInfo.priceNoIGV, descripcion: this.item.description,
+      priceNoIGV: preVentaInfo.priceNoIGV, descripcion: this.item.description, priceCosto: this.item.costoPropio,
       cantidadSC: cSC, cantidad: preVentaInfo.cantidadVenta, totalPrice: total, totalPriceNoIGV: totalNoIGV };
     if (this.item.subConteo) {
       itemVendido.cantidad = this.sum;
@@ -751,7 +751,7 @@ export class VentaDialogComponent implements OnInit, OnDestroy {
     const totalNoIGV = Math.round(((total / 1.18) + Number.EPSILON) * 100) / 100;
     const itemVendido: ItemVendido =
     {codigo: this.item.codigo, name: this.item.name, priceIGV: preVentaInfo.priceIGV,
-      priceNoIGV: preVentaInfo.priceNoIGV, descripcion: this.item.description,
+      priceNoIGV: preVentaInfo.priceNoIGV, descripcion: this.item.description, priceCosto: this.item.costoPropio,
       cantidadSC: cSC, cantidad: preVentaInfo.cantidadVenta, totalPrice: total, totalPriceNoIGV: totalNoIGV };
     if (this.item.subConteo) {
       itemVendido.cantidad = this.sum;
@@ -844,7 +844,7 @@ export class VentaDialogComponent implements OnInit, OnDestroy {
                                       priceNoIGV: preVentaInfo.priceNoIGV,
                                       cantidad: preVentaInfo.cantidadVenta,
                                       cantidadSC: preVentaInfo.cantidadList,
-                                      totalPrice: total,
+                                      totalPrice: total, priceCosto: this.item.costoPropio,
                                       totalPriceNoIGV: totalNoIGV,
                                       descripcion: this.item.description };
 

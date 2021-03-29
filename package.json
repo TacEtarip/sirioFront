@@ -34,7 +34,6 @@
     "@nguniversal/express-engine": "^11.2.1",
     "@swimlane/ngx-charts": "^17.0.1",
     "animejs": "^3.2.1",
-    "component": "^1.1.0",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.5",
     "domino": "^2.1.6",

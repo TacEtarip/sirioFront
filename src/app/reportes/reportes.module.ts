@@ -10,7 +10,7 @@ import { MatRippleModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
-
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 @NgModule({
   declarations: [ReportesComponent],
   imports: [
@@ -22,7 +22,8 @@ import { MatDividerModule } from '@angular/material/divider';
     MatButtonModule,
     MatRippleModule,
     MatListModule,
-    MatDividerModule
+    MatDividerModule,
+    NgxChartsModule
   ]
 })
 export class ReportesModule { }

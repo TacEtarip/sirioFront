@@ -40,6 +40,12 @@
       <input (input)="actTotal('cantidadVenta')" (keypress)="resetSum()" name="cantidad" id="cantidad" formControlName="cantidadVenta" type="number" min="1" step="1" matInput>
       <mat-error>Cantidad Invalida</mat-error>
     </mat-form-field>
+    <mat-form-field  *ngIf="!(item$|async)" appearance="fill"  class="fullSpan">
+      <mat-label>Costo Propio Por Unidad</mat-label>
+      <input name="costoPropioUnidad" id="costoPropioUnidad" formControlName="costoPropioUnidad" type="number" matInput>
+      <span [ngStyle]="{'margin-right': '5px'}" matPrefix>S/ </span>
+      <mat-error>Cantidad Invalida</mat-error>
+    </mat-form-field>
 
     <div *ngIf="(item$|async) && (item$|async).subConteo" formArrayName="cantidadList" class="fullSpan">
       <div *ngFor="let sub of cantidadList.controls; index as i">

@@ -59,8 +59,43 @@
     </mat-list>
     <mat-divider></mat-divider>
   </nav>
-  <section class="mainCtn">
-    test OF main
+  <section *ngIf="(doneDataCollect$|async) === true" class="mainCtn">
+    <div class="firstChart">
+      <h2>Ventas En El Tiempo</h2>
+      <ngx-charts-line-chart [ngStyle]="{'font-family': 'futura-pt, sans-serif'}"
+      [scheme]="colorScheme"
+      [legend]="true"
+      [showXAxisLabel]="showXAxisLabel"
+      [showYAxisLabel]="showYAxisLabel"
+      [xAxis]="xAxis"
+      [yAxis]="yAxis"
+      [xAxisLabel]="xAxisLabel"
+      [yAxisLabel]="yAxisLabel"
+      [timeline]="timeline"
+      [results]="multi"
+      [autoScale]="true"
+      (select)="onSelect($event)"
+      (activate)="onActivate($event)"
+      (deactivate)="onDeactivate($event)"
+      >
+    </ngx-charts-line-chart>
+    </div>
+    <div class="reporteChartOne">
+      <h2 [ngStyle]="{'color': '#E87200'}">Reporte de ventas en el tiempo</h2>
+      <div>
+        <mat-list role="list">
+          <mat-list-item role="listitem">
+            <mat-icon mat-list-icon> show_chart</mat-icon>
+            <div mat-line>Crecimiento de ventas respecto al més pasado (Febrero): 30%</div>
+          </mat-list-item>
+          <mat-list-item role="listitem">
+            <mat-icon mat-list-icon> show_chart</mat-icon>
+            <div mat-line>Crecimiento de ganancias respecto al més pasado (Febrero): 30%</div>
+          </mat-list-item>
+          <mat-list-item role="listitem">Item 3</mat-list-item>
+        </mat-list>
+      </div>
+    </div>
   </section>
 </section>
 
