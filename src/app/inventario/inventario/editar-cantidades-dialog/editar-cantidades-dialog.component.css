@@ -82,6 +82,8 @@ img:hover {
 
 .deleteBtn {
   height: 59.5px;
+  margin-bottom: 2em;
+  grid-column: span 4;
 }
 
 .names {
@@ -107,7 +109,11 @@ img:hover {
 .gridInterna {
   display: grid;
   column-gap: 1em;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.mat-dialog-content {
+  max-height: 55vh;
 }
 
 @media screen and (max-width: 800px) {
@@ -143,7 +149,7 @@ img:hover {
   }
 
   .names {
-    grid-column: span 3;
+    grid-column: span 2;
   }
 
   .deleteBtn {

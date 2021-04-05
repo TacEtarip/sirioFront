@@ -38,6 +38,10 @@ form {
   grid-template-columns: repeat(6, 1fr);
 }
 
+.mat-dialog-content {
+  max-height: 55vh;
+}
+
 .ventaR {
   top: 42%;
   z-index: 6;

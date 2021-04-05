@@ -800,6 +800,8 @@ export class VentaDialogComponent implements OnInit, OnDestroy {
 
   ventaSimple(preVentaInfo: PreVentaSimpleInfo) {
 
+    this.ventaForm.disable();
+
     const bodyToSend = this.ventaCMN(preVentaInfo, 'ejecutada');
 
     this.inventarioMNG.generarVentaSimple({venta: bodyToSend}).subscribe((res) => {
@@ -812,11 +814,13 @@ export class VentaDialogComponent implements OnInit, OnDestroy {
       } else {
         alert('Error al procesar la venta intentelo de nuevo en un momento!');
       }
+      this.ventaForm.enable();
     });
 
   }
 
   generarNuevaVenta(preVentaInfo: PreVentaSimpleInfo) {
+    this.ventaForm.disable();
     const bodyToSend = this.crearNewVentaBody(preVentaInfo);
     this.inventarioMNG.generarVentaNueva({venta: bodyToSend}).subscribe((res) => {
       this.ventaEnCurso.next(false);
@@ -830,12 +834,14 @@ export class VentaDialogComponent implements OnInit, OnDestroy {
       }
       else {
         alert('Error desconocido, intenta denuevo en un momento.');
+        this.ventaForm.enable();
       }
 
     });
   }
 
   agregarItemVenta(preVentaInfo: PreVentaSimpleInfo) {
+    this.ventaForm.disable();
     const total =  parseFloat(this.totalPriceIGV.replace(',', '.'));
     const totalNoIGV = Math.round(((total / 1.18) + Number.EPSILON) * 100) / 100;
     const bodyToSend: ItemVendido = { codigo: this.item.codigo,
@@ -862,6 +868,7 @@ export class VentaDialogComponent implements OnInit, OnDestroy {
         alert('Ocurrio un error desconocido.');
         this.dialogRef.close({item: this.item, message: 'error' });
       }
+      this.ventaForm.enable();
     });
 
   }

@@ -28,7 +28,9 @@ export class SubTipoEditarComponent implements OnInit {
   }
 
   onSubmit(newSubTipo: {newSubName: string}) {
+    this.form.disable();
     this.inventarioMNG.updateSubTipoName(this.data.codigo, this.data.antiguoSubName, newSubTipo.newSubName.trim()).subscribe((res) => {
+        this.form.enable();
         this.dialogRef.close(newSubTipo.newSubName);
     });
   }

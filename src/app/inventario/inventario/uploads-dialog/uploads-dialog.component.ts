@@ -52,20 +52,24 @@ export class UploadsDialogComponent implements OnInit {
   }
 
   onSubmitIMG(){
+    this.uploadForm.disable();
     this.inventarioMNG.uploadFile(this.fileToUpload, this.data.codigo, null).subscribe((result) => {
       if (result !== false) {
         this.disabled = true;
         this.showMessage = true;
       }
+      this.uploadForm.enable();
     });
   }
 
   onSubmitPDF(){
+    this.uploadFileForm.disable();
     this.inventarioMNG.uploadFilePDF(this.fileToUploadPDF, this.data.codigo).subscribe((result) => {
       if (result) {
         this.disabledPDF = true;
         this.showMessagePDF = true;
       }
+      this.uploadFileForm.enable();
     });
   }
 

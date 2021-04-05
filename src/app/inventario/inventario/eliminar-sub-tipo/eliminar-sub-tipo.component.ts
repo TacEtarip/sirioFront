@@ -12,6 +12,8 @@ export class EliminarSubTipoComponent implements OnInit {
 
   onEliminar = new EventEmitter();
 
+  eliminating = false;
+
   constructor(public dialogRef: MatDialogRef<EliminarSubTipoComponent>,
               @Inject(MAT_DIALOG_DATA) public data: {codigo: string, subName: string},
               private invetarioMNG: InventarioManagerService) { }
@@ -20,7 +22,9 @@ export class EliminarSubTipoComponent implements OnInit {
   }
 
   eliminarSubTipo() {
+    this.eliminating = true;
     this.invetarioMNG.eliminarSubTipo(this.data.codigo, this.data.subName).subscribe((res) => {
+      this.eliminating = false;
       if (res !== false) {
         this.dialogRef.close();
       } else {

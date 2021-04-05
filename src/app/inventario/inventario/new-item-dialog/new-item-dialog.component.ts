@@ -86,6 +86,18 @@ export class NewItemDialogComponent implements OnInit {
     this.subConteo = this.myForm.get('subConteo') as FormArray;
   }
 
+
+  checkExist(i: number, name: string) {
+    let finded = 0;
+    this.listOfOrders[0].controls.forEach(ord => {
+      if (ord.get(name).value === this.listOfOrders[0].controls[i].get(name).value) {
+        finded++;
+      }
+    });
+    if (finded > 1) {
+      this.listOfOrders[0].controls[i].get(name).setErrors({ incorrect: true });
+    }
+  }
   sumCantidades(index: number, yindex: number) {
     this.sumatorias[index] = 0;
     this.listOfOrders[index].value.forEach( (fg) => {
@@ -295,7 +307,7 @@ export class NewItemDialogComponent implements OnInit {
     newItem.description = item.description.trim();
     newItem.tipo = this.data.parentTipoName;
     newItem.subTipo = this.data.subTipo;
-
+    this.myForm.disable();
     if (this.subConteo.length > 0) {
       newItem.subConteo = this.subConteo.at(0).value;
       newItem.subConteo.name = newItem.subConteo.name.trim();
@@ -317,6 +329,7 @@ export class NewItemDialogComponent implements OnInit {
         this.dialogRef.close(addedItem.codigo);
         // this.onNewItem.emit(addedItem.codigo);
       }
+      this.myForm.enable();
     });
   }
 

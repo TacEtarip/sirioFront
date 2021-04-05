@@ -400,6 +400,7 @@ export class SeguroEjecDialogComponent implements OnInit, OnDestroy {
       this.venta.bultos = cantidadTotal;
     }
     this.ventaEnCurso.next(true);
+    this.ventaEjecutarForm.disable();
     this.inventarioMNG.ejecutarVenta(this.venta).subscribe((res) => {
       this.ventaEnCurso.next(false);
       if (res) {
@@ -413,6 +414,7 @@ export class SeguroEjecDialogComponent implements OnInit, OnDestroy {
 
       } else {
         alert('Ocurrio un error, intente denuevo en un momento.');
+        this.ventaEjecutarForm.enable();
         this.dialogRef.close();
       }
     });

@@ -32,10 +32,17 @@ export class AgregarSubCategoriasComponent implements OnInit {
 
 
   onSubmit() {
-    this.inventarioMNG.agregarSubTipo(this.form.get('subTipo').value.trim(), this.data.codigo).subscribe(() => {
-      this.form.reset();
-      this.showMessage = true;
-      this.onSucces.emit();
+    this.form.disable();
+    this.inventarioMNG.agregarSubTipo(this.form.get('subTipo').value.trim(), this.data.codigo).subscribe((res) => {
+      if (res) {
+        this.form.reset();
+        this.showMessage = true;
+        this.onSucces.emit();
+      } else {
+        this.form.enable();
+        alert('Error al agregar una sub categoria');
+      }
+
     });
   }
 

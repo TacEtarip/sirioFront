@@ -101,7 +101,6 @@ export class SubListaDesplegableComponent implements OnInit {
   }
 
   goToItemPage(item: Item) {
-    console.log(item);
     this.router.navigate(['/inventario', this.parsedRoute(item.tipo),
                           this.parsedRoute(item.subTipo), item.codigo]);
   }

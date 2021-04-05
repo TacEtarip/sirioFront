@@ -110,6 +110,9 @@ export class EditarItemDialogComponent implements OnInit {
   }
 
   onSubmit(item: Item) {
+    this.myForm.disable();
+    this.uploadFileForm.disable();
+    this.uploadForm.disable();
     const newItem: Item = item;
     newItem.codigo = this.item.codigo;
     newItem.name = item.name.trim();
@@ -118,24 +121,36 @@ export class EditarItemDialogComponent implements OnInit {
       if (addedItem !== null) {
         this.myForm.reset();
         this.dialogRef.close();
+      } else {
+        this.myForm.enable();
+        this.uploadFileForm.enable();
+        this.uploadForm.enable();
       }
     });
   }
   onSubmitIMG(){
+    this.uploadFileForm.disable();
+    this.uploadForm.disable();
     this.inventarioMNG.uploadFile(this.fileToUpload, this.item.codigo, this.item.photo).subscribe((result) => {
       if (result !== false) {
         this.disabled = true;
         this.showMessage = true;
       }
+      this.uploadFileForm.enable();
+      this.uploadForm.enable();
     });
   }
 
   onSubmitPDF(){
+    this.uploadFileForm.disable();
+    this.uploadForm.disable();
     this.inventarioMNG.uploadFilePDF(this.fileToUploadPDF, this.item.codigo).subscribe((result) => {
       if (result) {
         this.disabledPDF = true;
         this.showMessagePDF = true;
       }
+      this.uploadFileForm.enable();
+      this.uploadForm.enable();
     });
   }
 

@@ -1086,7 +1086,43 @@ export class InventarioManagerService {
           break;
         }
         return of(null);
-    }));;
+    }));
+  }
+
+  getGraphTopItemsFive(): Observable<any[]> {
+    return this.http.get<any[]>(this.baseUrl + 'ventas/getItemsGanancias')
+    .pipe(first(),
+    catchError(error => {
+        switch (error.status) {
+        case 0:
+          alert('Error al tratar de conectar al servidor');
+          break;
+        case 700:
+          break;
+        default:
+          alert(error.error.message);
+          break;
+        }
+        return of(null);
+    }));
+  }
+
+  getGraphTopClientes(): Observable<any[]> {
+    return this.http.get<any[]>(this.baseUrl + 'ventas/getMejoresClientes')
+    .pipe(first(),
+    catchError(error => {
+        switch (error.status) {
+        case 0:
+          alert('Error al tratar de conectar al servidor');
+          break;
+        case 700:
+          break;
+        default:
+          alert(error.error.message);
+          break;
+        }
+        return of(null);
+    }));
   }
 
 
@@ -1106,6 +1142,7 @@ export interface ItemVendido {
   unidadDeMedida?: string;
   photo?: string;
   priceCosto?: number;
+  tipo?: string;
 }
 
 export interface Documento {
@@ -1183,19 +1220,19 @@ export interface Marca {
 
 export interface UploadCantidadSub {
   subConteo: SubConteo;
-  cantidadNueva: number;
-  cantidadAntigua: number;
   comentario: string;
   costoVar: number;
   codigo: string;
+  cantidad: number;
+  tipo: boolean;
 }
 
 export interface UploadCantidadSimple {
-  cantidadNueva: number;
-  cantidadAntigua: number;
+  cantidad: number;
   comentario: string;
   costoVar: number;
   codigo: string;
+  tipo: boolean;
 }
 
 export interface DNI {
@@ -1265,6 +1302,8 @@ export interface ItemsVentaForCard {
   cantidadSC: CantidadSubConteo;
   cantidad: number;
   unidadDeMedida?: string;
+  priceCosto: number;
+  tipo: string;
 }
 
 

@@ -1,10 +1,11 @@
-import { Component, OnInit, Inject, ɵConsole } from '@angular/core';
+import { distinctUntilChanged } from 'rxjs/operators';
+import { Component, OnInit, Inject, ɵConsole, OnDestroy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { CurrencyPipe } from '@angular/common';
 
 import { Item, Order, SubConteo,  UploadCantidadSub, InventarioManagerService, UploadCantidadSimple} from '../../../inventario-manager.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 
 
@@ -14,20 +15,41 @@ import { BehaviorSubject } from 'rxjs';
   templateUrl: './editar-cantidades-dialog.component.html',
   styleUrls: ['./editar-cantidades-dialog.component.css']
 })
-export class EditarCantidadesDialogComponent implements OnInit {
+export class EditarCantidadesDialogComponent implements OnInit, OnDestroy {
   editarCantForm: FormGroup;
 
   editarCantiSimpleForm: FormGroup;
 
   order: FormArray;
 
-  cantidadTotal = new BehaviorSubject<number>(this.data.cantidad);
+  cantidadesEliminadasSC = [];
+
+  agregarOption = [
+    {value: true, viewValue: 'Agregar'},
+    {value: false, viewValue: 'Reducir'},
+  ];
+
+  unicoSubCantidad = false;
+
+  opcionStart = this.agregarOption[0].value;
+
+  cantidadTotal = new BehaviorSubject<number>(0);
+
+  agregar$ = new BehaviorSubject<boolean>(true);
+
+  suma = 0;
+
+  subI: Subscription;
 
   constructor(public dialogRef: MatDialogRef<EditarCantidadesDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: Item,
               private formBuilder: FormBuilder, private inventarioMNG: InventarioManagerService) { }
+  ngOnDestroy(): void {
+    this.subI.unsubscribe();
+  }
 
   ngOnInit(): void {
+    this.cantidadTotal.next(this.data.cantidad);
     if (this.data.subConteo) {
       this.editarCantForm = this.formBuilder.group({
         name: this.formBuilder.control({value: this.data.subConteo.name, disabled: true}, Validators.compose([
@@ -38,6 +60,9 @@ export class EditarCantidadesDialogComponent implements OnInit {
           costoVar: this.formBuilder.control(0,  Validators.compose([
           Validators.required,
           Validators.pattern(/^\d*\.?\d{0,2}$/),
+        ])),
+        agregar: this.formBuilder.control(this.opcionStart, Validators.compose([
+          Validators.required,
         ])),
         nameSecond: this.formBuilder.control({value: this.data.subConteo.nameSecond, disabled: true}, Validators.compose([
           Validators.required,
@@ -57,11 +82,18 @@ export class EditarCantidadesDialogComponent implements OnInit {
       this.data.subConteo.order.forEach( (ord: Order) => {
         this.addOrder(ord.name, ord.nameSecond, true, true, ord.cantidad);
       });
+
+      if (this.order.controls.length === 1) {
+        this.unicoSubCantidad = true;
+      }
     } else {
       this.editarCantForm = this.formBuilder.group({
         costoVar: this.formBuilder.control(0,  Validators.compose([
           Validators.required,
           Validators.pattern(/^\d*\.?\d{0,2}$/),
+        ])),
+        agregar: this.formBuilder.control(this.opcionStart, Validators.compose([
+          Validators.required,
         ])),
         comentario: this.formBuilder.control({value: '', disabled: false}, Validators.compose([
           Validators.required,
@@ -71,11 +103,65 @@ export class EditarCantidadesDialogComponent implements OnInit {
         cantidad: this.formBuilder.control('', Validators.compose([
             Validators.required,
             Validators.pattern('^-?[0-9][^\.]*$'),
-            Validators.min(0)
+            Validators.min(1)
           ]))
       });
     }
 
+    this.subI = this.editarCantForm.get('agregar').valueChanges.pipe(distinctUntilChanged()).subscribe((value) => {
+      if (this.data.subConteo) {
+        this.unicoSubCantidad = false;
+        this.cantidadesEliminadasSC = [];
+        this.order.controls.length = 0;
+        this.data.subConteo.order.forEach( (ord: Order) => {
+          this.addOrder(ord.name, ord.nameSecond, true, true, ord.cantidad);
+        });
+
+        this.order.controls.forEach((control, index) => {
+          control.get('cantidad').setValue(0);
+          if (value === false) {
+            control.get('cantidad').clearValidators();
+            control.get('cantidad').setValidators( Validators.compose([
+              Validators.required,
+              Validators.pattern('^-?[0-9][^\.]*$'),
+              Validators.min(0),
+              Validators.max(this.data.subConteo.order[index].cantidad)
+            ]));
+          } else {
+            control.get('cantidad').clearValidators();
+            control.get('cantidad').setValidators( Validators.compose([
+              Validators.required,
+              Validators.pattern('^-?[0-9][^\.]*$'),
+              Validators.min(0),
+            ]));
+          }
+        });
+        // this.editarCantForm.get('agregar').setValidators();
+        if (this.order.length === 1) {
+          this.unicoSubCantidad = true;
+        }
+        this.agregar$.next(value);
+        this.sumCantidades();
+      } else {
+        this.editarCantForm.get('cantidad').setValue('');
+        this.editarCantForm.get('cantidad').clearValidators();
+        if (value) {
+          this.editarCantForm.get('cantidad').setValidators(Validators.compose([
+            Validators.required,
+            Validators.pattern('^-?[0-9][^\.]*$'),
+            Validators.min(1)
+          ]));
+        } else {
+          this.editarCantForm.get('cantidad').setValidators(Validators.compose([
+            Validators.required,
+            Validators.pattern('^-?[0-9][^\.]*$'),
+            Validators.min(1),
+            Validators.max(this.data.cantidad),
+          ]));
+        }
+
+      }
+    });
   }
 
   addOrder(orderName: string, orderSecondName: string, disabledValue: boolean, disabledValueTwo: boolean, cantidad: number) {
@@ -83,20 +169,20 @@ export class EditarCantidadesDialogComponent implements OnInit {
       name: this.formBuilder.control({value: orderName, disabled: disabledValue}, Validators.compose([
       Validators.required,
       Validators.minLength(1),
-      Validators.maxLength(20)
+      Validators.maxLength(20),
       ])),
       nameSecond: this.formBuilder.control({value: orderSecondName, disabled: disabledValueTwo}, Validators.compose([
         Validators.required,
         Validators.minLength(1),
         Validators.maxLength(20)
         ])),
-      cantidad: this.formBuilder.control(cantidad, Validators.compose([
+      cantidadAct: this.formBuilder.control({value: cantidad, disabled: true}),
+      cantidad: this.formBuilder.control(0, Validators.compose([
         Validators.required,
         Validators.pattern('^-?[0-9][^\.]*$'),
         Validators.min(0)
       ]))
      });
-
     this.order.push(fg);
   }
 
@@ -106,10 +192,28 @@ export class EditarCantidadesDialogComponent implements OnInit {
     } else {
       this.addOrder('', '', false, true, 0);
     }
+    this.unicoSubCantidad = false;
   }
 
   eliminarOrder(index: number) {
+    this.cantidadesEliminadasSC.push(this.order.controls[index].get('cantidadAct').value);
     this.order.removeAt(index);
+    if (this.order.length === 1) {
+      this.unicoSubCantidad = true;
+    }
+    this.sumCantidades();
+  }
+
+  checkExist(i: number, name: string) {
+    let finded = 0;
+    this.order.controls.forEach(ord => {
+      if (ord.get(name).value === this.order.controls[i].get(name).value) {
+        finded++;
+      }
+    });
+    if (finded > 1) {
+      this.order.controls[i].get(name).setErrors({ incorrect: true });
+    }
   }
 
   sumCantidades() {
@@ -118,30 +222,51 @@ export class EditarCantidadesDialogComponent implements OnInit {
     for (let index = 0; index < this.order.controls.length; index++) {
       suma += this.order.at(index).get('cantidad').value;
     }
-
-    this.cantidadTotal.next(suma);
+    this.suma = suma;
+    let sumaCantidadesEliminadasSC = 0;
+    this.cantidadesEliminadasSC.forEach(v => {
+      sumaCantidadesEliminadasSC += v;
+    });
+    if (this.agregar$.value === true) {
+      this.cantidadTotal.next(suma + this.data.cantidad);
+    }  else {
+      this.cantidadTotal.next(this.data.cantidad - suma < 0 ? 0 : this.data.cantidad - suma - sumaCantidadesEliminadasSC);
+    }
   }
 
   actCantidad() {
     this.cantidadTotal.next(this.editarCantForm.get('cantidad').value);
   }
 
+  getCantidadesTotalesDeOrder(orderArray: Order[]) {
+    let cantidadTotal = 0;
+    orderArray.forEach(order => {
+      cantidadTotal += order.cantidad;
+    });
+    return cantidadTotal;
+  }
+
   actualizarCantidades(formInfo) {
+    this.editarCantForm.disable();
+    let sumaCantidadesEliminadasSC = 0;
+    this.cantidadesEliminadasSC.forEach(v => {
+      sumaCantidadesEliminadasSC += v;
+    });
+
     const infoToUpload: UploadCantidadSub = {
-      subConteo: { name: formInfo.name.trim(), nameSecond: formInfo.nameSecond.trim(), order: formInfo.order},
-      cantidadAntigua: this.data.cantidad, cantidadNueva: this.cantidadTotal.value,
+      subConteo: { name: formInfo.name.trim(), nameSecond: formInfo.nameSecond.trim() || '', order: formInfo.order},
+      cantidad:
+      formInfo.agregar ?
+      this.getCantidadesTotalesDeOrder(formInfo.order) : this.getCantidadesTotalesDeOrder(formInfo.order) + sumaCantidadesEliminadasSC,
+      tipo: formInfo.agregar,
       costoVar: formInfo.costoVar,
       comentario: formInfo.comentario.trim(), codigo: this.data.codigo
     };
-    infoToUpload.subConteo.order.forEach( sc => {
-      sc.name = sc.name.trim();
-      if (sc.nameSecond) {
-        sc.nameSecond = sc.nameSecond.trim();
-      }
-    });
     this.inventarioMNG.uploadVariacion(infoToUpload).subscribe((res) => {
       if (res) {
         this.dialogRef.close(res);
+      } else {
+      this.editarCantForm.enable();
       }
     });
   }
@@ -153,9 +278,10 @@ export class EditarCantidadesDialogComponent implements OnInit {
   }
 
   actualizarCantidadesSimple(formInfo) {
+    this.editarCantForm.disable();
     const infoToUpload: UploadCantidadSimple = {
-      cantidadAntigua: this.data.cantidad,
-      cantidadNueva: this.cantidadTotal.value,
+      cantidad: formInfo.cantidad,
+      tipo: formInfo.agregar,
       costoVar: formInfo.costoVar,
       comentario: formInfo.comentario.trim(),
       codigo: this.data.codigo
@@ -163,6 +289,9 @@ export class EditarCantidadesDialogComponent implements OnInit {
     this.inventarioMNG.uploadVariacionSimple(infoToUpload).subscribe((res) => {
       if (res) {
         this.dialogRef.close(res);
+      } else {
+      this.editarCantForm.enable();
+      this.editarCantForm.reset();
       }
     });
   }

@@ -62,12 +62,12 @@
               <div *ngFor="let order of listOfOrders[i].controls; index as y" textIndex = "y">
                 <div [formGroupName]="y" class="orderSC">
                   <mat-form-field  appearance="fill" class="scDeno">
-                    <mat-label>Sub</mat-label>
-                    <input spellcheck="false" formControlName="name" maxlength="60" matInput>
+                    <mat-label>Sub I</mat-label>
+                    <input (change)="checkExist(y, 'name')" spellcheck="false" formControlName="name" maxlength="60" matInput>
                   </mat-form-field>
                   <mat-form-field  appearance="fill" class="scDeno">
                     <mat-label>Sub II</mat-label>
-                    <input spellcheck="false" formControlName="nameSecond" maxlength="60" matInput>
+                    <input (change)="checkExist(y, 'nameSecond')" spellcheck="false" formControlName="nameSecond" maxlength="60" matInput>
                   </mat-form-field>
                   <mat-form-field  appearance="fill"  class="scDenoTwo">
                     <mat-label>Cantidad</mat-label>

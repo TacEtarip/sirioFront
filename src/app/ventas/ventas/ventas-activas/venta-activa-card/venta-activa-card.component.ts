@@ -20,6 +20,8 @@ export interface TableVentaInfo {
   editar?: boolean;
   priceNoIGV: number;
   unidadDeMedida?: string;
+  priceCosto: number;
+  tipo: string;
 }
 
 @Component({
@@ -67,17 +69,17 @@ export class VentaActivaCardComponent implements OnInit, OnDestroy {
       res.forEach(infoVenta => {
         if (infoVenta.cantidadSC && infoVenta.cantidadSC.cantidadVenta > 0) {
           const tableInfo: TableVentaInfo = {codigo: infoVenta.codigo, name: infoVenta.name, unidadDeMedida: infoVenta.unidadDeMedida || 'UND',
-            subName: infoVenta.cantidadSC.name, subNameSecond: infoVenta.cantidadSC.nameSecond,
+            subName: infoVenta.cantidadSC.name, subNameSecond: infoVenta.cantidadSC.nameSecond, tipo: infoVenta.tipo,
             cantidad: infoVenta.cantidadSC.cantidadVenta, priceIGV: infoVenta.priceIGV, editar: true,
-            total: this.getTotal(infoVenta.cantidadSC.cantidadVenta, infoVenta.priceIGV) ,
+            total: this.getTotal(infoVenta.cantidadSC.cantidadVenta, infoVenta.priceIGV), priceCosto: infoVenta.priceCosto,
             eliminar: true, priceNoIGV: infoVenta.priceNoIGV};
           this.tableVentaInfo.push(tableInfo);
           this.precios.push(tableInfo.total);
         }
         else if (!infoVenta.cantidadSC) {
-          const tableInfo: TableVentaInfo = {codigo: infoVenta.codigo, name: infoVenta.name,
+          const tableInfo: TableVentaInfo = {codigo: infoVenta.codigo, name: infoVenta.name, tipo: infoVenta.tipo,
             subName: '...', subNameSecond: '...', editar: true, unidadDeMedida: infoVenta.unidadDeMedida || 'UND',
-            cantidad: infoVenta.cantidad, priceIGV: infoVenta.priceIGV,
+            cantidad: infoVenta.cantidad, priceIGV: infoVenta.priceIGV, priceCosto: infoVenta.priceCosto,
             total: this.getTotal(infoVenta.cantidad, infoVenta.priceIGV), eliminar: true, priceNoIGV: infoVenta.priceNoIGV};
 
           this.tableVentaInfo.push(tableInfo);
@@ -115,8 +117,7 @@ export class VentaActivaCardComponent implements OnInit, OnDestroy {
     });
 
     seguroAnularD.afterClosed().pipe(first()).subscribe(resCheck => {
-      console.log(resCheck);
-      if(resCheck) {
+      if (resCheck) {
         this.inventarioMNG.anularVenta(this.venta$.value).subscribe((res) => {
           if (res) {
             window.location.reload();

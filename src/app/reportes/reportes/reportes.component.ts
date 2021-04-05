@@ -11,9 +11,12 @@ import { AuthService } from '../../auth.service';
 export class ReportesComponent implements OnInit {
 
   multi: any[];
-  // view: any[] = [700, 300];
+  single: any[];
+  clientes: any[];
 
-  // options
+  view: any[] = [700, 300];
+
+  // options line chart
   legend: true;
   showLabels = true;
   animations = true;
@@ -29,17 +32,37 @@ export class ReportesComponent implements OnInit {
     domain: ['#E44D25', '#112E96']
   };
 
+  colorSchemeBarItems = {
+    domain: ['#E44D25', '#F0871A', '#FA6C1B']
+  };
+
+  colorSchemeBarItemsCliente = {
+    domain: ['#E44D25', '#F0871A', '#FA6C1B', '#F01A51']
+  };
+
   reporte$ = new BehaviorSubject(0);
 
-  doneDataCollect$ = new BehaviorSubject<boolean>(false);
+  doneDataCollect$ = new BehaviorSubject<number>(0);
 
   constructor(public auth: AuthService, private inv: InventarioManagerService, private router: Router) {
     inv.getGraphOverTimeInfo().subscribe(multi => {
-      console.log({ multi });
       if (multi) {
-        this.doneDataCollect$.next(true);
-        console.log(this.doneDataCollect$.value);
+        this.doneDataCollect$.next(this.doneDataCollect$.value + 1);
         Object.assign(this, { multi } );
+      }
+    });
+
+    inv.getGraphTopItemsFive().subscribe(single => {
+      if (single) {
+        this.doneDataCollect$.next(this.doneDataCollect$.value + 1);
+        Object.assign(this, { single } );
+      }
+    });
+
+    inv.getGraphTopClientes().subscribe(clientes => {
+      if (clientes) {
+        this.doneDataCollect$.next(this.doneDataCollect$.value + 1);
+        Object.assign(this, { clientes } );
       }
     });
    }
