@@ -67,8 +67,8 @@ export class GenerarVentaComponent implements OnInit {
   item$ = new BehaviorSubject<Item>(null);
 
   agregarOption = [
-    {value: 'confeccion', viewValue: 'Confección'},
     {value: 'producto', viewValue: 'Producto'},
+    {value: 'confeccion', viewValue: 'Confección'},
   ];
 
   opcionStart = this.agregarOption[0].value;
@@ -101,7 +101,7 @@ export class GenerarVentaComponent implements OnInit {
         Validators.pattern(/^[0-9]{0,}$/),
         Validators.min(1)
       ])),
-      agregar: this.fb.control(this.opcionStart, Validators.compose([
+      agregar: this.fb.control('', Validators.compose([
         Validators.required,
       ])),
     });
@@ -116,7 +116,6 @@ export class GenerarVentaComponent implements OnInit {
         this.item$.next(null);
       }
       if (!this.item$.value) {
-        console.log(this.crear.item.tipo)
         this.ventaForm.get('agregar').setValue(this.crear.item.tipo);
         this.ventaForm.get('costoPropioUnidad').setValue(this.crear.item.priceCosto);
       }
@@ -133,6 +132,7 @@ export class GenerarVentaComponent implements OnInit {
     }
 
     this.item$.subscribe(val => {
+      this.ventaForm.get('agregar').enable();
       this.ventaForm.get('costoPropioUnidad').enable();
       this.ventaForm.get('codigo').setValue('');
       this.ventaForm.removeControl('cantidadDisponible');
@@ -154,6 +154,7 @@ export class GenerarVentaComponent implements OnInit {
         this.ventaForm.get('cantidad').setValue(this.crear.item.cantidad);
       }
       if (val) {
+        this.ventaForm.get('agregar').disable();
         this.ventaForm.get('costoPropioUnidad').disable();
         this.ventaForm.removeControl('cantidad');
         if (!val.subConteo) {
@@ -388,7 +389,6 @@ export class GenerarVentaComponent implements OnInit {
         cantidadSC: cSC, cantidad: preVentaInfo.cantidad, totalPrice: total, totalPriceNoIGV: totalNoIGV };
     }
 
-    console.log(itemVendido);
 
     const bodyToSend: Venta =
     {
@@ -430,7 +430,6 @@ export class GenerarVentaComponent implements OnInit {
   }
 
   agregarItemVenta(preVentaInfo: PreVentaSimpleInfo) {
-    console.log(preVentaInfo);
     this.ventaForm.disable();
     let cSC: any[];
     if (this.item$.value && this.item$.value.subConteo) {
@@ -467,7 +466,6 @@ export class GenerarVentaComponent implements OnInit {
 
     }
     this.ventaEnCurso$.next(true);
-    console.log(itemVendido);
     this.invManager.agregarItemVenta(itemVendido, this.crear.ventaCod).subscribe((res) => {
       this.ventaEnCurso$.next(false);
       this.ventaForm.enable();

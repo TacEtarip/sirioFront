@@ -6,8 +6,8 @@
         <mat-label>Agregar A Venta</mat-label>
       <mat-select (ngModelChange)="resetSome()" name="codigo" id="codigo" formControlName="selectAcction">
         <mat-option value="ventaSimple">Venta Simple</mat-option>
-        <mat-option *ngIf="!ventaActiva" value="crearVenta">Crear Venta</mat-option>
-        <mat-option *ngIf="ventaActiva" value="aVentaActiva">Añadir A Venta Activa</mat-option>
+        <mat-option *ngIf="(ventasActivasCtn < 6)" value="crearVenta">Crear Venta</mat-option>
+        <mat-option *ngFor="let ventaCod of ventasActivas" value="ventaCod">Añadir A Venta {{ventaCod}}</mat-option>
       </mat-select>
       </mat-form-field>
 
@@ -233,7 +233,7 @@
       [disabled]="!ventaForm.valid || sum <= 0" mat-flat-button color="primary">Crear Venta</button>
       <button
       (click)="agregarItemVenta(ventaForm.getRawValue())" class="lastBTN" type="button"
-      *ngIf="ventaForm.get('selectAcction').value === 'aVentaActiva'"
+      *ngIf="ventaForm.get('selectAcction').value !== 'ventaSimple' && ventaForm.get('selectAcction').value !== 'crearVenta'"
       [disabled]="!ventaForm.valid || sum <= 0" mat-flat-button color="primary">
       Agregar A Venta</button>
     </div>

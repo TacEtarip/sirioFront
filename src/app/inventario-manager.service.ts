@@ -163,8 +163,9 @@ export class InventarioManagerService {
   }));
   }
 
-  getExcelReport(dateOne: string, dateTwo: string) {
-    return this.http.get(this.baseUrl + 'ventas/createExcelReport/' + dateOne + '/' + dateTwo, { responseType: 'blob' })
+  getExcelReport(dateOne: string, dateTwo: string, estado: string[], tipo: string[], busqueda: string) {
+    return this.http.post(this.baseUrl + 'ventas/createExcelReport/',
+    { dateOne, dateTwo, estado, tipo, busqueda  }, { responseType: 'blob' })
     .pipe( first(), catchError(error => {
       switch (error.status) {
       case 0:
@@ -446,8 +447,44 @@ export class InventarioManagerService {
                     );
   }
 
-  getVentasActivas(): Observable<Venta> {
+  getVentaActiva(): Observable<Venta> {
     return this.http.get<Venta>(this.baseUrl + 'ventas/ventasPendientes')
+            .pipe(first(),
+            catchError(error => {
+              switch (error.status) {
+                case 0:
+                  alert('Error al tratar de conectar al servidor');
+                  break;
+                case 700:
+                  break;
+                default:
+                  break;
+              }
+              return of(null);
+            })
+            );
+  }
+
+  getVentaActivaFull(): Observable<Venta[]> {
+    return this.http.get<Venta[]>(this.baseUrl + 'ventas/ventasActivasFull')
+            .pipe(first(),
+            catchError(error => {
+              switch (error.status) {
+                case 0:
+                  alert('Error al tratar de conectar al servidor');
+                  break;
+                case 700:
+                  break;
+                default:
+                  break;
+              }
+              return of(null);
+            })
+            );
+  }
+
+  getVentasActivas(): Observable<string[]> {
+    return this.http.get<string[]>(this.baseUrl + 'ventas/ventasActivasList')
             .pipe(first(),
             catchError(error => {
               switch (error.status) {

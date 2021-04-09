@@ -220,7 +220,8 @@ export class HistorialVentasComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   descargarExcel() {
-    this.inventarioMNG.getExcelReport(this.startISO$.value, this.endISO$.value).subscribe(res => {
+    this.inventarioMNG.getExcelReport(this.startISO$.value, this.endISO$.value,
+      this.range.get('estado').value,  this.range.get('tipo').value,  this.range.get('busqueda').value).subscribe(res => {
       saveAs(res, 'reporte.xlsx');
     });
   }

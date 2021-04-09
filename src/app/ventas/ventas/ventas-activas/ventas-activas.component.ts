@@ -13,13 +13,13 @@ export class VentasActivasComponent implements OnInit {
 
   constructor(private inventarioMNG: InventarioManagerService, public dialog: MatDialog) { }
 
-  ventasActiva = new BehaviorSubject<Venta>(null);
+  ventasActivas = new BehaviorSubject<Venta[]>(null);
 
   load = new BehaviorSubject<boolean>(false);
 
   ngOnInit(): void {
-    this.inventarioMNG.getVentasActivas().subscribe((res) => {
-      this.ventasActiva.next(res);
+    this.inventarioMNG.getVentaActivaFull().subscribe((res) => {
+      this.ventasActivas.next(res);
       this.load.next(true);
     });
   }
@@ -34,11 +34,14 @@ export class VentasActivasComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((res: { message: string, venta: Venta }) => {
       if (res && res.venta) {
-        this.ventasActiva.next(res.venta);
+        const newList = this.ventasActivas.value;
+        newList.push(res.venta);
+        this.ventasActivas.next(newList);
       }
     });
   }
 
+  /*
   openAddItemDialog() {
     const dialogRef = this.dialog.open(GenerarVentaComponent, {
       width: '600px',
@@ -52,6 +55,6 @@ export class VentasActivasComponent implements OnInit {
         this.ventasActiva.next(res.venta);
       }
     });
-  }
+  }*/
 
 }

@@ -145,6 +145,10 @@ export class VentaDialogComponent implements OnInit, OnDestroy {
 
   ventaActiva = '';
 
+  ventasActivas: string[];
+
+  ventasActivasCtn: number;
+
   constructor(
     public dialogRef: MatDialogRef<VentaDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public item: Item,
@@ -168,7 +172,8 @@ export class VentaDialogComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
       this.inventarioMNG.getVentasActivas().subscribe((res) => {
-        this.ventaActiva = res.codigo;
+        this.ventasActivas = res;
+        this.ventasActivasCtn = res.length;
       });
 
       this.ventaForm = this.formBuilder.group({
@@ -860,7 +865,7 @@ export class VentaDialogComponent implements OnInit, OnDestroy {
       bodyToSend.cantidadSC = [];
     }
     this.ventaEnCurso.next(true);
-    this.inventarioMNG.agregarItemVenta(bodyToSend, this.ventaActiva).subscribe((res) => {
+    this.inventarioMNG.agregarItemVenta(bodyToSend, this.ventaForm.get('selectAcction').value).subscribe((res) => {
       this.ventaEnCurso.next(false);
       if (res) {
         this.dialogRef.close({item: this.item, message: `succesAI|${res.message}` });
