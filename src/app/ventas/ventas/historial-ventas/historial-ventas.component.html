@@ -47,7 +47,7 @@
 
         <ng-container matColumnDef="fecha">
           <th mat-header-cell *matHeaderCellDef> Fecha </th>
-          <td mat-cell *matCellDef="let element"> {{element.date|date}} </td>
+          <td (click)="goToFullItemPage(element)" mat-cell *matCellDef="let element"> {{element.date|date}} </td>
         </ng-container>
 
         <ng-container matColumnDef="codigo">
@@ -65,8 +65,16 @@
           <td class="documentoTable" mat-cell *matCellDef="let element"> {{element.documento.name}} <span *ngIf="element.documento.name">|</span> {{element.documento.codigo}} </td>
         </ng-container>
 
+        <ng-container matColumnDef="comprobante">
+          <th  mat-header-cell *matHeaderCellDef> Links</th>
+          <td  mat-cell *matCellDef="let element">
+            <a target="_blank"  href="/ventas/historialVentas/{{element.codigo}}">Venta Completa</a>
+            <a target="_blank" *ngIf="element.linkComprobante"  href="{{element.linkComprobante}}">Ver Comprobante</a>
+          </td>
+        </ng-container>
+
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr (click)="goToFullItemPage(row)" class="rows" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr class="rows" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
   </div>
     <mat-paginator [length]="ventasLength$|async"  [pageSize]="10" showFirstLastButtons></mat-paginator>

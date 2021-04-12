@@ -26,7 +26,7 @@ export class HistorialVentasComponent implements OnInit, AfterViewInit, OnDestro
   endISO$ = new BehaviorSubject<string>('noone');
   startISO$ = new BehaviorSubject<string>('noone');
 
-  displayedColumns: string[] = ['fecha', 'codigo', 'totalPrice', 'documento'];
+  displayedColumns: string[] = ['fecha', 'codigo', 'totalPrice', 'documento', 'comprobante'];
   dataSource: MatTableDataSource<Venta>;
   dataSource$ = new Subject<MatTableDataSource<Venta>>();
 

@@ -62,14 +62,25 @@ table {
 }
 
 td, th {
-  width: 16%;
+  width: 12.5%;
 }
 
+td a {
+  padding: 4px 0 4px 0;
+  display: block;
+  font-family: futura-pt,sans-serif;
+  color: #df934c;
+}
 
+td a:hover {
+  color: #005087;
+}
+
+/*
 tr.mat-row:hover {
   cursor: pointer;
   background-color: #FAE0CB;
-}
+}*/
 
 .documentoTable {
   width: 50%;
