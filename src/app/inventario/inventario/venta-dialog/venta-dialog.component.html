@@ -7,7 +7,7 @@
       <mat-select (ngModelChange)="resetSome()" name="codigo" id="codigo" formControlName="selectAcction">
         <mat-option value="ventaSimple">Venta Simple</mat-option>
         <mat-option *ngIf="(ventasActivasCtn < 6)" value="crearVenta">Crear Venta</mat-option>
-        <mat-option *ngFor="let ventaCod of ventasActivas" value="ventaCod">Añadir A Venta {{ventaCod}}</mat-option>
+        <mat-option *ngFor="let ventaCod of ventasActivas" [value]="ventaCod">Añadir A Venta {{ventaCod}}</mat-option>
       </mat-select>
       </mat-form-field>
 

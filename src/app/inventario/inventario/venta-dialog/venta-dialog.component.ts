@@ -172,6 +172,7 @@ export class VentaDialogComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
       this.inventarioMNG.getVentasActivas().subscribe((res) => {
+        console.log(res);
         this.ventasActivas = res;
         this.ventasActivasCtn = res.length;
       });
@@ -865,6 +866,7 @@ export class VentaDialogComponent implements OnInit, OnDestroy {
       bodyToSend.cantidadSC = [];
     }
     this.ventaEnCurso.next(true);
+    console.log(this.ventaForm.get('selectAcction').value);
     this.inventarioMNG.agregarItemVenta(bodyToSend, this.ventaForm.get('selectAcction').value).subscribe((res) => {
       this.ventaEnCurso.next(false);
       if (res) {

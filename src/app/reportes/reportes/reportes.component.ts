@@ -44,6 +44,30 @@ export class ReportesComponent implements OnInit {
 
   doneDataCollect$ = new BehaviorSubject<number>(0);
 
+  gananciaAprox = 0;
+
+  costoStock = 0;
+
+  ventasAprox = 0;
+
+  gastosHistoricos = 0;
+
+  ingresorHistoricos = 0;
+
+  invercionTotal = 0;
+
+  ingresoTotal = 0;
+
+  gananciasVentasTotales = 0;
+
+  gananciasVentasFueraStock = 0;
+
+  gananciasVentasSoloStock = 0;
+
+  itemMasRentable = { name: '', balance: 0 };
+
+  itemMenosRentable = { name: '', balance: 0 };
+
   constructor(public auth: AuthService, private inv: InventarioManagerService, private router: Router) {
     inv.getGraphOverTimeInfo().subscribe(multi => {
       if (multi) {
@@ -68,6 +92,32 @@ export class ReportesComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    this.inv.getVentasPotenciales().subscribe(res => {
+      this.costoStock = res.costoPropioTotalAprox;
+      this.gananciaAprox = res.gananciaAprox;
+      this.ventasAprox = res.ventasPosibles;
+    });
+
+    this.inv.getTotalVariaciones().subscribe(res => {
+      this.gastosHistoricos = res.gastosInventario;
+      this.ingresorHistoricos = res.gananciasInventario;
+    });
+
+    this.inv.getPeorMejorItem().subscribe(res => {
+      this.itemMasRentable = res.mejor;
+      this.itemMenosRentable = res.peor;
+    });
+
+    this.inv.getInvecionGananciasTotal().subscribe(res => {
+      this.invercionTotal = res.gastoTotalHistorico;
+      this.ingresoTotal = res.ingresoTotalHistorico;
+    });
+
+    this.inv.getGananciasTotalesSNS().subscribe(res => {
+      this.gananciasVentasSoloStock = res.gananciaEnVentasDeTienda;
+      this.gananciasVentasFueraStock = res.gananciaEnVentasFueraTienda;
+      this.gananciasVentasTotales = res.gananciaEnVentas;
+    });
   }
 
   aInventario() {

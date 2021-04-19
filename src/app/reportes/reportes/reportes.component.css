@@ -12,6 +12,10 @@
   flex: 1 1 auto;
 }
 
+b {
+  color: #E87200;
+}
+
 ::ng-deep .sizeIcon{
   height:44px !important;
   width:44px !important;
@@ -71,8 +75,13 @@
   margin-left: 17%;
   padding: 2em;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 3em;
+}
+
+.graphContainer {
+  justify-self: center;
+  padding: 3em;
 }
 
 .mainSpace {
@@ -80,7 +89,7 @@
 }
 
 .firstChart {
-  width: auto;
+  width: 100%;
   max-height: max-content;
   display: grid;
   grid-template-rows: max-content max-content;

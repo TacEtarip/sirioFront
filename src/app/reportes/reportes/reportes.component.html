@@ -60,6 +60,51 @@
     <mat-divider></mat-divider>
   </nav>
   <section *ngIf="(doneDataCollect$|async) === 3" class="mainCtn">
+
+    <div class="firstChart">
+      <h2>Resumen De Stock</h2>
+      <div class="reporteChartOne">
+        <div>
+          <mat-list role="list">
+            <div mat-subheader>Stock Actual</div>
+            <mat-list-item role="listitem">
+              <mat-icon mat-list-icon>show_chart</mat-icon>
+              <div mat-line>Posibles ventas con el stock disponible: <b>{{ventasAprox|currency:'S/'}}</b></div>
+            </mat-list-item>
+            <mat-list-item role="listitem">
+              <mat-icon mat-list-icon> show_chart</mat-icon>
+              <div mat-line>Gasto aproximado en stock disponible: <b>{{costoStock|currency:'S/'}}</b></div>
+            </mat-list-item>
+            <mat-list-item role="listitem">
+              <mat-icon mat-list-icon>show_chart</mat-icon>
+              <div mat-line>Posible ganancia con el stock disponible: <b>{{gananciaAprox|currency:'S/'}}</b></div>
+            </mat-list-item>
+
+            <mat-divider></mat-divider>
+            <div mat-subheader>Stock Total</div>
+            <mat-list-item role="listitem">
+              <mat-icon mat-list-icon>show_chart</mat-icon>
+              <div mat-line>Invercion total:
+                <b>{{invercionTotal|currency:'S/'}}</b> | Ingreso total: <b>{{ingresoTotal|currency:'S/'}} </b> | Balance total:
+                <b>{{(ingresoTotal - invercionTotal)|currency:'S/'}}</b></div>
+            </mat-list-item>
+            <mat-list-item role="listitem">
+              <mat-icon mat-list-icon>show_chart</mat-icon>
+              <div mat-line>Invercion total en productos de stock: <b>{{gastosHistoricos|currency:'S/'}}
+              </b> | Ingreso total por productos de stock: <b>{{ingresorHistoricos|currency:'S/'}}</b></div>
+            </mat-list-item>
+            <mat-list-item role="listitem">
+              <mat-icon mat-list-icon>show_chart</mat-icon>
+              <div mat-line>Item más rentable: {{itemMasRentable.name}} con un balance de <b>{{itemMasRentable.balance|currency:'S/'}}</b></div>
+            </mat-list-item>
+            <mat-list-item role="listitem">
+              <mat-icon mat-list-icon>show_chart</mat-icon>
+              <div mat-line>Item menos rentable: {{itemMenosRentable.name}} con un balance de <b>{{itemMenosRentable.balance|currency:'S/'}}</b></div>
+            </mat-list-item>
+          </mat-list>
+        </div>
+      </div>
+    </div>
     <div class="firstChart">
       <h2>Ventas En El Tiempo</h2>
       <div class="reporteChartOne">
@@ -67,17 +112,22 @@
           <mat-list role="list">
             <mat-list-item role="listitem">
               <mat-icon mat-list-icon> show_chart</mat-icon>
-              <div mat-line>Crecimiento de ventas respecto al més pasado (Febrero): 30%</div>
+              <div mat-line>Ganancia por ventas total: <b>{{gananciasVentasTotales|currency:'S/'}}</b></div>
             </mat-list-item>
             <mat-list-item role="listitem">
               <mat-icon mat-list-icon> show_chart</mat-icon>
-              <div mat-line>Crecimiento de ganancias respecto al més pasado (Febrero): 30%</div>
+              <div mat-line>Ganancia por ventas con items fuera de tienda: <b>{{gananciasVentasFueraStock|currency:'S/'}}</b></div>
+            </mat-list-item>
+            <mat-list-item role="listitem">
+              <mat-icon mat-list-icon> show_chart</mat-icon>
+              <div mat-line>Ganancia por ventas con items de tienda: <b>{{gananciasVentasSoloStock|currency:'S/'}}</b></div>
             </mat-list-item>
           </mat-list>
         </div>
       </div>
+      <div class="graphContainer">
       <ngx-charts-line-chart [ngStyle]="{'font-family': 'futura-pt, sans-serif'}"
-      [view]="[700, 350]"
+      [view] = "[800, 400]"
       [scheme]="colorScheme"
       [legend]="true"
       [showXAxisLabel]="showXAxisLabel"
@@ -90,7 +140,7 @@
       [autoScale]="true"
       [legendPosition]="'below'"
       >
-    </ngx-charts-line-chart>
+    </ngx-charts-line-chart></div>
 
     </div>
     <div class="firstChart">
@@ -109,8 +159,9 @@
           </mat-list>
         </div>
       </div>
+      <div class="graphContainer">
       <ngx-charts-bar-vertical-2d
-      [view]="[700, 350]"
+      [view] = "[800, 400]"
       [ngStyle]="{'font-family': 'futura-pt, sans-serif'}"
       [scheme]="colorSchemeBarItems"
       [legend]="true"
@@ -124,6 +175,7 @@
       [legendPosition]="'below'"
       >
     </ngx-charts-bar-vertical-2d>
+    </div>
 
     </div>
 
@@ -143,23 +195,27 @@
           </mat-list>
         </div>
       </div>
-      <ngx-charts-bar-vertical
-      [view]="[700, 350]"
-      [ngStyle]="{'font-family': 'futura-pt, sans-serif'}"
-      [scheme]="colorSchemeBarItemsCliente"
-      [legend]="true"
-      [showXAxisLabel]="showXAxisLabel"
-      [showYAxisLabel]="showYAxisLabel"
-      [xAxis]="xAxis"
-      [yAxis]="yAxis"
-      [xAxisLabel]="'Item'"
-      [yAxisLabel]="yAxisLabel"
-      [results]="clientes"
-      [legendPosition]="'below'"
-      >
-    </ngx-charts-bar-vertical>
+      <div class="graphContainer">
+        <ngx-charts-bar-vertical
+        [view] = "[800, 400]"
+        [ngStyle]="{'font-family': 'futura-pt, sans-serif'}"
+        [scheme]="colorSchemeBarItemsCliente"
+        [legend]="true"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxis]="xAxis"
+        [yAxis]="yAxis"
+        [xAxisLabel]="'Item'"
+        [yAxisLabel]="yAxisLabel"
+        [results]="clientes"
+        [legendPosition]="'below'"
+        >
+      </ngx-charts-bar-vertical>
+      </div>
+
 
     </div>
+
 
   </section>
 </section>

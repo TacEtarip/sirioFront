@@ -1162,6 +1162,95 @@ export class InventarioManagerService {
     }));
   }
 
+  getVentasPotenciales(): Observable<any> {
+    return this.http.get<any>(this.baseUrl + 'inventario/ventasPotenciales')
+    .pipe(first(),
+    catchError(error => {
+        switch (error.status) {
+        case 0:
+          alert('Error al tratar de conectar al servidor');
+          break;
+        case 700:
+          break;
+        default:
+          alert(error.error.message);
+          break;
+        }
+        return of(null);
+    }));
+  }
+
+  getTotalVariaciones(): Observable<any> {
+    return this.http.get<any>(this.baseUrl + 'inventario/getVariacionPosnegAll')
+    .pipe(first(),
+    catchError(error => {
+        switch (error.status) {
+        case 0:
+          alert('Error al tratar de conectar al servidor');
+          break;
+        case 700:
+          break;
+        default:
+          alert(error.error.message);
+          break;
+        }
+        return of(null);
+    }));
+  }
+
+  getPeorMejorItem(): Observable<any> {
+    return this.http.get<any>(this.baseUrl + 'inventario/getPeorMejorItem')
+    .pipe(first(),
+    catchError(error => {
+        switch (error.status) {
+        case 0:
+          alert('Error al tratar de conectar al servidor');
+          break;
+        case 700:
+          break;
+        default:
+          alert(error.error.message);
+          break;
+        }
+        return of(null);
+    }));
+  }
+
+  getInvecionGananciasTotal(): Observable<any> {
+    return this.http.get<any>(this.baseUrl + 'inventario/gananciasInvercionTotal')
+    .pipe(first(),
+    catchError(error => {
+        switch (error.status) {
+        case 0:
+          alert('Error al tratar de conectar al servidor');
+          break;
+        case 700:
+          break;
+        default:
+          alert(error.error.message);
+          break;
+        }
+        return of(null);
+    }));
+  }
+
+  getGananciasTotalesSNS(): Observable<any> {
+    return this.http.get<any>(this.baseUrl + 'inventario/getGananciasTotalesSNS')
+    .pipe(first(),
+    catchError(error => {
+        switch (error.status) {
+        case 0:
+          alert('Error al tratar de conectar al servidor');
+          break;
+        case 700:
+          break;
+        default:
+          alert(error.error.message);
+          break;
+        }
+        return of(null);
+    }));
+  }
 
 
 }
