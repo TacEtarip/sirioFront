@@ -93,14 +93,7 @@
               <div mat-line>Invercion total en productos de stock: <b>{{gastosHistoricos|currency:'S/'}}
               </b> | Ingreso total por productos de stock: <b>{{ingresorHistoricos|currency:'S/'}}</b></div>
             </mat-list-item>
-            <mat-list-item role="listitem">
-              <mat-icon mat-list-icon>show_chart</mat-icon>
-              <div mat-line>Item más rentable: {{itemMasRentable.name}} con un balance de <b>{{itemMasRentable.balance|currency:'S/'}}</b></div>
-            </mat-list-item>
-            <mat-list-item role="listitem">
-              <mat-icon mat-list-icon>show_chart</mat-icon>
-              <div mat-line>Item menos rentable: {{itemMenosRentable.name}} con un balance de <b>{{itemMenosRentable.balance|currency:'S/'}}</b></div>
-            </mat-list-item>
+
           </mat-list>
         </div>
       </div>
@@ -110,6 +103,10 @@
       <div class="reporteChartOne">
         <div>
           <mat-list role="list">
+            <mat-list-item role="listitem">
+              <mat-icon mat-list-icon> show_chart</mat-icon>
+              <div mat-line>Crecimiento de x con respecto a: <b>{{gananciasVentasTotales|currency:'S/'}}</b></div>
+            </mat-list-item>
             <mat-list-item role="listitem">
               <mat-icon mat-list-icon> show_chart</mat-icon>
               <div mat-line>Ganancia por ventas total: <b>{{gananciasVentasTotales|currency:'S/'}}</b></div>
@@ -149,12 +146,20 @@
         <div>
           <mat-list role="list">
             <mat-list-item role="listitem">
-              <mat-icon mat-list-icon> show_chart</mat-icon>
-              <div mat-line>Crecimiento de ventas respecto al més pasado (Febrero): 30%</div>
+              <mat-icon mat-list-icon>show_chart</mat-icon>
+              <div mat-line>Item más rentable: {{itemMasRentable.name}} con un balance de <b>{{itemMasRentable.balance|currency:'S/'}}</b></div>
             </mat-list-item>
             <mat-list-item role="listitem">
-              <mat-icon mat-list-icon> show_chart</mat-icon>
-              <div mat-line>Crecimiento de ganancias respecto al més pasado (Febrero): 30%</div>
+              <mat-icon mat-list-icon>show_chart</mat-icon>
+              <div mat-line>Item menos rentable: {{itemMenosRentable.name}} con un balance de <b>{{itemMenosRentable.balance|currency:'S/'}}</b></div>
+            </mat-list-item>
+            <mat-list-item role="listitem">
+              <mat-icon mat-list-icon>show_chart</mat-icon>
+              <div mat-line>Item más vendido (por cantidad de items vendidos): <b>{{itemMasVendidoCantidad}}</b></div>
+            </mat-list-item>
+            <mat-list-item role="listitem">
+              <mat-icon mat-list-icon>show_chart</mat-icon>
+              <div mat-line>Item con mayor ganancia en ventas: <b>{{itemMayorGananciaVentas.name}} ({{itemMayorGananciaVentas.value|currency:'S/'}})</b></div>
             </mat-list-item>
           </mat-list>
         </div>
@@ -186,11 +191,11 @@
           <mat-list role="list">
             <mat-list-item role="listitem">
               <mat-icon mat-list-icon> show_chart</mat-icon>
-              <div mat-line>Crecimiento de ventas respecto al més pasado (Febrero): 30%</div>
+              <div mat-line>Cliente más regular: <b>{{clienteMasRegular.name}} ({{clienteMasRegular.cantida}} Ventas)</b></div>
             </mat-list-item>
             <mat-list-item role="listitem">
               <mat-icon mat-list-icon> show_chart</mat-icon>
-              <div mat-line>Crecimiento de ganancias respecto al més pasado (Febrero): 30%</div>
+              <div mat-line>Cliente que ha dado mas ingresos: <b>{{clienteMayorIngreso.name}} ({{clienteMayorIngreso.cantidad|currency:'S/'}})</b></div>
             </mat-list-item>
           </mat-list>
         </div>

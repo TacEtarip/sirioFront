@@ -1,0 +1,285 @@
+.toolBar {
+  background-color: whitesmoke;
+  border-bottom: solid gray 1px;
+  z-index: 1000;
+}
+
+.menu {
+  background-color: white;
+  z-index: 1000;
+  width: calc(100% - 200px);
+  padding: 0px 100px;
+  border-bottom: solid gray 1px;
+  top: 0;
+  position: sticky;
+}
+
+.menu .menuContenedorTodo {
+  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.dropMenu, .dropMenuBuscar {
+  position: absolute;
+  border-top: 1px solid grey;
+  background-color: whitesmoke;
+  width: calc(100% - 200px);
+  z-index: -1;
+  right: 100px;
+  display: none;
+}
+
+
+.masterDrop {
+  padding: 0em 1em;
+}
+
+.btnBuscarContenedor {
+  height: 100%;
+  display: flex;
+  width: 62px;
+  justify-content: center;
+}
+
+
+.busquedaMasterDrop:hover .dropMenuBuscar {
+  display: block;
+}
+
+.masterDrop:hover .dropMenu {
+  display: block;
+}
+
+.showMenu {
+  display: block;
+}
+
+
+h6 {
+  margin: 0;
+  font-weight: 400;
+  font-size: 18px;
+  font-family: futura-pt, sans-serif;
+  text-align: center;
+  cursor: pointer;
+  color: #005087;
+  /* padding: .8em 1em; */
+  align-self: center;
+}
+
+h6:hover {
+  color: #E87200;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+b {
+  color: #E87200;
+}
+
+::ng-deep .sizeIcon{
+  height:44px !important;
+  width:44px !important;
+  font-size:34px !important;
+  line-height: 42px !important;
+}
+
+::ng-deep .sizeShop {
+  font-size:24px !important;
+  line-height: 45px !important;
+}
+
+
+.toolBarName {
+  margin-left: .1em;
+  font-family: futura-pt, sans-serif;
+  font-size: 26px;
+  font-weight: 200;
+}
+
+.cName {
+  /**#005087;*/
+  font-family: jubilat, sans-serif;
+  font-weight: 200;
+  /*color: #E87200;*/
+  color:  #E87200;
+}
+
+
+.perfilBtns {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 4px;
+  margin-right: 8px;
+}
+
+.perfilBtns span {
+  font-weight: 200;
+  padding-top: .2em;
+}
+
+::ng-deep .sizeShop {
+  font-size:24px !important;
+  line-height: 45px !important;
+}
+
+.mainCtn {
+  background-color: #005087;
+  background-image: url('/assets/background.jpg');
+  height: 1200px;
+  z-index: 1;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+}
+
+
+.personI:focus {
+  outline: none !important;
+  border: 0 !important;
+}
+
+:focus {outline:0 !important;}
+
+
+.layer {
+  z-index: 1;
+  background-color: #003254e3;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1200px;
+}
+
+::ng-deep  .mat-form-field-appearance-fill .mat-form-field-flex {
+  background-color: white !important;
+  border-radius: 5px !important;
+  /* background-color: rgba(0, 0, 0, 0.04); */
+}
+
+
+.mat-form-field {
+  width: 100%;
+}
+
+
+.welcome {
+  padding: 4em;
+  display: grid;
+  height: 800px;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.welcome form {
+  grid-column: 2/4;
+  align-self: center;
+}
+
+h1 {
+  grid-column: 2/4;
+  justify-self: center;
+  margin: 0;
+  align-self: center;
+  text-align: center;
+}
+
+form {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: 1fr;
+}
+
+form img {
+  justify-self: center;
+}
+
+footer {
+  padding: 3em 3em;
+  display: grid;
+  gap: 2em;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  background-color: #005087;
+  color: white;
+}
+
+
+.social-link:hover {
+  cursor: pointer;
+  color: #E87200;
+}
+
+
+.social-link {
+  cursor: pointer;
+  color: white;
+}
+
+.mat-subheader {
+  color: white;
+}
+
+.navegacion {
+  display: flex !important;
+  grid-column: 3;
+  justify-content: flex-end;
+}
+
+
+.menu a {
+  text-decoration: none;
+  padding: 1em 0em;
+}
+
+a h6 {
+  text-align: inherit;
+}
+
+a {  text-decoration: none;}
+
+.dropMenu .contenedorMenu {
+  padding: 1em 2em;
+  display: flex;
+  align-self: center;
+  justify-self: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  justify-items: center;
+}
+
+.dropMenuBuscar .contenedorMenuBuscar {
+  padding: 4em;
+  display: grid;
+  grid-template-columns: 700px 100px 100px;
+  gap: 1em;
+  justify-content: center;
+}
+
+.buscarField {
+  width: 700px;
+}
+
+.navegacion button {
+  align-self: center;
+}
+
+.navegacion button {
+  align-self: center;
+  box-shadow: none;
+}
+
+.navLink {
+  padding: 0 !important;
+  margin-left: 1em;
+  font-family: futura-pt, sans-serif;
+  color: rgb(24, 24, 24);
+  margin: .5em .5em;
+}
+
+a:hover {
+  color: #E87200;
+}

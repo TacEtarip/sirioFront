@@ -1,4 +1,3 @@
-<img alt="cerrar" src="assets/close.svg" mat-dialog-title matDialogClose class="close-btn">
 <h1 mat-dialog-title>Venta De: <b>{{item.name}}</b></h1>
 <form  [formGroup]="ventaForm">
     <div mat-dialog-content class="gridContainer" >
@@ -224,6 +223,7 @@
       <h2 class="totalGrid">Total: S/ {{totalPriceIGV}}</h2>
     </div>
     <div mat-dialog-actions align="end">
+      <button matDialogClose mat-button>Cancelar</button>
       <button (click)="ventaSimple(ventaForm.getRawValue())" type="button"
       *ngIf="ventaForm.get('selectAcction').value === 'ventaSimple'"
       [disabled]="!ventaForm.valid || sum <= 0 || (!(documentAccepted|async) && ventaForm.get('documentoTipo').value !== 'noone')"

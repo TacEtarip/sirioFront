@@ -1,0 +1,14 @@
+<div class="imagen"  [ngStyle]="{'background-image': 'url(' + (urlOfImage|async) + ')'}" >
+
+</div>
+<div class="infoPro">
+  <div class="nombre">
+    <h1>{{item.name}}</h1>
+  </div>
+  <div class="accion">
+    <h4>{{item.priceIGV|currency:'S/'}}</h4>
+    <a matTooltip="Contactar WSP" target="_blank"  href="https://wa.me/51977426349?text=Buenas estoy interesado en {{item.name}}, quisiera obtener más información">
+      <mat-icon>contact_phone</mat-icon></a>
+    <a href="http://"><mat-icon>open_in_browser</mat-icon></a>
+  </div>
+</div>

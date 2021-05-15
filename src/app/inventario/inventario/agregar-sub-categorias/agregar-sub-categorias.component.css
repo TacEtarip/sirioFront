@@ -44,6 +44,12 @@ img:hover {
 .dontShow {
   display: none;
 }
+
+h5 {
+  margin: 0;
+  color: #014c7e;
+}
+
 @media screen and (max-width: 800px) {
   h1 {
     color: #014c7e;

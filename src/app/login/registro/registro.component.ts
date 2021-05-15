@@ -4,7 +4,6 @@ import { BehaviorSubject, Subject, Subscription, Observable, interval, observabl
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder, AbstractControl, ValidatorFn } from '@angular/forms';
 import anime from 'animejs';
-import { RecaptchaErrorParameters } from 'ng-recaptcha';
 import { distinctUntilChanged, first, debounceTime, timeInterval, tap, takeUntil, takeWhile, skip } from 'rxjs/operators';
 import { Title, Meta } from '@angular/platform-browser';
 

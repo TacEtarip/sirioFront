@@ -1,4 +1,3 @@
-<img src="assets/close.svg" mat-dialog-title matDialogClose class="close-btn">
 <h1 mat-dialog-title>Editar categoría:</h1>
 <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
     <div mat-dialog-content>
@@ -8,6 +7,7 @@
       </mat-form-field>
     </div>
     <div mat-dialog-actions align="end">
+      <button  type="button" type="button" mat-flat-button  mat-dialog-close>Listo</button>
       <button (click)="onSubmit(form.value)" type="submit" [disabled]="!form.valid" type="button" mat-flat-button color="primary">Actualizar</button>
     </div>
 </form>

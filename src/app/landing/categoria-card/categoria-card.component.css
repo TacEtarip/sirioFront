@@ -1,0 +1,55 @@
+:host {
+  background-color: white;
+  display: grid;
+  height: 404px;
+  width: 250px;
+  border-radius: 8px;
+  grid-template-rows: 330px 74px;
+  -webkit-box-shadow: 0px 0px 3px 1px rgba(0,0,0,0.1);
+  -moz-box-shadow: 0px 0px 3px 1px rgba(0,0,0,0.1);
+  box-shadow: 0px 0px 3px 1px rgba(0,0,0,0.1);
+  grid-row: 1;
+}
+
+.imagen {
+  background-position: center;
+  background-size: cover;
+  border-top-right-radius: 8px;
+  border-top-left-radius: 8px;
+}
+
+h4 {
+  margin: 0;
+  align-self: center;
+  font-weight: 200;
+}
+
+.nombre h1 {
+  margin: 0;
+  font-size: 20px;
+  color: #005087;
+  font-family: futura-pt, sans-serif;
+}
+
+.infoPro {
+  padding: .5em;
+  display: grid;
+  grid-template-rows: 1fr .5fr;
+}
+
+.nombre {
+  overflow: auto;
+}
+
+.accion {
+  display: grid;
+}
+
+a {
+  text-decoration: none;
+  color: #E87200;
+  display: grid;
+  align-content: center;
+}
+
+

@@ -54,7 +54,7 @@ export class UploadsDialogComponent implements OnInit {
   onSubmitIMG(){
     this.uploadForm.disable();
     this.inventarioMNG.uploadFile(this.fileToUpload, this.data.codigo, null).subscribe((result) => {
-      if (result !== false) {
+      if (result) {
         this.disabled = true;
         this.showMessage = true;
       }

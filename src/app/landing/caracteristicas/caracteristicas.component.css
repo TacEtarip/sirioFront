@@ -1,0 +1,64 @@
+h1 {
+  color: #014c7e;
+  font-family: jubilat, sans-serif;
+  font-weight: 400;
+  font-size: 26px;
+}
+
+* {
+  font-family: futura-pt, sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+b{
+  color: #014c7e;
+}
+.example-full-width {
+  width: 100%;
+}
+
+.hpc {
+  margin-bottom: 1em;
+}
+
+h2 {
+  margin: .5em 0 .1em 0;
+}
+
+img {
+  width: 40px;
+  height: 40px;
+  filter: invert(100%) sepia(0%) saturate(2113%) hue-rotate(327deg) brightness(115%) contrast(77%);
+  margin-bottom: 10px;
+}
+
+img:hover {
+  cursor: pointer;
+}
+
+.listaMarca {
+  margin: 1em;
+}
+
+.listaESP ::ng-deep .mat-list-base .mat-list-item, .mat-list-base .mat-list-option {
+  height:initial!important;
+  padding: 1em 0 !important;
+}
+
+@media screen and (max-width: 800px) {
+  h1 {
+    color: #014c7e;
+    font-family: jubilat, sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+  }
+
+  .mat-dialog-actions {
+    row-gap: .5em;
+  }
+
+  .mat-dialog-content {
+    max-height: 35vh;
+  }
+}

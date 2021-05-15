@@ -64,13 +64,24 @@ export class ReportesComponent implements OnInit {
 
   gananciasVentasSoloStock = 0;
 
+  itemMasVendidoCantidad = '';
+
+  itemMayorGananciaVentas = { name: '', value: 0 };
+
   itemMasRentable = { name: '', balance: 0 };
 
   itemMenosRentable = { name: '', balance: 0 };
 
+  clienteMasRegular = { name: '', cantida: 0 };
+
+  clienteMayorIngreso = { name: '', cantidad: 0 };
+
+
   constructor(public auth: AuthService, private inv: InventarioManagerService, private router: Router) {
     inv.getGraphOverTimeInfo().subscribe(multi => {
       if (multi) {
+        console.log(multi);
+        console.log(new Date().getMonth());
         this.doneDataCollect$.next(this.doneDataCollect$.value + 1);
         Object.assign(this, { multi } );
       }
@@ -79,6 +90,8 @@ export class ReportesComponent implements OnInit {
     inv.getGraphTopItemsFive().subscribe(single => {
       if (single) {
         this.doneDataCollect$.next(this.doneDataCollect$.value + 1);
+        this.itemMayorGananciaVentas.name = single[0].name;
+        this.itemMayorGananciaVentas.value = single[0].series[1].value;
         Object.assign(this, { single } );
       }
     });
@@ -86,12 +99,23 @@ export class ReportesComponent implements OnInit {
     inv.getGraphTopClientes().subscribe(clientes => {
       if (clientes) {
         this.doneDataCollect$.next(this.doneDataCollect$.value + 1);
+        this.clienteMayorIngreso.cantidad = clientes[0].value;
+        this.clienteMayorIngreso.name = clientes[0].name;
         Object.assign(this, { clientes } );
       }
     });
    }
 
+  getPorcentDeCrecimiento(multi: []): any {
+
+  }
+
   ngOnInit(): void {
+
+    this.inv.getItemMasVendidoCantidad().subscribe(res => {
+      this.itemMasVendidoCantidad = res.name;
+    });
+
     this.inv.getVentasPotenciales().subscribe(res => {
       this.costoStock = res.costoPropioTotalAprox;
       this.gananciaAprox = res.gananciaAprox;
@@ -117,6 +141,11 @@ export class ReportesComponent implements OnInit {
       this.gananciasVentasSoloStock = res.gananciaEnVentasDeTienda;
       this.gananciasVentasFueraStock = res.gananciaEnVentasFueraTienda;
       this.gananciasVentasTotales = res.gananciaEnVentas;
+    });
+
+    this.inv.getClienteMasRegular().subscribe(res => {
+      this.clienteMasRegular.name = res.cliente;
+      this.clienteMasRegular.cantida = res.numero;
     });
   }
 

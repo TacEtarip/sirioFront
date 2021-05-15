@@ -29,15 +29,13 @@ export class AgregarClaseItemComponent implements OnInit {
 
   onSubmit(name) {
     this.form.disable();
-    this.inventarioMNG.addTipo(name.name.trim())
-      .subscribe((result: string) => {
-        if (result === 'ADDED') {
-          this.onSub.emit();
-          this.form.reset();
-        } else {
-          this.form.enable();
-          alert('Error Al Subir Nueva Caterogia');
-        }
-      });
+    this.inventarioMNG.addTipo(name.name.trim()).subscribe((result) => {
+      if (result) {
+       this.dialogRef.close(result);
+      } else {
+        this.form.enable();
+        alert('Error al añadir categoria.');
+      }
+    });
   }
 }

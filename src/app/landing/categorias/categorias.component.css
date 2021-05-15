@@ -1,0 +1,188 @@
+main {
+  padding: 2em;
+  min-height: 45vh;
+}
+
+
+.navegacion {
+  display: grid;
+  width: fit-content;
+  align-items: baseline;
+  grid-template-columns: max-content;
+  gap: .5em;
+}
+
+.itemImage {
+  width: 500px;
+  height: 500px;
+  background-position: center;
+  background-size: cover;
+}
+
+.itemPresentacion {
+  display: grid;
+  grid-template-columns: 500px auto;
+  gap: 6em;
+}
+
+table {
+  width: 100%;
+}
+
+.itemPresentacion p {
+  font-family: futura-pt, sans-serif;
+  margin: 0;
+  font-size: 26px;
+  font-weight: 400;
+  padding: 1em 0;
+}
+
+.itemPresentacion h4 {
+  font-family: futura-pt, sans-serif;
+  margin: 0;
+  font-size: 16px;
+  font-weight: 800;
+  color: #005087;
+  padding: 1em 0;
+}
+
+
+.itemPresentacion h5 {
+  font-family: futura-pt, sans-serif;
+  color: #E87200;
+  font-weight: 200;
+  font-size: 16px;
+  margin: 0;
+  padding: 0 0 1em 0 ;
+}
+
+h2 {
+  FONT-SIZE: 16px;
+  MARGIN: 0;
+  color: grey;
+  font-family: futura-pt, sans-serif;
+  font-weight: 200;
+}
+
+.basicInfo ::ng-deep .mat-chip-list-wrapper {
+  padding: 1em 0 !important;
+}
+
+.btns {
+  padding: 1em 0;
+}
+
+.btns button {
+  width: 160px;
+}
+
+.reporte {
+  margin-left: 1em;
+}
+
+.basicInfo {
+  gap: 1em;
+  grid-template-rows: max-content;
+}
+
+.mat-list-base .mat-subheader:first-child {
+  margin-top: -8px;
+  padding-top: 0;
+  height: auto;
+}
+
+a {
+  text-decoration: none;
+  font-family: futura-pt, sans-serif;
+  font-weight: 800;
+  font-size: 12px;
+  width: fit-content;
+  grid-row: 1;
+  color: #005087;
+}
+
+a:hover {
+  color: #E87200;
+}
+
+.controles {
+  padding-top: 2em;
+  display: grid;
+  grid-template-columns:  max-content max-content  max-content;
+  gap: 1em;
+}
+
+
+h3 span {
+  font-size: 12px;
+  font-family: futura-pt, sans-serif;
+  color: #005087;
+}
+
+
+
+.previo {
+  background-color: #E87200;
+  height: 220px;
+  display: grid;
+  justify-items: center;
+  align-self: center;
+}
+
+.itemPresentacion {
+  padding: 3em;
+}
+
+.presImg {
+  grid-row: 1;
+  grid-column: 1;
+  align-self: end;
+  justify-self: center;
+}
+
+.previo h1 {
+  margin: 0;
+  color: white;
+  text-align: center;
+  align-self: center;
+  font-family: futura-pt, sans-serif;
+  font-size: 60px;
+  font-weight: 900;
+  grid-row: 1;
+  grid-column: 1;
+  margin-top: 120px;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+     -moz-user-select: none; /* Old versions of Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+          user-select: none; /* Non-prefixed version, currently
+                                supported by Chrome, Edge, Opera and Firefox */
+}
+
+h6 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 800;
+  width: fit-content;
+  grid-row: 1;
+  color: #005087;
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+main .listaCat {
+  padding: 2em;
+  display: grid;
+  gap: 2em;
+  justify-content: center;
+  grid-template-columns: repeat(4, 250px);
+}
+
+
+

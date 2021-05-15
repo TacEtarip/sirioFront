@@ -34,6 +34,7 @@ export class AgregarSubCategoriasComponent implements OnInit {
   onSubmit() {
     this.form.disable();
     this.inventarioMNG.agregarSubTipo(this.form.get('subTipo').value.trim(), this.data.codigo).subscribe((res) => {
+      this.form.enable();
       if (res) {
         this.form.reset();
         this.showMessage = true;

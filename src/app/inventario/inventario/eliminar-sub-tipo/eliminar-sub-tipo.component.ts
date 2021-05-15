@@ -25,8 +25,8 @@ export class EliminarSubTipoComponent implements OnInit {
     this.eliminating = true;
     this.invetarioMNG.eliminarSubTipo(this.data.codigo, this.data.subName).subscribe((res) => {
       this.eliminating = false;
-      if (res !== false) {
-        this.dialogRef.close();
+      if (res) {
+        this.dialogRef.close({message: true});
       } else {
         alert('Error Al Eliminar');
       }

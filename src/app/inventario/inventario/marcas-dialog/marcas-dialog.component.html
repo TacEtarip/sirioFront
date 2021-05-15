@@ -1,4 +1,3 @@
-<img src="assets/close.svg" mat-dialog-title matDialogClose class="close-btn">
 <h1 mat-dialog-title>Marcas</h1>
 <mat-selection-list #marcas class="listaMarca">
   <mat-list-option *ngFor="let marca of (marcasList|async)" [value]="marca.name">

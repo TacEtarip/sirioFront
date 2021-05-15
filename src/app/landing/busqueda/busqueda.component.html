@@ -1,0 +1,16 @@
+<div class="previo">
+  <img class="presImg" width="272px" src="assets/parejaCompl.png" alt="">
+  <h1>{{titulo$|async}}</h1>
+</div>
+
+<main>
+  <div class="navegacion">
+    <a href="/store/categorias">CATEGORIAS</a>
+  </div>
+  <div class="presentacion">
+    <section class="listaCat" >
+      <h2 *ngIf="(items$|async).length === 0">No Items Que Mostrar</h2>
+      <app-item-card-vend [tipoCodigo]="item.tipo" (deleteEvent)="eliminarItem($event)" *ngFor="let item of items$|async" [item]="item"></app-item-card-vend>
+    </section>
+  </div>
+</main>

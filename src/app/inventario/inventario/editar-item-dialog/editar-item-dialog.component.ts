@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Inject } from '@angular/core';
+import { Component, OnInit, EventEmitter, Inject, ViewChild, ElementRef } from '@angular/core';
 
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 
@@ -6,6 +6,9 @@ import { InventarioManagerService, Item, Marca} from '../../../inventario-manage
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
 import { CurrencyPipe } from '@angular/common';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatChipInputEvent } from '@angular/material/chips';
 
 @Component({
   selector: 'app-editar-item-dialog',
@@ -34,6 +37,19 @@ export class EditarItemDialogComponent implements OnInit {
 
   myForm: FormGroup;
 
+  @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
+
+  filteredTags$ = new BehaviorSubject<{name: string, deleted: boolean}[]>(null);
+
+  tagsList$ = new BehaviorSubject<{name: string, deleted: boolean}[]>(null);
+
+  tagsList: string[] = [];
+
+  errorCantidadTags = false;
+  errorNoTag = false;
+
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+
   constructor(private formBuilder: FormBuilder, private inventarioMNG: InventarioManagerService,
               public dialogRef: MatDialogRef<EditarItemDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public item: Item) { }
@@ -42,6 +58,7 @@ export class EditarItemDialogComponent implements OnInit {
     this.inventarioMNG.getItem(this.item.codigo).subscribe((res) => {
       if (res) {
         this.item = res;
+        this.tagsList = res.tags;
       }
     });
     this.inventarioMNG.getAllMarcas().subscribe((res: Marca[]) => {
@@ -76,7 +93,9 @@ export class EditarItemDialogComponent implements OnInit {
         Validators.required
       ])),
       marca: this.formBuilder.control(this.item.marca,  Validators.compose([
-      ]))
+      ])),
+      tags: this.formBuilder.control('',  Validators.compose([
+      ])),
     }
     );
     this.uploadForm = this.formBuilder.group({
@@ -85,6 +104,103 @@ export class EditarItemDialogComponent implements OnInit {
     this.uploadFileForm = this.formBuilder.group({
       pdf: ['']
     });
+
+    this.myForm.get('tags').valueChanges.subscribe((changeV: any) => {
+      if (changeV) {
+        if (changeV.name) {
+          this.filteredTags$.next(null);
+        } else {
+          this.filterTagValue(changeV);
+        }
+      } else {
+        this.filteredTags$.next(null);
+      }
+    });
+
+
+  }
+
+  displayFn(tag: {name: string, deleted: boolean}): string {
+    return tag && tag.name ? tag.name : '';
+  }
+
+  selectTag(e: MatAutocompleteSelectedEvent) {
+    const index = this.tagsList.indexOf(e.option.value.name);
+    if (index >= 0) {
+      this.tagsList.splice(index, 1);
+    }
+    this.tagsList.push(e.option.value.name);
+    if (this.tagsList.length > 5) {
+      this.errorCantidadTags = true;
+    } else {
+      this.errorCantidadTags = false;
+    }
+    this.tagInput.nativeElement.value = '';
+    this.filteredTags$.next(null);
+    this.myForm.get('tags').setValue('');
+    this.errorNoTag = false;
+    // this.filteredTags$.next(null);
+  }
+
+  filterTagValue(value: any) {
+    this.inventarioMNG.getListOfTagsFilteredByRegex(value.name || value, 15).subscribe(res => {
+      if (res && res.length > 0) {
+        console.log('here6');
+        this.filteredTags$.next(res);
+      } else {
+        this.filteredTags$.next(null);
+        console.log(this.myForm.get('tags').value);
+      }
+    });
+  }
+
+  add(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+    if (this.filteredTags$.value) {
+      const searchInd = this.filteredTags$.value.findIndex(x => x.name === value.trim());
+      if (searchInd === -1) {
+        this.errorNoTag = true;
+        return;
+      }
+    } else {
+      this.errorNoTag = true;
+      return;
+    }
+    this.errorNoTag = false;
+    this.filteredTags$.next(null);
+    if ((value || '').trim()) {
+      const index = this.tagsList.indexOf(value.trim());
+      if (index >= 0) {
+        this.tagsList.splice(index, 1);
+      }
+
+      this.tagsList.push(value.trim());
+      if (this.tagsList.length > 5) {
+        this.errorCantidadTags = true;
+      } else {
+        this.errorCantidadTags = false;
+      }
+
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+  }
+
+  removeTag(tag: string) {
+    const index = this.tagsList.indexOf(tag);
+    if (index >= 0) {
+      this.tagsList.splice(index, 1);
+
+      if (this.tagsList.length > 5) {
+        this.errorCantidadTags = true;
+      } else {
+        this.errorCantidadTags = false;
+      }
+    }
   }
 
   testFocus(){
@@ -117,6 +233,7 @@ export class EditarItemDialogComponent implements OnInit {
     newItem.codigo = this.item.codigo;
     newItem.name = item.name.trim();
     newItem.description = item.description.trim();
+    newItem.tags = this.tagsList;
     this.inventarioMNG.updateItem(newItem).subscribe((addedItem: Item) => {
       if (addedItem !== null) {
         this.myForm.reset();
@@ -132,7 +249,7 @@ export class EditarItemDialogComponent implements OnInit {
     this.uploadFileForm.disable();
     this.uploadForm.disable();
     this.inventarioMNG.uploadFile(this.fileToUpload, this.item.codigo, this.item.photo).subscribe((result) => {
-      if (result !== false) {
+      if (result) {
         this.disabled = true;
         this.showMessage = true;
       }

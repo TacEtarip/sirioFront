@@ -54,7 +54,8 @@ import { SeguroCheckComponent } from './ventas/seguro-check/seguro-check.compone
   declarations: [VentasComponent, VentasActivasComponent,
     VentaActivaCardComponent, SeguroEjecDialogComponent, PostVentaComponent, HistorialVentasComponent,
     Eject404Component, VentaIndHistoriaComponent, SeguroAnularComponent,
-    GenerarVentaComponent, CotizacionComponent, CotizacionCardComponent, GenerarCotiComponent, FullCotiComponent, PreExcelDialogComponent, SeguroCheckComponent],
+    GenerarVentaComponent, CotizacionComponent, CotizacionCardComponent, GenerarCotiComponent,
+    FullCotiComponent, PreExcelDialogComponent, SeguroCheckComponent],
   imports: [
     CommonModule,
     VentasRoutingModule,

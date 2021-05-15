@@ -16,7 +16,7 @@ export class EditarClaseComponent implements OnInit {
     public dialogRef: MatDialogRef<EditarClaseComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Tipo,
     private formBuilder: FormBuilder,
-    private inventarioMNG: InventarioManagerService) { }
+    private inv: InventarioManagerService) { }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
@@ -27,10 +27,16 @@ export class EditarClaseComponent implements OnInit {
     });
   }
 
-  onSubmit(tipo: Tipo) {
-    tipo.name = tipo.name.trim();
-    tipo.codigo = this.data.codigo;
-    this.onSub.emit(tipo);
+  onSubmit(formInfo: { name: string }) {
+    this.form.disable();
+    this.inv.updateTipoName(this.data.codigo, formInfo.name).subscribe(res => {
+      if (res) {
+        this.dialogRef.close(res);
+      } else {
+        this.form.enable();
+        alert('Nose pudo cambiar el nombre de la categoria');
+      }
+    });
   }
 
 }

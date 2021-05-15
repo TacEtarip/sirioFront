@@ -1,0 +1,19 @@
+<h1 mat-dialog-title class="title">Cambiar imagén </h1>
+<mat-dialog-content>
+  <h2>Tamaño recomendado 250px x 320px, Peso maximo: 2MB.</h2>
+  <form [ngStyle]="{'margin-right': '.5em'}" [formGroup]="uploadForm" (ngSubmit)="onSubmitIMG()" class="new-item-form topForm customUpload">
+    <label matRipple for="img" class="custom-file-upload">
+       Subir Imagén
+    </label>
+    <input  (change)="onFileSelect($event.target.files)" type="file" spellcheck="false" name="img" id="img" formControlName="img">
+    <h4  [ngStyle]="{'margin': '0 0 0 .5em'}" class="succesMSG" *ngIf="showMessage">Imagén Subida Correctamente</h4>
+  </form>
+  <mat-progress-bar
+   [ngStyle]="{'width': '100%', 'grid-row': 3, 'grid-column': '1/4'}" color="accent" mode="indeterminate"
+   *ngIf="disabled"
+   >
+  </mat-progress-bar>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button [disabled]="disabled" color="primary" mat-flat-button mat-dialog-close>Listo</button>
+</mat-dialog-actions>

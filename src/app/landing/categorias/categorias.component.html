@@ -1,0 +1,118 @@
+<div class="previo">
+  <img class="presImg" width="272px" src="assets/parejaCompl.png" alt="">
+  <h1 *ngIf="(estado$|async) === 'categoria' || (estado$|async) === 'pre'">{{titulo$|async}}</h1>
+  <h1 *ngIf="(estado$|async) === 'sub'">{{tituloSub$|async}}</h1>
+  <h1 *ngIf="(estado$|async) === 'item' && item$|async">{{((item$|async).name)}}</h1>
+</div>
+
+<main>
+  <div class="navegacion">
+    <a href="/store/categorias">CATEGORIAS</a>
+    <h6 *ngIf="(estado$|async) === 'categoria' || (estado$|async) === 'sub' || (estado$|async) === 'item'">></h6>
+    <a *ngIf="(estado$|async) === 'categoria' || (estado$|async) === 'sub' || (estado$|async) === 'item'" href="/store/categorias/{{ruta}}">{{(titulo$|async)|uppercase}}</a>
+    <h6 *ngIf="(estado$|async) === 'sub'  || (estado$|async) === 'item'">></h6>
+    <a *ngIf="(estado$|async) === 'sub'  || (estado$|async) === 'item'" href="/store/categorias/{{ruta}}/{{tituloSub$|async}}">{{(tituloSub$|async)|uppercase}}</a>
+    <h6 *ngIf="(estado$|async) === 'item'">></h6>
+    <a *ngIf="(estado$|async) === 'item' && item$|async" href="/store/categorias/{{ruta}}/{{tituloSub$|async}}/{{itemCod}}">{{((item$|async).name)|uppercase}}</a>
+  </div>
+  <div *ngIf="auth.loggedIn() && (estado$|async) !== 'item'" class="controles">
+    <button *ngIf="(estado$|async) === 'pre'" (click)="openDialogAgregarCat()" matTooltip="Añadir Categoria" mat-fab color="warn" aria-label="Example icon button with a home icon">
+      <mat-icon class="icon-img">add_box</mat-icon>
+    </button>
+    <button *ngIf="(estado$|async) === 'categoria'" (click)="openDialogAgregarSubCat()" matTooltip="Añadir Sub Categoria" mat-fab color="warn" aria-label="Example icon button with a home icon">
+      <mat-icon class="icon-img">add_box</mat-icon>
+    </button>
+    <button *ngIf="(estado$|async) === 'sub'" (click)="openDialogAgregarItem()" matTooltip="Añadir Item" mat-fab color="warn" aria-label="Example icon button with a home icon">
+      <mat-icon class="icon-img">add_box</mat-icon>
+    </button>
+    <button *ngIf="(estado$|async) !== 'item'" (click)="openDialogAgregarMarca()" matTooltip="Añadir Marca" mat-fab color="primary" aria-label="Example icon button with a home icon" class="marcasBtn">
+      <mat-icon class="icon-img ">business</mat-icon>
+    </button>
+    <button *ngIf="(estado$|async) !== 'item'" (click)="openDialogAgregarTags()" matTooltip="Añadir Tags" mat-fab  aria-label="Example icon button with a home icon" class="marcasBtn">
+      <mat-icon class="icon-img ">label</mat-icon>
+    </button>
+  </div>
+  <div class="presentacion" *ngIf="(estado$|async) !== 'item'">
+    <section class="listaCat" >
+      <app-main-categoria-card (deleteEvent)="actCategorias($event)" *ngFor="let item of tipos|async" [tipo]="item"></app-main-categoria-card>
+      <app-sub-categoria-card  (deleteEvent)="actSubCategorias($event)" *ngFor="let item of subTipos$|async" [subTipo]="item" [codigoTipo]="ruta" [nameTipo]="titulo$|async"></app-sub-categoria-card>
+      <app-item-card-vend [tipoCodigo]="ruta" (deleteEvent)="eliminarItem($event)" *ngFor="let item of items|async" [item]="item"></app-item-card-vend>
+    </section>
+  </div>
+  <div class="itemPresentacion" *ngIf="(estado$|async) === 'item' && item$|async">
+    <div>
+      <div  [ngStyle]="{'background-image': 'url(' + 'https://siriouploads.s3.amazonaws.com/' + (item$|async).photo.split('.')[0] + '.webp' + ')'}"
+      class="itemImage">
+      </div>
+      <div>
+        <H2 [ngStyle]="{'padding-top': '2em'}">CANTIDADES</H2>
+        <mat-toolbar [ngStyle]="{'background': 'white'}">
+          <span>{{(item$|async).cantidad}} {{(item$|async).unidadDeMedida}} disponibles.</span>
+        </mat-toolbar>
+        <div *ngIf="(item$|async).subConteo" class="tablContenedor">
+          <table  mat-table [dataSource]="dataSource" matSort >
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> {{(item$|async).subConteo.name}} </th>
+              <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+              <td mat-footer-cell *matFooterCellDef> Total </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="nameSecond">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> {{(item$|async).subConteo.nameSecond}} </th>
+              <td mat-cell *matCellDef="let element"> {{element.nameSecond}} </td>
+              <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+
+            <!-- Weight Column -->
+            <ng-container matColumnDef="cantidad">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Cantidad </th>
+              <td mat-cell *matCellDef="let element"> {{element.cantidad}} </td>
+              <td mat-footer-cell *matFooterCellDef>{{(item$|async).cantidad}}</td>
+            </ng-container>
+
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsPos"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsPos;"></tr>
+            <tr mat-footer-row *matFooterRowDef="displayedColumnsPos"></tr>
+          </table>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="basicInfo">
+        <H2>DESCRIPCIÓN</H2>
+        <p>{{(item$|async).description}}</p>
+        <H2 [ngStyle]="{'padding-top': '1em'}" *ngIf="(item$|async).caracteristicas && (item$|async).caracteristicas.length > 0">CARACTERISTICAS</H2>
+          <mat-list *ngIf="(item$|async).caracteristicas">
+            <mat-list-item role="listitem" *ngFor="let caract of (item$|async).caracteristicas">
+              <mat-icon mat-list-icon>done</mat-icon>
+              <p [ngStyle]="{'font-size': '18px', 'padding-left': '1em'}">{{caract}}</p>
+            </mat-list-item>
+          </mat-list>
+        <div  *ngIf="auth.loggedIn()" class="btns">
+          <button (click)="openDialogEditarItem()" mat-stroked-button >Editar Item</button>
+          <button (click)="openCaracteristicas()" mat-stroked-button class="reporte"  >Caracteristicas</button>
+        </div>
+        <H2 [ngStyle]="{'padding-top': '1em'}">PRECIOS</H2>
+        <h4>Precio: {{(item$|async).priceIGV|currency:'S/'}} | Precio Sin IGV: {{(item$|async).priceNoIGV|currency:'S/'}} | Marca: {{(item$|async).marca}}</h4>
+        <h5>*Los precios son por unidad. No dude en consultarnos por precios al por mayor.</h5>
+        <H2 [ngStyle]="{'padding-top': '1em'}">TAGS</H2>
+        <mat-chip-list aria-label="Tags" [ngStyle]="{'padding': ' 1em 0'}">
+          <mat-chip color="primary" selected  *ngFor="let tag of (item$|async).tags">{{tag}}</mat-chip>
+        </mat-chip-list>
+        <div class="btns">
+          <button *ngIf="auth.loggedIn()" (click)=" openDialogVenta()" mat-stroked-button >Vender</button>
+          <button class="reporte"  (click)="openLink()" mat-stroked-button >Contactar</button>
+          <button class="reporte"   [disabled]="!(item$|async).ficha" mat-stroked-button >Descargar Ficha</button>
+          <button class="reporte"  mat-stroked-button >Ver Reporte</button>
+        </div>
+
+    </div>
+  </div>
+
+
+</main>

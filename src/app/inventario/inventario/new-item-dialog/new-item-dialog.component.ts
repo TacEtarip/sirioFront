@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Inject } from '@angular/core';
+import { Component, OnInit, EventEmitter, Inject, ElementRef, ViewChild } from '@angular/core';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material/chips';
 
@@ -7,6 +7,7 @@ import { FormGroup, FormControl, Validators, FormBuilder, FormControlName, FormA
 import { InventarioManagerService, Item, SubConteo, Marca} from '../../../inventario-manager.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-new-item-dialog',
@@ -38,6 +39,20 @@ export class NewItemDialogComponent implements OnInit {
   addOnBlur = true;
   subConteo: FormArray;
   dualActiveStates = [false, false];
+  @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
+
+  filteredTags$ = new BehaviorSubject<{name: string, deleted: boolean}[]>(null);
+
+  tagsList$ = new BehaviorSubject<{name: string, deleted: boolean}[]>(null);
+
+  tagsList: string[] = [];
+
+  errorCantidadTags = false;
+  errorNoTag = false;
+
+  //////////////////////////////
+
+  caracteristicas: string[] = [];
 
   constructor(private formBuilder: FormBuilder, private inventarioMNG: InventarioManagerService,
               public dialogRef: MatDialogRef<NewItemDialogComponent>,
@@ -79,11 +94,59 @@ export class NewItemDialogComponent implements OnInit {
       ])),
       marca: this.formBuilder.control('',  Validators.compose([
       ])),
+      tags: this.formBuilder.control('',  Validators.compose([
+      ])),
       subConteo: this.formBuilder.array([]),
     }
     );
 
     this.subConteo = this.myForm.get('subConteo') as FormArray;
+
+    this.myForm.get('tags').valueChanges.subscribe((changeV: any) => {
+      if (changeV) {
+        if (changeV.name) {
+          this.filteredTags$.next(null);
+        } else {
+          this.filterTagValue(changeV);
+        }
+      } else {
+        this.filteredTags$.next(null);
+      }
+    });
+  }
+
+  displayFn(tag: {name: string, deleted: boolean}): string {
+    return tag && tag.name ? tag.name : '';
+  }
+
+  selectTag(e: MatAutocompleteSelectedEvent) {
+    const index = this.tagsList.indexOf(e.option.value.name);
+    if (index >= 0) {
+      this.tagsList.splice(index, 1);
+    }
+    this.tagsList.push(e.option.value.name);
+    if (this.tagsList.length > 5) {
+      this.errorCantidadTags = true;
+    } else {
+      this.errorCantidadTags = false;
+    }
+    this.tagInput.nativeElement.value = '';
+    this.filteredTags$.next(null);
+    this.myForm.get('tags').setValue('');
+    this.errorNoTag = false;
+    // this.filteredTags$.next(null);
+  }
+
+  filterTagValue(value: any) {
+    this.inventarioMNG.getListOfTagsFilteredByRegex(value.name || value, 15).subscribe(res => {
+      if (res && res.length > 0) {
+        console.log('here6');
+        this.filteredTags$.next(res);
+      } else {
+        this.filteredTags$.next(null);
+        console.log(this.myForm.get('tags').value);
+      }
+    });
   }
 
 
@@ -307,6 +370,7 @@ export class NewItemDialogComponent implements OnInit {
     newItem.description = item.description.trim();
     newItem.tipo = this.data.parentTipoName;
     newItem.subTipo = this.data.subTipo;
+    newItem.tags = this.tagsList;
     this.myForm.disable();
     if (this.subConteo.length > 0) {
       newItem.subConteo = this.subConteo.at(0).value;
@@ -326,20 +390,43 @@ export class NewItemDialogComponent implements OnInit {
     this.inventarioMNG.addItem(newItem).subscribe((addedItem: Item) => {
       if (addedItem !== null) {
         this.myForm.reset();
-        this.dialogRef.close(addedItem.codigo);
+        this.dialogRef.close(addedItem);
         // this.onNewItem.emit(addedItem.codigo);
+      } else {
+        this.myForm.enable();
+        alert('Error al agregar un nuevo item');
       }
-      this.myForm.enable();
     });
   }
 
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
-
-    // Add our fruit
+    if (this.filteredTags$.value) {
+      const searchInd = this.filteredTags$.value.findIndex(x => x.name === value.trim());
+      if (searchInd === -1) {
+        this.errorNoTag = true;
+        return;
+      }
+    } else {
+      this.errorNoTag = true;
+      return;
+    }
+    this.errorNoTag = false;
+    this.filteredTags$.next(null);
     if ((value || '').trim()) {
-      this.subCant.push(value.trim());
+      const index = this.tagsList.indexOf(value.trim());
+      if (index >= 0) {
+        this.tagsList.splice(index, 1);
+      }
+
+      this.tagsList.push(value.trim());
+      if (this.tagsList.length > 5) {
+        this.errorCantidadTags = true;
+      } else {
+        this.errorCantidadTags = false;
+      }
+
     }
 
     // Reset the input value
@@ -353,6 +440,19 @@ export class NewItemDialogComponent implements OnInit {
 
     if (index >= 0) {
       this.subCant.splice(index, 1);
+    }
+  }
+
+  removeTag(tag: string) {
+    const index = this.tagsList.indexOf(tag);
+    if (index >= 0) {
+      this.tagsList.splice(index, 1);
+
+      if (this.tagsList.length > 5) {
+        this.errorCantidadTags = true;
+      } else {
+        this.errorCantidadTags = false;
+      }
     }
   }
 

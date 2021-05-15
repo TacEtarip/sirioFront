@@ -1,0 +1,22 @@
+<a href="/store/categorias/{{(tipoName$|async)}}"  class="imagen"  [ngStyle]="{'background-image': 'url(' + (urlOfImage|async) + ')'}" ></a>
+<a *ngIf="!auth.loggedIn()" href="" class="infoPro">
+  <div class="nombre">
+    <h1>{{tipoName$|async}}</h1>
+  </div>
+  <div class="accion">
+    <mat-icon [ngStyle]="{'justify-self': 'end'}">open_in_browser</mat-icon>
+  </div>
+</a>
+<div *ngIf="auth.loggedIn()" class="infoPro">
+  <div class="nombre">
+    <h1>{{tipoName$|async}}</h1>
+  </div>
+  <div class="accion actLog">
+    <a class="btnCat" matTooltip="Ver Categoria" href="/store/categorias/{{(tipoName$|async)}}">
+      <mat-icon [ngStyle]="{'justify-self': 'end'}">open_in_browser</mat-icon>
+    </a>
+    <mat-icon (click)="openEditarNombreTipo()" matTooltip="Editar Nombre">edit</mat-icon>
+    <mat-icon (click)="openCambiarImagen()" matTooltip="Cambiar Foto">insert_photo</mat-icon>
+    <mat-icon (click)=" openEliminarTipo()" matTooltip="Eliminar Categoria">delete</mat-icon>
+  </div>
+</div>

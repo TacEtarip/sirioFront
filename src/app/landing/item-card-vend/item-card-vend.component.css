@@ -1,0 +1,92 @@
+:host {
+  background-color: white;
+  display: grid;
+  height: 404px;
+  width: 250px;
+  border-radius: 8px;
+  grid-template-rows: 250px 154px;
+  -webkit-box-shadow: 0px 0px 3px 1px rgba(0,0,0,0.1);
+  -moz-box-shadow: 0px 0px 3px 1px rgba(0,0,0,0.1);
+  box-shadow: 0px 0px 3px 1px rgba(0,0,0,0.1);
+}
+
+button {
+  grid-column: 1/7;
+}
+
+.imagen {
+  background-position: center;
+  background-size: cover;
+  border-top-right-radius: 8px;
+  border-top-left-radius: 8px;
+}
+
+h4 {
+  margin: 0;
+  align-self: center;
+  font-weight: 200;
+}
+
+.nombre h1 {
+  margin: 0;
+  font-size: 16px;
+  color: #005087;
+  font-family: futura-pt, sans-serif;
+}
+
+.infoPro {
+  padding: 1em;
+  display: grid;
+  grid-template-rows: 1fr .5fr;
+}
+
+.nombre {
+  overflow: auto;
+}
+
+.accion {
+  display: grid;
+  grid-template-columns: auto 24px 24px 24px 24px 24px;
+  gap: .8em;
+}
+
+a {
+  text-decoration: none;
+  color: #E87200;
+  display: grid;
+  align-content: center;
+  grid-column: 2;
+}
+
+a:hover {
+  color: #005087;
+}
+
+.mat-icon {
+  color: #E87200;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+     -moz-user-select: none; /* Old versions of Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+          user-select: none; /* Non-prefixed version, currently
+                                supported by Chrome, Edge, Opera and Firefox */
+}
+
+.imagen {
+  cursor: pointer;
+}
+
+
+.mat-icon:hover {
+  color: #005087;
+  cursor: pointer;
+}
+
+:host:hover {
+  -webkit-box-shadow: 0px 0px 6px 1px rgba(0,0,0,0.25);
+  -moz-box-shadow: 0px 0px 6px 1px rgba(0,0,0,0.25);
+  box-shadow: 0px 0px 9px 1px rgba(0,0,0,0.25);
+  transform: scale(1.02) translate(6px, -3px);
+  transition: 0.35s;
+}
