@@ -12,7 +12,8 @@ const routes: Routes = [
   {path: 'login', loadChildren: () => import('./login/login.module').then(m => m.LoginModule), canActivate: [LoginGuard]},
   {path: 'ventas', loadChildren: () => import('./ventas/ventas.module').then(m => m.VentasModule)
   , canActivate: [VentasGuard], canLoad: [VentasGuard]},
-  {path: 'reportes', loadChildren: () => import('./reportes/reportes.module').then(m => m.ReportesModule)},
+  {path: 'reportes', loadChildren: () => import('./reportes/reportes.module').then(m => m.ReportesModule),
+  canActivate: [VentasGuard], canLoad: [VentasGuard]},
   {path: 'usuario', loadChildren: () => import('./usuario/usuario.module').then(m => m.UsuarioModule)
   , canActivate: [UsuarioGuard], canLoad: [UsuarioGuard]},
   {path: '', redirectTo: 'store', pathMatch: 'full'},

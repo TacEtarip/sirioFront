@@ -17,7 +17,7 @@ export class VentasGuard implements CanActivate, CanLoad {
       return false;
     }
     if (this.auth.getTtype() === 'low') {
-      this.router.navigate(['/inventario']);
+      this.router.navigate(['store', 'categorias']);
       return false;
     }
     return true;

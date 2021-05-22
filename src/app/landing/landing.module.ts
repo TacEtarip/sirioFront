@@ -51,6 +51,7 @@ import { CaracteristicasComponent } from './caracteristicas/caracteristicas.comp
 import { BigImageComponent } from './big-image/big-image.component';
 import { BusquedaComponent } from './busqueda/busqueda.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import {LayoutModule} from '@angular/cdk/layout';
 
 @NgModule({
   declarations: [LandingComponent, ItemcardComponent, StoreMainComponent, SeguroEliminarComponent,  EditarClaseComponent,
@@ -82,7 +83,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatSnackBarModule,
     MatTableModule,
     MatSortModule,
-    MatChipsModule
+    MatChipsModule,
+    LayoutModule
   ]
 })
 export class LandingModule { }

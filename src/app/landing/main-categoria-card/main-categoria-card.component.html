@@ -1,11 +1,11 @@
 <a href="/store/categorias/{{(tipoName$|async)}}"  class="imagen"  [ngStyle]="{'background-image': 'url(' + (urlOfImage|async) + ')'}" ></a>
-<a *ngIf="!auth.loggedIn()" href="" class="infoPro">
+<a *ngIf="!auth.loggedIn()" href="/store/categorias/{{(tipoName$|async)}}" class="infoPro">
   <div class="nombre">
     <h1>{{tipoName$|async}}</h1>
   </div>
-  <div class="accion">
+  <a  href="/store/categorias/{{(tipoName$|async)}}" class="accion">
     <mat-icon [ngStyle]="{'justify-self': 'end'}">open_in_browser</mat-icon>
-  </div>
+  </a>
 </a>
 <div *ngIf="auth.loggedIn()" class="infoPro">
   <div class="nombre">

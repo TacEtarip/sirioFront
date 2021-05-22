@@ -46,6 +46,11 @@ img:hover {
   padding: 1em 0 !important;
 }
 
+.listaESP {
+  max-height: 30vh;
+  overflow: auto;
+}
+
 @media screen and (max-width: 800px) {
   h1 {
     color: #014c7e;

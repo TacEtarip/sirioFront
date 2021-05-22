@@ -345,7 +345,7 @@ export class RegistroComponent implements OnInit, OnDestroy, AfterViewInit {
     const userRegister = { ...userRegisterGoogle, ...this.temporalUserInfo };
     this.auth.registerLowGoogle(userRegister).subscribe((res) => {
       if (res && res.code === 0) {
-        this.router.navigate(['/inventario']);
+        this.router.navigate(['store', 'categorias']);
       } else {
         alert(res.message);
         this.registroGoogleForm.enable();

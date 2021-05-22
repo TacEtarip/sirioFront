@@ -39,8 +39,9 @@ img:hover {
 
 .listaMarca {
   margin: 1em;
+  max-height: 30vh;
+  overflow: auto;
 }
-
 
 
 @media screen and (max-width: 800px) {

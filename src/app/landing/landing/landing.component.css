@@ -283,3 +283,96 @@ a {  text-decoration: none;}
 a:hover {
   color: #E87200;
 }
+
+.spacer {
+  width: 0.5em;
+}
+
+
+@media screen and (max-width: 1300px) {
+  footer {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  footer .presentacionFooter {
+    grid-column: span 3;
+  }
+
+  .dropMenuBuscar .contenedorMenuBuscar {
+    grid-template-columns: 1fr;
+  }
+
+  .buscarField {
+    width: 100%;
+  }
+
+}
+
+@media screen and (max-width: 950px) {
+  footer {
+    grid-template-columns: 1fr ;
+  }
+
+  footer .presentacionFooter {
+    grid-column: span 1;
+  }
+  .dropMenu .contenedorMenu {
+    display: grid;
+    gap: 0.5em;
+  }
+
+  .dropMenu, .dropMenuBuscar {
+    width: calc(100%);
+    right: 0;
+    overflow: auto;
+    /* width: 200px; */
+    max-height: 55vh;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .menu {
+    padding: 0 20px;
+    width: calc(100% - 40px);
+  }
+
+  footer {
+    padding: 3em 1.5em;
+    gap: 1em;
+
+  }
+
+
+
+  ::ng-deep .mat-list-item-content {
+    flex-wrap: wrap;
+  }
+
+  .menu .menuContenedorTodo {
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr;
+  }
+
+  .phoneLink {
+    display: none;
+  }
+
+  .navegacion {
+    justify-content: center;
+    grid-column: 1;
+
+  }
+
+  .cName {
+    font-size: 22px;
+  }
+
+  .dropMenuBuscar .contenedorMenuBuscar {
+    padding: 2em;
+  }
+
+  .spacer {
+    flex: 1 1 auto;
+  }
+}

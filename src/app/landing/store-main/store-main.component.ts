@@ -1,13 +1,12 @@
-import { ChangeDetectorRef, Component, OnInit, OnDestroy } from '@angular/core';
-
+import {  Component, OnInit, OnDestroy } from '@angular/core';
+import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Router } from '@angular/router';
-import { FormGroup, FormControl, Validators, FormBuilder, FormArray, AbstractControl, ValidatorFn } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { InventarioManagerService, Item, Tipo } from 'src/app/inventario-manager.service';
 import { AuthService } from '../../auth.service';
 import anime from 'animejs';
-import { MediaMatcher } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-store-main',
@@ -16,7 +15,11 @@ import { MediaMatcher } from '@angular/cdk/layout';
 })
 export class StoreMainComponent implements OnInit, OnDestroy {
 
-  mobileQuery: MediaQueryList;
+  mobileQueryOne: MediaQueryList;
+  mobileQueryTwo: MediaQueryList;
+  mobileQueryThree: MediaQueryList;
+  mobileQueryFour: MediaQueryList;
+
   private mobileQueryListener: () => void;
 
   busqueda: FormGroup;
@@ -39,21 +42,39 @@ export class StoreMainComponent implements OnInit, OnDestroy {
 
   busquedaSub: Subscription;
 
-  constructor(public auth: AuthService, private inv: InventarioManagerService, media: MediaMatcher,
-              private router: Router, private fb: FormBuilder, changeDetectorRef: ChangeDetectorRef) {
-                this.mobileQuery = media.matchMedia('(max-width: 1600px)');
-                this.mobileQueryListener = () => changeDetectorRef.detectChanges();
-                // this.mobileQuery.addListener(this.mobileQueryListener);
-                console.log(this.mobileQuery.matches);
-                this.mobileQuery.addEventListener('change', (e) => {
-                  console.log(e.matches);
+  cantidadSlider: number;
+
+  smallSubs: Subscription;
+
+  constructor(public auth: AuthService, private inv: InventarioManagerService,
+              private router: Router, private fb: FormBuilder, breakpointObserver: BreakpointObserver) {
+                const isSmallScreenObs = breakpointObserver.observe(['(max-width: 650px)', '(max-width: 1100px)', '(max-width: 1300px)']);
+                this.smallSubs = isSmallScreenObs.subscribe(res => {
+                  if (res.breakpoints['(max-width: 650px)'] === true) {
+                    this.cantidadSlider = 1;
+                  } else if (res.breakpoints['(max-width: 1100px)'] === true) {
+                    this.cantidadSlider = 2;
+                  } else if (res.breakpoints['(max-width: 1300px)'] === true) {
+                    this.cantidadSlider = 3;
+                  } else {
+                    this.cantidadSlider = 4;
+                  }
+
+                  if (this.tipos.value && this.itemsDestacados$.value) {
+                    this.resetAnimations();
+                  }
                 });
-               }
+   }
 
   ngOnDestroy(): void {
     if (this.busquedaSub) {
       this.busquedaSub.unsubscribe();
     }
+
+    if (this.smallSubs) {
+      this.smallSubs.unsubscribe();
+    }
+
   }
 
   ngOnInit(): void {
@@ -66,10 +87,11 @@ export class StoreMainComponent implements OnInit, OnDestroy {
 
     this.inv.getItemsDestacados().subscribe(res => {
       this.itemsDestacados$.next(res);
-      this.toShowNext$.next(res.length - 4);
+      this.toShowNext$.next(res.length - this.cantidadSlider);
     });
 
     this.busquedaSub = this.busqueda.get('name').valueChanges.subscribe((changeV: any) => {
+      this.item$.next(null);
       if (changeV) {
         this.filterItemValue(changeV);
       } else {
@@ -89,7 +111,7 @@ export class StoreMainComponent implements OnInit, OnDestroy {
 
     this.inv.getTipos().subscribe(res => {
       this.tipos.next(res);
-      this.toShowNextTwo$.next(res.length - 4);
+      this.toShowNextTwo$.next(res.length - this.cantidadSlider);
     });
   }
 
@@ -99,8 +121,15 @@ export class StoreMainComponent implements OnInit, OnDestroy {
 
   selectItem(e: MatAutocompleteSelectedEvent) {
     this.item$.next(e.option.value);
-    console.log(this.item$.value);
     this.filteredItem$.next(null);
+  }
+
+  goToInventario() {
+    this.router.navigate(['store', 'categorias']);
+  }
+
+  goToProducto() {
+    this.router.navigate(['store', 'categorias', this.item$.value.tipo, this.item$.value.subTipo, this.item$.value.codigo]);
   }
 
   filterItemValue(value: any) {
@@ -113,7 +142,7 @@ export class StoreMainComponent implements OnInit, OnDestroy {
         } else {
           const index =
           this.filteredItem$.value.findIndex((el) => el.name.toUpperCase() === value.name ? value.name.toUpperCase() : value.toUpperCase());
-          this.item$.next(this.filteredItem$.value[index]);
+          // this.item$.next(this.filteredItem$.value[index]);
         }
       } else {
         this.filteredItem$.next(null);
@@ -135,6 +164,22 @@ export class StoreMainComponent implements OnInit, OnDestroy {
       targets: '.slider',
       duration: 500,
       easing: 'easeOutQuad'
+    });
+  }
+
+  resetAnimations() {
+    this.toShowBack$.next(0);
+    this.toShowNext$.next(this.itemsDestacados$.value.length - this.cantidadSlider);
+
+    this.toShowBackTwo$.next(0);
+    this.toShowNextTwo$.next(this.tipos.value.length - this.cantidadSlider);
+
+    this.animateTrans().add({
+      translateX: (0),
+    });
+
+    this.animateTransTwo().add({
+      translateX: (0),
     });
   }
 

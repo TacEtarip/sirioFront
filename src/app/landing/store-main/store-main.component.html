@@ -13,8 +13,8 @@
       </mat-autocomplete>
     </mat-form-field>
     <div class="btns">
-       <a class="verPro" href=""><button  mat-flat-button color="primary">Ver Producto</button></a>
-       <a class="verPro" href="/store/categorias"><button  mat-flat-button color="primary">Ver Inventario</button></a>
+       <button type="button"  mat-flat-button color="primary" (click)="goToProducto()" [disabled]="!(item$|async) || !busqueda.valid">Ver Producto</button>
+       <button type="button" mat-flat-button color="primary" (click)="goToInventario()">Ver Inventario</button>
     </div>
   </form>
 </section>
@@ -23,10 +23,10 @@
   <button (click)="backSlide()" [disabled]="(toShowBack$|async) <= 0" mat-icon-button color="primary"><mat-icon>keyboard_arrow_left</mat-icon></button>
   <div class="sliderContainer">
     <div class="slider">
-      <app-itemcard *ngFor="let item of itemsDestacados$|async" [item]="item"></app-itemcard>
+      <app-itemcard [ngStyle]="{'grid-row': 1}"  *ngFor="let item of itemsDestacados$|async" [item]="item"></app-itemcard>
     </div>
   </div>
-  <a class="irInv" href="http"><button class="verinv"  mat-flat-button color="primary">Ver Inventario</button></a>
+  <a class="irInv" href="/store/categorias"><button class="verinv"  mat-flat-button color="primary">Ver Inventario</button></a>
   <button (click)="nextSlide()" [disabled]="(toShowNext$|async) <= 0" mat-icon-button color="primary"><mat-icon>keyboard_arrow_right</mat-icon></button>
   <img class="pointP" width="240px" src="assets/rPoint.png" alt="">
 </section>
@@ -48,7 +48,7 @@
     <button (click)="backSlideTwo()" [disabled]="(toShowBackTwo$|async) <= 0" mat-icon-button color="primary"><mat-icon>keyboard_arrow_left</mat-icon></button>
     <div class="sliderContainer">
       <div class="sliderTwo">
-        <app-categoria-card *ngFor="let tipo of tipos|async" [tipo]="tipo.name"></app-categoria-card>
+        <app-categoria-card *ngFor="let tipo of tipos|async" [tipo]="tipo"></app-categoria-card>
       </div>
     </div>
     <button (click)="nextSlideTwo()" [disabled]="(toShowNextTwo$|async) <= 0" mat-icon-button color="primary"><mat-icon>keyboard_arrow_right</mat-icon></button>
@@ -56,7 +56,7 @@
     <img class="femP" width="220px" src="assets/femPoint.png" alt="">
   </section>
 <section class="galeria">
-  <a *ngFor="let item of tenRandomItems$|async" href=""
+  <a *ngFor="let item of tenRandomItems$|async" href="/store/categorias/{{item.tipo}}/{{item.subTipo}}/{{item.codigo}}"
   [ngStyle]="{'background-image': 'url(' + 'https://siriouploads.s3.amazonaws.com/' + item.photo.split('.')[0] + '.webp' + ')' }"></a>
 </section>
 

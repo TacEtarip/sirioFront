@@ -27,7 +27,7 @@ export class AutoComponent implements OnInit, AfterViewInit {
         switch (res.code) {
           case 0:
             this.mensajeToShow.next(res.message);
-            this.route.navigate(['/inventario']);
+            this.route.navigate(['store', 'categorias']);
             break;
           case 1:
             this.mensajeToShow.next(res.message);

@@ -39,6 +39,8 @@ export class CategoriasComponent implements OnInit, OnDestroy {
   titulo$  = new BehaviorSubject<string>('');
   tituloSub$ = new BehaviorSubject<string>('');
   items = new BehaviorSubject<Item[]>(null);
+  itemSecond = new BehaviorSubject<Item[]>([]);
+
   item$ = new BehaviorSubject<Item>(null);
   ruta = '';
   itemCod = '';
@@ -75,6 +77,7 @@ export class CategoriasComponent implements OnInit, OnDestroy {
       this.tipos.next(null);
       this.items.next(null);
       this.item$.next(null);
+      this.itemSecond.next([]);
       this.ruta = rutaM.get('categoria');
       if (this.ruta) {
           this.inv.getTipo(this.ruta).subscribe(res => {
@@ -98,7 +101,6 @@ export class CategoriasComponent implements OnInit, OnDestroy {
           this.titulo$.next('CATEGORIAS');
           this.estado$.next('pre');
           this.tipos.next(res);
-          console.log(this.estado$.value);
         });
       }
     });
@@ -106,7 +108,11 @@ export class CategoriasComponent implements OnInit, OnDestroy {
     this.estadoSub = this.estado$.subscribe(res => {
       if (res === 'sub') {
           this.inv.getAllItemsOfSubTypeII(this.tituloSub$.value, this.titulo$.value).subscribe(res => {
-            this.items.next(res);
+            if (this.auth.loggedIn() && (this.auth.getTtype() === 'admin' || this.auth.getTtype() === 'vent')) {
+              this.items.next(res);
+            } else {
+              this.itemSecond.next(res);
+            }
           });
       } else if (res === 'item') {
         this.inv.getItem(this.itemCod).subscribe(res => {

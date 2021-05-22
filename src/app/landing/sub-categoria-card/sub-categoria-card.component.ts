@@ -31,8 +31,6 @@ export class SubCategoriaCardComponent implements OnInit, OnDestroy {
 
   theFirstImage = true;
 
-  @ViewChild('imagebg') imageBG: ElementRef;
-
   constructor(private inv: InventarioManagerService, public auth: AuthService, public dialog: MatDialog) {
   }
 
@@ -61,7 +59,6 @@ export class SubCategoriaCardComponent implements OnInit, OnDestroy {
 
   imageLoaded(event) {
     if (this.theFirstImage) {
-      console.log('here');
       this.theFirstImage = false;
     } else {
       this.animate$.next(true);

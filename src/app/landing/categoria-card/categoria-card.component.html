@@ -1,9 +1,9 @@
-<div class="imagen"  [ngStyle]="{'background-image': 'url(' + (urlOfImage|async) + ')'}" >
+<a href="/store/categorias/{{tipo.name}}" class="imagen"  [ngStyle]="{'background-image': 'url(' + (urlOfImage|async) + ')'}" >
 
-</div>
-<a  href="" class="infoPro">
+</a>
+<a  href="/store/categorias/{{tipo.name}}" class="infoPro">
   <div class="nombre">
-    <h1>{{tipo}}</h1>
+    <h1>{{tipo.name}}</h1>
   </div>
   <div class="accion">
     <mat-icon [ngStyle]="{'justify-self': 'end'}">open_in_browser</mat-icon>

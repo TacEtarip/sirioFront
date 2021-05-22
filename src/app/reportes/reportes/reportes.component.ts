@@ -80,8 +80,6 @@ export class ReportesComponent implements OnInit {
   constructor(public auth: AuthService, private inv: InventarioManagerService, private router: Router) {
     inv.getGraphOverTimeInfo().subscribe(multi => {
       if (multi) {
-        console.log(multi);
-        console.log(new Date().getMonth());
         this.doneDataCollect$.next(this.doneDataCollect$.value + 1);
         Object.assign(this, { multi } );
       }
@@ -150,7 +148,7 @@ export class ReportesComponent implements OnInit {
   }
 
   aInventario() {
-    this.router.navigate(['/inventario']);
+    this.router.navigate(['store', 'categorias']);
   }
 
   reloadPage() {

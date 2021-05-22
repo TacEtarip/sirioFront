@@ -49,7 +49,7 @@ export class VentasComponent implements OnInit, OnDestroy {
   }
 
   aInventario() {
-    this.router.navigate(['/inventario']);
+    this.router.navigate(['store', 'categorias']);
   }
 
   reloadPage() {

@@ -16,6 +16,11 @@ b {
   color: #E87200;
 }
 
+h4 {
+  margin: 0;
+  font-weight: 400;
+}
+
 ::ng-deep .sizeIcon{
   height:44px !important;
   width:44px !important;
@@ -57,6 +62,26 @@ b {
   padding-top: .2em;
 }
 
+.firstChart ::ng-deep .mat-list-item {
+  height: auto !important;
+  padding: 1em 0 !important;
+}
+
+.firstChart ::ng-deep .mat-chip-list-wrapper {
+  padding: .5em 0;
+}
+
+.firstChart ::ng-deep .mat-list-item-content {
+  gap: .5em;
+}
+
+
+h5 {
+  font-size: 16px;
+  margin: 0;
+  font-weight: 400;
+}
+
 ::ng-deep .sizeShop {
   font-size:24px !important;
   line-height: 45px !important;
@@ -64,7 +89,7 @@ b {
 
 
 .sidenav {
-  width: 17%;
+  width: 320px;
   border-right: solid .4px lightgrey;
   height: calc(100vh - 64px);
   position: fixed;
@@ -72,7 +97,7 @@ b {
 }
 
 .mainCtn {
-  margin-left: 17%;
+  margin-left: 320px;
   padding: 2em;
   display: grid;
   grid-template-columns: 1fr;
@@ -143,4 +168,34 @@ h2 {
 .reporteChartOne {
   display: grid;
   grid-template-rows: max-content  auto;
+}
+
+.menuBtn {
+  display: none;
+}
+
+@media screen and (max-width: 1150px) {
+  h4 {
+    font-size: 16px;
+  }
+
+  .menuBtn {
+    display: block;
+  }
+
+  h1 {
+    font-size: 3em;
+  }
+
+  .mainCtn {
+    margin-left: 0;
+  }
+
+  .sidenav {
+    width: 320px;
+    left: -321px;
+    background-color: white;
+    z-index: 1;
+  }
+
 }

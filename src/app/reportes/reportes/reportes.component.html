@@ -1,5 +1,5 @@
 <mat-toolbar [ngStyle]="{'padding': '.5em'}"  class="example-toolbar toolBar">
-  <button color="accent" class="sizeIcon" mat-icon-button><mat-icon class="sizeIcon" >menu</mat-icon></button>
+  <button color="accent" class="sizeIcon  menuBtn" mat-icon-button><mat-icon class="sizeIcon" >menu</mat-icon></button>
   <span  class="toolBarName"> <b (click)="reloadPage()" [ngStyle]="{'cursor': 'pointer'}" class="cName">Sirio Dinar</b></span>
   <span class="example-spacer"></span>
   <div tabindex="0" matTooltip="Usuario" class="perfilBtns" [ngStyle]="{'cursor': 'pointer', 'padding-bottom': '2px' }" [matMenuTriggerFor]="menu">
@@ -35,27 +35,27 @@
       <mat-list-item (click)="selectReporte(0)" [ngClass]="{'selected': (reporte$|async) === 0}"
       [ngStyle]="{'color': '#005087'}" matRipple
       [matRippleColor]="'#cfaa842c'"
-      role="listitem">REPORTE GENERAL</mat-list-item>
+      role="listitem"><h4>REPORTE GENERAL</h4></mat-list-item>
     </mat-list>
     <mat-divider></mat-divider>
     <mat-list role="list">
       <div mat-subheader [ngStyle]="{'color': '#E87200'}">Reporte De Ventas</div>
-      <mat-list-item (click)="selectReporte(1)"  [ngClass]="{'selected': (reporte$|async) === 1}" matRipple [matRippleColor]="'#cfaa842c'" role="listitem">REPORTE GENERAL</mat-list-item>
-      <mat-list-item (click)="selectReporte(2)"  [ngClass]="{'selected': (reporte$|async) === 2}" matRipple [matRippleColor]="'#cfaa842c'" role="listitem">REPORTE DE GANANCIAS</mat-list-item>
-      <mat-list-item (click)="selectReporte(3)"  [ngClass]="{'selected': (reporte$|async) === 3}" matRipple [matRippleColor]="'#cfaa842c'" role="listitem">REPORTE POR ITEM</mat-list-item>
-      <mat-list-item (click)="selectReporte(4)"  [ngClass]="{'selected': (reporte$|async) === 4}" matRipple [matRippleColor]="'#cfaa842c'" role="listitem">REPORTE POR CLIENTE</mat-list-item>
+      <mat-list-item disabled (click)="selectReporte(1)"  [ngClass]="{'selected': (reporte$|async) === 1}" matRipple [matRippleColor]="'#cfaa842c'" role="listitem"><h4>REPORTE GENERAL</h4></mat-list-item>
+      <mat-list-item disabled (click)="selectReporte(2)"  [ngClass]="{'selected': (reporte$|async) === 2}" matRipple [matRippleColor]="'#cfaa842c'" role="listitem"><h4>REPORTE DE GANANCIAS</h4></mat-list-item>
+      <mat-list-item disabled (click)="selectReporte(3)"  [ngClass]="{'selected': (reporte$|async) === 3}" matRipple [matRippleColor]="'#cfaa842c'" role="listitem"><h4>REPORTE POR ITEM</h4></mat-list-item>
+      <mat-list-item disabled (click)="selectReporte(4)"  [ngClass]="{'selected': (reporte$|async) === 4}" matRipple [matRippleColor]="'#cfaa842c'" role="listitem"><h4>REPORTE POR CLIENTE</h4></mat-list-item>
     </mat-list>
     <mat-divider></mat-divider>
     <mat-list role="list">
       <div mat-subheader [ngStyle]="{'color': '#E87200'}">Reporte De Gastos</div>
-      <mat-list-item (click)="selectReporte(5)"  [ngClass]="{'selected': (reporte$|async) === 5}" matRipple [matRippleColor]="'#cfaa842c'" role="listitem">REPORTE GENERAL</mat-list-item>
-      <mat-list-item (click)="selectReporte(6)"  [ngClass]="{'selected': (reporte$|async) === 6}" matRipple [matRippleColor]="'#cfaa842c'" role="listitem">GASTO POR ITEM</mat-list-item>
+      <mat-list-item disabled (click)="selectReporte(5)"  [ngClass]="{'selected': (reporte$|async) === 5}" matRipple [matRippleColor]="'#cfaa842c'" role="listitem"><h4>REPORTE GENERAL</h4></mat-list-item>
+      <mat-list-item disabled (click)="selectReporte(6)"  [ngClass]="{'selected': (reporte$|async) === 6}" matRipple [matRippleColor]="'#cfaa842c'" role="listitem"><h4>GASTO POR ITEM</h4></mat-list-item>
     </mat-list>
     <mat-divider></mat-divider>
     <mat-list role="list">
       <div mat-subheader [ngStyle]="{'color': '#E87200'}">Reporte De Items</div>
-      <mat-list-item (click)="selectReporte(7)"  [ngClass]="{'selected': (reporte$|async) === 7}" matRipple [matRippleColor]="'#cfaa842c'" role="listitem">REPORTE GENERAL</mat-list-item>
-      <mat-list-item (click)="selectReporte(8)"  [ngClass]="{'selected': (reporte$|async) === 8}" matRipple [matRippleColor]="'#cfaa842c'" role="listitem">REPORTE INDIVIDUAL</mat-list-item>
+      <mat-list-item disabled (click)="selectReporte(7)"  [ngClass]="{'selected': (reporte$|async) === 7}" matRipple [matRippleColor]="'#cfaa842c'" role="listitem"><h4>REPORTE GENERAL</h4></mat-list-item>
+      <mat-list-item disabled (click)="selectReporte(8)"  [ngClass]="{'selected': (reporte$|async) === 8}" matRipple [matRippleColor]="'#cfaa842c'" role="listitem"><h4>REPORTE INDIVIDUAL</h4></mat-list-item>
     </mat-list>
     <mat-divider></mat-divider>
   </nav>
@@ -69,29 +69,29 @@
             <div mat-subheader>Stock Actual</div>
             <mat-list-item role="listitem">
               <mat-icon mat-list-icon>show_chart</mat-icon>
-              <div mat-line>Posibles ventas con el stock disponible: <b>{{ventasAprox|currency:'S/'}}</b></div>
+              <h5>Posibles ventas con el stock disponible: <b>{{ventasAprox|currency:'S/'}}</b></h5>
             </mat-list-item>
             <mat-list-item role="listitem">
               <mat-icon mat-list-icon> show_chart</mat-icon>
-              <div mat-line>Gasto aproximado en stock disponible: <b>{{costoStock|currency:'S/'}}</b></div>
+              <h5>Gasto aproximado en stock disponible: <b>{{costoStock|currency:'S/'}}</b></h5>
             </mat-list-item>
             <mat-list-item role="listitem">
               <mat-icon mat-list-icon>show_chart</mat-icon>
-              <div mat-line>Posible ganancia con el stock disponible: <b>{{gananciaAprox|currency:'S/'}}</b></div>
+              <h5>Posible ganancia con el stock disponible: <b>{{gananciaAprox|currency:'S/'}}</b></h5>
             </mat-list-item>
 
             <mat-divider></mat-divider>
             <div mat-subheader>Stock Total</div>
             <mat-list-item role="listitem">
               <mat-icon mat-list-icon>show_chart</mat-icon>
-              <div mat-line>Invercion total:
+              <h5>Invercion total:
                 <b>{{invercionTotal|currency:'S/'}}</b> | Ingreso total: <b>{{ingresoTotal|currency:'S/'}} </b> | Balance total:
-                <b>{{(ingresoTotal - invercionTotal)|currency:'S/'}}</b></div>
+                <b>{{(ingresoTotal - invercionTotal)|currency:'S/'}}</b></h5>
             </mat-list-item>
             <mat-list-item role="listitem">
               <mat-icon mat-list-icon>show_chart</mat-icon>
-              <div mat-line>Invercion total en productos de stock: <b>{{gastosHistoricos|currency:'S/'}}
-              </b> | Ingreso total por productos de stock: <b>{{ingresorHistoricos|currency:'S/'}}</b></div>
+              <h5>Invercion total en productos de stock: <b>{{gastosHistoricos|currency:'S/'}}
+              </b> | Ingreso total por productos de stock: <b>{{ingresorHistoricos|currency:'S/'}}</b></h5>
             </mat-list-item>
 
           </mat-list>
@@ -105,23 +105,24 @@
           <mat-list role="list">
             <mat-list-item role="listitem">
               <mat-icon mat-list-icon> show_chart</mat-icon>
-              <div mat-line>Crecimiento de x con respecto a: <b>{{gananciasVentasTotales|currency:'S/'}}</b></div>
+              <h5>Crecimiento de x con respecto a: <b>{{gananciasVentasTotales|currency:'S/'}}</b></h5>
             </mat-list-item>
             <mat-list-item role="listitem">
               <mat-icon mat-list-icon> show_chart</mat-icon>
-              <div mat-line>Ganancia por ventas total: <b>{{gananciasVentasTotales|currency:'S/'}}</b></div>
+              <h5 >Ganancia por ventas total: <b>{{gananciasVentasTotales|currency:'S/'}}</b></h5>
             </mat-list-item>
             <mat-list-item role="listitem">
               <mat-icon mat-list-icon> show_chart</mat-icon>
-              <div mat-line>Ganancia por ventas con items fuera de tienda: <b>{{gananciasVentasFueraStock|currency:'S/'}}</b></div>
+              <h5 >Ganancia por ventas con items fuera de tienda: <b>{{gananciasVentasFueraStock|currency:'S/'}}</b></h5>
             </mat-list-item>
             <mat-list-item role="listitem">
               <mat-icon mat-list-icon> show_chart</mat-icon>
-              <div mat-line>Ganancia por ventas con items de tienda: <b>{{gananciasVentasSoloStock|currency:'S/'}}</b></div>
+              <h5>Ganancia por ventas con items de tienda: <b>{{gananciasVentasSoloStock|currency:'S/'}}</b></h5>
             </mat-list-item>
           </mat-list>
         </div>
       </div>
+      <!--
       <div class="graphContainer">
       <ngx-charts-line-chart [ngStyle]="{'font-family': 'futura-pt, sans-serif'}"
       [view] = "[800, 400]"
@@ -137,7 +138,7 @@
       [autoScale]="true"
       [legendPosition]="'below'"
       >
-    </ngx-charts-line-chart></div>
+    </ngx-charts-line-chart></div>-->
 
     </div>
     <div class="firstChart">
@@ -147,23 +148,24 @@
           <mat-list role="list">
             <mat-list-item role="listitem">
               <mat-icon mat-list-icon>show_chart</mat-icon>
-              <div mat-line>Item más rentable: {{itemMasRentable.name}} con un balance de <b>{{itemMasRentable.balance|currency:'S/'}}</b></div>
+              <h5>Item más rentable: {{itemMasRentable.name}} con un balance de <b>{{itemMasRentable.balance|currency:'S/'}}</b></h5>
             </mat-list-item>
             <mat-list-item role="listitem">
               <mat-icon mat-list-icon>show_chart</mat-icon>
-              <div mat-line>Item menos rentable: {{itemMenosRentable.name}} con un balance de <b>{{itemMenosRentable.balance|currency:'S/'}}</b></div>
+              <h5>Item menos rentable: {{itemMenosRentable.name}} con un balance de <b>{{itemMenosRentable.balance|currency:'S/'}}</b></h5>
             </mat-list-item>
             <mat-list-item role="listitem">
               <mat-icon mat-list-icon>show_chart</mat-icon>
-              <div mat-line>Item más vendido (por cantidad de items vendidos): <b>{{itemMasVendidoCantidad}}</b></div>
+              <h5>Item más vendido (por cantidad de items vendidos): <b>{{itemMasVendidoCantidad}}</b></h5>
             </mat-list-item>
             <mat-list-item role="listitem">
               <mat-icon mat-list-icon>show_chart</mat-icon>
-              <div mat-line>Item con mayor ganancia en ventas: <b>{{itemMayorGananciaVentas.name}} ({{itemMayorGananciaVentas.value|currency:'S/'}})</b></div>
+              <h5>Item con mayor ganancia en ventas: <b>{{itemMayorGananciaVentas.name}} ({{itemMayorGananciaVentas.value|currency:'S/'}})</b></h5>
             </mat-list-item>
           </mat-list>
         </div>
       </div>
+      <!--
       <div class="graphContainer">
       <ngx-charts-bar-vertical-2d
       [view] = "[800, 400]"
@@ -180,7 +182,7 @@
       [legendPosition]="'below'"
       >
     </ngx-charts-bar-vertical-2d>
-    </div>
+    </div>-->
 
     </div>
 
@@ -191,15 +193,16 @@
           <mat-list role="list">
             <mat-list-item role="listitem">
               <mat-icon mat-list-icon> show_chart</mat-icon>
-              <div mat-line>Cliente más regular: <b>{{clienteMasRegular.name}} ({{clienteMasRegular.cantida}} Ventas)</b></div>
+              <h5>Cliente más regular: <b>{{clienteMasRegular.name}} ({{clienteMasRegular.cantida}} Ventas)</b></h5>
             </mat-list-item>
             <mat-list-item role="listitem">
               <mat-icon mat-list-icon> show_chart</mat-icon>
-              <div mat-line>Cliente que ha dado mas ingresos: <b>{{clienteMayorIngreso.name}} ({{clienteMayorIngreso.cantidad|currency:'S/'}})</b></div>
+              <h5>Cliente que ha dado mas ingresos: <b>{{clienteMayorIngreso.name}} ({{clienteMayorIngreso.cantidad|currency:'S/'}})</b></h5>
             </mat-list-item>
           </mat-list>
         </div>
       </div>
+      <!--
       <div class="graphContainer">
         <ngx-charts-bar-vertical
         [view] = "[800, 400]"
@@ -216,7 +219,7 @@
         [legendPosition]="'below'"
         >
       </ngx-charts-bar-vertical>
-      </div>
+      </div>-->
 
 
     </div>

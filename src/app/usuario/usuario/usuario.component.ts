@@ -109,7 +109,7 @@ export class UsuarioComponent implements OnInit, OnDestroy {
   }
 
   goToInv() {
-    this.router.navigate(['/inventario']);
+    this.router.navigate(['store', 'categorias']);
   }
 
 }

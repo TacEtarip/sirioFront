@@ -1,7 +1,7 @@
 import { InventarioManagerService } from './../../inventario-manager.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Item } from 'src/app/inventario-manager.service';
+import { Item, Tipo } from 'src/app/inventario-manager.service';
 
 @Component({
   selector: 'app-categoria-card',
@@ -10,13 +10,14 @@ import { Item } from 'src/app/inventario-manager.service';
 })
 export class CategoriaCardComponent implements OnInit {
 
-  @Input() tipo: string;
+  @Input() tipo: Tipo;
   urlOfImage = new BehaviorSubject<string>(null);
 
 
   constructor(private inv: InventarioManagerService) { }
 
   ngOnInit(): void {
+    this.urlOfImage.next('https://siriouploads.s3.amazonaws.com/' + `${this.tipo.link.split('.')[0]}.webp`);
   }
 
 }

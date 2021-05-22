@@ -10,7 +10,7 @@ export class LoginGuard implements CanActivate {
 
   canActivate() {
     if (this.auth.loggedIn()) {
-      this.router.navigate(['/inventario']);
+      this.router.navigate(['store', 'categorias']);
     }
     return !this.auth.loggedIn();
   }

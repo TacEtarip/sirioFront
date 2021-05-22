@@ -2,7 +2,7 @@
  #imagebg>
   <img  *ngIf="urlOfImage|async" [ngClass]="{'imageAnimation': animate$|async}" [src]="urlOfImage|async" alt="" class="imageTest" (load)="imageLoaded($event)">
 </a>
-<a *ngIf="!auth.loggedIn()" href="" class="infoPro">
+<a *ngIf="!auth.loggedIn()" href="/store/categorias/{{codigoTipo}}/{{subTipo}}" class="infoPro">
   <div class="nombre">
     <h1>{{tipoName$|async}}</h1>
   </div>
@@ -10,7 +10,7 @@
     <mat-icon [ngStyle]="{'justify-self': 'end'}">open_in_browser</mat-icon>
   </div>
 </a>
-<div *ngIf="auth.loggedIn()" href="" class="infoPro">
+<div *ngIf="auth.loggedIn()"  class="infoPro">
   <div class="nombre">
     <h1>{{tipoName$|async}}</h1>
   </div>

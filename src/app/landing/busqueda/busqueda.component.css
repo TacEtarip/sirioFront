@@ -185,5 +185,109 @@ main .listaCat {
   grid-template-columns: repeat(4, 250px);
 }
 
+@media screen and (max-width: 1300px) {
+  main .listaCat {
+    grid-template-columns: repeat(3, 250px);
+  }
 
+  .itemPresentacion {
+    gap: 3em;
+  }
+
+  .itemPresentacion {
+    padding: 2em 1em;
+  }
+
+}
+
+@media screen and (max-width: 1100px) {
+  .itemPresentacion {
+    display: grid;
+    grid-template-columns: 400px auto;
+  }
+
+  .itemImage {
+    width: 400px;
+    height: 400px;
+  }
+
+}
+
+@media screen and (max-width: 950px) {
+  main .listaCat {
+    grid-template-columns: repeat(2, 250px);
+  }
+
+  .previo h1 {
+    font-size: 50px;
+  }
+
+  .itemPresentacion {
+    grid-template-columns: 1fr;
+  }
+
+  .itemImage {
+    width: 600px;
+    height: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cantidadesOne {
+    display: none;
+  }
+
+  .cantidadesTwo {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 650px) {
+
+  .btns {
+    justify-content: center;
+  }
+
+
+  ::ng-deep .mat-list-item-content {
+    flex-wrap: nowrap;
+  }
+
+  main .listaCat {
+    grid-template-columns: repeat(1, 250px);
+  }
+
+
+
+  .previo h1 {
+    font-size: 38px;
+    margin-top: 80px;
+    padding: 0 .4em;
+  }
+
+  .itemImage {
+    width: 280px;
+    height: 280px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .navegacion {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  main {
+    padding: 1.5em;
+  }
+
+  .controles {
+    justify-content: center;
+  }
+
+
+}
 

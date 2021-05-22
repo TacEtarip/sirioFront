@@ -13,6 +13,7 @@
       Perfil
     </button>
     <button  (click)="aToLogin()" *ngIf="!auth.loggedIn()"  mat-menu-item>
+      <mat-icon color="accent">account_box</mat-icon>
       <span>Iniciar Sesión</span>
     </button>
     <button (click)="cerrarSesion()"  *ngIf="auth.loggedIn()" mat-menu-item>
@@ -33,13 +34,13 @@
 </mat-toolbar>
 <div class="menu">
   <div class="menuContenedorTodo">
-    <a href=""><h6 >Cel: +51 977 426 349</h6></a>
+    <a class="phoneLink" href=""><h6>Cel: +51 977 426 349</h6></a>
     <div class="navegacion">
       <div class="masterDrop" >
         <h6  [ngStyle]="{'line-height': 3, 'height': '100%' }">CATEGORIAS</h6>
         <div  class="dropMenu">
           <div class="contenedorMenu">
-            <a class="navLink" *ngFor="let tipo of tipos|async" href="store/categorias/{{tipo.codigo}}">{{tipo.name|uppercase}}</a>
+            <a class="navLink" *ngFor="let tipo of tipos|async" href="store/categorias/{{tipo.name}}">{{tipo.name|uppercase}}</a>
           </div>
         </div>
       </div>
@@ -96,7 +97,7 @@
   </div>
 </section>-->
 <footer>
-  <div>
+  <div class="presentacionFooter">
     <div>
       <h3 class="toMainPage" (click)="goToLink('http://www.siriodinar.com/inicio')" >¿Quienes Somos?</h3>
       <mat-divider></mat-divider>

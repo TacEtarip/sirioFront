@@ -89,7 +89,6 @@ export class LandingComponent implements OnInit, OnDestroy {
 
   selectItem(e: MatAutocompleteSelectedEvent) {
     this.item$.next(e.option.value);
-    console.log(this.item$.value);
     this.filteredItem$.next(null);
   }
 
@@ -97,7 +96,6 @@ export class LandingComponent implements OnInit, OnDestroy {
 
     this.inv.getListOfItemsFilteredByRegex(value.name || value, 15).subscribe(res => {
       if (res) {
-        console.log(res);
         this.filteredItem$.next(res);
         if (res.length === 0) {
           this.item$.next(null);

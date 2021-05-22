@@ -15,6 +15,7 @@ export class BusquedaComponent implements OnInit, OnDestroy {
 
   titulo$  = new BehaviorSubject<string>('');
   items$ = new BehaviorSubject<Item[]>([]);
+  itemSecond$ = new BehaviorSubject<Item[]>([]);
   routesSub: Subscription;
 
   constructor(private inv: InventarioManagerService, public dialog: MatDialog, private ar: ActivatedRoute,
@@ -26,7 +27,11 @@ export class BusquedaComponent implements OnInit, OnDestroy {
         this.titulo$.next(rutaM.get('busqueda'));
         this.inv.getItemsSearch(this.titulo$.value).subscribe((res) => {
           if (res) {
-            this.items$.next(res);
+            if (this.auth.loggedIn() && (this.auth.getTtype() === 'admin' || this.auth.getTtype() === 'vent')) {
+              this.items$.next(res);
+            } else {
+              this.itemSecond$.next(res);
+            }
           }
         });
       }

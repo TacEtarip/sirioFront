@@ -74,7 +74,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.auth.login(user).subscribe((res) => {
         this.form.enable();
         if (res.logged) {
-          this.router.navigate(['/inventario']);
+          this.router.navigate(['store', 'categorias']);
         } else if (res.credentialsErr) {
           this.countCredentialsError.next(this.countCredentialsError.value + 1);
           this.badCredentials = true;
