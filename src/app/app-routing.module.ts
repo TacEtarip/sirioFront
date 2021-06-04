@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginGuard } from './guards/login.guard';
-import { InventarioGuard } from './guards/inventario.guard';
-import { LandingGuard } from './guards/landing.guard';
 import { VentasGuard } from './guards/ventas.guard';
 import { UsuarioGuard } from './guards/usuario.guard';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
@@ -16,6 +14,7 @@ const routes: Routes = [
   canActivate: [VentasGuard], canLoad: [VentasGuard]},
   {path: 'usuario', loadChildren: () => import('./usuario/usuario.module').then(m => m.UsuarioModule)
   , canActivate: [UsuarioGuard], canLoad: [UsuarioGuard]},
+  {path: 'inventario', redirectTo: 'store', pathMatch: 'full'},
   {path: '', redirectTo: 'store', pathMatch: 'full'},
   {path: '**', component: NotFoundPageComponent}
 ];
