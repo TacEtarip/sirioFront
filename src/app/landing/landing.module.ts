@@ -49,11 +49,9 @@ import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import { TagsComponent } from './tags/tags.component';
 import { CaracteristicasComponent } from './caracteristicas/caracteristicas.component';
-import { BigImageComponent } from './big-image/big-image.component';
 import { BusquedaComponent } from './busqueda/busqueda.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {LayoutModule} from '@angular/cdk/layout';
-import { UploadSubCatImageComponent } from './upload-sub-cat-image/upload-sub-cat-image.component';
 import { ChangeOrderComponent } from './change-order/change-order.component';
 import { ChangeFoldersComponent } from './change-folders/change-folders.component';
 
@@ -62,7 +60,8 @@ import { ChangeFoldersComponent } from './change-folders/change-folders.componen
     SubTipoEditarComponent, UploadsDialogComponent, NewItemDialogComponent, EditarItemDialogComponent, EliminarDialogComponent,
     CategoriaCardComponent, CategoriasComponent, MainCategoriaCardComponent, MarcasDialogComponent, AgregarSubCategoriasComponent,
     UploadCatImageComponent, VentaDialogComponent, AgregarClaseItemComponent, EditarCantidadesDialogComponent, EliminarSubTipoComponent,
-     SubCategoriaCardComponent, ItemCardVendComponent, TagsComponent, CaracteristicasComponent, BigImageComponent, BusquedaComponent, UploadSubCatImageComponent, ChangeOrderComponent, ChangeFoldersComponent],
+     SubCategoriaCardComponent, ItemCardVendComponent, TagsComponent, CaracteristicasComponent,
+     BusquedaComponent, ChangeOrderComponent, ChangeFoldersComponent],
   imports: [
     CommonModule,
     LandingRoutingModule,

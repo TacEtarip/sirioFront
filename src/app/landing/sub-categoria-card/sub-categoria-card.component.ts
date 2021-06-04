@@ -3,10 +3,9 @@ import { SubTipoEditarComponent } from './../../inventario/inventario/sub-tipo-e
 import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { first, repeat, take } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth.service';
 import { InventarioManagerService } from 'src/app/inventario-manager.service';
-import { timer } from 'rxjs';
 import { UploadCatImageComponent } from './../upload-cat-image/upload-cat-image.component';
 
 @Component({

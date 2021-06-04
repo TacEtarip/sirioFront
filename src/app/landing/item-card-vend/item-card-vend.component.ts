@@ -6,7 +6,7 @@ import { EditarItemDialogComponent } from './../../inventario/inventario/editar-
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Item, InventarioManagerService } from 'src/app/inventario-manager.service';
-import { first, tap } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { UploadCatImageComponent } from '../upload-cat-image/upload-cat-image.component';
 import { VentaDialogComponent } from 'src/app/inventario/inventario/venta-dialog/venta-dialog.component';

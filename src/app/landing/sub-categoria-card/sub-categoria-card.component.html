@@ -6,7 +6,7 @@
   <img  *ngIf="urlOfImage|async" [ngClass]="{'imageAnimation': animate$|async}" [src]="urlOfImage|async" alt="" class="imageTest" (load)="imageLoaded($event)">
 </a>
 -->
-<a *ngIf="!auth.loggedIn()" href="/store/categorias/{{codigoTipo}}/{{subTipo}}" class="infoPro">
+<a aria-label="Ver Sub Categoria" *ngIf="!auth.loggedIn()" href="/store/categorias/{{codigoTipo}}/{{subTipo}}" class="infoPro">
   <div class="nombre">
     <h1>{{tipoName$|async}}</h1>
   </div>
@@ -19,7 +19,7 @@
     <h1>{{tipoName$|async}}</h1>
   </div>
   <div class="accion actLog">
-    <a class="btnCat" matTooltip="Ver Categoria" href="/store/categorias/{{codigoTipo}}/{{subTipo}}">
+    <a aria-label="Ver Sub Categoria" class="btnCat" matTooltip="Ver Categoria" href="/store/categorias/{{codigoTipo}}/{{subTipo}}">
       <mat-icon [ngStyle]="{'justify-self': 'end'}">open_in_browser</mat-icon>
     </a>
     <mat-icon (click)="openEditarNombreSubTipo()" matTooltip="Editar Nombre">edit</mat-icon>

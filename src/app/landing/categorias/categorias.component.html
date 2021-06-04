@@ -1,5 +1,5 @@
 <div class="previo">
-  <img class="presImg" width="272px" src="assets/parejaCompl.png" alt="">
+  <img class="presImg" height="219.72" width="272px" src="assets/parejaCompl.png" alt="">
   <h1 *ngIf="(estado$|async) === 'categoria' || (estado$|async) === 'pre'">{{titulo$|async}}</h1>
   <h1 *ngIf="(estado$|async) === 'sub'">{{tituloSub$|async}}</h1>
   <h1 *ngIf="(estado$|async) === 'item' && item$|async">{{((item$|async).name)}}</h1>
@@ -7,13 +7,13 @@
 
 <main>
   <div class="navegacion">
-    <a href="/store/categorias">CATEGORIAS</a>
+    <a aria-label="Ir a categorias" href="/store/categorias">CATEGORIAS</a>
     <h6 *ngIf="(estado$|async) === 'categoria' || (estado$|async) === 'sub' || (estado$|async) === 'item'">></h6>
-    <a *ngIf="(estado$|async) === 'categoria' || (estado$|async) === 'sub' || (estado$|async) === 'item'" href="/store/categorias/{{ruta}}">{{(titulo$|async)|uppercase}}</a>
+    <a aria-label="Ir Categoria" *ngIf="(estado$|async) === 'categoria' || (estado$|async) === 'sub' || (estado$|async) === 'item'" href="/store/categorias/{{ruta}}">{{(titulo$|async)|uppercase}}</a>
     <h6 *ngIf="(estado$|async) === 'sub'  || (estado$|async) === 'item'">></h6>
-    <a *ngIf="(estado$|async) === 'sub'  || (estado$|async) === 'item'" href="/store/categorias/{{ruta}}/{{tituloSub$|async}}">{{(tituloSub$|async)|uppercase}}</a>
+    <a aria-label="Ir Sub Categoria" *ngIf="(estado$|async) === 'sub'  || (estado$|async) === 'item'" href="/store/categorias/{{ruta}}/{{tituloSub$|async}}">{{(tituloSub$|async)|uppercase}}</a>
     <h6 *ngIf="(estado$|async) === 'item'">></h6>
-    <a *ngIf="(estado$|async) === 'item' && item$|async" href="/store/categorias/{{ruta}}/{{tituloSub$|async}}/{{itemCod}}">{{((item$|async).name)|uppercase}}</a>
+    <a aria-label="Ir Item" *ngIf="(estado$|async) === 'item' && item$|async" href="/store/categorias/{{ruta}}/{{tituloSub$|async}}/{{itemCod}}">{{((item$|async).name)|uppercase}}</a>
   </div>
   <div *ngIf="auth.loggedIn() && (estado$|async) !== 'item'" class="controles">
     <button *ngIf="(estado$|async) === 'pre'" (click)="openDialogAgregarCat()" matTooltip="Añadir Categoria" mat-fab color="warn" aria-label="Example icon button with a home icon">

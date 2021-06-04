@@ -1,12 +1,12 @@
 <div class="imagen"  [ngStyle]="{'background-image': 'url(' + (urlOfImage|async) + ')'}" >
-  <a [ngStyle]="{'height': '100%'}" href="/store/categorias/{{tipoCodigo}}/{{item.subTipo}}/{{item.codigo}}"></a>
+  <a aria-label="Ver Item" [ngStyle]="{'height': '100%'}" href="/store/categorias/{{tipoCodigo}}/{{item.subTipo}}/{{item.codigo}}"></a>
 </div>
 <div *ngIf="(item$|async)" class="infoPro">
   <div class="nombre">
     <h1>{{(item$|async).name}}</h1>
   </div>
   <div class="accion">
-    <a matTooltip="Ver Item" href="/store/categorias/{{tipoCodigo}}/{{item.subTipo}}/{{item.codigo}}"><mat-icon>open_in_browser</mat-icon></a>
+    <a aria-label="Ver Item" matTooltip="Ver Item" href="/store/categorias/{{tipoCodigo}}/{{item.subTipo}}/{{item.codigo}}"><mat-icon>open_in_browser</mat-icon></a>
     <mat-icon (click)="openDialogCambiarFolder()" matTooltip="Editar Cantidades">folder</mat-icon>
     <mat-icon (click)="openDialogEditarCantidades()" matTooltip="Editar Cantidades">poll</mat-icon>
     <mat-icon (click)="openDialogEditarItem()" matTooltip="Editar Item">edit</mat-icon>
