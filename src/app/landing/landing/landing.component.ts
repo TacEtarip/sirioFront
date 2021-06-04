@@ -3,7 +3,7 @@ import { Tipo } from './../../inventario-manager.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Router } from '@angular/router';
-import { FormGroup, FormControl, Validators, FormBuilder, FormArray, AbstractControl, ValidatorFn } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { InventarioManagerService, Item } from 'src/app/inventario-manager.service';
 import { AuthService } from '../../auth.service';

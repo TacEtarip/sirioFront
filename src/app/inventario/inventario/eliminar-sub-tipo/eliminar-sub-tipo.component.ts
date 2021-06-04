@@ -1,7 +1,6 @@
 import { Component, OnInit, Inject, EventEmitter } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { InventarioManagerService } from '../../../inventario-manager.service';
-import { Tipo } from '../../../inventario-manager.service';
 
 @Component({
   selector: 'app-eliminar-sub-tipo',

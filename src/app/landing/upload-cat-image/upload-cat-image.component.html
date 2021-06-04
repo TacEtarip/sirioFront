@@ -5,7 +5,7 @@
     <label matRipple for="img" class="custom-file-upload">
        Subir Imagén
     </label>
-    <input  (change)="onFileSelect($event.target.files)" type="file" spellcheck="false" name="img" id="img" formControlName="img">
+    <input  (change)="onFileSelect($event)" type="file" spellcheck="false" name="img" id="img" formControlName="img">
     <h4  [ngStyle]="{'margin': '0 0 0 .5em'}" class="succesMSG" *ngIf="showMessage">Imagén Subida Correctamente</h4>
   </form>
   <mat-progress-bar

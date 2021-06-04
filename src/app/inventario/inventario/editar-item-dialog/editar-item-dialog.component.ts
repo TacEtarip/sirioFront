@@ -1,11 +1,10 @@
 import { Component, OnInit, EventEmitter, Inject, ViewChild, ElementRef } from '@angular/core';
 
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 import { InventarioManagerService, Item, Marca} from '../../../inventario-manager.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
-import { CurrencyPipe } from '@angular/common';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
@@ -145,11 +144,9 @@ export class EditarItemDialogComponent implements OnInit {
   filterTagValue(value: any) {
     this.inventarioMNG.getListOfTagsFilteredByRegex(value.name || value, 15).subscribe(res => {
       if (res && res.length > 0) {
-        console.log('here6');
         this.filteredTags$.next(res);
       } else {
         this.filteredTags$.next(null);
-        console.log(this.myForm.get('tags').value);
       }
     });
   }

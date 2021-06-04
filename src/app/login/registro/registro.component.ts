@@ -1,10 +1,10 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService, UserRegister, FullUser, UserRegisterGoogle } from 'src/app/auth.service';
-import { BehaviorSubject, Subject, Subscription, Observable, interval, observable, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, Subscription, interval } from 'rxjs';
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder, AbstractControl, ValidatorFn } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder, AbstractControl, ValidatorFn } from '@angular/forms';
 import anime from 'animejs';
-import { distinctUntilChanged, first, debounceTime, timeInterval, tap, takeUntil, takeWhile, skip } from 'rxjs/operators';
+import { distinctUntilChanged, first, debounceTime, takeWhile } from 'rxjs/operators';
 import { Title, Meta } from '@angular/platform-browser';
 
 interface TipoDoc {

@@ -5,14 +5,14 @@
     <label matRipple for="img" class="custom-file-upload">
        Subir Imagén
     </label>
-    <input (change)="onFileSelect($event.target.files)" type="file" spellcheck="false" name="img" id="img" formControlName="img">
+    <input (change)="onFileSelect($event)" type="file" spellcheck="false" name="img" id="img" formControlName="img">
     <h4  [ngStyle]="{'margin': '0 0 0 .5em'}" class="succesMSG" *ngIf="showMessage">Imagén Subida Correctamente</h4>
   </form>
     <form  [formGroup]="uploadFileForm" (ngSubmit)="onSubmitPDF()" class="new-item-form topForm customUpload">
       <label matRipple for="pdf" class="custom-file-upload">
         Subir Ficha
       </label>
-      <input (change)="onFileSelectPDF($event.target.files)" type="file" spellcheck="false" name="pdf" id="pdf" formControlName="pdf">
+      <input (change)="onFileSelectPDF($event)" type="file" spellcheck="false" name="pdf" id="pdf" formControlName="pdf">
       <h4  [ngStyle]="{'margin': '0 0 0 .5em'}" class="succesMSG" *ngIf="showMessagePDF">Ficha Subida Correctamente</h4>
     </form>
 </div>

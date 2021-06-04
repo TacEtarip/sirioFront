@@ -39,13 +39,17 @@ export class UploadsDialogComponent implements OnInit {
     });
   }
 
-  onFileSelect(files: FileList) {
+  onFileSelect(event: Event) {
+    const target = event.target as HTMLInputElement;
+    const files = target.files as FileList;
     this.fileToUpload = files.item(0);
     this.onSubmitIMG();
     this.showMessage = false;
   }
 
-  onFileSelectPDF(files: FileList) {
+  onFileSelectPDF(event: Event) {
+    const target = event.target as HTMLInputElement;
+    const files = target.files as FileList;
     this.fileToUploadPDF = files.item(0);
     this.onSubmitPDF();
     this.showMessagePDF = false;

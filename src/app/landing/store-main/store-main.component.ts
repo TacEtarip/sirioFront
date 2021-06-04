@@ -1,5 +1,5 @@
 import {  Component, OnInit, OnDestroy } from '@angular/core';
-import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Router } from '@angular/router';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
@@ -14,13 +14,6 @@ import anime from 'animejs';
   styleUrls: ['./store-main.component.css']
 })
 export class StoreMainComponent implements OnInit, OnDestroy {
-
-  mobileQueryOne: MediaQueryList;
-  mobileQueryTwo: MediaQueryList;
-  mobileQueryThree: MediaQueryList;
-  mobileQueryFour: MediaQueryList;
-
-  private mobileQueryListener: () => void;
 
   busqueda: FormGroup;
 

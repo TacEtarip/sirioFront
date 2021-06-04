@@ -7,6 +7,7 @@
   </div>
   <div class="accion">
     <a matTooltip="Ver Item" href="/store/categorias/{{tipoCodigo}}/{{item.subTipo}}/{{item.codigo}}"><mat-icon>open_in_browser</mat-icon></a>
+    <mat-icon (click)="openDialogCambiarFolder()" matTooltip="Editar Cantidades">folder</mat-icon>
     <mat-icon (click)="openDialogEditarCantidades()" matTooltip="Editar Cantidades">poll</mat-icon>
     <mat-icon (click)="openDialogEditarItem()" matTooltip="Editar Item">edit</mat-icon>
     <mat-icon (click)="openDialogCambiarImagen()" matTooltip="Cambiar Foto">insert_photo</mat-icon>

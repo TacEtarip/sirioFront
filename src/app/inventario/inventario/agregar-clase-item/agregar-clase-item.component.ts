@@ -1,6 +1,6 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { Component, OnInit, EventEmitter } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import {InventarioManagerService} from '../../../inventario-manager.service';
 
 @Component({

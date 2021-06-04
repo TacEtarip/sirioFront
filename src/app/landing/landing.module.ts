@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { LandingComponent } from './landing/landing.component';
 import { LandingRoutingModule } from './landing-routing.module';
 import {MatChipsModule} from '@angular/material/chips';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 import { NewItemDialogComponent } from './../inventario/inventario/new-item-dialog/new-item-dialog.component';
 import { AgregarClaseItemComponent } from './../inventario/inventario/agregar-clase-item/agregar-clase-item.component';
@@ -52,13 +53,16 @@ import { BigImageComponent } from './big-image/big-image.component';
 import { BusquedaComponent } from './busqueda/busqueda.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {LayoutModule} from '@angular/cdk/layout';
+import { UploadSubCatImageComponent } from './upload-sub-cat-image/upload-sub-cat-image.component';
+import { ChangeOrderComponent } from './change-order/change-order.component';
+import { ChangeFoldersComponent } from './change-folders/change-folders.component';
 
 @NgModule({
   declarations: [LandingComponent, ItemcardComponent, StoreMainComponent, SeguroEliminarComponent,  EditarClaseComponent,
     SubTipoEditarComponent, UploadsDialogComponent, NewItemDialogComponent, EditarItemDialogComponent, EliminarDialogComponent,
     CategoriaCardComponent, CategoriasComponent, MainCategoriaCardComponent, MarcasDialogComponent, AgregarSubCategoriasComponent,
     UploadCatImageComponent, VentaDialogComponent, AgregarClaseItemComponent, EditarCantidadesDialogComponent, EliminarSubTipoComponent,
-     SubCategoriaCardComponent, ItemCardVendComponent, TagsComponent, CaracteristicasComponent, BigImageComponent, BusquedaComponent],
+     SubCategoriaCardComponent, ItemCardVendComponent, TagsComponent, CaracteristicasComponent, BigImageComponent, BusquedaComponent, UploadSubCatImageComponent, ChangeOrderComponent, ChangeFoldersComponent],
   imports: [
     CommonModule,
     LandingRoutingModule,
@@ -84,7 +88,8 @@ import {LayoutModule} from '@angular/cdk/layout';
     MatTableModule,
     MatSortModule,
     MatChipsModule,
-    LayoutModule
+    LayoutModule,
+    DragDropModule
   ]
 })
 export class LandingModule { }

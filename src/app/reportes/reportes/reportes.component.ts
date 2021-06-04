@@ -1,8 +1,9 @@
 import { InventarioManagerService } from 'src/app/inventario-manager.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth.service';
+import { BreakpointObserver } from '@angular/cdk/layout';
 @Component({
   selector: 'app-reportes',
   templateUrl: './reportes.component.html',
@@ -14,7 +15,7 @@ export class ReportesComponent implements OnInit {
   single: any[];
   clientes: any[];
 
-  view: any[] = [700, 300];
+  view: [number, number] = [800, 400];
 
   // options line chart
   legend: true;
@@ -76,8 +77,18 @@ export class ReportesComponent implements OnInit {
 
   clienteMayorIngreso = { name: '', cantidad: 0 };
 
+  smallSubs: Subscription;
 
-  constructor(public auth: AuthService, private inv: InventarioManagerService, private router: Router) {
+  constructor(public auth: AuthService, private inv: InventarioManagerService,
+              private router: Router, breakpointObserver: BreakpointObserver) {
+    const isSmallScreenObs = breakpointObserver.observe(['(max-width: 900px)', '(max-width: 700px)']);
+
+    this.smallSubs = isSmallScreenObs.subscribe(res => {
+      if (res.breakpoints['(max-width: 900px)'] === true) {
+        this.view = [550, 300];
+      }
+    });
+
     inv.getGraphOverTimeInfo().subscribe(multi => {
       if (multi) {
         this.doneDataCollect$.next(this.doneDataCollect$.value + 1);
@@ -173,15 +184,12 @@ export class ReportesComponent implements OnInit {
   }
 
   onSelect(data): void {
-    console.log('Item clicked', JSON.parse(JSON.stringify(data)));
   }
 
   onActivate(data): void {
-    console.log('Activate', JSON.parse(JSON.stringify(data)));
   }
 
   onDeactivate(data): void {
-    console.log('Deactivate', JSON.parse(JSON.stringify(data)));
   }
 
 }

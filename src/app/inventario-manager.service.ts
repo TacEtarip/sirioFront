@@ -10,8 +10,8 @@ import { AuthService } from './auth.service';
 })
 export class InventarioManagerService {
 
-  // baseUrl = 'https://inventario-sirio-dinar.herokuapp.com/';
-  baseUrl = 'http://localhost:5000/';
+  baseUrl = 'https://inventario-sirio-dinar.herokuapp.com/';
+  // baseUrl = 'http://localhost:5000/';
 
 
   constructor(private http: HttpClient, private auth: AuthService, private router: Router,
@@ -709,6 +709,8 @@ export class InventarioManagerService {
       .pipe(first());
   }
 
+
+
   getTipo(codigo: string): Observable<Tipo>{
     return this.http.get<Tipo>( this.baseUrl + 'inventario/getTipo/' + codigo)
       .pipe(first());
@@ -955,7 +957,31 @@ export class InventarioManagerService {
     const formData: FormData = new FormData();
     formData.append('img', img);
     formData.append('oldPhoto', oldPhoto);
+    console.log(img);
     return this.http.post<Tipo>(this.baseUrl +  'inventario/uploads/imageCat/' + cod, formData)
+            .pipe(first(),
+              catchError(error => {
+                switch (error.status) {
+                  case 0:
+                    alert('Error al tratar de conectar al servidor');
+                    break;
+                  case 700:
+                    break;
+                  default:
+                    alert(error.error.error.message);
+                    break;
+                }
+                return of(null);
+              })
+            );
+  }
+
+
+  uploadFileSubCAT(img: File, cod: string, subCat: string, oldPhoto: string): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('img', img);
+    formData.append('oldPhoto', oldPhoto);
+    return this.http.post<any>(this.baseUrl +  'inventario/uploads/imageSubCat/' + cod + '/' + subCat, formData)
             .pipe(first(),
               catchError(error => {
                 switch (error.status) {
@@ -1043,7 +1069,6 @@ export class InventarioManagerService {
                               case 700:
                                 break;
                               default:
-                                alert(error.error.error.message);
                                 break;
                           }
                             return of(null);
@@ -1079,7 +1104,6 @@ export class InventarioManagerService {
               case 700:
                 break;
               default:
-                alert(error.error.error.message);
                 break;
           }
             return of(false);
@@ -1296,6 +1320,78 @@ export class InventarioManagerService {
           break;
         default:
           alert(error.error.message);
+          break;
+        }
+        return of(null);
+    }));
+  }
+
+  reOrderTipos(tiposReOrder: Tipo[]): Observable<any> {
+    return this.http.post<any>(this.baseUrl + 'inventario/reorderTipos', { tiposReOrder })
+    .pipe(first(),
+    catchError(error => {
+        switch (error.status) {
+        case 0:
+          alert('Error al tratar de conectar al servidor');
+          break;
+        case 700:
+          break;
+        default:
+          alert(error.error.errorMSG);
+          break;
+        }
+        return of(null);
+    }));
+  }
+
+  reOrderSubTipos(tipoCodigo: string, linksList: string[], subTipoList: string[]): Observable<Tipo> {
+    return this.http.post<Tipo>(this.baseUrl + 'inventario/reorderSubTipos', { tipoCodigo, linksList, subTipoList })
+    .pipe(first(),
+    catchError(error => {
+        switch (error.status) {
+        case 0:
+          alert('Error al tratar de conectar al servidor');
+          break;
+        case 700:
+          break;
+        default:
+          alert(error.error.errorMSG);
+          break;
+        }
+        return of(null);
+    }));
+  }
+
+  reOrderItems(itemReOrder: Item[]): Observable<any> {
+    return this.http.post<any>(this.baseUrl + 'inventario/reorderItems', { itemReOrder })
+    .pipe(first(),
+    catchError(error => {
+        switch (error.status) {
+        case 0:
+          alert('Error al tratar de conectar al servidor');
+          break;
+        case 700:
+          break;
+        default:
+          alert(error.error.errorMSG);
+          break;
+        }
+        return of(null);
+    }));
+  }
+
+  changeFolder(newTipo: string, newSubTipo: string, codigo: string): Observable<any> {
+    return this.http.post<any>(this.baseUrl + 'inventario/changeFolder', { newTipo, newSubTipo, codigo })
+    .pipe(first(),
+    catchError(error => {
+        switch (error.status) {
+        case 0:
+          alert('Error al tratar de conectar al servidor');
+          break;
+        case 700:
+          break;
+        default:
+          alert(error.error.errorMSG);
           break;
         }
         return of(null);
@@ -1530,6 +1626,7 @@ export interface Item {
   costoPropio: number;
   tags?: string[];
   caracteristicas?: string[];
+  order?: number;
 }
 
 export interface Tipo {
@@ -1539,6 +1636,7 @@ export interface Tipo {
   subTipo: string[];
   deleted?: boolean;
   link?: string;
+  subTipoLink?: string[];
 }
 
 interface FileUploaded {

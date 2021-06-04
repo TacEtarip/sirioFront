@@ -1,7 +1,7 @@
 import { InventarioManagerService } from './../../inventario-manager.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Item, Tipo } from 'src/app/inventario-manager.service';
+import { Tipo } from 'src/app/inventario-manager.service';
 
 @Component({
   selector: 'app-categoria-card',

@@ -31,12 +31,22 @@
     <button *ngIf="(estado$|async) !== 'item'" (click)="openDialogAgregarTags()" matTooltip="Añadir Tags" mat-fab  aria-label="Example icon button with a home icon" class="marcasBtn">
       <mat-icon class="icon-img ">label</mat-icon>
     </button>
+    <button  color="white" *ngIf="(estado$|async) === 'pre'" (click)="openDialogReOrdenarCat()" matTooltip="Ordenar Categorias" mat-fab  class="marcasBtn">
+      <mat-icon class="icon-img ">reorder</mat-icon>
+    </button>
+    <button color="white" *ngIf="(estado$|async) === 'categoria'" (click)="openDialogReOrdenarSubCat()" matTooltip="Ordenar Sub Categorias" mat-fab  class="marcasBtn">
+      <mat-icon class="icon-img ">reorder</mat-icon>
+    </button>
+    <button color="white" *ngIf="(estado$|async) === 'sub'" (click)="openDialogReOrdenarItems()" matTooltip="Ordenar Items" mat-fab  class="marcasBtn">
+      <mat-icon class="icon-img ">reorder</mat-icon>
+    </button>
   </div>
   <div class="presentacion" *ngIf="(estado$|async) !== 'item'">
     <section class="listaCat" >
       <app-main-categoria-card (deleteEvent)="actCategorias($event)" *ngFor="let item of tipos|async" [tipo]="item"></app-main-categoria-card>
-      <app-sub-categoria-card  (deleteEvent)="actSubCategorias($event)" *ngFor="let item of subTipos$|async" [subTipo]="item" [codigoTipo]="ruta" [nameTipo]="titulo$|async"></app-sub-categoria-card>
-      <app-item-card-vend [tipoCodigo]="ruta" (deleteEvent)="eliminarItem($event)" *ngFor="let item of items|async" [item]="item"></app-item-card-vend>
+      <app-sub-categoria-card (deleteEvent)="actSubCategorias($event)" *ngFor="let item of subTipos$|async; let i = index" [subTipo]="item" [codigoTipo]="ruta"
+      [nameTipo]="titulo$|async" [photoLink]="(subTiposPhoto$|async)[i]"></app-sub-categoria-card>
+      <app-item-card-vend [tipoCodigo]="ruta" (changeCarpetaEvent)="actChangeItems($event)" (deleteEvent)="eliminarItem($event)" *ngFor="let item of items|async" [item]="item"></app-item-card-vend>
       <app-itemcard *ngFor="let item of itemSecond|async"  [item]="item"></app-itemcard>
     </section>
   </div>

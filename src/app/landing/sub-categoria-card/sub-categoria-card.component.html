@@ -1,7 +1,11 @@
+<a href="/store/categorias/{{codigoTipo}}/{{subTipo}}"  class="imagen"
+[ngStyle]="{'background-image': 'url(' + (urlOfImage|async) + ')'}" ></a>
+<!--
 <a [ngStyle]="{'height': '320px'}" href="/store/categorias/{{codigoTipo}}/{{subTipo}}" class="imagen"
  #imagebg>
   <img  *ngIf="urlOfImage|async" [ngClass]="{'imageAnimation': animate$|async}" [src]="urlOfImage|async" alt="" class="imageTest" (load)="imageLoaded($event)">
 </a>
+-->
 <a *ngIf="!auth.loggedIn()" href="/store/categorias/{{codigoTipo}}/{{subTipo}}" class="infoPro">
   <div class="nombre">
     <h1>{{tipoName$|async}}</h1>
@@ -19,6 +23,7 @@
       <mat-icon [ngStyle]="{'justify-self': 'end'}">open_in_browser</mat-icon>
     </a>
     <mat-icon (click)="openEditarNombreSubTipo()" matTooltip="Editar Nombre">edit</mat-icon>
+    <mat-icon (click)="openCambiarImagen()"  matTooltip="Cambiar Foto">insert_photo</mat-icon>
     <mat-icon (click)="openEliminarSubTipo()" matTooltip="Eliminar Categoria">delete</mat-icon>
   </div>
 </div>

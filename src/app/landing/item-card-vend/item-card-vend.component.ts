@@ -1,3 +1,4 @@
+import { ChangeFoldersComponent } from './../change-folders/change-folders.component';
 import { AuthService } from './../../auth.service';
 import { EliminarDialogComponent } from './../../inventario/inventario/eliminar-dialog/eliminar-dialog.component';
 import { EditarCantidadesDialogComponent } from './../../inventario/inventario/editar-cantidades-dialog/editar-cantidades-dialog.component';
@@ -5,12 +6,11 @@ import { EditarItemDialogComponent } from './../../inventario/inventario/editar-
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Item, InventarioManagerService } from 'src/app/inventario-manager.service';
-import { first } from 'rxjs/operators';
+import { first, tap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { UploadCatImageComponent } from '../upload-cat-image/upload-cat-image.component';
 import { VentaDialogComponent } from 'src/app/inventario/inventario/venta-dialog/venta-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
 @Component({
   selector: 'app-item-card-vend',
   templateUrl: './item-card-vend.component.html',
@@ -21,6 +21,7 @@ export class ItemCardVendComponent implements OnInit {
   @Input() tipoCodigo: string;
 
   @Output() deleteEvent = new EventEmitter<string>();
+  @Output() changeCarpetaEvent = new EventEmitter<Item>();
 
   item$ = new BehaviorSubject<Item>(null);
   urlOfImage = new BehaviorSubject<string>(null);
@@ -78,6 +79,18 @@ export class ItemCardVendComponent implements OnInit {
         this.item = res;
         this.item$.next(res);
         this.urlOfImage.next('https://siriouploads.s3.amazonaws.com/' + `${this.item$.value.photo.split('.')[0]}.webp`);
+      }
+    });
+  }
+
+  openDialogCambiarFolder() {
+    const dialogRef = this.dialog.open(ChangeFoldersComponent, {
+      width: '600px',
+      data: { item: this.item$.value }
+    });
+    dialogRef.afterClosed().pipe(first()).subscribe(res => {
+      if (res) {
+        this.changeCarpetaEvent.emit(res);
       }
     });
   }

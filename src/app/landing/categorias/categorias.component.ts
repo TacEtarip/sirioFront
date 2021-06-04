@@ -1,3 +1,4 @@
+import { ChangeOrderComponent } from './../change-order/change-order.component';
 import { AgregarSubCategoriasComponent } from './../../inventario/inventario/agregar-sub-categorias/agregar-sub-categorias.component';
 import { CaracteristicasComponent } from './../caracteristicas/caracteristicas.component';
 import { TagsComponent } from './../tags/tags.component';
@@ -6,7 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/auth.service';
 import { InventarioManagerService, Tipo } from './../../inventario-manager.service';
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { BehaviorSubject, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { AgregarClaseItemComponent } from '../../inventario/inventario/agregar-clase-item/agregar-clase-item.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { first } from 'rxjs/operators';
@@ -35,6 +36,8 @@ export class CategoriasComponent implements OnInit, OnDestroy {
   estado$ = new BehaviorSubject<string>('pre');
   estados = ['pre', 'categoria', 'sub', 'item'];
   subTipos$ = new BehaviorSubject<string[]>(null);
+  subTiposPhoto$ = new BehaviorSubject<string[]>(null);
+
   columnas = 'repeat(4, max-content)';
   titulo$  = new BehaviorSubject<string>('');
   tituloSub$ = new BehaviorSubject<string>('');
@@ -72,7 +75,6 @@ export class CategoriasComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.routesSub = this.ar.paramMap.subscribe(rutaM => {
-      console.log('here');
       this.subTipos$.next(null);
       this.tipos.next(null);
       this.items.next(null);
@@ -93,6 +95,7 @@ export class CategoriasComponent implements OnInit, OnDestroy {
             } else {
               this.estado$.next('categoria');
               this.subTipos$.next(res.subTipo);
+              this.subTiposPhoto$.next(res.subTipoLink);
             }
           });
 
@@ -142,7 +145,7 @@ export class CategoriasComponent implements OnInit, OnDestroy {
     this.dialogRef.afterClosed().pipe(first()).subscribe((res) => {
       if (res) {
         const tempArrayTipo = this.tipos.value;
-        tempArrayTipo.push(res);
+        tempArrayTipo.unshift(res);
         this.tipos.next(tempArrayTipo);
       }
     });
@@ -168,7 +171,6 @@ export class CategoriasComponent implements OnInit, OnDestroy {
   }
 
   actSubCategorias(tipo: string) {
-    console.log(tipo);
     const tempArraySTipo = this.subTipos$.value;
     const indexDeletedItem = tempArraySTipo.indexOf(tipo);
     tempArraySTipo.splice(indexDeletedItem, 1);
@@ -193,7 +195,6 @@ export class CategoriasComponent implements OnInit, OnDestroy {
         switchA = !switchA;
     }
 
-    console.log(newString);
     return newString;
   }
 
@@ -213,7 +214,7 @@ export class CategoriasComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().pipe(first()).subscribe((res) => {
       if (res) {
         const tempArrayItem = this.items.value;
-        tempArrayItem.push(res);
+        tempArrayItem.unshift(res);
         this.items.next(tempArrayItem);
       }
     });
@@ -225,6 +226,10 @@ export class CategoriasComponent implements OnInit, OnDestroy {
         this.actItems(res);
       }
     });
+  }
+
+  actChangeItems(item: Item) {
+    this.actItems(item);
   }
 
   openDialogVenta(): void {
@@ -288,6 +293,50 @@ export class CategoriasComponent implements OnInit, OnDestroy {
     });
   }
 
+  openDialogReOrdenarCat() {
+    const listTemporal =  this.tipos.value;
+    window.scroll(0, 0);
+    const dialogRef = this.dialog.open(ChangeOrderComponent, {
+      width: '800px',
+      data: {categorias: listTemporal},
+    });
+
+    dialogRef.afterClosed().pipe(first()).subscribe(res => {
+      if (res) {
+          this.tipos.next(res);
+      }
+    });
+  }
+
+
+  openDialogReOrdenarSubCat() {
+    window.scroll(0, 0);
+    const dialogRef = this.dialog.open(ChangeOrderComponent, {
+      width: '800px',
+      data: {subCategorias: { names: this.subTipos$.value, links: this.subTiposPhoto$.value, tipoCodigo: this.ruta }},
+    });
+
+    dialogRef.afterClosed().pipe(first()).subscribe((res: Tipo) => {
+      if (res) {
+          this.subTipos$.next(res.subTipo);
+          this.subTiposPhoto$.next(res.subTipoLink);
+      }
+    });
+  }
+
+  openDialogReOrdenarItems() {
+    window.scroll(0, 0);
+    const dialogRef = this.dialog.open(ChangeOrderComponent, {
+      width: '800px',
+      data: { items: this.items.value },
+    });
+
+    dialogRef.afterClosed().pipe(first()).subscribe((res: Item[]) => {
+      if (res) {
+          this.items.next(res);
+      }
+    });
+  }
 
   openDialogAgregarSubCat(): void {
     const dialogRef = this.dialog.open(AgregarSubCategoriasComponent, {
@@ -296,8 +345,9 @@ export class CategoriasComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().pipe(first()).subscribe((res) => {
-      this.inv.getSubTipos(this.ruta).subscribe((resST) => {
-        this.subTipos$.next(resST.subTipo);
+      this.inv.getTipo(this.ruta).subscribe(resT => {
+        this.subTipos$.next(resT.subTipo);
+        this.subTiposPhoto$.next(resT.subTipoLink);
       });
     });
   }

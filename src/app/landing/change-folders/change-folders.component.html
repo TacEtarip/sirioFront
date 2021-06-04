@@ -1,0 +1,27 @@
+<h1 mat-dialog-title class="title">Cambiar carpeta de item</h1>
+<mat-dialog-content cdkScrollable *ngIf="(tiposArray|async).length">
+  <form [formGroup]="cambioFolderForm">
+    <mat-form-field appearance="fill" class="fill-width">
+      <mat-label>Tipo</mat-label>
+    <mat-select (selectionChange)="cambioTipo($event)" name="selectTipo" id="selectTipo" formControlName="selectTipo">
+      <mat-option *ngFor="let tipo of tiposArray|async" [value]="tipo">{{tipo.name}}</mat-option>
+    </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="fill-width">
+      <mat-label>Sub Tipo</mat-label>
+    <mat-select name="selectSubTipo" id="selectSubTipo" formControlName="selectSubTipo">
+      <mat-option *ngFor="let subTipo of subTipoArray|async" [value]="subTipo">{{subTipo}}</mat-option>
+    </mat-select>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-content *ngIf="(tiposArray|async).length === 0">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button color="primary" mat-flat-button mat-dialog-close>Cancelar</button>
+  <button [disabled]="!cambioFolderForm.valid || !(data.item.subTipo !== cambioFolderForm.value.selectSubTipo)"
+  mat-flat-button color="accent"
+  (click)="cambiarCarpeta(cambioFolderForm.value)">Cambiar</button>
+</mat-dialog-actions>

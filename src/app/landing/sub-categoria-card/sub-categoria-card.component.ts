@@ -1,12 +1,13 @@
 import { EliminarSubTipoComponent } from './../../inventario/inventario/eliminar-sub-tipo/eliminar-sub-tipo.component';
 import { SubTipoEditarComponent } from './../../inventario/inventario/sub-tipo-editar/sub-tipo-editar.component';
-import { Component, EventEmitter, Input, OnInit, Output, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { BehaviorSubject, Subject, Subscription } from 'rxjs';
-import { first, repeat, repeatWhen, take } from 'rxjs/operators';
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { first, repeat, take } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth.service';
 import { InventarioManagerService } from 'src/app/inventario-manager.service';
 import { timer } from 'rxjs';
+import { UploadCatImageComponent } from './../upload-cat-image/upload-cat-image.component';
 
 @Component({
   selector: 'app-sub-categoria-card',
@@ -17,12 +18,13 @@ export class SubCategoriaCardComponent implements OnInit, OnDestroy {
 
   @Input() subTipo: string;
   @Input() codigoTipo: string;
+  @Input() photoLink: string;
   @Input() nameTipo: string;
   @Output() deleteEvent = new EventEmitter<string>();
 
   timerSubject: Subscription;
 
-  urlOfImage = new BehaviorSubject<string>(null);
+  urlOfImage = new BehaviorSubject<string>('');
   tipoName$ = new BehaviorSubject<string>('');
 
   indexOfImages = 0;
@@ -41,6 +43,8 @@ export class SubCategoriaCardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.urlOfImage.next('https://siriouploads.s3.amazonaws.com/' + `${this.photoLink.split('.')[0]}.webp`);
+    /*
     this.inv.getPhotoTipoRandom(this.nameTipo, this.subTipo).subscribe(res => {
       this.timerSubject = timer(0, 2000).pipe(take(res.photos.length * 2), repeat()).subscribe(x => {
         if (x % 2 === 0) {
@@ -52,7 +56,7 @@ export class SubCategoriaCardComponent implements OnInit, OnDestroy {
           }
         }
       });
-    });
+    });*/
     // this.urlOfImage.next('https://siriouploads.s3.amazonaws.com/' + `${this.tipo.link.split('.')[0]}.webp`);
     this.tipoName$.next(this.subTipo);
   }
@@ -63,6 +67,20 @@ export class SubCategoriaCardComponent implements OnInit, OnDestroy {
     } else {
       this.animate$.next(true);
     }
+  }
+
+  openCambiarImagen() {
+    const dialogRef = this.dialog.open(UploadCatImageComponent, {
+      width: '600px',
+      data: { tipo: null, item: null, subTipo: {tipoName: this.codigoTipo, subTipoName: this.subTipo, oldPhoto: this.photoLink} }
+    });
+
+    dialogRef.componentInstance.onUploaded.pipe(first()).subscribe(res => {
+      if (res) {
+        // this.tipoName$.next(res.name);
+        this.urlOfImage.next('https://siriouploads.s3.amazonaws.com/' + `${res.newPhoto.split('.')[0]}.webp`);
+      }
+    });
   }
 
   openEditarNombreSubTipo() {

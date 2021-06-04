@@ -2,7 +2,7 @@ import { Component, OnInit, EventEmitter, Inject, ElementRef, ViewChild } from '
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material/chips';
 
-import { FormGroup, FormControl, Validators, FormBuilder, FormControlName, FormArray } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder, FormArray } from '@angular/forms';
 
 import { InventarioManagerService, Item, SubConteo, Marca} from '../../../inventario-manager.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -140,11 +140,9 @@ export class NewItemDialogComponent implements OnInit {
   filterTagValue(value: any) {
     this.inventarioMNG.getListOfTagsFilteredByRegex(value.name || value, 15).subscribe(res => {
       if (res && res.length > 0) {
-        console.log('here6');
         this.filteredTags$.next(res);
       } else {
         this.filteredTags$.next(null);
-        console.log(this.myForm.get('tags').value);
       }
     });
   }

@@ -38,6 +38,7 @@ export class MainCategoriaCardComponent implements OnInit {
 
     dialogRef.afterClosed().pipe(first()).subscribe((res: Tipo) => {
       if (res) {
+        this.tipo = res;
         this.tipoName$.next(res.name);
       }
     });

@@ -1,6 +1,6 @@
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { AuthService, User } from '../../auth.service';
 import { Router } from '@angular/router';
 import { Title, Meta } from '@angular/platform-browser';
@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   constructor(private formBuilder: FormBuilder, private auth: AuthService,
               private titleService: Title,
-              private metaTagService: Meta,private router: Router) {
+              private metaTagService: Meta, private router: Router) {
     this.sitekey = '6Lc-GTIaAAAAABaw-oeMyoV6jZvkn9jRdaUwa_VT';
   }
   ngOnDestroy(): void {

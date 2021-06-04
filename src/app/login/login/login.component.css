@@ -89,8 +89,9 @@ select:-webkit-autofill:focus {
 }
 
 .main-login {
-  background-image: url(/assets/supply.jpg);
-  background-size: cover;
+  background-image: url('/assets/patternSirio.jpg');
+  background-repeat: repeat;
+  background-size: 10%;
   grid-column: 1/13;
   display: flex;
   justify-content: center;

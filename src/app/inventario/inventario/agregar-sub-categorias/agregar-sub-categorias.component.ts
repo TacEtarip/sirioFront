@@ -1,6 +1,6 @@
-import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { Component, OnInit, EventEmitter, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import {InventarioManagerService} from '../../../inventario-manager.service';
 
 @Component({
@@ -33,17 +33,16 @@ export class AgregarSubCategoriasComponent implements OnInit {
 
   onSubmit() {
     this.form.disable();
-    this.inventarioMNG.agregarSubTipo(this.form.get('subTipo').value.trim(), this.data.codigo).subscribe((res) => {
+    const subTipoName = this.form.get('subTipo').value.trim();
+    this.inventarioMNG.agregarSubTipo(subTipoName, this.data.codigo).subscribe((res) => {
       this.form.enable();
       if (res) {
         this.form.reset();
         this.showMessage = true;
-        this.onSucces.emit();
       } else {
         this.form.enable();
         alert('Error al agregar una sub categoria');
       }
-
     });
   }
 

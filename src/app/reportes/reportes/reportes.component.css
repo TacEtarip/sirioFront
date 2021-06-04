@@ -199,3 +199,11 @@ h2 {
   }
 
 }
+
+@media screen and (max-width: 700px) {
+  .graphContainer {
+    padding: 0em;
+    width: 270px;
+    overflow: auto;
+  }
+}
