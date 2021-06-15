@@ -106,21 +106,23 @@
           </mat-list>
         <div  *ngIf="auth.loggedIn()" class="btns">
           <button (click)="openDialogEditarItem()" mat-stroked-button >Editar Item</button>
-          <button (click)="openCaracteristicas()" mat-stroked-button class="reporte"  >Caracteristicas</button>
+          <button (click)="openDialogEditarItemCantidades()" mat-stroked-button >Editar Cantidades</button>
+          <button (click)="openCaracteristicas()" mat-stroked-button class="reporte">Caracteristicas</button>
         </div>
         <H2 [ngStyle]="{'padding-top': '1em'}">PRECIOS</H2>
-        <h4>Precio: {{(item$|async).priceIGV|currency:'S/'}} | Precio Sin IGV: {{(item$|async).priceNoIGV|currency:'S/'}} | Marca: {{(item$|async).marca}}</h4>
+        <h4>Precio: {{(item$|async).priceIGV|currency:'S/'}} | Precio Sin IGV: {{(item$|async).priceNoIGV|currency:'S/'}} | Marca: {{(item$|async).marca}} | {{(item$|async).codigo}}</h4>
         <h5>*Los precios son por unidad. No dude en consultarnos por precios al por mayor.</h5>
+        <div class="btns">
+          <button class="reporte"  (click)="openLink()" mat-flat-button color="accent">Contactar</button>
+          <button *ngIf="auth.loggedIn()" (click)=" openDialogVenta()" mat-stroked-button >Vender</button>
+          <button  class="reporte"   [disabled]="!(item$|async).ficha" mat-stroked-button >Descargar Ficha</button>
+          <button *ngIf="auth.loggedIn()" class="reporte"  mat-stroked-button >Ver Reporte</button>
+        </div>
         <H2 [ngStyle]="{'padding-top': '1em'}">TAGS</H2>
         <mat-chip-list aria-label="Tags" [ngStyle]="{'padding': ' 1em 0'}">
           <mat-chip color="primary" selected  *ngFor="let tag of (item$|async).tags">{{tag}}</mat-chip>
         </mat-chip-list>
-        <div class="btns">
-          <button *ngIf="auth.loggedIn()" (click)=" openDialogVenta()" mat-stroked-button >Vender</button>
-          <button class="reporte"  (click)="openLink()" mat-stroked-button >Contactar</button>
-          <button  class="reporte"   [disabled]="!(item$|async).ficha" mat-stroked-button >Descargar Ficha</button>
-          <button *ngIf="auth.loggedIn()" class="reporte"  mat-stroked-button >Ver Reporte</button>
-        </div>
+
         <div class="cantidadesTwo">
           <H2 [ngStyle]="{'padding-top': '2em'}">CANTIDADES</H2>
           <mat-toolbar [ngStyle]="{'background': 'white'}">

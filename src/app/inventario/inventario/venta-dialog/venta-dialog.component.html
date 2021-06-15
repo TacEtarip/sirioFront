@@ -21,6 +21,12 @@
         <span matPrefix>S/ </span>
       </mat-form-field>
 
+      <mat-form-field appearance="fill"  class="example-full-width  agregarVenta">
+        <mat-label>Costo Propio (Con IGV)</mat-label>
+        <input name="costoPropio" id="costoPropio" formControlName="costoPropio" type="number" min="0" step="1" matInput>
+        <span matPrefix>S/ </span>
+      </mat-form-field>
+
       <mat-form-field *ngIf="!this.item.subConteo" appearance="fill"  class="example-full-width doubleGrid">
         <mat-label>Cantidad Disponible</mat-label>
         <input name="cantidad" id="cantidadD" formControlName="cantidadDisponible" type="number" min="1" step="1" matInput>

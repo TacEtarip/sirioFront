@@ -1,0 +1,207 @@
+<section *ngIf="(doneDataCollect$|async) === 3" class="mainCtn">
+  <div class="firstChart">
+    <h2>Resumen de stock</h2>
+    <div class="reporteChartOne">
+      <div>
+        <mat-list role="list">
+          <div mat-subheader>Stock Actual</div>
+          <mat-list-item role="listitem">
+            <mat-icon mat-list-icon>show_chart</mat-icon>
+            <h5>Posibles ventas con el stock disponible: <b>{{(ventasAprox|async)|currency:'S/'}}</b></h5>
+          </mat-list-item>
+          <mat-list-item role="listitem">
+            <mat-icon mat-list-icon> show_chart</mat-icon>
+            <h5>Gasto aproximado en stock disponible: <b>{{(costoStock|async)|currency:'S/'}}</b></h5>
+          </mat-list-item>
+          <mat-list-item role="listitem">
+            <mat-icon mat-list-icon>show_chart</mat-icon>
+            <h5>Posible ganancia con el stock disponible: <b>{{(gananciaAprox|async)|currency:'S/'}}</b></h5>
+          </mat-list-item>
+
+          <mat-divider></mat-divider>
+          <div mat-subheader>Stock Total</div>
+          <mat-list-item role="listitem">
+            <mat-icon mat-list-icon>show_chart</mat-icon>
+            <h5>Invercion total:
+              <b>{{(invercionTotal|async)|currency:'S/'}}</b> | Ingreso total: <b>{{(ingresoTotal|async)|currency:'S/'}} </b> | Balance:
+              <b>{{((ingresoTotal|async) - (invercionTotal|async))|currency:'S/'}}</b></h5>
+          </mat-list-item>
+          <mat-list-item role="listitem">
+            <mat-icon mat-list-icon>show_chart</mat-icon>
+            <h5>Invercion total en productos de stock: <b>{{(gastosHistoricos|async)|currency:'S/'}}
+            </b> | Ingreso total por productos de stock: <b>{{(ingresorHistoricos|async)|currency:'S/'}}</b> | Balance:
+            <b>{{((ingresorHistoricos|async) - (gastosHistoricos|async))|currency:'S/'}}</b></h5>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <div mat-subheader>Alerta de stock</div>
+          <mat-list-item role="listitem">
+            <mat-icon mat-list-icon>show_chart</mat-icon>
+            <mat-expansion-panel class="mat-elevation-z0" (opened)="panelOpenState = true"
+            (closed)="panelOpenState = false" [ngStyle]="{'width': '100%'}">
+              <mat-expansion-panel-header>
+              <mat-panel-title>
+                <h5 [ngStyle]="{'align-self': 'center'}">Stock por agotarse en <b class="linkMock">{{(itemsLowStock$|async).length}} items</b></h5>
+              </mat-panel-title>
+              </mat-expansion-panel-header>
+                <mat-list role="list">
+                  <mat-list-item role="listitem" *ngFor="let item of (itemsLowStock$|async)">
+                    <mat-icon mat-list-icon>arrow_right_alt</mat-icon>
+                    <a href="/store/categorias/{{item.tipo}}/{{item.subTipo}}/{{item.codigo}}"><h6>{{item.name}}, quedan {{item.cantidad}} {{item.unidadDeMedida}}</h6></a>
+                  </mat-list-item>
+                </mat-list>
+            </mat-expansion-panel>
+          </mat-list-item>
+          <mat-list-item role="listitem">
+            <mat-icon mat-list-icon>show_chart</mat-icon>
+            <mat-expansion-panel class="mat-elevation-z0" (opened)="panelOpenState = true"
+            (closed)="panelOpenState = false" [ngStyle]="{'width': '100%'}">
+              <mat-expansion-panel-header>
+              <mat-panel-title>
+                <h5 [ngStyle]="{'align-self': 'center'}">Stock agotado en <b class="linkMock">{{(itemsNoStock$|async).length}} items</b></h5>
+              </mat-panel-title>
+              </mat-expansion-panel-header>
+                <mat-list role="list">
+                  <mat-list-item role="listitem" *ngFor="let item of (itemsNoStock$|async)">
+                      <mat-icon mat-list-icon>arrow_right_alt</mat-icon>
+                    <a href="/store/categorias/{{item.tipo}}/{{item.subTipo}}/{{item.codigo}}"><h6>{{item.name}}</h6></a>
+                  </mat-list-item>
+                </mat-list>
+            </mat-expansion-panel>
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </div>
+  </div>
+  <div class="firstChart">
+    <h2>Resumen de ventas</h2>
+    <div class="reporteChartOne">
+      <div>
+        <mat-list role="list">
+          <mat-list-item role="listitem">
+            <mat-icon mat-list-icon> show_chart</mat-icon>
+            <h5 >Ganancia por ventas total: <b>{{(gananciasVentasTotales|async)|currency:'S/'}}</b></h5>
+          </mat-list-item>
+          <mat-list-item role="listitem">
+            <mat-icon mat-list-icon> show_chart</mat-icon>
+            <h5 >Ganancia por ventas con items fuera de tienda: <b>{{(gananciasVentasFueraStock|async)|currency:'S/'}}</b></h5>
+          </mat-list-item>
+          <mat-list-item role="listitem">
+            <mat-icon mat-list-icon> show_chart</mat-icon>
+            <h5>Ganancia por ventas con items de tienda: <b>{{(gananciasVentasSoloStock|async)|currency:'S/'}}</b></h5>
+          </mat-list-item>
+          <mat-list-item role="listitem">
+            <mat-icon mat-list-icon> show_chart</mat-icon>
+            <h5>Grafico de variación de ventas por mes:</h5>
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </div>
+    <div class="graphContainer">
+    <ngx-charts-line-chart [ngStyle]="{'font-family': 'futura-pt, sans-serif'}"
+    [view] = "view"
+    [scheme]="colorScheme"
+    [legend]="true"
+    [showXAxisLabel]="showXAxisLabel"
+    [showYAxisLabel]="showYAxisLabel"
+    [xAxis]="xAxis"
+    [yAxis]="yAxis"
+    [xAxisLabel]="xAxisLabel"
+    [yAxisLabel]="yAxisLabel"
+    [results]="multi"
+    [autoScale]="true"
+    [legendPosition]="'below'"
+    >
+  </ngx-charts-line-chart></div>
+
+  </div>
+  <div class="firstChart">
+    <h2>Resumen de items</h2>
+    <div class="reporteChartOne">
+      <div>
+        <mat-list role="list">
+          <mat-list-item role="listitem">
+            <mat-icon mat-list-icon>show_chart</mat-icon>
+            <h5>Item más rentable: {{(itemMasRentable|async).name}} con un balance de <b>{{(itemMasRentable|async).balance|currency:'S/'}}</b></h5>
+          </mat-list-item>
+          <mat-list-item role="listitem">
+            <mat-icon mat-list-icon>show_chart</mat-icon>
+            <h5>Item con mayor dinero en reserva en stock: {{(itemMenosRentable|async).name}} con un balance de <b>{{(itemMenosRentable|async).balance|currency:'S/'}}</b></h5>
+          </mat-list-item>
+          <mat-list-item role="listitem">
+            <mat-icon mat-list-icon>show_chart</mat-icon>
+            <h5>Item con mayor ganancias posibles: {{(itemMayorGananciaPosible|async).name}} un una posible ganancia de <b>{{(itemMayorGananciaPosible|async).value|currency:'S/'}}</b></h5>
+          </mat-list-item>
+          <mat-list-item role="listitem">
+            <mat-icon mat-list-icon>show_chart</mat-icon>
+            <h5>Item más vendido (por cantidad de items vendidos): <b>{{(itemMasVendidoCantidad|async).name}}</b></h5>
+          </mat-list-item>
+          <mat-list-item role="listitem">
+            <mat-icon mat-list-icon>show_chart</mat-icon>
+            <h5>Item con mayor ganancia en ventas: <b>{{(itemMayorGananciaVentas|async).name}} ({{(itemMayorGananciaVentas|async).value|currency:'S/'}})</b></h5>
+          </mat-list-item>
+          <mat-list-item role="listitem">
+            <mat-icon mat-list-icon> show_chart</mat-icon>
+            <h5>Grafico de items que han generado una mayor ganancia:</h5>
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </div>
+    <div class="graphContainer">
+    <ngx-charts-bar-vertical-2d
+    [view] = "view"
+    [ngStyle]="{'font-family': 'futura-pt, sans-serif'}"
+    [scheme]="colorSchemeBarItems"
+    [legend]="true"
+    [showXAxisLabel]="showXAxisLabel"
+    [showYAxisLabel]="showYAxisLabel"
+    [xAxis]="xAxis"
+    [yAxis]="yAxis"
+    [xAxisLabel]="'Item'"
+    [yAxisLabel]="yAxisLabel"
+    [results]="single"
+    [legendPosition]="'below'"
+    >
+  </ngx-charts-bar-vertical-2d>
+  </div>
+
+  </div>
+
+  <div class="firstChart">
+    <h2>Resumen de clientes</h2>
+    <div class="reporteChartOne">
+      <div>
+        <mat-list role="list">
+          <mat-list-item role="listitem">
+            <mat-icon mat-list-icon> show_chart</mat-icon>
+            <h5>Cliente más regular: <b>{{(clienteMasRegular|async).name}} ({{(clienteMasRegular|async).cantidad}} Ventas)</b></h5>
+          </mat-list-item>
+          <mat-list-item role="listitem">
+            <mat-icon mat-list-icon> show_chart</mat-icon>
+            <h5>Cliente que ha dado mas ingresos: <b>{{(clienteMayorIngreso|async).name}} ({{(clienteMayorIngreso|async).cantidad|currency:'S/'}})</b></h5>
+          </mat-list-item>
+          <mat-list-item role="listitem">
+            <mat-icon mat-list-icon> show_chart</mat-icon>
+            <h5>Grafico de clientes que han generado mayores ingresos:</h5>
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </div>
+    <div class="graphContainer">
+      <ngx-charts-bar-vertical
+      [view] = "view"
+      [ngStyle]="{'font-family': 'futura-pt, sans-serif'}"
+      [scheme]="colorSchemeBarItemsCliente"
+      [legend]="true"
+      [showXAxisLabel]="showXAxisLabel"
+      [showYAxisLabel]="showYAxisLabel"
+      [xAxis]="xAxis"
+      [yAxis]="yAxis"
+      [xAxisLabel]="'Item'"
+      [yAxisLabel]="yAxisLabel"
+      [results]="clientes"
+      [legendPosition]="'below'"
+      >
+    </ngx-charts-bar-vertical>
+    </div>
+  </div>
+</section>

@@ -17,6 +17,39 @@ export class InventarioManagerService {
   constructor(private http: HttpClient, private auth: AuthService, private router: Router,
              ) { }
 
+    getItemsNoStock(): Observable<Item[]> {
+              return this.http.get<Item[]>(this.baseUrl + 'inventario/getItemsNoStock')
+              .pipe( first(), catchError(error => {
+                switch (error.status) {
+                case 0:
+                  alert('Error al tratar de conectar al servidor');
+                  break;
+                case 700:
+                  break;
+                default:
+                  break;
+              }
+                return of(null);
+              }));
+    }
+
+    getItemsLowStock(): Observable<Item[]> {
+      return this.http.get<Item[]>(this.baseUrl + 'inventario/getItemsLowStock')
+      .pipe( first(), catchError(error => {
+        switch (error.status) {
+        case 0:
+          alert('Error al tratar de conectar al servidor');
+          break;
+        case 700:
+          break;
+        default:
+          break;
+      }
+        return of(null);
+      }));
+  }
+
+
   deConvertToFavorite(item: Item): Observable<Item> {
     return this.http.post<Item>(this.baseUrl + 'inventario/toUnFavorite', item)
     .pipe( first(), catchError(error => {
@@ -1236,8 +1269,99 @@ export class InventarioManagerService {
     }));
   }
 
+
+  getItemMayorGananciaPosible(): Observable<any> {
+    return this.http.get<any>(this.baseUrl + 'inventario/getItemMayorGananciaPosible')
+    .pipe(first(),
+    catchError(error => {
+        switch (error.status) {
+        case 0:
+          alert('Error al tratar de conectar al servidor');
+          break;
+        case 700:
+          break;
+        default:
+          alert(error.error.message);
+          break;
+        }
+        return of(null);
+    }));
+  }
+
   getGraphTopItemsFive(): Observable<any[]> {
     return this.http.get<any[]>(this.baseUrl + 'ventas/getItemsGanancias')
+    .pipe(first(),
+    catchError(error => {
+        switch (error.status) {
+        case 0:
+          alert('Error al tratar de conectar al servidor');
+          break;
+        case 700:
+          break;
+        default:
+          alert(error.error.message);
+          break;
+        }
+        return of(null);
+    }));
+  }
+
+    getItemGIC(codigo: string): Observable<any> {
+    return this.http.get<any>(this.baseUrl + 'inventario/getItemGIC/' + codigo)
+    .pipe(first(),
+    catchError(error => {
+        switch (error.status) {
+        case 0:
+          alert('Error al tratar de conectar al servidor');
+          break;
+        case 700:
+          break;
+        default:
+          alert(error.error.message);
+          break;
+        }
+        return of(null);
+    }));
+  }
+
+  getItemVentasPorMes(codigo: string): Observable<any[]> {
+    return this.http.get<any[]>(this.baseUrl + 'inventario/getItemVentasPorMes/' + codigo)
+    .pipe(first(),
+    catchError(error => {
+        switch (error.status) {
+        case 0:
+          alert('Error al tratar de conectar al servidor');
+          break;
+        case 700:
+          break;
+        default:
+          alert(error.error.message);
+          break;
+        }
+        return of(null);
+    }));
+  }
+
+  getItemIngresosGananciasPorMes(codigo: string): Observable<any[]> {
+    return this.http.get<any[]>(this.baseUrl + 'ventas/getItemGananciaIngreso/' + codigo)
+    .pipe(first(),
+    catchError(error => {
+        switch (error.status) {
+        case 0:
+          alert('Error al tratar de conectar al servidor');
+          break;
+        case 700:
+          break;
+        default:
+          alert(error.error.message);
+          break;
+        }
+        return of(null);
+    }));
+  }
+
+  getItemGananciasTotal(codigo: string): Observable<any> {
+    return this.http.get<any>(this.baseUrl + 'ventas/getGananciaTotalPorItem/' + codigo)
     .pipe(first(),
     catchError(error => {
         switch (error.status) {
@@ -1542,6 +1666,24 @@ export class InventarioManagerService {
     }));
   }
 
+  getTablaReporteItemGeneral(): Observable<TablaReporteItem[]> {
+    return this.http.get<TablaReporteItem[]>(this.baseUrl + 'inventario/getTableInfItem')
+    .pipe(first(),
+    catchError(error => {
+        switch (error.status) {
+        case 0:
+          alert('Error al tratar de conectar al servidor');
+          break;
+        case 700:
+          break;
+        default:
+          alert(error.error.message);
+          break;
+        }
+        return of(null);
+    }));
+  }
+
   getClienteMasRegular(): Observable<any> {
     return this.http.get<any>(this.baseUrl + 'inventario/getClienteConMasCompras')
     .pipe(first(),
@@ -1762,4 +1904,14 @@ export interface VentaSimpleEliminarSCInfo {
   cantidadVenta: number;
   totalPriceNoIGVSC: number;
   totalPriceSC: number;
+}
+
+export interface TablaReporteItem  {
+  name: string;
+  codigo: string;
+  cantidad: number;
+  priceIGV: number;
+  costoPropio: number;
+  valueIngreso: number;
+  valueGasto: number;
 }

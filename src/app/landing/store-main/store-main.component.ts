@@ -67,7 +67,6 @@ export class StoreMainComponent implements OnInit, OnDestroy {
     if (this.smallSubs) {
       this.smallSubs.unsubscribe();
     }
-
   }
 
   ngOnInit(): void {
@@ -133,8 +132,8 @@ export class StoreMainComponent implements OnInit, OnDestroy {
         if (res.length === 0) {
           this.item$.next(null);
         } else {
-          const index =
-          this.filteredItem$.value.findIndex((el) => el.name.toUpperCase() === value.name ? value.name.toUpperCase() : value.toUpperCase());
+          const testValue = value.name ? value.name.toUpperCase() : value;
+          this.filteredItem$.value.findIndex((el) => el.name.toUpperCase() === testValue ? value.name.toUpperCase() : value.toUpperCase());
           // this.item$.next(this.filteredItem$.value[index]);
         }
       } else {

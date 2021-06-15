@@ -152,10 +152,11 @@ export class GenerarVentaComponent implements OnInit {
         this.ventaForm.get('priceNoIGV').setValue(this.crear.item.priceNoIGV);
         this.ventaForm.get('name').setValue(this.crear.item);
         this.ventaForm.get('cantidad').setValue(this.crear.item.cantidad);
+        this.ventaForm.get('costoPropioUnidad').setValue(this.crear.item.priceCosto);
       }
       if (val) {
         this.ventaForm.get('agregar').disable();
-        this.ventaForm.get('costoPropioUnidad').disable();
+        // this.ventaForm.get('costoPropioUnidad').disable();
         this.ventaForm.removeControl('cantidad');
         if (!val.subConteo) {
           this.ventaForm.removeControl('cantidadList');
@@ -184,11 +185,15 @@ export class GenerarVentaComponent implements OnInit {
         this.ventaForm.get('priceIGV').setValue(val.priceIGV);
         this.ventaForm.get('priceNoIGV').setValue(val.priceNoIGV);
         this.ventaForm.get('name').setValue(val);
+        this.ventaForm.get('costoPropioUnidad').setValue(val.costoPropio);
+
         // tslint:disable-next-line: no-string-literal
 
         if (this.crear.item) {
           this.ventaForm.get('priceIGV').setValue(this.crear.item.priceIGV);
           this.ventaForm.get('priceNoIGV').setValue(this.crear.item.priceNoIGV);
+          this.ventaForm.get('costoPropioUnidad').setValue(this.crear.item.priceNoIGV);
+
           if (this.ventaForm.contains('cantidadVenta')) {
             this.ventaForm.get('cantidadVenta').setValue(this.crear.item.cantidad);
           } else if (this.ventaForm.contains('cantidadList')) {
@@ -377,7 +382,7 @@ export class GenerarVentaComponent implements OnInit {
         tipo: 'producto',
         priceNoIGV: preVentaInfo.priceNoIGV, descripcion: this.item$.value.description, unidadDeMedida: this.item$.value.unidadDeMedida,
         cantidadSC: cSC, cantidad: preVentaInfo.cantidadVenta, totalPrice: total,
-        totalPriceNoIGV: totalNoIGV, priceCosto: this.item$.value.costoPropio };
+        totalPriceNoIGV: totalNoIGV, priceCosto: preVentaInfo.costoPropioUnidad };
       if (this.item$.value.subConteo) {
         itemVendido.cantidad = this.sum;
       }
@@ -443,7 +448,7 @@ export class GenerarVentaComponent implements OnInit {
     if (this.item$.value) {
       itemVendido =
       {codigo: this.item$.value.codigo, name: this.item$.value.name, priceIGV: preVentaInfo.priceIGV,
-        priceCosto: this.item$.value.costoPropio, tipo: 'producto',
+        priceCosto: preVentaInfo.costoPropioUnidad, tipo: 'producto',
         priceNoIGV: preVentaInfo.priceNoIGV, descripcion: this.item$.value.description, unidadDeMedida: this.item$.value.unidadDeMedida,
         cantidadSC: cSC, cantidad: preVentaInfo.cantidadVenta, totalPrice: total, totalPriceNoIGV: totalNoIGV };
       if (this.item$.value.subConteo) {
@@ -524,7 +529,7 @@ export class GenerarVentaComponent implements OnInit {
     if (this.item$.value) {
       itemVendido =
       {
-        priceCosto: this.item$.value.costoPropio, tipo: 'producto',
+        priceCosto: preVentaInfo.costoPropioUnidad, tipo: 'producto',
         codigo: this.item$.value.codigo, name: this.item$.value.name, priceIGV: preVentaInfo.priceIGV, photo: this.item$.value.photo,
         priceNoIGV: preVentaInfo.priceNoIGV, descripcion: this.item$.value.description, unidadDeMedida: this.item$.value.unidadDeMedida,
         cantidadSC: cSC, cantidad: preVentaInfo.cantidadVenta, totalPrice: total, totalPriceNoIGV: totalNoIGV };

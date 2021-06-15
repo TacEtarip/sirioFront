@@ -1,0 +1,99 @@
+
+b {
+  color: #E87200;
+  font-weight: 400;
+}
+
+.firstChart ::ng-deep .mat-list-item {
+  height: auto !important;
+  padding: 1em 0 !important;
+}
+
+.firstChart ::ng-deep .mat-chip-list-wrapper {
+  padding: .5em 0;
+}
+
+.firstChart ::ng-deep .mat-list-item-content {
+  gap: .5em;
+}
+
+h5 {
+  font-size: 16px;
+  margin: 0;
+  font-weight: 400;
+}
+
+h6 {
+  font-size: 14px;
+  margin: 0;
+  font-weight: 400;
+}
+
+.mainCtn {
+  margin-left: 320px;
+  padding: 2em;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3em;
+}
+
+form {
+  display: flex;
+  width: 100%;
+  gap: 1em;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.elegirItemCont {
+  display: grid;
+  gap: 1em;
+}
+
+.btns {
+  width: 100%;
+}
+
+.btns button {
+  width: 100%;
+}
+
+.inputB {
+  width: 100%;
+}
+
+h2 {
+  margin: 0;
+  color: #005087;
+}
+
+.reporteChartOne {
+  display: grid;
+  grid-template-rows: max-content  auto;
+}
+
+.reporteChartOne .mat-list-item:hover {
+  background-color: #ffffff;
+  cursor: auto;
+}
+
+.graphContainer {
+  justify-self: center;
+  padding: 3em;
+}
+
+
+@media screen and (max-width: 1150px) {
+  .mainCtn {
+    margin-left: 0;
+  }
+}
+
+
+@media screen and (max-width: 700px) {
+  .graphContainer {
+    padding: 0em;
+    width: 270px;
+    overflow: auto;
+  }
+}

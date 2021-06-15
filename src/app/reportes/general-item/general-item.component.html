@@ -1,0 +1,86 @@
+<section class="mainCtn">
+  <div class="elegirItemCont">
+    <h2>Lista de items</h2>
+    <div class="mainTableContenedor">
+      <div class="borderTable">
+        <table mat-table [dataSource]="dataSource" matSort>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="codigo" >
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="codigoTable"> Codigo </th>
+            <td mat-cell *matCellDef="let row" class="codigoTable"> <a href="/reportes/item/{{row.codigo}}">{{row.codigo}}</a>  </td>
+          </ng-container>
+
+          <!-- Progress Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header  class="nameTable"> Nombre </th>
+            <td mat-cell *matCellDef="let row"  class="nameTable"> {{row.name}} </td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="cantidad">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Disponible </th>
+            <td mat-cell *matCellDef="let row"> {{row.cantidad}} </td>
+          </ng-container>
+
+          <!-- Fruit Column -->
+          <ng-container matColumnDef="costoPropio">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Costo </th>
+            <td mat-cell *matCellDef="let row"> {{row.costoPropio|currency: 'S/'}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="priceIGV">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Precio Venta </th>
+            <td mat-cell *matCellDef="let row"> {{row.priceIGV|currency: 'S/'}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="valueGasto">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Invertido </th>
+            <td mat-cell *matCellDef="let row"> {{row.valueGasto|currency: 'S/'}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="valueIngreso">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Ingresado </th>
+            <td mat-cell *matCellDef="let row"> {{row.valueIngreso|currency: 'S/'}} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        </table>
+
+        <mat-paginator [pageSize]="10" showFirstLastButtons></mat-paginator>
+      </div>
+    </div>
+    <a *ngIf="dataJSON|async" [href]="downloadJsonHref" download="infoTabla.json" color="accent" class="jsonBtn" mat-stroked-button>Descargar JSON</a>
+    <!--
+    <div class="reporteChartOne">
+      <div>
+        <mat-list role="list">
+          <div mat-subheader>Stock Actual</div>
+          <mat-list-item role="listitem">
+            <mat-icon mat-list-icon>show_chart</mat-icon>
+            <h5></h5>
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </div>
+    <div class="graphContainer" >
+      <ngx-charts-line-chart [ngStyle]="{'font-family': 'futura-pt, sans-serif'}"
+      [view] = "view"
+      [scheme]="colorSchemeTwo"
+      [legend]="true"
+      [showXAxisLabel]="true"
+      [showYAxisLabel]="true"
+      [xAxis]="true"
+      [yAxis]="true"
+      [xAxisLabel]="'Mes'"
+      [yAxisLabel]="'Monto(S/)'"
+      [results]="multi"
+      [autoScale]="true"
+      [legendPosition]="'below'"
+      >
+    </ngx-charts-line-chart>
+    </div>-->
+  </div>
+</section>

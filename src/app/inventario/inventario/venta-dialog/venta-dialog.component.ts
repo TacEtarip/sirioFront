@@ -42,6 +42,7 @@ interface CantidadSubConteo {
 }
 
 interface PreVentaSimpleInfo {
+  costoPropio: number;
   selectAcction: string;
   priceNoIGV: number;
   documentoTipo: string;
@@ -179,6 +180,12 @@ export class VentaDialogComponent implements OnInit, OnDestroy {
       this.ventaForm = this.formBuilder.group({
         selectAcction: this.formBuilder.control('ventaSimple',  Validators.compose([
           Validators.required
+        ])),
+        costoPropio: this.formBuilder.control({value: this.rebrandNumber(true, this.item.costoPropio),
+          disabled: false},  Validators.compose([
+          Validators.required,
+          Validators.pattern(/^\d*\.?\d{0,2}$/),
+          Validators.min(0.01)
         ])),
         priceIGV: this.formBuilder.control({value: this.rebrandNumber(true, this.item.priceIGV) , disabled: true},  Validators.compose([
           Validators.required,
@@ -721,7 +728,7 @@ export class VentaDialogComponent implements OnInit, OnDestroy {
     const totalNoIGV = Math.round(((total / 1.18) + Number.EPSILON) * 100) / 100;
     const itemVendido: ItemVendido =
     {codigo: this.item.codigo, name: this.item.name, priceIGV: preVentaInfo.priceIGV,
-      priceNoIGV: preVentaInfo.priceNoIGV, descripcion: this.item.description, priceCosto: this.item.costoPropio,
+      priceNoIGV: preVentaInfo.priceNoIGV, descripcion: this.item.description, priceCosto: preVentaInfo.costoPropio,
       cantidadSC: cSC, cantidad: preVentaInfo.cantidadVenta, totalPrice: total, totalPriceNoIGV: totalNoIGV };
     if (this.item.subConteo) {
       itemVendido.cantidad = this.sum;
@@ -756,7 +763,7 @@ export class VentaDialogComponent implements OnInit, OnDestroy {
     const totalNoIGV = Math.round(((total / 1.18) + Number.EPSILON) * 100) / 100;
     const itemVendido: ItemVendido =
     {codigo: this.item.codigo, name: this.item.name, priceIGV: preVentaInfo.priceIGV,
-      priceNoIGV: preVentaInfo.priceNoIGV, descripcion: this.item.description, priceCosto: this.item.costoPropio,
+      priceNoIGV: preVentaInfo.priceNoIGV, descripcion: this.item.description, priceCosto: preVentaInfo.costoPropio,
       cantidadSC: cSC, cantidad: preVentaInfo.cantidadVenta, totalPrice: total, totalPriceNoIGV: totalNoIGV };
     if (this.item.subConteo) {
       itemVendido.cantidad = this.sum;
@@ -855,7 +862,7 @@ export class VentaDialogComponent implements OnInit, OnDestroy {
                                       priceNoIGV: preVentaInfo.priceNoIGV,
                                       cantidad: preVentaInfo.cantidadVenta,
                                       cantidadSC: preVentaInfo.cantidadList,
-                                      totalPrice: total, priceCosto: this.item.costoPropio,
+                                      totalPrice: total, priceCosto: preVentaInfo.costoPropio,
                                       totalPriceNoIGV: totalNoIGV,
                                       descripcion: this.item.description };
 

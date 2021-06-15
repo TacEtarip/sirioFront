@@ -1,0 +1,150 @@
+<section class="mainCtn">
+  <div class="elegirItemCont">
+    <h2>Elegir Item</h2>
+    <form [formGroup]="busqueda">
+      <mat-form-field  appearance="standard" class="inputB">
+        <mat-label>Nombre Item...</mat-label>
+        <input type="text" matInput formControlName="name" [matAutocomplete]="auto"  autocomplete="off">
+        <mat-autocomplete (optionSelected)="selectItem($event)" #auto="matAutocomplete" [displayWith]="displayFn" >
+          <mat-option *ngFor="let option of filteredItem$ | async" [value]="option">
+            {{option.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <div class="btns">
+         <button (click)="goToProductoReport()" aria-label="Ir a producto" type="button"  mat-flat-button color="primary"
+         [disabled]="!(item$|async) || !busqueda.valid">Ver Reporte</button>
+      </div>
+    </form>
+  </div>
+  <div class="elegirItemCont" *ngIf="(itemAct$|async) && (itemHistorico|async) && (single)">
+    <h2>Costos y precios</h2>
+    <div class="reporteChartOne">
+      <div>
+        <mat-list role="list">
+          <mat-list-item role="listitem">
+            <mat-icon mat-list-icon>show_chart</mat-icon>
+            <h5>Costo propio: <b>{{(itemAct$|async).costoPropio | currency:'S/'}}</b></h5>
+          </mat-list-item>
+          <mat-list-item role="listitem">
+            <mat-icon mat-list-icon>show_chart</mat-icon>
+            <h5>Valor de venta (IGV incluido): <b>{{(itemAct$|async).priceIGV | currency:'S/'}}</b></h5>
+          </mat-list-item>
+          <mat-list-item role="listitem">
+            <mat-icon mat-list-icon>show_chart</mat-icon>
+            <h5>Valor de venta (No IGV): <b>{{(itemAct$|async).priceNoIGV | currency:'S/'}}</b></h5>
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </div>
+  </div>
+  <div class="elegirItemCont" *ngIf="(itemAct$|async) && (itemHistorico|async) && (single)">
+    <h2>Stock</h2>
+    <div class="reporteChartOne">
+      <div>
+        <mat-list role="list">
+          <div mat-subheader>Stock Actual</div>
+          <mat-list-item role="listitem">
+            <mat-icon mat-list-icon>show_chart</mat-icon>
+            <h5>Stock disponible: <b>{{(itemAct$|async).cantidad}} {{(itemAct$|async).unidadDeMedida}}</b></h5>
+          </mat-list-item>
+          <mat-list-item role="listitem">
+            <mat-icon mat-list-icon>show_chart</mat-icon>
+            <h5>Invertido en el stock disponible:
+              <b>{{((itemAct$|async).cantidad * (itemAct$|async).costoPropio) | currency: 'S/'}}</b></h5>
+          </mat-list-item>
+          <mat-list-item role="listitem">
+            <mat-icon mat-list-icon>show_chart</mat-icon>
+            <h5>Posibles ingresos con el stock disponible:
+              <b>{{((itemAct$|async).cantidad * (itemAct$|async).priceIGV) | currency: 'S/'}}</b></h5>
+          </mat-list-item>
+          <mat-list-item role="listitem">
+            <mat-icon mat-list-icon>show_chart</mat-icon>
+            <h5>Posibles ganancias con el stock disponible:
+              <b>{{ (((itemAct$|async).cantidad * (itemAct$|async).priceIGV ) -
+                ((itemAct$|async).cantidad * (itemAct$|async).costoPropio))  | currency: 'S/'}}</b></h5>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <div mat-subheader>Stock Total Historico</div>
+          <mat-list-item role="listitem">
+            <mat-icon mat-list-icon>show_chart</mat-icon>
+            <h5>Cantidad total historica: <b>{{(itemHistorico|async).cantidadHistorica}} {{(itemAct$|async).unidadDeMedida}}</b></h5>
+          </mat-list-item>
+          <mat-list-item role="listitem">
+            <mat-icon mat-list-icon>show_chart</mat-icon>
+            <h5>Invertido en el item:
+              <b>{{(itemHistorico|async).totalCosto | currency: 'S/'}}</b></h5>
+          </mat-list-item>
+          <mat-list-item role="listitem">
+            <mat-icon mat-list-icon>show_chart</mat-icon>
+            <h5>Ingresor generados por el item:
+              <b>{{(itemHistorico|async).totalIngreso | currency: 'S/'}}</b></h5>
+          </mat-list-item>
+
+
+        </mat-list>
+
+      </div>
+    </div>
+
+  </div>
+  <div class="elegirItemCont" *ngIf="(itemAct$|async) && (itemHistorico|async) && (single)">
+    <h2>Ventas</h2>
+    <div class="reporteChartOne">
+      <div>
+        <mat-list role="list">
+          <mat-list-item role="listitem">
+            <mat-icon mat-list-icon>show_chart</mat-icon>
+            <h5>Se han vendido: <b>{{(itemHistorico|async).itemVendidos}} {{(itemAct$|async).unidadDeMedida}}</b></h5>
+          </mat-list-item>
+          <mat-list-item role="listitem">
+            <mat-icon mat-list-icon>show_chart</mat-icon>
+            <h5>Ingreso por ventas: <b>{{(itemGanancia|async).totalVenta | currency: 'S/'}}</b></h5>
+          </mat-list-item>
+          <mat-list-item role="listitem">
+            <mat-icon mat-list-icon>show_chart</mat-icon>
+            <h5>Ganancia por ventas: <b>{{(itemGanancia|async).value | currency: 'S/'}}</b></h5>
+          </mat-list-item>
+          <mat-list-item role="listitem">
+            <mat-icon mat-list-icon>show_chart</mat-icon>
+            <h5>Cantidad de ventas por mes:</h5>
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </div>
+    <div class="graphContainer">
+      <ngx-charts-line-chart [ngStyle]="{'font-family': 'futura-pt, sans-serif'}"
+      [view] = "view"
+      [scheme]="colorScheme"
+      [legend]="true"
+      [showXAxisLabel]="true"
+      [showYAxisLabel]="true"
+      [xAxis]="true"
+      [yAxis]="true"
+      [xAxisLabel]="'Mes'"
+      [yAxisLabel]="'Cantidad'"
+      [results]="single"
+      [autoScale]="true"
+      [legendPosition]="'below'"
+      >
+    </ngx-charts-line-chart>
+  </div>
+  <div class="graphContainer" >
+    <ngx-charts-line-chart [ngStyle]="{'font-family': 'futura-pt, sans-serif'}"
+    [view] = "view"
+    [scheme]="colorSchemeTwo"
+    [legend]="true"
+    [showXAxisLabel]="true"
+    [showYAxisLabel]="true"
+    [xAxis]="true"
+    [yAxis]="true"
+    [xAxisLabel]="'Mes'"
+    [yAxisLabel]="'Monto(S/)'"
+    [results]="multi"
+    [autoScale]="true"
+    [legendPosition]="'below'"
+    >
+  </ngx-charts-line-chart>
+  </div>
+  </div>
+</section>

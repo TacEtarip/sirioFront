@@ -34,6 +34,10 @@
       <mat-icon class="sizeIcon  sizeShop">shopping_cart</mat-icon>
     </button>
 
+  <button aria-label="Ir a reportes" *ngIf="auth.loggedIn() && this.auth.getTtype() !== 'low'" routerLink="/reportes" matTooltip="Reportes" mat-icon-button class="sizeIcon addMargin">
+    <mat-icon color="white" class="sizeIcon  sizeShop">show_chart</mat-icon>
+  </button>
+
   </mat-toolbar>
     <mat-sidenav-container class="mainCont" [style.marginTop.px]="mobileQuery.matches ? 55: 0">
       <mat-sidenav #snav style="overflow:hidden"

@@ -16,6 +16,8 @@ b {
   color: #E87200;
 }
 
+
+
 h4 {
   margin: 0;
   font-weight: 400;
@@ -44,7 +46,7 @@ h4 {
 .cName {
   /**#005087;*/
   font-family: jubilat, sans-serif;
-  font-weight: 400;
+  font-weight: 200;
   /*color: #E87200;*/
   color: #005087;
 }
@@ -62,25 +64,8 @@ h4 {
   padding-top: .2em;
 }
 
-.firstChart ::ng-deep .mat-list-item {
-  height: auto !important;
-  padding: 1em 0 !important;
-}
-
-.firstChart ::ng-deep .mat-chip-list-wrapper {
-  padding: .5em 0;
-}
-
-.firstChart ::ng-deep .mat-list-item-content {
-  gap: .5em;
-}
 
 
-h5 {
-  font-size: 16px;
-  margin: 0;
-  font-weight: 400;
-}
 
 ::ng-deep .sizeShop {
   font-size:24px !important;
@@ -94,32 +79,14 @@ h5 {
   height: calc(100vh - 64px);
   position: fixed;
   overflow: auto;
-}
-
-.mainCtn {
-  margin-left: 320px;
-  padding: 2em;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 3em;
-}
-
-.graphContainer {
-  justify-self: center;
-  padding: 3em;
+  height: 100%;
 }
 
 .mainSpace {
   padding-top: 64px;
 }
 
-.firstChart {
-  width: 100%;
-  max-height: max-content;
-  display: grid;
-  grid-template-rows: max-content max-content;
-  gap: 1em;
-}
+
 
 li,ul {
   text-decoration: none;
@@ -160,18 +127,15 @@ h1 {
   background-color: #cdeafd;
 }
 
-h2 {
-  margin: 0;
-  color: #005087;
-}
-
-.reporteChartOne {
-  display: grid;
-  grid-template-rows: max-content  auto;
-}
 
 .menuBtn {
   display: none;
+}
+
+@media screen and (max-width: 650px) {
+  .cName {
+    display: none;
+  }
 }
 
 @media screen and (max-width: 1150px) {
@@ -187,23 +151,57 @@ h2 {
     font-size: 3em;
   }
 
-  .mainCtn {
-    margin-left: 0;
-  }
-
   .sidenav {
     width: 320px;
     left: -321px;
     background-color: white;
-    z-index: 1;
+    z-index: 2;
+    height: 100%;
+  }
+
+  .mainSpace {
+    padding-top: 56px;
   }
 
 }
 
-@media screen and (max-width: 700px) {
-  .graphContainer {
-    padding: 0em;
-    width: 270px;
-    overflow: auto;
-  }
+.panel {
+  position:fixed;
+  padding:0;
+  margin:0;
+
+  top:0;
+  left:0;
+
+  width: 100%;
+  height: 100%;
+  background:rgba(39, 39, 39, 0.5);
+}
+
+.slide-in {
+  animation: slide-in 0.5s forwards;
+  -webkit-animation: slide-in 0.5s forwards;
+}
+
+.slide-out {
+  animation: slide-out 0.5s forwards;
+  -webkit-animation: slide-out 0.5s forwards;
+}
+
+@keyframes slide-in {
+  100% { transform: translateX(321px); }
+}
+
+@-webkit-keyframes slide-in {
+  100% { -webkit-transform: translateX(321px); }
+}
+
+@keyframes slide-out {
+  0% { transform: translateX(321px); }
+  100% { transform: translateX(0); }
+}
+
+@-webkit-keyframes slide-out {
+  0% { -webkit-transform: translateX(321px); }
+  100% { -webkit-transform: translateX(0); }
 }

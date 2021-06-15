@@ -1,3 +1,4 @@
+import { EditarCantidadesDialogComponent } from './../../inventario/inventario/editar-cantidades-dialog/editar-cantidades-dialog.component';
 import { ChangeOrderComponent } from './../change-order/change-order.component';
 import { AgregarSubCategoriasComponent } from './../../inventario/inventario/agregar-sub-categorias/agregar-sub-categorias.component';
 import { CaracteristicasComponent } from './../caracteristicas/caracteristicas.component';
@@ -134,7 +135,7 @@ export class CategoriasComponent implements OnInit, OnDestroy {
   }
 
   openLink() {
-    window.open( this.whatsAppLinkOne, "_blank");
+    window.open( this.whatsAppLinkOne, '_blank');
   }
 
   openDialogAgregarCat(): void {
@@ -280,6 +281,21 @@ export class CategoriasComponent implements OnInit, OnDestroy {
 
   openDialogEditarItem() {
     const dialogRef = this.dialog.open(EditarItemDialogComponent, {
+      width: '800px',
+      data: this.item$.value,
+    });
+
+    dialogRef.afterClosed().pipe(first()).subscribe(res => {
+      this.inv.getItem(this.item$.value.codigo).subscribe(item => {
+        if (item) {
+          this.item$.next(item);
+        }
+      });
+    });
+  }
+
+  openDialogEditarItemCantidades() {
+    const dialogRef = this.dialog.open(EditarCantidadesDialogComponent, {
       width: '800px',
       data: this.item$.value,
     });

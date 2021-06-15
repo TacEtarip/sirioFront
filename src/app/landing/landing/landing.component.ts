@@ -100,8 +100,9 @@ export class LandingComponent implements OnInit, OnDestroy {
         if (res.length === 0) {
           this.item$.next(null);
         } else {
+          const testValue = value.name ? value.name.toUpperCase() : value;
           const index =
-          this.filteredItem$.value.findIndex((el) => el.name.toUpperCase() === value.name ? value.name.toUpperCase() : value.toUpperCase());
+          this.filteredItem$.value.findIndex((el) => el.name.toUpperCase() === testValue ? value.name.toUpperCase() : value.toUpperCase());
           this.item$.next(this.filteredItem$.value[index]);
         }
       } else {

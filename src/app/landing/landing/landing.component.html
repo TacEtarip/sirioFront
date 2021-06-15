@@ -25,7 +25,7 @@
   <button aria-label="Ir A Inventario" (click)="aInventario()"  matTooltip="Inventario" mat-icon-button class="sizeIcon">
     <mat-icon color="accent" class="sizeIcon  sizeShop">assignment</mat-icon>
   </button>
-  <button aria-label="Ir a ventas" *ngIf="auth.loggedIn() && this.auth.getTtype() !== 'low'" (click)="aVentas()" matTooltip="Ventas" mat-icon-button class="sizeIcon addMargin">
+  <button aria-label="Ir a ventas" *ngIf="auth.loggedIn() && this.auth.getTtype() !== 'low'" routerLink="/ventas" matTooltip="Ventas" mat-icon-button class="sizeIcon addMargin">
     <mat-icon color="accent" class="sizeIcon  sizeShop">shopping_cart</mat-icon>
   </button>
   <button aria-label="Ir a reportes" *ngIf="auth.loggedIn() && this.auth.getTtype() !== 'low'" routerLink="/reportes" matTooltip="Reportes" mat-icon-button class="sizeIcon addMargin">
