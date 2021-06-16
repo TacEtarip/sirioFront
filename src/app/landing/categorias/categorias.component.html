@@ -15,7 +15,7 @@
     <h6 *ngIf="(estado$|async) === 'item'">></h6>
     <a aria-label="Ir Item" *ngIf="(estado$|async) === 'item' && item$|async" href="/store/categorias/{{ruta}}/{{tituloSub$|async}}/{{itemCod}}">{{((item$|async).name)|uppercase}}</a>
   </div>
-  <div *ngIf="auth.loggedIn() && (estado$|async) !== 'item'" class="controles">
+  <div *ngIf="auth.loggedIn() && (auth.getTtype() === 'admin' || auth.getTtype() === 'vent') && (estado$|async) !== 'item'" class="controles">
     <button *ngIf="(estado$|async) === 'pre'" (click)="openDialogAgregarCat()" matTooltip="Añadir Categoria" mat-fab color="warn" aria-label="Example icon button with a home icon">
       <mat-icon class="icon-img">add_box</mat-icon>
     </button>
@@ -104,7 +104,7 @@
               <p [ngStyle]="{'font-size': '18px', 'padding-left': '1em'}">{{caract}}</p>
             </mat-list-item>
           </mat-list>
-        <div  *ngIf="auth.loggedIn()" class="btns">
+        <div  *ngIf="auth.loggedIn() && (auth.getTtype() === 'admin' || auth.getTtype() === 'vent')" class="btns">
           <button (click)="openDialogEditarItem()" mat-stroked-button >Editar Item</button>
           <button (click)="openDialogEditarItemCantidades()" mat-stroked-button >Editar Cantidades</button>
           <button (click)="openCaracteristicas()" mat-stroked-button class="reporte">Caracteristicas</button>
@@ -114,9 +114,9 @@
         <h5>*Los precios son por unidad. No dude en consultarnos por precios al por mayor.</h5>
         <div class="btns">
           <button class="reporte"  (click)="openLink()" mat-flat-button color="accent">Contactar</button>
-          <button *ngIf="auth.loggedIn()" (click)=" openDialogVenta()" mat-stroked-button >Vender</button>
+          <button *ngIf="auth.loggedIn() && (auth.getTtype() === 'admin' || auth.getTtype() === 'vent')" (click)=" openDialogVenta()" mat-stroked-button >Vender</button>
           <button  class="reporte"   [disabled]="!(item$|async).ficha" mat-stroked-button >Descargar Ficha</button>
-          <button *ngIf="auth.loggedIn()" class="reporte"  mat-stroked-button >Ver Reporte</button>
+          <button *ngIf="auth.loggedIn() && (auth.getTtype() === 'admin' || auth.getTtype() === 'vent')" class="reporte"  mat-stroked-button >Ver Reporte</button>
         </div>
         <H2 [ngStyle]="{'padding-top': '1em'}">TAGS</H2>
         <mat-chip-list aria-label="Tags" [ngStyle]="{'padding': ' 1em 0'}">

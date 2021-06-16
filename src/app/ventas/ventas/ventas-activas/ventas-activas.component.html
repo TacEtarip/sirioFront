@@ -1,4 +1,4 @@
-<section *ngIf="load|async">
+<section *ngIf="(load|async) && auth.getTtype() !== 'contador'">
   <div class="info">
     <h1 *ngIf="(ventasActivas|async).length > 0" >Ventas Activas</h1>
     <h1 *ngIf="(ventasActivas|async).length === 0" >No hay ni una venta activa</h1>

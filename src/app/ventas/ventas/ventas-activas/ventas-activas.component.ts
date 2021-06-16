@@ -1,3 +1,4 @@
+import { AuthService } from './../../../auth.service';
 import { first } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { InventarioManagerService, Venta } from '../../../inventario-manager.service';
@@ -11,7 +12,8 @@ import { GenerarVentaComponent } from '../ventas-activas/generar-venta/generar-v
 })
 export class VentasActivasComponent implements OnInit {
 
-  constructor(private inventarioMNG: InventarioManagerService, public dialog: MatDialog) { }
+  constructor(private inventarioMNG: InventarioManagerService, public auth: AuthService,
+              public dialog: MatDialog) { }
 
   ventasActivas = new BehaviorSubject<Venta[]>(null);
 
