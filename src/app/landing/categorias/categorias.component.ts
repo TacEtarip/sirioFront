@@ -56,6 +56,8 @@ export class CategoriasComponent implements OnInit, OnDestroy {
 
   estadoSub: Subscription;
 
+  loaded$ = new BehaviorSubject<boolean>(false);
+
   @ViewChild(MatSort, {static: false}) set content(sort: MatSort) {
     if ( this.item$.value && this.item$.value.subConteo) {
       this.dataSource.sort = sort;
@@ -81,9 +83,11 @@ export class CategoriasComponent implements OnInit, OnDestroy {
       this.items.next(null);
       this.item$.next(null);
       this.itemSecond.next([]);
+      this.loaded$.next(false);
       this.ruta = rutaM.get('categoria');
       if (this.ruta) {
           this.inv.getTipo(this.ruta).subscribe(res => {
+            this.loaded$.next(true);
             this.titulo$.next(res.name);
             if (rutaM.get('sub')) {
               this.tituloSub$.next(rutaM.get('sub'));
@@ -105,23 +109,28 @@ export class CategoriasComponent implements OnInit, OnDestroy {
           this.titulo$.next('CATEGORIAS');
           this.estado$.next('pre');
           this.tipos.next(res);
+          this.loaded$.next(true);
         });
       }
     });
 
     this.estadoSub = this.estado$.subscribe(res => {
       if (res === 'sub') {
-          this.inv.getAllItemsOfSubTypeII(this.tituloSub$.value, this.titulo$.value).subscribe(res => {
+          this.inv.getAllItemsOfSubTypeII(this.tituloSub$.value, this.titulo$.value).subscribe(resT => {
+            this.loaded$.next(true);
+
             if (this.auth.loggedIn() && (this.auth.getTtype() === 'admin' || this.auth.getTtype() === 'vent')) {
-              this.items.next(res);
+              this.items.next(resT);
             } else {
-              this.itemSecond.next(res);
+              this.itemSecond.next(resT);
             }
           });
       } else if (res === 'item') {
-        this.inv.getItem(this.itemCod).subscribe(res => {
-          if (res) {
-            this.item$.next(res);
+        this.inv.getItem(this.itemCod).subscribe(resT => {
+          this.loaded$.next(true);
+
+          if (resT) {
+            this.item$.next(resT);
             const mensajeInicio = 'Buenas estoy interesado en ';
             const mensajeFinal = ' quisiera obtener más información';
             this.whatsAppLinkOne = 'https://wa.me/51977426349?text=' + mensajeInicio + this.item$.value.name + mensajeFinal;

@@ -21,6 +21,19 @@
           <mat-option *ngFor="let item of metodosDeBusqueda" [value]="item.value">{{item.viewValue}}</mat-option>
         </mat-select>
       </mat-form-field>
+
+      <mat-form-field  [formGroup]="range" currentMetodoPago  appearance="fill" class="oneC showMobile sm2">
+        <mat-label>Ordenar Por</mat-label>
+        <mat-select [(value)]="currentOrdenBusqueda" name="orden"  formControlName="orden">
+          <mat-option *ngFor="let item of tiposO" [value]="item.value">{{item.viewValue}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field  [formGroup]="range" currentMetodoPago  appearance="fill" class="oneC showMobile sm2">
+        <mat-label>Ordenar</mat-label>
+        <mat-select [(value)]="currentOrdenOrdenBusqueda" name="ordenOrden"  formControlName="ordenOrden">
+          <mat-option *ngFor="let item of tiposOO" [value]="item.value">{{item.viewValue}}</mat-option>
+        </mat-select>
+      </mat-form-field>
       <mat-form-field   appearance="fill" class="showMobile sm3">
         <mat-label>Ingresa el rango de fecha</mat-label>
         <mat-date-range-input [formGroup]="range"   [max]="maxDate" [min]="minDate" [rangePicker]="picker">

@@ -25,7 +25,7 @@ export class UsuarioComponent implements OnInit, OnDestroy {
   subTwo: Subscription;
 
 
-  constructor(private auth: AuthService,  public dialog: MatDialog, private _snackBar: MatSnackBar,
+  constructor(private auth: AuthService,  public dialog: MatDialog, private snackBar: MatSnackBar,
               private titleService: Title,
               private metaTagService: Meta,
               private router: Router) {
@@ -60,7 +60,7 @@ export class UsuarioComponent implements OnInit, OnDestroy {
       if (res) {
         this.user.next(res);
         this.userPhone.next(this.addSpaceCada(3, res.celular));
-        this._snackBar.open('Celular Actualizado', 'Ok', { duration: 1500 });
+        this.snackBar.open('Celular Actualizado', 'Ok', { duration: 1500 });
       }
     });
   }
@@ -73,7 +73,7 @@ export class UsuarioComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().pipe(first()).subscribe((res: FullUser) => {
       if (res) {
         this.user.next(res);
-        this._snackBar.open('Dirección Agregada', 'Ok', { duration: 1500 });
+        this.snackBar.open('Dirección Agregada', 'Ok', { duration: 1500 });
       }
     });
   }
@@ -86,7 +86,7 @@ export class UsuarioComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().pipe(first()).subscribe((res: FullUser) => {
       if (res) {
         this.user.next(res);
-        this._snackBar.open('Documento Agregado', 'Ok', { duration: 1500 });
+        this.snackBar.open('Documento Agregado', 'Ok', { duration: 1500 });
       }
     });
   }
@@ -99,7 +99,7 @@ export class UsuarioComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().pipe(first()).subscribe((res: FullUser) => {
       if (res) {
         this.user.next(res);
-        this._snackBar.open('Contraseña Cambiada', 'Ok', { duration: 1500 });
+        this.snackBar.open('Contraseña Cambiada', 'Ok', { duration: 1500 });
       }
     });
   }
@@ -110,6 +110,11 @@ export class UsuarioComponent implements OnInit, OnDestroy {
 
   goToInv() {
     this.router.navigate(['store', 'categorias']);
+  }
+
+  cerrarSesion() {
+    this.auth.cerrarSesion();
+    this.router.navigate(['/login']);
   }
 
 }

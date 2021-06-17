@@ -9,12 +9,12 @@
       <form [formGroup]="form" >
         <mat-form-field appearance="fill" class="formstyle">
           <mat-label>Ingresa tu usuario</mat-label>
-          <input (change)="trimThis('username')" name="username" id="username" formControlName="username" matInput>
+          <input autocomplete="off" (change)="trimThis('username')" name="username" id="username" formControlName="username" matInput>
           <mat-error *ngIf="form.get('username').invalid">Solo numeros o letras, maximo 12 caracteres</mat-error>
         </mat-form-field>
         <mat-form-field appearance="fill" class="formstyle">
           <mat-label>Ingresa tu contraseña</mat-label>
-          <input (keyup)="trimThis('password')"  name="password" id="password" formControlName="password" matInput [type]="hide ? 'password' : 'text'">
+          <input (keyup)="trimThis('password')" autocomplete="current-password"  name="password" id="current-password" formControlName="password" matInput [type]="hide ? 'password' : 'text'">
           <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
           <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
           </button>

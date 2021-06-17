@@ -10,8 +10,8 @@ import { AuthService } from './auth.service';
 })
 export class InventarioManagerService {
 
-  baseUrl = 'https://inventario-sirio-dinar.herokuapp.com/';
-  // baseUrl = 'http://localhost:5000/';
+  // baseUrl = 'https://inventario-sirio-dinar.herokuapp.com/';
+  baseUrl = 'http://localhost:5000/';
 
 
   constructor(private http: HttpClient, private auth: AuthService, private router: Router,
@@ -298,9 +298,9 @@ export class InventarioManagerService {
 
 
   getVentasEJecutadas(limit: number, skip: number, dateOne: string, dateTwo: string,
-                      estado: string[], tipo: string[], busqueda: string): Observable<Venta[]> {
+                      estado: string[], tipo: string[], busqueda: string, orden: string, ordenOrden: number): Observable<Venta[]> {
     return this.http.post<Venta[]>(this.baseUrl + 'ventas/getEjecutadas',
-    { limit, skip, dateOne, dateTwo, estado, tipo, busqueda: busqueda || '' })
+    { limit, skip, dateOne, dateTwo, estado, tipo, busqueda: busqueda || '', orden, ordenOrden })
             .pipe(first(),
             catchError(error => {
               switch (error.status) {

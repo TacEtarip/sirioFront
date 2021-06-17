@@ -79,9 +79,6 @@ h2 {
   width: 160px;
 }
 
-.reporte {
-}
-
 .basicInfo {
   gap: 1em;
   grid-template-rows: max-content;

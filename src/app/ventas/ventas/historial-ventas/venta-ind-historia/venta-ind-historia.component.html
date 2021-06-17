@@ -1,7 +1,7 @@
 <section *ngIf="venta$|async" class="mainPost">
   <div class="info">
     <h1><span>#{{(venta$|async).codigo}}</span></h1>
-    <h5>Realizada: {{(venta$|async).date | date}} {{date}} | {{(venta$|async).codigo}}</h5>
+    <h5>Realizada: {{(venta$|async).date | date}} {{date}} | {{(venta$|async).codigo}} |  {{(venta$|async).vendedor}}</h5>
   </div>
 
   <mat-tab-group color="accent" dynamicHeight>

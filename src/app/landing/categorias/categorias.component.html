@@ -41,6 +41,8 @@
       <mat-icon class="icon-img ">reorder</mat-icon>
     </button>
   </div>
+  <mat-spinner *ngIf="!(loaded$|async)"
+  [ngStyle]="{'margin-top': '15vh', 'margin-left': 'auto', 'margin-right': 'auto'}"></mat-spinner>
   <div class="presentacion" *ngIf="(estado$|async) !== 'item'">
     <section class="listaCat" >
       <app-main-categoria-card (deleteEvent)="actCategorias($event)" *ngFor="let item of tipos|async" [tipo]="item"></app-main-categoria-card>

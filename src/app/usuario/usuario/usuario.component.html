@@ -76,8 +76,10 @@
       </h3>
       <mat-divider class="divider"></mat-divider>
       <button class="btn fbtn" (click)="openEditarContrasena()" [ngStyle]="{'margin-top': '18px'}" mat-raised-button color="primary">Cambiar Contraseña</button>
-      <button class="btn" [ngStyle]="{'margin-top': '18px', width: '160px'}" mat-raised-button color="primary">Ver Reporte</button>
-      <button color="accent" class="btn" (click)="openEditarContrasena()" [ngStyle]="{'margin-top': '18px', width: '160px'}"  mat-raised-button>Cerrar Sesión</button>
+      <button disabled class="btn" [ngStyle]="{'margin-top': '18px', width: '160px'}" mat-raised-button color="primary">Ver Reporte</button>
+      <button color="accent" class="btn" (click)="cerrarSesion()"
+      [ngStyle]="{'margin-top': '18px', width: '160px'}"
+      mat-raised-button>Cerrar Sesión</button>
     </div>
   </div>
 </div>
