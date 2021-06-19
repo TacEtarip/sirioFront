@@ -1,3 +1,4 @@
+import { Title, Meta } from '@angular/platform-browser';
 import { EditarCantidadesDialogComponent } from './../../inventario/inventario/editar-cantidades-dialog/editar-cantidades-dialog.component';
 import { ChangeOrderComponent } from './../change-order/change-order.component';
 import { AgregarSubCategoriasComponent } from './../../inventario/inventario/agregar-sub-categorias/agregar-sub-categorias.component';
@@ -19,6 +20,7 @@ import { MatSort } from '@angular/material/sort';
 import { VentaDialogComponent } from 'src/app/inventario/inventario/venta-dialog/venta-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { EditarItemDialogComponent } from 'src/app/inventario/inventario/editar-item-dialog/editar-item-dialog.component';
+import { JsonLDServiceService } from 'src/app/json-ldservice.service';
 
 export interface SubConteoOrder {
   name: string;
@@ -65,7 +67,8 @@ export class CategoriasComponent implements OnInit, OnDestroy {
   }
 
   constructor(private inv: InventarioManagerService, public dialog: MatDialog, private ar: ActivatedRoute,
-              public auth: AuthService, private snackBar: MatSnackBar) { }
+              private titleService: Title, private jsonLDS: JsonLDServiceService,
+              public auth: AuthService, private snackBar: MatSnackBar, private metaService: Meta) { }
 
   ngOnDestroy(): void {
     if (this.routesSub) {
@@ -74,6 +77,9 @@ export class CategoriasComponent implements OnInit, OnDestroy {
     if (this.estadoSub) {
       this.estadoSub.unsubscribe();
     }
+
+    this.jsonLDS.removeStructuredData();
+
   }
 
   ngOnInit(): void {
@@ -85,6 +91,7 @@ export class CategoriasComponent implements OnInit, OnDestroy {
       this.itemSecond.next([]);
       this.loaded$.next(false);
       this.ruta = rutaM.get('categoria');
+      this.jsonLDS.removeStructuredData();
       if (this.ruta) {
           this.inv.getTipo(this.ruta).subscribe(res => {
             this.loaded$.next(true);
@@ -96,15 +103,18 @@ export class CategoriasComponent implements OnInit, OnDestroy {
                 this.estado$.next('item');
               } else {
                 this.estado$.next('sub');
+                this.addMetaTagsGeneral(rutaM.get('sub'), res.name + '/' + rutaM.get('sub'));
               }
             } else {
               this.estado$.next('categoria');
               this.subTipos$.next(res.subTipo);
               this.subTiposPhoto$.next(res.subTipoLink);
+              this.addMetaTagsGeneral(res.name, res.name);
             }
           });
 
       } else {
+        this.addMetaTagsCategoria();
         this.inv.getTipos().subscribe(res => {
           this.titulo$.next('CATEGORIAS');
           this.estado$.next('pre');
@@ -131,6 +141,14 @@ export class CategoriasComponent implements OnInit, OnDestroy {
 
           if (resT) {
             this.item$.next(resT);
+            this.titleService.setTitle('Sirio Dinar | ' + resT.name);
+            this.addMetaTagsGeneral(resT.name, resT.tipo + '/' + resT.subTipo + '/' + resT.codigo, resT.photo);
+            const schema = this.jsonLDS
+            .crearProductSquema(resT.name, ['https://siriouploads.s3.amazonaws.com/' + resT.photo.split('.')[0] + '.webp'],
+            'https://inventario.siriodinar.com/store/categorias/' + resT.tipo + '/'  + resT.subTipo + '/' + resT.codigo,
+            resT.description, resT.codigo,
+            resT.marca, resT.priceIGV, resT.cantidad > 0 ? 'https://schema.org/InStock' : 'https://schema.org/SoldOut');
+            this.jsonLDS.insertSchema(schema);
             const mensajeInicio = 'Buenas estoy interesado en ';
             const mensajeFinal = ' quisiera obtener más información';
             this.whatsAppLinkOne = 'https://wa.me/51977426349?text=' + mensajeInicio + this.item$.value.name + mensajeFinal;
@@ -145,6 +163,27 @@ export class CategoriasComponent implements OnInit, OnDestroy {
 
   openLink() {
     window.open( this.whatsAppLinkOne, '_blank');
+  }
+
+  addMetaTagsCategoria() {
+    this.titleService.setTitle('Sirio Dinar | Categorias');
+    this.metaService.updateTag({ name: 'description', content: 'Distintas categorias de indumentaria de seguridad a el mejor precio en trujillo, venta al por menor y al por mayor.' });
+    this.metaService.updateTag({ name: 'og:url', content: 'https://inventario.siriodinar.com/store/categorias' });
+    this.metaService.updateTag({ name: 'og:title', content: 'Sirio Dinar | Categorias' });
+    this.metaService.updateTag({ name: 'og:description', content: 'Distintas categorias de indumentaria de seguridad a el mejor precio en trujillo, venta al por menor y al por mayor.' });
+    this.metaService.updateTag({ name: 'og:image', content: 'https://inventario.siriodinar.com/assets/itemsSocial.jpg' });
+    this.metaService.updateTag({ name: 'og:image:alt', content: 'sirio presentacion' });
+  }
+
+  addMetaTagsGeneral(titulo: string, link: string, imageLink?: string) {
+    this.titleService.setTitle('Sirio Dinar | ' + titulo);
+    this.metaService.updateTag({ name: 'description', content: titulo + ' al mejor precio y de gran calidad. Venta al por mayor o al por menor.' });
+    this.metaService.updateTag({ name: 'og:url', content: 'https://inventario.siriodinar.com/store/categorias/' + link });
+    this.metaService.updateTag({ name: 'og:title', content: 'Sirio Dinar | ' + titulo });
+    this.metaService.updateTag({ name: 'og:description', content: titulo + ' al mejor precio y de gran calidad. Venta al por mayor o al por menor.' });
+    this.metaService.updateTag({ name: 'og:image',
+    content: imageLink ? 'https://siriouploads.s3.amazonaws.com/' + imageLink.split('.')[0] + '.webp' : 'https://inventario.siriodinar.com/assets/itemsSocial.jpg' });
+    this.metaService.updateTag({ name: 'og:image:alt', content: titulo + 'imagen' });
   }
 
   openDialogAgregarCat(): void {

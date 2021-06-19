@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1623970409998,
+  "timestamp": 1624070705735,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -19,8 +19,8 @@
         "/11-es5.1512eb456f9092f417b3.js",
         "/16-es2015.e6062e225d99de7992fa.js",
         "/16-es5.e6062e225d99de7992fa.js",
-        "/17-es2015.ee5e8b2308317f1baa53.js",
-        "/17-es5.ee5e8b2308317f1baa53.js",
+        "/17-es2015.7f8392bdcae665601f4e.js",
+        "/17-es5.7f8392bdcae665601f4e.js",
         "/18-es2015.7063a80373054f5c7d78.js",
         "/18-es5.7063a80373054f5c7d78.js",
         "/19-es2015.170970a28af4c2c706eb.js",
@@ -45,14 +45,14 @@
         "/9-es5.840c11d48e367b5b06cf.js",
         "/favicon.ico",
         "/index.html",
-        "/main-es2015.68b6e3a907fb17b2f2de.js",
-        "/main-es5.68b6e3a907fb17b2f2de.js",
+        "/main-es2015.15aa235ef4bbd507aba3.js",
+        "/main-es5.15aa235ef4bbd507aba3.js",
         "/manifest.webmanifest",
         "/polyfills-es2015.2c35b42853f99e9618ac.js",
         "/polyfills-es5.e1e6d31190574b21f4d7.js",
-        "/runtime-es2015.3128dbabcb374d12b33b.js",
-        "/runtime-es5.3128dbabcb374d12b33b.js",
-        "/styles.25d6ee0b50f174d58515.css"
+        "/runtime-es2015.b777a13a3d113a2ec46a.js",
+        "/runtime-es5.b777a13a3d113a2ec46a.js",
+        "/styles.b54d3434f1c889c4c16d.css"
       ],
       "patterns": []
     },
@@ -78,6 +78,7 @@
         "/assets/icons/icon-72x72.png",
         "/assets/icons/icon-96x96.png",
         "/assets/items.jpg",
+        "/assets/itemsSocial.jpg",
         "/assets/logo-sirio.jpg",
         "/assets/logoRER.svg",
         "/assets/marcas/3mLogo.png",
@@ -107,8 +108,8 @@
     "/11-es5.1512eb456f9092f417b3.js": "5dabe7638a569c689d55895b3729d205e70c6d6d",
     "/16-es2015.e6062e225d99de7992fa.js": "c0f4d42356933cef224f5ef1516724003b98e50e",
     "/16-es5.e6062e225d99de7992fa.js": "105d98e3ff6e9e883a3cbfd1862259a60d638f6b",
-    "/17-es2015.ee5e8b2308317f1baa53.js": "7d748f9f0c3b8d2c043462998e70acd96419cc6b",
-    "/17-es5.ee5e8b2308317f1baa53.js": "25be89664c138d7b45ab9f6ec8f9a2e620b4b832",
+    "/17-es2015.7f8392bdcae665601f4e.js": "7acccb80b8a44b7befa7befaced067e09ca143fd",
+    "/17-es5.7f8392bdcae665601f4e.js": "3065e4f8b66c9c6898363e8754f8e4065c915513",
     "/18-es2015.7063a80373054f5c7d78.js": "0cc09bcf2e5004692c34760aa57db76a4a2d19a9",
     "/18-es5.7063a80373054f5c7d78.js": "27058b4fdbda210c91c6eb08bbfa83cea709fba0",
     "/19-es2015.170970a28af4c2c706eb.js": "6145bc05e739c85b7f92f16ec7ec122ffda089f8",
@@ -145,6 +146,7 @@
     "/assets/icons/icon-72x72.png": "74c799cb093f7d54f9745fe696a6e719a65fd786",
     "/assets/icons/icon-96x96.png": "b54c2cbf05219463048cf2502c7d37f1a9ffc5d5",
     "/assets/items.jpg": "6a0aad752614b9b760210292117d489da789ff0b",
+    "/assets/itemsSocial.jpg": "d926766b23a452697be2fec79b8ae8e0d6b87739",
     "/assets/logo-sirio.jpg": "f38cb60d551dd55d9146a13e9b16cdd72fe6a72c",
     "/assets/logoRER.svg": "c5cf645579ccac63d1296d20335025442260d27c",
     "/assets/marcas/3mLogo.png": "92c5e6c1f75448811733a14c24adb6cd5a1e409e",
@@ -161,15 +163,15 @@
     "/assets/sirioLogo.svg": "f8b97deb45f9cca31e08a06a2cc73e81221f41d5",
     "/assets/sunatCodes.json": "3eb6bf8e2d337f4f715e017c35e0947cfe2fe101",
     "/favicon.ico": "cb766362eac40acb039f6ed56aa01c9575f757b2",
-    "/index.html": "a0fd13f2a96389a41437b5aeb5cdbfbaacf6b3ce",
-    "/main-es2015.68b6e3a907fb17b2f2de.js": "ad2735309087e3e0ec26f78fceff39c5bf9bfcf9",
-    "/main-es5.68b6e3a907fb17b2f2de.js": "6f78edf53f634d7b2be67484010e4704ee542736",
+    "/index.html": "581a67de99ab24c5c421a4a317d0afb35f452413",
+    "/main-es2015.15aa235ef4bbd507aba3.js": "e3a55dbfeb631f3e9d60d2bf9a21cdf7292a9321",
+    "/main-es5.15aa235ef4bbd507aba3.js": "9ceafeaa068b2dfd092d226cb64dd5371b5bc4c2",
     "/manifest.webmanifest": "28d8c8d8d7f43ad6fec0a2f0a77aa71787bda1af",
     "/polyfills-es2015.2c35b42853f99e9618ac.js": "a207e64e47e0147a8da915d8d431957c4fa0468c",
     "/polyfills-es5.e1e6d31190574b21f4d7.js": "909b1496dadbc45afae49371576504ebf5f3645e",
-    "/runtime-es2015.3128dbabcb374d12b33b.js": "58ef4fa120c5e18f96b546d422c84e1b969c8617",
-    "/runtime-es5.3128dbabcb374d12b33b.js": "15f155c9101ae92924cb41fc72d551ca73334434",
-    "/styles.25d6ee0b50f174d58515.css": "29d005019cb863ad62f77045fed3c43d013becbe"
+    "/runtime-es2015.b777a13a3d113a2ec46a.js": "022ee77293552a6bb6997bd92890da1ab6882c79",
+    "/runtime-es5.b777a13a3d113a2ec46a.js": "636c795e7689743dc22249b1a49ac35e148bb46e",
+    "/styles.b54d3434f1c889c4c16d.css": "87c445db2f88bffac668da0bcfdde815a8d59a3f"
   },
   "navigationUrls": [
     {
