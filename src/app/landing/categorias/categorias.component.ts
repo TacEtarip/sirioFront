@@ -168,22 +168,22 @@ export class CategoriasComponent implements OnInit, OnDestroy {
   addMetaTagsCategoria() {
     this.titleService.setTitle('Sirio Dinar | Categorias');
     this.metaService.updateTag({ name: 'description', content: 'Distintas categorias de indumentaria de seguridad a el mejor precio en trujillo, venta al por menor y al por mayor.' });
-    this.metaService.updateTag({ name: 'og:url', content: 'https://inventario.siriodinar.com/store/categorias' });
-    this.metaService.updateTag({ name: 'og:title', content: 'Sirio Dinar | Categorias' });
-    this.metaService.updateTag({ name: 'og:description', content: 'Distintas categorias de indumentaria de seguridad a el mejor precio en trujillo, venta al por menor y al por mayor.' });
-    this.metaService.updateTag({ name: 'og:image', content: 'https://inventario.siriodinar.com/assets/itemsSocial.jpg' });
-    this.metaService.updateTag({ name: 'og:image:alt', content: 'sirio presentacion' });
+    this.metaService.updateTag({ property: 'og:url', content: 'https://inventario.siriodinar.com/store/categorias' });
+    this.metaService.updateTag({ property: 'og:title', content: 'Sirio Dinar | Categorias' });
+    this.metaService.updateTag({ property: 'og:description', content: 'Distintas categorias de indumentaria de seguridad a el mejor precio en trujillo, venta al por menor y al por mayor.' });
+    this.metaService.updateTag({ property: 'og:image', content: 'https://inventario.siriodinar.com/assets/itemsSocial.jpg' });
+    this.metaService.updateTag({ property: 'og:image:alt', content: 'sirio presentacion' });
   }
 
   addMetaTagsGeneral(titulo: string, link: string, imageLink?: string) {
     this.titleService.setTitle('Sirio Dinar | ' + titulo);
     this.metaService.updateTag({ name: 'description', content: titulo + ' al mejor precio y de gran calidad. Venta al por mayor o al por menor.' });
-    this.metaService.updateTag({ name: 'og:url', content: 'https://inventario.siriodinar.com/store/categorias/' + link });
-    this.metaService.updateTag({ name: 'og:title', content: 'Sirio Dinar | ' + titulo });
-    this.metaService.updateTag({ name: 'og:description', content: titulo + ' al mejor precio y de gran calidad. Venta al por mayor o al por menor.' });
-    this.metaService.updateTag({ name: 'og:image',
+    this.metaService.updateTag({ property: 'og:url', content: 'https://inventario.siriodinar.com/store/categorias/' + link });
+    this.metaService.updateTag({ property: 'og:title', content: 'Sirio Dinar | ' + titulo });
+    this.metaService.updateTag({ property: 'og:description', content: titulo + ' al mejor precio y de gran calidad. Venta al por mayor o al por menor.' });
+    this.metaService.updateTag({ property: 'og:image',
     content: imageLink ? 'https://siriouploads.s3.amazonaws.com/' + imageLink.split('.')[0] + '.webp' : 'https://inventario.siriodinar.com/assets/itemsSocial.jpg' });
-    this.metaService.updateTag({ name: 'og:image:alt', content: titulo + 'imagen' });
+    this.metaService.updateTag({ property: 'og:image:alt', content: titulo + 'imagen' });
   }
 
   openDialogAgregarCat(): void {
