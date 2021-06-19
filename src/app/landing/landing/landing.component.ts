@@ -1,3 +1,4 @@
+import { GoogleAnalyticsService } from './../../google-analytics.service';
 import { Title } from '@angular/platform-browser';
 import { Tipo } from './../../inventario-manager.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -29,11 +30,13 @@ export class LandingComponent implements OnInit, OnDestroy {
   whatsAppLinkTwo = 'https://wa.me/51922412404?text=' + 'Buenas, me gustaria obtener más información.';
 
   constructor(public auth: AuthService, private inv: InventarioManagerService, private titleService: Title,
-              private router: Router, private fb: FormBuilder) { }
+              private router: Router, private fb: FormBuilder, private analyticsGoogle: GoogleAnalyticsService) { }
 
   ngOnInit(): void {
 
     this.titleService.setTitle('Sirio Dinar | Store');
+
+    this.analyticsGoogle.addAnalytics();
 
     this.busquedaForm = this.fb.group({
       name: this.fb.control('', Validators.compose([
@@ -60,6 +63,7 @@ export class LandingComponent implements OnInit, OnDestroy {
     if (this.busquedaSub) {
       this.busquedaSub.unsubscribe();
     }
+    this.analyticsGoogle.removeAnalytics();
   }
 
   aInventario() {

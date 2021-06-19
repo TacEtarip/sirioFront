@@ -254,6 +254,7 @@ h2 {
   align-self: center;
   margin-top: 27em;
   width: 160px;
+  z-index: 10;
 }
 
 .irInv button {
