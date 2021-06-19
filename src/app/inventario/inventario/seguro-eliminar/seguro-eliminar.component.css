@@ -5,7 +5,7 @@ b {
 }
 
 .textB {
-  font-family: futura-pt,sans-serif;
+  font-family: Roboto,sans-serif;
 }
 
 h2 {
@@ -20,7 +20,7 @@ p {
 }
 
 * {
-  font-family: futura-pt,sans-serif;
+  font-family: Roboto,sans-serif;
 }
 @media screen and (max-width: 800px) {
   h2 {

@@ -5,7 +5,7 @@ b {
 }
 
 .textB {
-  font-family: futura-pt,sans-serif;
+  font-family: Roboto,sans-serif;
 }
 
 h2 {
@@ -20,7 +20,7 @@ p {
 }
 
 * {
-  font-family: futura-pt,sans-serif;
+  font-family: Roboto,sans-serif;
 }
 
 .ventaR {
@@ -33,7 +33,7 @@ p {
   left: 0;
   right: 0;
   text-align: center;
-  font-family: futura-pt, sans-serif;
+  font-family: Roboto, sans-serif;
   color: #FF6E40;
   user-select: none;
   -moz-user-select: none;

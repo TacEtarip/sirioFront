@@ -11,13 +11,13 @@ p {
   font-weight: 800;
   font-size: 60px;
   margin-bottom: 1em;
-  font-family: futura-pt, sans-serif;
+  font-family: Roboto, sans-serif;
 }
 
 a {
   color: white;
   font-size: 30px;
   font-weight: 100;
-  font-family: futura-pt, sans-serif;
+  font-family: Roboto, sans-serif;
   text-decoration: none;
 }

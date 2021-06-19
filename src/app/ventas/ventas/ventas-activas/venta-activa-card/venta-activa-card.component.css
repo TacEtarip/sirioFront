@@ -59,7 +59,7 @@ h4 {
   font-weight: 400;
   font-size: 14px;
   color: #005087;
-  font-family: futura-pt,sans-serif;
+  font-family: Roboto,sans-serif;
   font-weight: 300;
   font-style: normal;
 }
@@ -81,7 +81,7 @@ h4 {
   font-weight: 400;
   padding: 10px;
   overflow: auto;
-  font-family: futura-pt, sans-serif;
+  font-family: Roboto, sans-serif;
   font-weight: 400;
   font-style: normal;
 }
@@ -123,7 +123,7 @@ li,ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
-  font-family: futura-pt, sans-serif;
+  font-family: Roboto, sans-serif;
   font-weight: 600;
   font-style: normal;
 }
@@ -249,7 +249,7 @@ h1 {
   text-align: center;
   outline: none;
   text-decoration: none;
-  font-family: futura-pt, sans-serif;
+  font-family: Roboto, sans-serif;
   font-weight: 600;
   font-style: normal;
   font-size: 14px;
@@ -277,7 +277,7 @@ h5 {
   font-size: 40px;
   color: #d4d4d4;
   margin: 0;
-  font-family: futura-pt, sans-serif;
+  font-family: Roboto, sans-serif;
   font-weight: 200;
   font-style: normal;
 }
@@ -296,7 +296,7 @@ h5 {
   text-align: center;
   outline: none;
   text-decoration: none;
-  font-family: futura-pt, sans-serif;
+  font-family: Roboto, sans-serif;
   font-weight: 600;
   font-style: normal;
   font-size: 14px;

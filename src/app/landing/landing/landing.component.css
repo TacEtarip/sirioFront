@@ -58,9 +58,9 @@
 
 h6 {
   margin: 0;
-  font-weight: 400;
+  font-weight: 200;
   font-size: 18px;
-  font-family: futura-pt, sans-serif;
+  font-family: Roboto, sans-serif;
   text-align: center;
   cursor: pointer;
   color: #005087;
@@ -95,7 +95,7 @@ b {
 
 .toolBarName {
   margin-left: .1em;
-  font-family: futura-pt, sans-serif;
+  font-family: Roboto, sans-serif;
   font-size: 26px;
   font-weight: 200;
 }
@@ -239,7 +239,7 @@ a h6 {
   text-align: inherit;
 }
 
-a {  text-decoration: none;}
+a {  text-decoration: none; font-weight: 200;}
 
 .dropMenu .contenedorMenu {
   padding: 1em 2em;
@@ -275,7 +275,7 @@ a {  text-decoration: none;}
 .navLink {
   padding: 0 !important;
   margin-left: 1em;
-  font-family: futura-pt, sans-serif;
+  font-family: Roboto, sans-serif;
   color: rgb(24, 24, 24);
   margin: .5em .5em;
 }

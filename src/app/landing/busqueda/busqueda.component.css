@@ -30,7 +30,7 @@ table {
 }
 
 .itemPresentacion p {
-  font-family: futura-pt, sans-serif;
+  font-family: Roboto, sans-serif;
   margin: 0;
   font-size: 26px;
   font-weight: 400;
@@ -38,7 +38,7 @@ table {
 }
 
 .itemPresentacion h4 {
-  font-family: futura-pt, sans-serif;
+  font-family: Roboto, sans-serif;
   margin: 0;
   font-size: 16px;
   font-weight: 800;
@@ -48,7 +48,7 @@ table {
 
 
 .itemPresentacion h5 {
-  font-family: futura-pt, sans-serif;
+  font-family: Roboto, sans-serif;
   color: #E87200;
   font-weight: 200;
   font-size: 16px;
@@ -58,7 +58,7 @@ table {
 
 h2 {
   color: grey;
-  font-family: futura-pt, sans-serif;
+  font-family: Roboto, sans-serif;
   font-weight: 200;
   font-size: 36px;
   grid-column: 1/5;
@@ -94,7 +94,7 @@ h2 {
 
 a {
   text-decoration: none;
-  font-family: futura-pt, sans-serif;
+  font-family: Roboto, sans-serif;
   font-weight: 800;
   font-size: 12px;
   width: fit-content;
@@ -116,7 +116,7 @@ a:hover {
 
 h3 span {
   font-size: 12px;
-  font-family: futura-pt, sans-serif;
+  font-family: Roboto, sans-serif;
   color: #005087;
 }
 
@@ -146,7 +146,7 @@ h3 span {
   color: white;
   text-align: center;
   align-self: center;
-  font-family: futura-pt, sans-serif;
+  font-family: Roboto, sans-serif;
   font-size: 60px;
   font-weight: 900;
   grid-row: 1;

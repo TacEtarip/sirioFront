@@ -33,7 +33,7 @@ h4 {
   font-weight: 400;
   font-size: 14px;
   color: #005087;
-  font-family: futura-pt,sans-serif;
+  font-family: Roboto,sans-serif;
   font-weight: 300;
   font-style: normal;
 }
@@ -69,7 +69,7 @@ td, th {
 td a {
   padding: 4px 0 4px 0;
   display: block;
-  font-family: futura-pt,sans-serif;
+  font-family: Roboto,sans-serif;
   color: #df934c;
 }
 
@@ -109,7 +109,7 @@ tr.mat-row:hover {
 .selectSort {
   width: 100%;
   align-self: center;
-  font-family: futura-pt, sans-serif;
+  font-family: Roboto, sans-serif;
 }
 
 .dates {

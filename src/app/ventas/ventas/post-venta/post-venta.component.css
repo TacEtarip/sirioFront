@@ -24,11 +24,11 @@
   width: 140px;
   align-self: center;
   font-size: 14px;
-  font-family: futura-pt, sans-serif;
+  font-family: Roboto, sans-serif;
 }
 
 .mat-select {
-  font-family: futura-pt, sans-serif;
+  font-family: Roboto, sans-serif;
   font-weight: 600;
 }
 
@@ -45,7 +45,7 @@ h4 {
   font-weight: 400;
   font-size: 14px;
   color: #005087;
-  font-family: futura-pt,sans-serif;
+  font-family: Roboto,sans-serif;
   font-weight: 300;
   font-style: normal;
 }
@@ -123,7 +123,7 @@ h1 {
   text-align: center;
   outline: none;
   text-decoration: none;
-  font-family: futura-pt, sans-serif;
+  font-family: Roboto, sans-serif;
   font-weight: 600;
   font-style: normal;
   font-size: 14px;
@@ -147,7 +147,7 @@ h1 {
   font-size: 40px;
   color: #d4d4d4;
   margin: 0;
-  font-family: futura-pt, sans-serif;
+  font-family: Roboto, sans-serif;
   font-weight: 200;
   font-style: normal;
 }*/
@@ -276,7 +276,7 @@ h1 {
 
 .toolBarName {
   margin-left: .4em;
-  font-family: futura-pt, sans-serif;
+  font-family: Roboto, sans-serif;
   font-size: 26px;
   font-weight: 200;
 }

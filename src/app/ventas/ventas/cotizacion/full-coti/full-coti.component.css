@@ -14,7 +14,7 @@ h4 {
   font-weight: 400;
   font-size: 14px;
   color: #005087;
-  font-family: futura-pt,sans-serif;
+  font-family: Roboto,sans-serif;
   font-weight: 300;
   font-style: normal;
 }
@@ -84,7 +84,7 @@ section {
 h5 {
   margin: 4px 0;
   font-size: 16px;
-  font-family: futura-pt, sans-serif;
+  font-family: Roboto, sans-serif;
   font-weight: 200;
   color: #005087;
 }

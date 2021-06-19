@@ -67,7 +67,7 @@
  font-weight: 800;
  color: aliceblue;
  margin: 0;
- font-family: futura-pt, sans-serif;
+ font-family: Roboto, sans-serif;
  font-weight: 200;
 }
 
@@ -75,7 +75,7 @@ p {
   text-align: center;
   width: 800px;
   margin: 0;
-  font-family: futura-pt, sans-serif;
+  font-family: Roboto, sans-serif;
   color: aliceblue;
   font-size: 24px;
   font-weight: 200;
@@ -211,7 +211,7 @@ footer {
 h2 {
   grid-column: 1/4;
   font-size: 64px;
-  font-family: futura-pt, sans-serif;
+  font-family: Roboto, sans-serif;
   font-weight: 200;
   text-align: center;
   color: #005087;
