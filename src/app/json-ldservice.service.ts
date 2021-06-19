@@ -5,7 +5,7 @@ import { Inject, Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class JsonLDServiceService {
-  static scriptType = 'application/json+ld';
+  static scriptType = 'application/ld+json';
   constructor(@Inject(DOCUMENT) private document: Document) { }
 
   crearProductSquema(nameProducto: string, image: string[], itemUrl: string,
@@ -49,7 +49,6 @@ export class JsonLDServiceService {
   }
 
   removeStructuredData(): void {
-    console.log('hered');
     const els = [];
     [ 'structured-data-product' ].forEach(c => {
       els.push(...Array.from(this.document.head.getElementsByClassName(c)));

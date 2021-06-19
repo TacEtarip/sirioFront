@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1624070705735,
+  "timestamp": 1624072338823,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -45,8 +45,8 @@
         "/9-es5.840c11d48e367b5b06cf.js",
         "/favicon.ico",
         "/index.html",
-        "/main-es2015.15aa235ef4bbd507aba3.js",
-        "/main-es5.15aa235ef4bbd507aba3.js",
+        "/main-es2015.0ba8b8196a3c20afacad.js",
+        "/main-es5.0ba8b8196a3c20afacad.js",
         "/manifest.webmanifest",
         "/polyfills-es2015.2c35b42853f99e9618ac.js",
         "/polyfills-es5.e1e6d31190574b21f4d7.js",
@@ -163,9 +163,9 @@
     "/assets/sirioLogo.svg": "f8b97deb45f9cca31e08a06a2cc73e81221f41d5",
     "/assets/sunatCodes.json": "3eb6bf8e2d337f4f715e017c35e0947cfe2fe101",
     "/favicon.ico": "cb766362eac40acb039f6ed56aa01c9575f757b2",
-    "/index.html": "581a67de99ab24c5c421a4a317d0afb35f452413",
-    "/main-es2015.15aa235ef4bbd507aba3.js": "e3a55dbfeb631f3e9d60d2bf9a21cdf7292a9321",
-    "/main-es5.15aa235ef4bbd507aba3.js": "9ceafeaa068b2dfd092d226cb64dd5371b5bc4c2",
+    "/index.html": "3f88800e5e8ac92d829b259fd2ab9dfc062b098b",
+    "/main-es2015.0ba8b8196a3c20afacad.js": "46a518a7434c29e57d19595263f6340ae40d1799",
+    "/main-es5.0ba8b8196a3c20afacad.js": "5f39e136a9e21bfadad61205a89707b10df1faac",
     "/manifest.webmanifest": "28d8c8d8d7f43ad6fec0a2f0a77aa71787bda1af",
     "/polyfills-es2015.2c35b42853f99e9618ac.js": "a207e64e47e0147a8da915d8d431957c4fa0468c",
     "/polyfills-es5.e1e6d31190574b21f4d7.js": "909b1496dadbc45afae49371576504ebf5f3645e",
