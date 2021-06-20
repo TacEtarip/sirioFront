@@ -1,2 +1,3 @@
+Sitemap: https://inventario.siriodinar.com/assets/sitemap.xml
 User-agent: Googlebot
 Disallow:
