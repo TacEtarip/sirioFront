@@ -115,9 +115,10 @@
         <h4>Precio: {{(item$|async).priceIGV|currency:'S/'}} | Precio Sin IGV: {{(item$|async).priceNoIGV|currency:'S/'}} | Marca: {{(item$|async).marca}} | {{(item$|async).codigo}}</h4>
         <h5>*Los precios son por unidad. No dude en consultarnos por precios al por mayor.</h5>
         <div class="btns">
-          <button class="reporte"  (click)="openLink()" mat-flat-button color="accent"> <mat-icon>phone</mat-icon> Contactar</button>
-          <button *ngIf="auth.loggedIn() && (auth.getTtype() === 'admin' || auth.getTtype() === 'vent')" (click)=" openDialogVenta()" mat-stroked-button >Vender</button>
+          <button class="reporte" [ngStyle]="{'background-color': '#00A859'}" (click)="openLink()" mat-flat-button color="accent">
+            <i class="fa fa-whatsapp fa-2x" aria-hidden="true"></i> Consultar</button>
           <button  class="reporte"   [disabled]="!(item$|async).ficha" mat-stroked-button >Descargar Ficha</button>
+          <button *ngIf="auth.loggedIn() && (auth.getTtype() === 'admin' || auth.getTtype() === 'vent')" (click)=" openDialogVenta()" mat-stroked-button >Vender</button>
           <button *ngIf="auth.loggedIn() && (auth.getTtype() === 'admin' || auth.getTtype() === 'vent')" class="reporte"  mat-stroked-button >Ver Reporte</button>
         </div>
         <H2 [ngStyle]="{'padding-top': '1em'}">TAGS</H2>
