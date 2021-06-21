@@ -34,7 +34,6 @@ export class LandingComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.titleService.setTitle('Sirio Dinar | Store');
 
     this.analyticsGoogle.addAnalytics();
 

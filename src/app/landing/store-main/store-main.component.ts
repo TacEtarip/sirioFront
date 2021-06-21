@@ -1,3 +1,4 @@
+import { Title } from '@angular/platform-browser';
 import {  Component, OnInit, OnDestroy } from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -39,7 +40,7 @@ export class StoreMainComponent implements OnInit, OnDestroy {
 
   smallSubs: Subscription;
 
-  constructor(public auth: AuthService, private inv: InventarioManagerService,
+  constructor(public auth: AuthService, private inv: InventarioManagerService, private titleService: Title,
               private router: Router, private fb: FormBuilder, breakpointObserver: BreakpointObserver) {
                 const isSmallScreenObs = breakpointObserver.observe(['(max-width: 650px)', '(max-width: 1100px)', '(max-width: 1300px)']);
                 this.smallSubs = isSmallScreenObs.subscribe(res => {
@@ -57,6 +58,8 @@ export class StoreMainComponent implements OnInit, OnDestroy {
                     this.resetAnimations();
                   }
                 });
+                this.titleService.setTitle('Sirio Dinar | Tienda de los mejores EPPs');
+
    }
 
   ngOnDestroy(): void {
@@ -76,6 +79,7 @@ export class StoreMainComponent implements OnInit, OnDestroy {
         Validators.required,
       ])),
     });
+
 
     this.inv.getItemsDestacados().subscribe(res => {
       this.itemsDestacados$.next(res);

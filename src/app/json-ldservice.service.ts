@@ -10,6 +10,8 @@ export class JsonLDServiceService {
 
   crearProductSquema(nameProducto: string, image: string[], itemUrl: string,
                      description: string, sku: string, brandName: string, precio: number, availability: string): any {
+    const date = new Date();
+    date.setFullYear(date.getFullYear() + 1);
     return{
       '@context': 'https://schema.org/',
       '@type': 'Product',
@@ -26,7 +28,8 @@ export class JsonLDServiceService {
         url: itemUrl,
         priceCurrency: 'PEN',
         price: precio.toString(),
-        availability
+        availability,
+        priceValidUntil: date.toISOString()
       }
     };
   }
