@@ -101,15 +101,13 @@ export function app(): express.Express {
   server.set('view engine', 'html');
   server.set('views', distFolder);
 
-  server.get('/sitemaps.xml', async (req, res) => {
+  server.get('/sitemapsV2.xml', async (req, res) => {
     res.header('Content-Type', 'application/xml');
     res.header('Content-Encoding', 'gzip');
     try {
-      console.log('here');
       const preLista =  await axios.get('https://inventario-sirio-dinar.herokuapp.com/inventario/getSiteMap');
       const listaURL: any[] = preLista.data;
-      console.log(listaURL);
-      const smStream = new SitemapStream({ hostname: 'https://inventario.siriodinar.com/' });
+      const smStream = new SitemapStream({ hostname: 'https://inventario.siriodinar.com/store/' });
       const pipeline = smStream.pipe(createGzip());
 
       const readable = Readable.from(listaURL);
@@ -117,7 +115,6 @@ export function app(): express.Express {
       // smStream.end();
       pipeline.pipe(res).on('error', (e) => {throw e;});
     } catch (error) {
-      console.log(error);
       return res.status(500).json(error);
     }
   });
