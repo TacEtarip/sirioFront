@@ -119,7 +119,7 @@ export function app(): express.Express {
       // smStream.end();
       pipeline.pipe(res).on('error', (e) => {throw e;});
     } catch (error) {
-      return res.status(500).end();
+      return res.status(500).json(error);
     }
   });
 
