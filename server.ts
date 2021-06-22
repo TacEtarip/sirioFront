@@ -107,7 +107,7 @@ export function app(): express.Express {
     try {
       const preLista =  await axios.get('https://inventario-sirio-dinar.herokuapp.com/inventario/getSiteMap');
       const listaURL: any[] = preLista.data;
-      const smStream = new SitemapStream({ hostname: 'https://inventario.siriodinar.com/store/' });
+      const smStream = new SitemapStream({ hostname: 'https://inventario.siriodinar.com/' });
       const pipeline = smStream.pipe(createGzip());
 
       const readable = Readable.from(listaURL);
