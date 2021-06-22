@@ -101,7 +101,7 @@ export function app(): express.Express {
   server.set('view engine', 'html');
   server.set('views', distFolder);
 
-  server.get('/sitemapsV3.xml', async (req, res) => {
+  server.get('/sitemapsV4.xml', async (req, res) => {
     res.header('Content-Type', 'application/xml');
     res.header('Content-Encoding', 'gzip');
     try {
