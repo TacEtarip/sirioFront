@@ -13,6 +13,13 @@ import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 import * as compression from 'compression';
 
+import axios from 'axios';
+
+import { SitemapStream } from 'sitemap';
+
+import { Readable } from 'stream';
+
+import { createGzip } from 'zlib';
 // tslint:disable-next-line: no-string-literal
 
 
@@ -73,6 +80,12 @@ export function app(): express.Express {
         next();
         return;
       }
+
+      if (req.url === '/sitemaps.xml') {
+        next();
+        return;
+      }
+
       return res.redirect(301, 'https://' + req.hostname + req.url);
     }
     next();
@@ -92,6 +105,23 @@ export function app(): express.Express {
 
   server.set('view engine', 'html');
   server.set('views', distFolder);
+
+  server.get('/sitemaps.xml', async (req, res) => {
+    res.header('Content-Type', 'application/xml');
+    res.header('Content-Encoding', 'gzip');
+    try {
+      const listaURL: any[] = await axios.get('https://inventario-sirio-dinar.herokuapp.com/inventario/getSiteMap');
+      const smStream = new SitemapStream({ hostname: 'https://inventario.siriodinar.com/' });
+      const pipeline = smStream.pipe(createGzip());
+
+      const readable = Readable.from(listaURL);
+      readable.pipe(smStream);
+      // smStream.end();
+      pipeline.pipe(res).on('error', (e) => {throw e;});
+    } catch (error) {
+      return res.status(500).end();
+    }
+  });
 
   server.get('/auth/signOut', (req, res) => {
     res.cookie('jwt_token', '', {
