@@ -101,7 +101,7 @@ export function app(): express.Express {
   server.set('view engine', 'html');
   server.set('views', distFolder);
 
-  server.get('/sitemapsV4.xml', async (req, res) => {
+  server.get('/assets/sitemap.xml', async (req, res) => {
     res.header('Content-Type', 'application/xml');
     res.header('Content-Encoding', 'gzip');
     try {
@@ -210,7 +210,7 @@ function run(): void {
   // Start up the Node server
   const server = app();
   server.listen(port, () => {
-    console.log(`Node Express server listening on http://localhost:${port}`);
+    // console.log(`Node Express server listening on http://localhost:${port}`);
   });
 }
 

@@ -144,7 +144,7 @@ export class CategoriasComponent implements OnInit, OnDestroy {
             this.titleService.setTitle('Sirio Dinar | ' + resT.name);
             this.addMetaTagsGeneral(resT.name, resT.tipo + '/' + resT.subTipo + '/' +
             resT.codigo, resT.photo, resT.description + ' | ' +
-            ' Precio: S/' + resT.priceIGV.toString() );
+            ' Precio: S/' + resT.priceIGV.toString(), resT.priceIGV );
             const schema = this.jsonLDS
             .crearProductSquema(resT.name, ['https://siriouploads.s3.amazonaws.com/' + resT.photo.split('.')[0] + '.webp'],
             'https://inventario.siriodinar.com/store/categorias/' + resT.tipo + '/'  + resT.subTipo + '/' + resT.codigo,
