@@ -84,7 +84,7 @@ tr.mat-row:hover {
 }*/
 
 .documentoTable {
-  width: 50%;
+  width: 37.5%;
 }
 
 .atTheEND {
@@ -99,7 +99,7 @@ tr.mat-row:hover {
   width: 42px;
   transition: width 1s;
   font-weight: 800;
-  grid-column: span 3;
+  grid-column: span 1;
 }
 
 .searchIcon:hover {

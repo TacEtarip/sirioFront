@@ -4,11 +4,27 @@
   </h1>
   <div class="filtros">
     <div class="dates">
+
+
       <mat-form-field [formGroup]="range" appearance="fill" class="selectSort searchInput">
-        <mat-label>Busqueda:</mat-label>
-        <input id="busqueda" matInput formControlName="busqueda">
+        <mat-label>Busqueda Documento:</mat-label>
+        <input placeholder="DNI/RUC o Nombre" id="busqueda" matInput formControlName="busqueda">
         <mat-icon class="searchIcon" matSuffix>search</mat-icon>
       </mat-form-field>
+
+      <mat-form-field [formGroup]="range" appearance="fill" class="selectSort searchInput">
+        <mat-label>Busqueda Producto:</mat-label>
+        <input placeholder="Codigo de producto" id="busquedaItemCodigo" matInput formControlName="busquedaItemCodigo">
+        <mat-icon class="searchIcon" matSuffix>search</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field [formGroup]="range" appearance="fill" class="selectSort searchInput">
+        <mat-label>Busqueda Usuario:</mat-label>
+        <input placeholder="Username" id="busquedaUsername" matInput formControlName="busquedaUsername">
+        <mat-icon class="searchIcon" matSuffix>search</mat-icon>
+      </mat-form-field>
+
+
       <mat-form-field  [formGroup]="range" currentMetodoPago  appearance="fill" class="oneC showMobile sm1">
         <mat-label>Tipo</mat-label>
         <mat-select [(value)]="currentTipoV" name="tipo"  formControlName="tipo">
@@ -73,10 +89,17 @@
           <td mat-cell *matCellDef="let element"> {{element.totalPrice|currency:'S/'}} </td>
         </ng-container>
 
+        <ng-container matColumnDef="vendedor">
+          <th mat-header-cell *matHeaderCellDef> Vendido por </th>
+          <td mat-cell *matCellDef="let element"> {{element.vendedor}} </td>
+        </ng-container>
+
         <ng-container matColumnDef="documento">
           <th class="documentoTable" mat-header-cell *matHeaderCellDef> Para </th>
           <td class="documentoTable" mat-cell *matCellDef="let element"> {{element.documento.name}} <span *ngIf="element.documento.name">|</span> {{element.documento.codigo}} </td>
         </ng-container>
+
+
 
         <ng-container matColumnDef="comprobante">
           <th  mat-header-cell *matHeaderCellDef> Links</th>

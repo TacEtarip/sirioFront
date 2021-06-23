@@ -1,10 +1,13 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { InventarioManagerService, Item } from 'src/app/inventario-manager.service';
+import { InventarioManagerService, Item, Variaciones } from 'src/app/inventario-manager.service';
 
 @Component({
   selector: 'app-reporte-por-item',
@@ -12,6 +15,8 @@ import { InventarioManagerService, Item } from 'src/app/inventario-manager.servi
   styleUrls: ['./reporte-por-item.component.css']
 })
 export class ReportePorItemComponent implements OnInit, OnDestroy {
+
+
   busqueda: FormGroup;
   filteredItem$ = new BehaviorSubject<Item[]>(null);
   busquedaSub: Subscription;
@@ -34,6 +39,22 @@ export class ReportePorItemComponent implements OnInit, OnDestroy {
   ruta: string = null;
 
   smallSubs: Subscription;
+
+  displayedColumns: string[] = ['date', 'usuario', 'comentario', 'cantidadSC', 'cantidad', 'costoVar'];
+  dataSource: MatTableDataSource<Variaciones>;
+  // dataSource$ = new Subject<MatTableDataSource<TablaReporteItem>>();
+
+  @ViewChild(MatPaginator, {static: false})  set content(paginator: MatPaginator) {
+    if (paginator) {
+      this.dataSource.paginator = paginator;
+    }
+  }
+
+  @ViewChild(MatSort, {static: false}) set contentII(sort: MatSort) {
+    if (sort) {
+      this.dataSource.sort = sort;
+    }
+  }
 
   constructor(private router: Router, private fb: FormBuilder, private ar: ActivatedRoute,
               breakpointObserver: BreakpointObserver, private inv: InventarioManagerService) {
@@ -61,6 +82,7 @@ export class ReportePorItemComponent implements OnInit, OnDestroy {
       this.itemHistorico.next(null);
       if (this.ruta) {
         this.inv.getItem(this.ruta).subscribe(item => {
+          this.dataSource = new MatTableDataSource(item.variaciones);
           this.busqueda.get('name').setValue(item);
           this.item$.next(item);
           this.itemAct$.next(item);
@@ -142,5 +164,14 @@ export class ReportePorItemComponent implements OnInit, OnDestroy {
 
   goToProductoReport() {
     this.router.navigate(['reportes', 'item', this.item$.value.codigo]);
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 }

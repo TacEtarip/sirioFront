@@ -10,8 +10,8 @@ import { AuthService } from './auth.service';
 })
 export class InventarioManagerService {
 
-  baseUrl = 'https://inventario-sirio-dinar.herokuapp.com/';
-  // baseUrl = 'http://localhost:5000/';
+  // baseUrl = 'https://inventario-sirio-dinar.herokuapp.com/';
+  baseUrl = 'http://localhost:5000/';
 
 
   constructor(private http: HttpClient, private auth: AuthService, private router: Router,
@@ -212,9 +212,10 @@ export class InventarioManagerService {
   }));
   }
 
-  getExcelReport(dateOne: string, dateTwo: string, estado: string[], tipo: string[], busqueda: string) {
+  getExcelReport(dateOne: string, dateTwo: string, estado: string[], tipo: string[],
+                 busqueda: string, busquedaItemCodigo: string, busquedaUsername: string) {
     return this.http.post(this.baseUrl + 'ventas/createExcelReport/',
-    { dateOne, dateTwo, estado, tipo, busqueda  }, { responseType: 'blob' })
+    { dateOne, dateTwo, estado, tipo, busqueda, busquedaItemCodigo, busquedaUsername  }, { responseType: 'blob' })
     .pipe( first(), catchError(error => {
       switch (error.status) {
       case 0:
@@ -278,9 +279,11 @@ export class InventarioManagerService {
   }
 
   getCantidadVentasPorEstado(estado: string[], dateOne: string, dateTwo: string, tipo: string[],
-                             busqueda: string): Observable<{cantidadVentas: number}> {
+                             busqueda: string, busquedaItemCodigo: string, busquedaUsername: string):
+                              Observable<{cantidadVentas: number}> {
     return this.http.post<{cantidadVentas: number}>(this.baseUrl + 'ventas/getCantidadVentas',
-    {estado, dateOne, dateTwo, tipo, busqueda: busqueda || ''})
+    {estado, dateOne, dateTwo, tipo, busqueda: busqueda || '',
+    busquedaItemCodigo: busquedaItemCodigo || '', busquedaUsername: busquedaUsername || ''})
       .pipe(first(),
       catchError(error => {
         switch (error.status) {
@@ -298,9 +301,12 @@ export class InventarioManagerService {
 
 
   getVentasEJecutadas(limit: number, skip: number, dateOne: string, dateTwo: string,
-                      estado: string[], tipo: string[], busqueda: string, orden: string, ordenOrden: number): Observable<Venta[]> {
+                      estado: string[], tipo: string[],
+                      busqueda: string, busquedaItemCodigo: string, busquedaUsername: string,
+                      orden: string, ordenOrden: number): Observable<Venta[]> {
     return this.http.post<Venta[]>(this.baseUrl + 'ventas/getEjecutadas',
-    { limit, skip, dateOne, dateTwo, estado, tipo, busqueda: busqueda || '', orden, ordenOrden })
+    { limit, skip, dateOne, dateTwo, estado, tipo, busqueda: busqueda || '', orden, ordenOrden,
+    busquedaItemCodigo: busquedaItemCodigo || '', busquedaUsername: busquedaUsername || '' })
             .pipe(first(),
             catchError(error => {
               switch (error.status) {
@@ -1728,12 +1734,13 @@ export interface Documento {
   direccion: string;
 }
 
-interface Variaciones {
+export interface Variaciones {
   date: Date;
   cantidad: number;
   tipo: boolean;
   comentario: string;
   costoVar: number;
+  usuario?: string;
 }
 
 export interface Order {

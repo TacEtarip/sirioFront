@@ -119,7 +119,7 @@
             <i class="fa fa-whatsapp fa-2x" aria-hidden="true"></i> Consultar</button>
           <button  class="reporte"   [disabled]="!(item$|async).ficha" mat-stroked-button >Descargar Ficha</button>
           <button *ngIf="auth.loggedIn() && (auth.getTtype() === 'admin' || auth.getTtype() === 'vent')" (click)=" openDialogVenta()" mat-stroked-button >Vender</button>
-          <button *ngIf="auth.loggedIn() && (auth.getTtype() === 'admin' || auth.getTtype() === 'vent')" class="reporte"  mat-stroked-button >Ver Reporte</button>
+          <button (click)="descargarReporte()" *ngIf="auth.loggedIn() && (auth.getTtype() === 'admin' || auth.getTtype() === 'vent')" class="reporte"  mat-stroked-button >Ver Reporte</button>
         </div>
         <H2 [ngStyle]="{'padding-top': '1em'}">TAGS</H2>
         <mat-chip-list aria-label="Tags" [ngStyle]="{'padding': ' 1em 0'}">

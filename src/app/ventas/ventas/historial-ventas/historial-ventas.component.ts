@@ -26,7 +26,7 @@ export class HistorialVentasComponent implements OnInit, AfterViewInit, OnDestro
   endISO$ = new BehaviorSubject<string>('noone');
   startISO$ = new BehaviorSubject<string>('noone');
 
-  displayedColumns: string[] = ['fecha', 'codigo', 'totalPrice', 'documento', 'comprobante'];
+  displayedColumns: string[] = ['fecha', 'codigo', 'vendedor', 'totalPrice', 'documento', 'comprobante'];
   dataSource: MatTableDataSource<Venta>;
   dataSource$ = new Subject<MatTableDataSource<Venta>>();
 
@@ -90,7 +90,9 @@ export class HistorialVentasComponent implements OnInit, AfterViewInit, OnDestro
 
    ngAfterViewInit(): void {
     this.inventarioMNG.getVentasEJecutadas(10, 0, 'noone', 'noone', this.range.get('estado').value,
-    this.range.get('tipo').value, this.range.get('busqueda').value, this.range.get('orden').value,
+    this.range.get('tipo').value,
+    this.range.get('busqueda').value,  this.range.get('busquedaItemCodigo').value, this.range.get('busquedaUsername').value,
+    this.range.get('orden').value,
     this.range.get('ordenOrden').value).subscribe(res => {
       const temp = new MatTableDataSource(res);
       this.dataSource$.next(temp);
@@ -98,7 +100,9 @@ export class HistorialVentasComponent implements OnInit, AfterViewInit, OnDestro
     });
 
     this.inventarioMNG.getCantidadVentasPorEstado(this.range.get('estado').value, 'noone', 'noone',
-    this.range.get('tipo').value, this.range.get('busqueda').value).subscribe(res => {
+    this.range.get('tipo').value,
+    this.range.get('busqueda').value,  this.range.get('busquedaItemCodigo').value, this.range.get('busquedaUsername').value)
+    .subscribe(res => {
       this.ventasLength$.next(res.cantidadVentas);
     });
 
@@ -122,7 +126,15 @@ export class HistorialVentasComponent implements OnInit, AfterViewInit, OnDestro
       ordenOrden: this.fb.control(this.currentOrdenOrdenBusqueda),
       busqueda: this.fb.control('', Validators.compose([
         Validators.pattern(/^[a-zA-Z0-9.-_# ]*$/),
-        Validators.minLength(2),
+        Validators.minLength(1),
+      ])),
+      busquedaItemCodigo: this.fb.control('', Validators.compose([
+        Validators.pattern(/^[a-zA-Z0-9.-_# ]*$/),
+        Validators.minLength(1),
+      ])),
+      busquedaUsername: this.fb.control('', Validators.compose([
+        Validators.pattern(/^[a-zA-Z0-9.-_# ]*$/),
+        Validators.minLength(1),
       ]))
     });
 
@@ -147,12 +159,25 @@ export class HistorialVentasComponent implements OnInit, AfterViewInit, OnDestro
         this.cargarVentas();
       }
     });
+
+    this.range.get('busquedaItemCodigo').valueChanges.pipe(distinctUntilChanged(), debounceTime(500)).subscribe(res => {
+      if (this.range.get('busquedaItemCodigo').valid) {
+        this.cargarVentas();
+      }
+    });
+
+    this.range.get('busquedaUsername').valueChanges.pipe(distinctUntilChanged(), debounceTime(500)).subscribe(res => {
+      if (this.range.get('busquedaUsername').valid) {
+        this.cargarVentas();
+      }
+    });
   }
 
   newSource(index: number) {
       this.inventarioMNG.getVentasEJecutadas(10, index * 10, this.startISO$.value,
          this.endISO$.value, this.range.get('estado').value, this.range.get('tipo').value,
-         this.range.get('busqueda').value, this.range.get('orden').value, this.range.get('ordenOrden').value).subscribe(res => {
+         this.range.get('busqueda').value,  this.range.get('busquedaItemCodigo').value, this.range.get('busquedaUsername').value,
+         this.range.get('orden').value, this.range.get('ordenOrden').value).subscribe(res => {
         this.gettingInfo$.next(false);
         const temp = new MatTableDataSource(res);
         this.dataSource$.next(temp);
@@ -169,7 +194,8 @@ export class HistorialVentasComponent implements OnInit, AfterViewInit, OnDestro
       this.gettingInfo$.next(true);
       this.inventarioMNG.getVentasEJecutadas(10, 0, this.startISO$.value,
         this.endISO$.value, this.range.get('estado').value, this.range.get('tipo').value,
-        this.range.get('busqueda').value, this.range.get('orden').value, this.range.get('ordenOrden').value).subscribe(res => {
+        this.range.get('busqueda').value,  this.range.get('busquedaItemCodigo').value, this.range.get('busquedaUsername').value,
+        this.range.get('orden').value, this.range.get('ordenOrden').value).subscribe(res => {
         this.gettingInfo$.next(false);
         const temp = new MatTableDataSource(res);
         this.dataSource$.next(temp);
@@ -178,7 +204,7 @@ export class HistorialVentasComponent implements OnInit, AfterViewInit, OnDestro
 
     this.inventarioMNG
     .getCantidadVentasPorEstado(this.range.get('estado').value, this.startISO$.value, this.endISO$.value, this.range.get('tipo').value,
-    this.range.get('busqueda').value)
+    this.range.get('busqueda').value,  this.range.get('busquedaItemCodigo').value, this.range.get('busquedaUsername').value)
     .subscribe(res => {
       if (res) {
         this.ventasLength$.next(res.cantidadVentas);
@@ -247,7 +273,9 @@ export class HistorialVentasComponent implements OnInit, AfterViewInit, OnDestro
 
   descargarExcel() {
     this.inventarioMNG.getExcelReport(this.startISO$.value, this.endISO$.value,
-      this.range.get('estado').value,  this.range.get('tipo').value,  this.range.get('busqueda').value).subscribe(res => {
+      this.range.get('estado').value,  this.range.get('tipo').value,
+      this.range.get('busqueda').value,  this.range.get('busquedaItemCodigo').value, this.range.get('busquedaUsername').value)
+      .subscribe(res => {
       saveAs(res, 'reporte.xlsx');
     });
   }

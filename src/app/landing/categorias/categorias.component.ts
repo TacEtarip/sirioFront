@@ -142,7 +142,9 @@ export class CategoriasComponent implements OnInit, OnDestroy {
           if (resT) {
             this.item$.next(resT);
             this.titleService.setTitle('Sirio Dinar | ' + resT.name);
-            this.addMetaTagsGeneral(resT.name, resT.tipo + '/' + resT.subTipo + '/' + resT.codigo, resT.photo);
+            this.addMetaTagsGeneral(resT.name, resT.tipo + '/' + resT.subTipo + '/' +
+            resT.codigo, resT.photo, resT.description + ' | ' +
+            ' Precio: S/' + resT.priceIGV.toString() );
             const schema = this.jsonLDS
             .crearProductSquema(resT.name, ['https://siriouploads.s3.amazonaws.com/' + resT.photo.split('.')[0] + '.webp'],
             'https://inventario.siriodinar.com/store/categorias/' + resT.tipo + '/'  + resT.subTipo + '/' + resT.codigo,
@@ -175,15 +177,38 @@ export class CategoriasComponent implements OnInit, OnDestroy {
     this.metaService.updateTag({ property: 'og:image:alt', content: 'sirio presentacion' });
   }
 
-  addMetaTagsGeneral(titulo: string, link: string, imageLink?: string) {
+  addMetaTagsGeneral(titulo: string, link: string, imageLink?: string, descripcion = '', itemPrice = 0) {
     this.titleService.setTitle('Sirio Dinar | ' + titulo);
-    this.metaService.updateTag({ name: 'description', content: titulo + ' al mejor precio y de gran calidad. Venta al por mayor o al por menor.' });
+    this.metaService.updateTag({ name: 'description', content: titulo + ' | ' + descripcion + '\nAl mejor precio y de gran calidad. Venta al por mayor o al por menor en Trujillo.' });
     this.metaService.updateTag({ property: 'og:url', content: 'https://inventario.siriodinar.com/store/categorias/' + link });
     this.metaService.updateTag({ property: 'og:title', content: 'Sirio Dinar | ' + titulo });
-    this.metaService.updateTag({ property: 'og:description', content: titulo + ' al mejor precio y de gran calidad. Venta al por mayor o al por menor.' });
+    this.metaService.updateTag({ property: 'og:description', content: titulo + ' | ' + descripcion + '\nAl mejor precio y de gran calidad. Venta al por mayor o al por menor en Trujillo.' });
     this.metaService.updateTag({ property: 'og:image',
     content: imageLink ? 'https://siriouploads.s3.amazonaws.com/' + imageLink.split('.')[0] + '.webp' : 'https://inventario.siriodinar.com/assets/itemsSocial.jpg' });
     this.metaService.updateTag({ property: 'og:image:alt', content: titulo + 'imagen' });
+
+    if (itemPrice > 0) {
+      this.metaService.updateTag({ property: 'og:type', content: 'og:product' });
+
+      if (this.metaService.getTag('property=\'product:price:amount\'')) {
+        this.metaService.updateTag({ property: 'product:price:amount', content: itemPrice.toString() });
+      } else {
+        this.metaService.addTag({ property: 'product:price:amount', content: itemPrice.toString() });
+      }
+
+      if (!this.metaService.getTag('property=\'product:price:currency\'')) {
+        this.metaService.addTag({ property: 'product:price:currency', content: 'PEN' });
+      }
+
+    } else {
+      this.metaService.updateTag({ property: 'og:type', content: 'website' });
+      if (this.metaService.getTag('property=\'product:price:amount\'')) {
+        this.metaService.removeTag('property=\'product:price:amount\'');
+      }
+      if (this.metaService.getTag('property=\'product:price:currency\'')) {
+        this.metaService.removeTag('property=\'product:price:currency\'');
+      }
+    }
   }
 
   openDialogAgregarCat(): void {
@@ -413,6 +438,12 @@ export class CategoriasComponent implements OnInit, OnDestroy {
         this.subTipos$.next(resT.subTipo);
         this.subTiposPhoto$.next(resT.subTipoLink);
       });
+    });
+  }
+
+  descargarReporte() {
+    this.inv.getExcelReportItem(this.item$.value.codigo).subscribe(res => {
+      saveAs(res, 'reporte.xlsx');
     });
   }
 

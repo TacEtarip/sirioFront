@@ -23,6 +23,32 @@ h5 {
   font-weight: 400;
 }
 
+td, th {
+  width: 12%
+}
+
+table {
+  width: 100%;
+  min-width: 850px;
+}
+
+.large-table {
+  width: 40%
+}
+
+.borderTable {
+  border: solid .5px rgb(211, 211, 211);
+}
+
+.mainTableContenedor {
+  padding: 1em 0;
+  overflow: auto;
+}
+
+.mat-paginator {
+  min-width: 850px;
+}
+
 h6 {
   font-size: 14px;
   margin: 0;
