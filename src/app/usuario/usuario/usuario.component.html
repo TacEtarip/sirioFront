@@ -12,26 +12,16 @@
         <h4>{{(user|async).email}}</h4>
       </div>
       <div class="compras">
-        <h3>Compras</h3>
+        <h3 *ngIf="auth.getTtype() === 'low'">Compras</h3>
+        <h3 *ngIf="auth.getTtype() !== 'low' || auth.getTtype() !== 'contador'">Ventas</h3>
         <div class="comprasList">
           <mat-list [ngStyle]="{'height': '184px'}" role="list">
-            <mat-list-item  matRipple [ngStyle]="{'font-size': '14px', 'cursor': 'pointer'}" role="listitem">#54516 <span
-              [ngStyle]="{'color': ' #e69a53', 'font-size': '14px', 'margin-left': '8px'}">18/05/2021</span></mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item  matRipple [ngStyle]="{'font-size': '14px', 'cursor': 'pointer'}" role="listitem">#54516 <span
-              [ngStyle]="{'color': '#e69a53', 'font-size': '14px', 'margin-left': '8px'}">18/05/2021</span></mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item  matRipple [ngStyle]="{'font-size': '14px', 'cursor': 'pointer'}" role="listitem">#54516 <span
-              [ngStyle]="{'color': '#e69a53', 'font-size': '14px', 'margin-left': '8px'}">18/05/2021</span></mat-list-item>
-              <mat-divider></mat-divider>
-              <mat-list-item  matRipple [ngStyle]="{'font-size': '14px', 'cursor': 'pointer'}" role="listitem">#54516 <span
-                [ngStyle]="{'color': '#e69a53', 'font-size': '14px', 'margin-left': '8px'}">18/05/2021</span></mat-list-item>
-                <mat-divider></mat-divider>
-                <mat-list-item  matRipple [ngStyle]="{'font-size': '14px', 'cursor': 'pointer'}" role="listitem">#54516 <span
-                  [ngStyle]="{'color': '#e69a53', 'font-size': '14px', 'margin-left': '8px'}">18/05/2021</span></mat-list-item>
-                  <mat-divider></mat-divider>
-                  <mat-list-item  matRipple [ngStyle]="{'font-size': '14px', 'cursor': 'pointer'}" role="listitem">#54516 <span
-                    [ngStyle]="{'color': '#e69a53', 'font-size': '14px', 'margin-left': '8px'}">18/05/2021</span></mat-list-item>
+            <mat-list-item *ngFor="let venta of ventasLastTen|async" matRipple [ngStyle]="{'font-size': '14px', 'cursor': 'pointer'}" role="listitem">
+              <a href="/ventas/historialVentas/{{venta.codigo}}">
+                {{venta.codigo}} <span
+                [ngStyle]="{'color': ' #e69a53', 'font-size': '14px', 'margin-left': '8px'}">{{venta.date|date: 'shortDate'}}</span>
+              </a>
+            </mat-list-item>
           </mat-list>
         </div>
       </div>

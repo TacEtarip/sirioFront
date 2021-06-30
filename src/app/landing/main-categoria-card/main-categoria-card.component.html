@@ -1,5 +1,5 @@
 <a aria-label="Ver Categoria" href="/store/categorias/{{(tipoName$|async)}}"  class="imagen"  [ngStyle]="{'background-image': 'url(' + (urlOfImage|async) + ')'}" ></a>
-<a aria-label="Ver Categoria" *ngIf="!auth.loggedIn() || auth.getTtype() === 'contador'" href="/store/categorias/{{(tipoName$|async)}}" class="infoPro">
+<a aria-label="Ver Categoria" *ngIf="!auth.loggedIn() || auth.getTtype() === 'contador' || auth.getTtype() === 'low'" href="/store/categorias/{{(tipoName$|async)}}" class="infoPro">
   <div class="nombre">
     <h1>{{tipoName$|async}}</h1>
   </div>

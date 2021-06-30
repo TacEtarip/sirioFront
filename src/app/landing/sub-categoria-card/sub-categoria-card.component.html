@@ -6,7 +6,7 @@
   <img  *ngIf="urlOfImage|async" [ngClass]="{'imageAnimation': animate$|async}" [src]="urlOfImage|async" alt="" class="imageTest" (load)="imageLoaded($event)">
 </a>
 -->
-<a aria-label="Ver Sub Categoria" *ngIf="!auth.loggedIn() || auth.getTtype() === 'contador'" href="/store/categorias/{{codigoTipo}}/{{subTipo}}" class="infoPro">
+<a aria-label="Ver Sub Categoria" *ngIf="!auth.loggedIn() || auth.getTtype() === 'contador' || auth.getTtype() === 'low'" href="/store/categorias/{{codigoTipo}}/{{subTipo}}" class="infoPro">
   <div class="nombre">
     <h1>{{tipoName$|async}}</h1>
   </div>

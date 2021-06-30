@@ -1,3 +1,4 @@
+import { InventarioManagerService, Venta } from './../../inventario-manager.service';
 import { first } from 'rxjs/operators';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { FullUser, AuthService } from 'src/app/auth.service';
@@ -24,14 +25,20 @@ export class UsuarioComponent implements OnInit, OnDestroy {
   subOne: Subscription;
   subTwo: Subscription;
 
+  ventasLastTen = new BehaviorSubject<Venta[]>([]);
 
-  constructor(private auth: AuthService,  public dialog: MatDialog, private snackBar: MatSnackBar,
-              private titleService: Title,
+  constructor(public auth: AuthService,  public dialog: MatDialog, private snackBar: MatSnackBar,
+              private titleService: Title, private inv: InventarioManagerService,
               private metaTagService: Meta,
               private router: Router) {
     this.auth.getUserInfo(auth.getUser()).subscribe((res => {
       this.user.next(res);
       this.userPhone.next(this.addSpaceCada(3, res.celular));
+      if (this.auth.getTtype() !== 'low' || this.auth.getTtype() !== 'contador') {
+        this.inv.getLast20Sales(res.username).subscribe(resT => {
+          this.ventasLastTen.next(resT);
+        });
+      }
     }));
   }
 
@@ -49,6 +56,8 @@ export class UsuarioComponent implements OnInit, OnDestroy {
     this.metaTagService.updateTag(
       { name: 'description', content: 'Informacion de Sirio Dinar usuario' }
     );
+
+
   }
 
   openEditarCelDialog(): void {

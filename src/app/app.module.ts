@@ -11,6 +11,13 @@ import { AuthInterceptor } from './auth.interceptor';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
+import { LOCALE_ID } from '@angular/core';
+
+import es from '@angular/common/locales/es';
+import { registerLocaleData } from '@angular/common';
+
+registerLocaleData(es);
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,7 +36,9 @@ import { NotFoundPageComponent } from './not-found-page/not-found-page.component
     provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptor,
     multi: true,
-  }],
+  },
+  { provide: LOCALE_ID,
+     useValue: "es-PE" }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

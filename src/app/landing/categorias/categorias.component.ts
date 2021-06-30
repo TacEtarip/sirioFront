@@ -46,7 +46,7 @@ export class CategoriasComponent implements OnInit, OnDestroy {
   tituloSub$ = new BehaviorSubject<string>('');
   items = new BehaviorSubject<Item[]>(null);
   itemSecond = new BehaviorSubject<Item[]>([]);
-
+  showNotBuyed = new BehaviorSubject<boolean>(false);
   item$ = new BehaviorSubject<Item>(null);
   ruta = '';
   itemCod = '';
@@ -59,6 +59,15 @@ export class CategoriasComponent implements OnInit, OnDestroy {
   estadoSub: Subscription;
 
   loaded$ = new BehaviorSubject<boolean>(false);
+
+  reviewMean$ = new BehaviorSubject<number>(0);
+
+  mockList = new BehaviorSubject<number[]>([]);
+
+  mockListTwo  = new BehaviorSubject<number[]>([]);
+
+  userActualRating = 0;
+
 
   @ViewChild(MatSort, {static: false}) set content(sort: MatSort) {
     if ( this.item$.value && this.item$.value.subConteo) {
@@ -141,15 +150,57 @@ export class CategoriasComponent implements OnInit, OnDestroy {
 
           if (resT) {
             this.item$.next(resT);
+
+            const descripcionComplicada = resT.description
+            + '. Al mejor precio y de gran calidad. Venta al por mayor o al por menor en Trujillo.'
+            + ((resT.caracteristicas.length > 0) ? resT.caracteristicas.join(' | ') : '')
+            + 'Precio: S/' + resT.priceIGV.toString() + ' | Cantidad Disponible: ' + resT.cantidad.toString()
+            + ' | ' + 'Marca: ' + resT.marca
+            + '. Mas información al: +51 977 426 349';
+
             this.titleService.setTitle('Sirio Dinar | ' + resT.name);
             this.addMetaTagsGeneral(resT.name, resT.tipo + '/' + resT.subTipo + '/' +
-            resT.codigo, resT.photo, resT.description + ' | ' +
-            ' Precio: S/' + resT.priceIGV.toString(), resT.priceIGV );
+            resT.codigo, resT.photo, descripcionComplicada, resT.priceIGV );
+
+            let reviewsSum = 0;
+
+            resT.reviews.forEach(r => {
+              reviewsSum += r.rating;
+            });
+
+
+
+            const reviewMean =  Math.round(reviewsSum / resT.reviews.length) || 0;
+
+            const tempMock = [];
+            const tempMockTwo = [];
+
+            this.mockList.next(tempMock);
+
+            const storedReview = resT.reviews.find(x => x.user === this.auth.getUser());
+
+            this.userActualRating = storedReview ? storedReview.rating : 0;
+
+            for (let index = 0; index < this.userActualRating; index++) {
+              tempMock.push(index);
+              this.mockList.next(tempMock);
+            }
+
+            for (let index = this.userActualRating; index < 5; index++) {
+              tempMockTwo.push(index);
+              this.mockListTwo.next(tempMockTwo);
+            }
+
+
+            this.reviewMean$.next(reviewMean);
+
             const schema = this.jsonLDS
             .crearProductSquema(resT.name, ['https://siriouploads.s3.amazonaws.com/' + resT.photo.split('.')[0] + '.webp'],
             'https://inventario.siriodinar.com/store/categorias/' + resT.tipo + '/'  + resT.subTipo + '/' + resT.codigo,
-            resT.description, resT.codigo,
-            resT.marca, resT.priceIGV, resT.cantidad > 0 ? 'https://schema.org/InStock' : 'https://schema.org/SoldOut');
+            descripcionComplicada, resT.codigo,
+            resT.marca, resT.priceIGV, resT.cantidad > 0 ? 'https://schema.org/InStock' : 'https://schema.org/SoldOut',
+            resT.reviews.length, reviewMean);
+
             this.jsonLDS.insertSchema(schema);
             const mensajeInicio = 'Buenas estoy interesado en ';
             const mensajeFinal = ' quisiera obtener más información';
@@ -446,5 +497,88 @@ export class CategoriasComponent implements OnInit, OnDestroy {
       saveAs(res, 'reporte.xlsx');
     });
   }
+
+  thisAndTheOnesBehind(estrellaNumero: number) {
+    if (this.auth.loggedIn() === false) {
+      return;
+    }
+    const tempMock = [];
+    const tempMockTwo = [];
+
+
+    for (let index = 0; index < estrellaNumero + 1; index++) {
+      tempMock.push(index);
+    }
+
+    this.mockList.next(tempMock);
+    for (let index = (estrellaNumero + 1); index < 5; index++) {
+      tempMockTwo.push(index);
+    }
+    this.mockListTwo.next(tempMockTwo);
+  }
+
+  returnRatingToNormal() {
+    if (this.auth.loggedIn() === false) {
+      return;
+    }
+    const tempMock = [];
+    const tempMockTwo = [];
+
+
+    for (let index = 0; index < this.userActualRating; index++) {
+      tempMock.push(index);
+    }
+
+    this.mockList.next(tempMock);
+    for (let index = this.userActualRating; index < 5; index++) {
+      tempMockTwo.push(index);
+    }
+    this.mockListTwo.next(tempMockTwo);
+  }
+
+  setRating(estrellaNumero: number) {
+    if (this.auth.loggedIn() === false || this.userActualRating === (estrellaNumero + 1)) {
+      return;
+    }
+    const tempMock = [];
+    const tempMockTwo = [];
+
+    this.userActualRating = estrellaNumero + 1;
+
+    for (let index = 0; index < this.userActualRating; index++) {
+      tempMock.push(index);
+    }
+
+    this.mockList.next(tempMock);
+    for (let index = (this.userActualRating); index < 5; index++) {
+      tempMockTwo.push(index);
+    }
+    this.mockListTwo.next(tempMockTwo);
+
+    console.log(this.userActualRating);
+
+    this.inv.addItemReview(this.item$.value.codigo, this.userActualRating).subscribe(res => {
+      if (res) {
+        if (res.notBuyed){
+          this.showNotBuyed.next(true);
+        } else {
+          const resConvertido = res as Item;
+          this.item$.next(resConvertido);
+
+          let reviewsSum = 0;
+
+          resConvertido.reviews.forEach(r => {
+            reviewsSum += r.rating;
+          });
+          const reviewMean =  Math.round(reviewsSum / resConvertido.reviews.length) || 0;
+          this.reviewMean$.next(reviewMean);
+
+        }
+      }
+    });
+
+  }
+
+
 
 }

@@ -49,6 +49,22 @@ export class InventarioManagerService {
       }));
   }
 
+  getLast20Sales(username: string): Observable<Venta[]> {
+    return this.http.get<Item[]>(this.baseUrl + 'ventas/getLastVentas/' + username)
+    .pipe( first(), catchError(error => {
+      switch (error.status) {
+      case 0:
+        alert('Error al tratar de conectar al servidor');
+        break;
+      case 700:
+        break;
+      default:
+        break;
+    }
+      return of(null);
+    }));
+  }
+
 
   deConvertToFavorite(item: Item): Observable<Item> {
     return this.http.post<Item>(this.baseUrl + 'inventario/toUnFavorite', item)
@@ -1708,6 +1724,23 @@ export class InventarioManagerService {
     }));
   }
 
+  addItemReview(codigo: string, rating: number): Observable<any> {
+    return this.http.post<any>(this.baseUrl + 'inventario/addItemReview', { codigo, rating })
+    .pipe(first(),
+    catchError(error => {
+        switch (error.status) {
+        case 0:
+          alert('Error al tratar de conectar al servidor');
+          break;
+        case 403:
+          return of({notBuyed: true});
+        default:
+          alert(error.error.message);
+          break;
+        }
+        return of(null);
+    }));
+  }
 
 }
 
@@ -1776,6 +1809,13 @@ export interface Item {
   tags?: string[];
   caracteristicas?: string[];
   order?: number;
+  reviews?: Rating[];
+}
+
+export interface Rating {
+  user: string;
+  rating: number;
+  date: Date;
 }
 
 export interface Tipo {

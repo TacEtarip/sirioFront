@@ -58,41 +58,60 @@
       class="itemImage">
       </div>
       <div class="cantidadesOne">
-        <H2 [ngStyle]="{'padding-top': '2em'}">CANTIDADES</H2>
-        <mat-toolbar [ngStyle]="{'background': 'white'}">
-          <span>{{(item$|async).cantidad}} {{(item$|async).unidadDeMedida}} disponibles.</span>
-        </mat-toolbar>
-        <div *ngIf="(item$|async).subConteo" class="tablContenedor">
-          <table  mat-table [dataSource]="dataSource" matSort >
+        <H2 [ngStyle]="{'padding-top': '1em'}">Reseñas</H2>
+        <div class="clasificacion-propia">
+          <h3>DEJA TU CALIFICACIÓN:</h3>
+          <div class="five-star">
 
-            <!-- Position Column -->
-            <ng-container matColumnDef="name">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> {{(item$|async).subConteo.name}} </th>
-              <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-              <td mat-footer-cell *matFooterCellDef> Total </td>
-            </ng-container>
+            <i *ngFor="let item of (mockList|async)" class="fas fa-star star-rating" (click)="setRating(item)"
+            (mouseover)="thisAndTheOnesBehind(item)" (mouseleave)="returnRatingToNormal()" ></i>
+            <i *ngFor="let item of (mockListTwo|async)" class="far fa-star star-rating" (click)="setRating(item)"
+            (mouseover)="thisAndTheOnesBehind(item)" (mouseleave)="returnRatingToNormal()" ></i>
 
-            <!-- Name Column -->
-            <ng-container matColumnDef="nameSecond">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> {{(item$|async).subConteo.nameSecond}} </th>
-              <td mat-cell *matCellDef="let element"> {{element.nameSecond}} </td>
-              <td mat-footer-cell *matFooterCellDef></td>
-            </ng-container>
-
-            <!-- Weight Column -->
-            <ng-container matColumnDef="cantidad">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> Cantidad </th>
-              <td mat-cell *matCellDef="let element"> {{element.cantidad}} </td>
-              <td mat-footer-cell *matFooterCellDef>{{(item$|async).cantidad}}</td>
-            </ng-container>
-
-
-            <tr mat-header-row *matHeaderRowDef="displayedColumnsPos"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumnsPos;"></tr>
-            <tr mat-footer-row *matFooterRowDef="displayedColumnsPos"></tr>
-          </table>
-
+          </div>
+          <a href="/login/login"><h5  *ngIf="!auth.loggedIn()">Necesitas iniciar sesión.</h5></a>
+          <h5  *ngIf="showNotBuyed|async">No has comprado este item.</h5>
         </div>
+
+        <mat-expansion-panel class="mat-elevation-z0"
+        [ngStyle]="{'margin-top': '10px', 'border': '#E87200 1px solid'}" >
+          <mat-expansion-panel-header *ngIf="(item$|async).reviews.length > 0">
+            <mat-panel-title>
+              <span [ngStyle]="{'margin-right': '5px'}">{{reviewMean$|async}}/5</span>
+              <i class="fas fa-star"></i>
+            </mat-panel-title>
+            <mat-panel-description>
+              <span>De {{(item$|async).reviews.length}} reseñas</span>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <mat-expansion-panel-header *ngIf="(item$|async).reviews.length === 0">
+            <mat-panel-description>
+              <span>Aun no se a reseñado estre producto. ¡Se el primero!</span>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <div>
+              <div class="review" itemprop="review" itemscope itemtype="http://schema.org/Review" role="listitem"
+              *ngFor="let review of (item$|async).reviews">
+                <div class="review-score" itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating">
+                  <meta itemprop="ratingValue" [content]="review.rating">
+                  <h4>{{review.rating}}</h4>
+                  <i class="fas fa-star star-rating" ></i>
+                </div>
+                <div class="autor" itemprop="author" [ngStyle]="{'color': 'black', 'font-weight': '200'}">
+                  Por <B>{{review.user}}</B>; El {{review.date|date: 'fullDate'}}
+                </div>
+                <div itemprop="itemReviewed" itemscope itemtype="http://schema.org/Thing">
+                    <meta itemprop="name" [content]="(item$|async).name">
+                </div>
+                <h3 itemprop="name"></h3>
+                <div itemprop="reviewBody">
+                </div>
+              </div>
+
+          </div>
+
+        </mat-expansion-panel>
       </div>
     </div>
 
@@ -126,11 +145,17 @@
           <mat-chip color="primary" selected  *ngFor="let tag of (item$|async).tags">{{tag}}</mat-chip>
         </mat-chip-list>
 
-        <div class="cantidadesTwo">
-          <H2 [ngStyle]="{'padding-top': '2em'}">CANTIDADES</H2>
-          <mat-toolbar [ngStyle]="{'background': 'white'}">
-            <span>{{(item$|async).cantidad}} {{(item$|async).unidadDeMedida}} disponibles.</span>
-          </mat-toolbar>
+        <mat-expansion-panel class="mat-elevation-z0"
+        [ngStyle]="{'margin-top': '10px', 'border': '#0000002d  1px solid'}" [hideToggle]="!((item$|async).subConteo) ? true : false">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              CANTIDADES
+            </mat-panel-title>
+            <mat-panel-description>
+              <span>{{(item$|async).cantidad}} {{(item$|async).unidadDeMedida}} disponibles.</span>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <p *ngIf="(item$|async).subConteo">Detalle:</p>
           <div *ngIf="(item$|async).subConteo" class="tablContenedor">
             <table  mat-table [dataSource]="dataSource" matSort >
 
@@ -162,7 +187,7 @@
             </table>
 
           </div>
-        </div>
+        </mat-expansion-panel>
     </div>
   </div>
 

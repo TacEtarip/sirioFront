@@ -54,6 +54,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {LayoutModule} from '@angular/cdk/layout';
 import { ChangeOrderComponent } from './change-order/change-order.component';
 import { ChangeFoldersComponent } from './change-folders/change-folders.component';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 @NgModule({
   declarations: [LandingComponent, ItemcardComponent, StoreMainComponent, SeguroEliminarComponent,  EditarClaseComponent,
@@ -88,7 +89,8 @@ import { ChangeFoldersComponent } from './change-folders/change-folders.componen
     MatSortModule,
     MatChipsModule,
     LayoutModule,
-    DragDropModule
+    DragDropModule,
+    MatExpansionModule
   ]
 })
 export class LandingModule { }

@@ -9,9 +9,18 @@ export class JsonLDServiceService {
   constructor(@Inject(DOCUMENT) private document: Document) { }
 
   crearProductSquema(nameProducto: string, image: string[], itemUrl: string,
-                     description: string, sku: string, brandName: string, precio: number, availability: string): any {
+                     description: string, sku: string, brandName: string, precio: number, availability: string,
+                     ratingCount: number, ratingValue: number): any {
     const date = new Date();
     date.setFullYear(date.getFullYear() + 1);
+    let aggregateRating = {
+      '@type': 'AggregateRating',
+      ratingValue,
+      ratingCount
+    };
+    if (ratingCount === 0) {
+      aggregateRating = undefined;
+    }
     return{
       '@context': 'https://schema.org/',
       '@type': 'Product',
@@ -30,8 +39,18 @@ export class JsonLDServiceService {
         price: precio.toString(),
         availability,
         priceValidUntil: date.toISOString()
-      }
+      },
+      aggregateRating
     };
+  }
+
+  crearOrgSquema() {
+    return     {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "url": "https://inventario.siriodinar.com/assets/main",
+      "logo": "http://www.example.com/images/logo_512.png"
+    }
   }
 
   insertSchema(schema: Record<string, any>, className = 'structured-data-product'): void {
@@ -53,7 +72,7 @@ export class JsonLDServiceService {
 
   removeStructuredData(): void {
     const els = [];
-    [ 'structured-data-product' ].forEach(c => {
+    [ 'structured-data-product', 'structured-org-product' ].forEach(c => {
       els.push(...Array.from(this.document.head.getElementsByClassName(c)));
     });
     els.forEach(el => this.document.head.removeChild(el));

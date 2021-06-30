@@ -118,7 +118,13 @@ h3 span {
   color: #005087;
 }
 
+.fa-star {
+  color: #E87200;
+}
 
+.star-rating {
+  cursor: pointer;
+}
 
 .previo {
   background-color: #E87200;
@@ -157,6 +163,45 @@ h3 span {
       -ms-user-select: none; /* Internet Explorer/Edge */
           user-select: none; /* Non-prefixed version, currently
                                 supported by Chrome, Edge, Opera and Firefox */
+}
+
+h3 {
+  color: #005087;
+  font-weight: 400;
+  margin: 0;
+  font-size: 20px;
+}
+
+.clasificacion-propia {
+  display: flex;
+  gap: 1em;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.cantidadesOne h5 {
+  margin: 0;
+  padding: 0;
+  text-decoration: underline;
+}
+
+.review,
+.review-score {
+  display: flex;
+  align-items: center;
+}
+
+.review-score {
+  gap: 2px;
+}
+
+.review {
+  gap: 20px;
+}
+
+.autor {
+  font-size: 16px;
 }
 
 h6 {
