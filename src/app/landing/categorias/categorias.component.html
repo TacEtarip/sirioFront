@@ -101,7 +101,7 @@
                 <div class="autor" itemprop="author" [ngStyle]="{'color': 'black', 'font-weight': '200'}">
                   Por <B>{{review.user}}</B>; El {{review.date|date: 'fullDate'}}
                 </div>
-                <div itemprop="itemReviewed" itemscope itemtype="http://schema.org/Thing">
+                <div itemprop="itemReviewed" itemscope itemtype="http://schema.org/Product">
                     <meta itemprop="name" [content]="(item$|async).name">
                 </div>
                 <h3 itemprop="name"></h3>

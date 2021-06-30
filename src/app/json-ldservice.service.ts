@@ -46,7 +46,7 @@ export class JsonLDServiceService {
 
   crearOrgSquema() {
     return     {
-      "@context": "https://schema.org",
+      "@context": "https://schema.org/",
       "@type": "Organization",
       name: 'Sirio Dinar',
       url: 'https://inventario.siriodinar.com/store/main',
