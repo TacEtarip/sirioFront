@@ -38,7 +38,7 @@ registerLocaleData(es);
     multi: true,
   },
   { provide: LOCALE_ID,
-     useValue: "es-PE" }],
+     useValue: 'es-PE' }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

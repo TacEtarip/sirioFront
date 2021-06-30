@@ -127,7 +127,7 @@
           <button (click)="openCaracteristicas()" mat-stroked-button class="reporte">Caracteristicas</button>
         </div>
         <H2 [ngStyle]="{'padding-top': '1em'}">PRECIOS</H2>
-        <h4>Precio: {{(item$|async).priceIGV|currency:'S/'}} | Precio Sin IGV: {{(item$|async).priceNoIGV|currency:'S/'}} | Marca: {{(item$|async).marca}} | {{(item$|async).codigo}}</h4>
+        <h4>Precio: S/{{(item$|async).priceIGV|currency:' '}} | Precio Sin IGV: S/{{(item$|async).priceNoIGV|currency: ' '}} | Marca: {{(item$|async).marca}} | {{(item$|async).codigo}}</h4>
         <h5>*Los precios son por unidad. No dude en consultarnos por precios al por mayor.</h5>
         <div class="btns">
           <button class="reporte" [ngStyle]="{'background-color': '#00A859'}" (click)="openLink()" mat-flat-button color="accent">

@@ -26,22 +26,22 @@
           <!-- Fruit Column -->
           <ng-container matColumnDef="costoPropio">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Costo </th>
-            <td mat-cell *matCellDef="let row"> {{row.costoPropio|currency: 'S/'}} </td>
+            <td mat-cell *matCellDef="let row"> S/{{row.costoPropio|currency: ' '}} </td>
           </ng-container>
 
           <ng-container matColumnDef="priceIGV">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Precio Venta </th>
-            <td mat-cell *matCellDef="let row"> {{row.priceIGV|currency: 'S/'}} </td>
+            <td mat-cell *matCellDef="let row"> S/{{row.priceIGV|currency: ' '}} </td>
           </ng-container>
 
           <ng-container matColumnDef="valueGasto">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Invertido </th>
-            <td mat-cell *matCellDef="let row"> {{row.valueGasto|currency: 'S/'}} </td>
+            <td mat-cell *matCellDef="let row"> S/{{row.valueGasto|currency: ' '}} </td>
           </ng-container>
 
           <ng-container matColumnDef="valueIngreso">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Ingresado </th>
-            <td mat-cell *matCellDef="let row"> {{row.valueIngreso|currency: 'S/'}} </td>
+            <td mat-cell *matCellDef="let row"> S/{{row.valueIngreso|currency: ' '}} </td>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

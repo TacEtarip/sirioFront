@@ -24,15 +24,15 @@
         <mat-list role="list">
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
-            <h5>Costo propio: <b>{{(itemAct$|async).costoPropio | currency:'S/'}}</b></h5>
+            <h5>Costo propio: <b>S/{{(itemAct$|async).costoPropio | currency:' '}}</b></h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
-            <h5>Valor de venta (IGV incluido): <b>{{(itemAct$|async).priceIGV | currency:'S/'}}</b></h5>
+            <h5>Valor de venta (IGV incluido): <b>S/{{(itemAct$|async).priceIGV | currency:' '}}</b></h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
-            <h5>Valor de venta (No IGV): <b>{{(itemAct$|async).priceNoIGV | currency:'S/'}}</b></h5>
+            <h5>Valor de venta (No IGV): <b>S/{{(itemAct$|async).priceNoIGV | currency:' '}}</b></h5>
           </mat-list-item>
         </mat-list>
       </div>
@@ -51,18 +51,18 @@
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
             <h5>Invertido en el stock disponible:
-              <b>{{((itemAct$|async).cantidad * (itemAct$|async).costoPropio) | currency: 'S/'}}</b></h5>
+              <b>S/{{((itemAct$|async).cantidad * (itemAct$|async).costoPropio) | currency: ' '}}</b></h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
             <h5>Posibles ingresos con el stock disponible:
-              <b>{{((itemAct$|async).cantidad * (itemAct$|async).priceIGV) | currency: 'S/'}}</b></h5>
+              <b>S/{{((itemAct$|async).cantidad * (itemAct$|async).priceIGV) | currency: ' '}}</b></h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
             <h5>Posibles ganancias con el stock disponible:
-              <b>{{ (((itemAct$|async).cantidad * (itemAct$|async).priceIGV ) -
-                ((itemAct$|async).cantidad * (itemAct$|async).costoPropio))  | currency: 'S/'}}</b></h5>
+              <b>S/{{(((itemAct$|async).cantidad * (itemAct$|async).priceIGV ) -
+                ((itemAct$|async).cantidad * (itemAct$|async).costoPropio))  | currency: ' '}}</b></h5>
           </mat-list-item>
           <mat-divider></mat-divider>
           <div mat-subheader>Stock Total Historico</div>
@@ -73,12 +73,12 @@
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
             <h5>Invertido en el item:
-              <b>{{(itemHistorico|async).totalCosto | currency: 'S/'}}</b></h5>
+              <b>S/{{(itemHistorico|async).totalCosto | currency: ' '}}</b></h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
             <h5>Ingresor generados por el item:
-              <b>{{(itemHistorico|async).totalIngreso | currency: 'S/'}}</b></h5>
+              <b>S/{{(itemHistorico|async).totalIngreso | currency: ' '}}</b></h5>
           </mat-list-item>
 
 
@@ -99,11 +99,11 @@
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
-            <h5>Ingreso por ventas: <b>{{(itemGanancia|async).totalVenta | currency: 'S/'}}</b></h5>
+            <h5>Ingreso por ventas: <b>S/{{(itemGanancia|async).totalVenta | currency: ' '}}</b></h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
-            <h5>Ganancia por ventas: <b>{{(itemGanancia|async).value | currency: 'S/'}}</b></h5>
+            <h5>Ganancia por ventas: <b>S/{{(itemGanancia|async).value | currency: ' '}}</b></h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
@@ -187,7 +187,7 @@
 
           <ng-container matColumnDef="costoVar">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Costo De Variación </th>
-            <td mat-cell *matCellDef="let row"> {{row.costoVar|currency: 'S/'}} </td>
+            <td mat-cell *matCellDef="let row"> S/{{row.costoVar|currency: ' '}} </td>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

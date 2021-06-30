@@ -5,7 +5,7 @@
     <h1>{{item.name}}</h1>
   </div>
   <div class="accion">
-    <h4>{{item.priceIGV|currency:'S/'}}</h4>
+    <h4>S/{{item.priceIGV|currency:' '}}</h4>
     <a aria-label="Ver Item" matTooltip="Contactar WSP" target="_blank"  href="https://wa.me/51977426349?text=Buenas estoy interesado en {{item.name}}, quisiera obtener más información">
       <mat-icon>contact_phone</mat-icon></a>
     <a href="/store/categorias/{{item.tipo}}/{{item.subTipo}}/{{item.codigo}}"><mat-icon>open_in_browser</mat-icon></a>

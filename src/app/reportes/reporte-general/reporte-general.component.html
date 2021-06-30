@@ -7,15 +7,15 @@
           <div mat-subheader>Stock Actual</div>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
-            <h5>Posibles ventas con el stock disponible: <b>{{(ventasAprox|async)|currency:'S/'}}</b></h5>
+            <h5>Posibles ventas con el stock disponible: <b>S/{{(ventasAprox|async)|currency:' '}}</b></h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon> show_chart</mat-icon>
-            <h5>Gasto aproximado en stock disponible: <b>{{(costoStock|async)|currency:'S/'}}</b></h5>
+            <h5>Gasto aproximado en stock disponible: <b>S/{{(costoStock|async)|currency:' '}}</b></h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
-            <h5>Posible ganancia con el stock disponible: <b>{{(gananciaAprox|async)|currency:'S/'}}</b></h5>
+            <h5>Posible ganancia con el stock disponible: <b>S/{{(gananciaAprox|async)|currency:' '}}</b></h5>
           </mat-list-item>
 
           <mat-divider></mat-divider>
@@ -23,14 +23,14 @@
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
             <h5>Invercion total:
-              <b>{{(invercionTotal|async)|currency:'S/'}}</b> | Ingreso total: <b>{{(ingresoTotal|async)|currency:'S/'}} </b> | Balance:
-              <b>{{((ingresoTotal|async) - (invercionTotal|async))|currency:'S/'}}</b></h5>
+              <b>S/{{(invercionTotal|async)|currency:' '}}</b> | Ingreso total: <b>S/{{(ingresoTotal|async)|currency:' '}} </b> | Balance:
+              <b>S/{{((ingresoTotal|async) - (invercionTotal|async))|currency:' '}}</b></h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
-            <h5>Invercion total en productos de stock: <b>{{(gastosHistoricos|async)|currency:'S/'}}
-            </b> | Ingreso total por productos de stock: <b>{{(ingresorHistoricos|async)|currency:'S/'}}</b> | Balance:
-            <b>{{((ingresorHistoricos|async) - (gastosHistoricos|async))|currency:'S/'}}</b></h5>
+            <h5>Invercion total en productos de stock: <b>S/{{(gastosHistoricos|async)|currency:' '}}
+            </b> | Ingreso total por productos de stock: <b>S/{{(ingresorHistoricos|async)|currency:' '}}</b> | Balance:
+            <b>S/{{((ingresorHistoricos|async) - (gastosHistoricos|async))|currency:' '}}</b></h5>
           </mat-list-item>
           <mat-divider></mat-divider>
           <div mat-subheader>Alerta de stock</div>
@@ -79,15 +79,15 @@
         <mat-list role="list">
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon> show_chart</mat-icon>
-            <h5 >Ganancia por ventas total: <b>{{(gananciasVentasTotales|async)|currency:'S/'}}</b></h5>
+            <h5 >Ganancia por ventas total: <b>S/{{(gananciasVentasTotales|async)|currency:' '}}</b></h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon> show_chart</mat-icon>
-            <h5 >Ganancia por ventas con items fuera de tienda: <b>{{(gananciasVentasFueraStock|async)|currency:'S/'}}</b></h5>
+            <h5 >Ganancia por ventas con items fuera de tienda: <b>S/{{(gananciasVentasFueraStock|async)|currency:' '}}</b></h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon> show_chart</mat-icon>
-            <h5>Ganancia por ventas con items de tienda: <b>{{(gananciasVentasSoloStock|async)|currency:'S/'}}</b></h5>
+            <h5>Ganancia por ventas con items de tienda: <b>S/{{(gananciasVentasSoloStock|async)|currency:' '}}</b></h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon> show_chart</mat-icon>
@@ -121,15 +121,15 @@
         <mat-list role="list">
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
-            <h5>Item más rentable: {{(itemMasRentable|async).name}} con un balance de <b>{{(itemMasRentable|async).balance|currency:'S/'}}</b></h5>
+            <h5>Item más rentable: {{(itemMasRentable|async).name}} con un balance de <b>S/{{(itemMasRentable|async).balance|currency:' '}}</b></h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
-            <h5>Item con mayor dinero en reserva en stock: {{(itemMenosRentable|async).name}} con un balance de <b>{{(itemMenosRentable|async).balance|currency:'S/'}}</b></h5>
+            <h5>Item con mayor dinero en reserva en stock: {{(itemMenosRentable|async).name}} con un balance de <b>S/{{(itemMenosRentable|async).balance|currency:' '}}</b></h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
-            <h5>Item con mayor ganancias posibles: {{(itemMayorGananciaPosible|async).name}} un una posible ganancia de <b>{{(itemMayorGananciaPosible|async).value|currency:'S/'}}</b></h5>
+            <h5>Item con mayor ganancias posibles: {{(itemMayorGananciaPosible|async).name}} un una posible ganancia de <b>S/{{(itemMayorGananciaPosible|async).value|currency:' '}}</b></h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
@@ -137,7 +137,7 @@
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
-            <h5>Item con mayor ganancia en ventas: <b>{{(itemMayorGananciaVentas|async).name}} ({{(itemMayorGananciaVentas|async).value|currency:'S/'}})</b></h5>
+            <h5>Item con mayor ganancia en ventas: <b>{{(itemMayorGananciaVentas|async).name}} (S/{{(itemMayorGananciaVentas|async).value|currency:' '}})</b></h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon> show_chart</mat-icon>
@@ -177,7 +177,7 @@
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon> show_chart</mat-icon>
-            <h5>Cliente que ha dado mas ingresos: <b>{{(clienteMayorIngreso|async).name}} ({{(clienteMayorIngreso|async).cantidad|currency:'S/'}})</b></h5>
+            <h5>Cliente que ha dado mas ingresos: <b>{{(clienteMayorIngreso|async).name}} (S/{{(clienteMayorIngreso|async).cantidad|currency:' '}})</b></h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon> show_chart</mat-icon>

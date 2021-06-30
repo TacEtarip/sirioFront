@@ -30,7 +30,8 @@ export class LandingComponent implements OnInit, OnDestroy {
   whatsAppLinkOne = 'https://wa.me/51977426349?text=' + 'Buenas, me gustaria obtener más información.';
   whatsAppLinkTwo = 'https://wa.me/51922412404?text=' + 'Buenas, me gustaria obtener más información.';
 
-  constructor(public auth: AuthService, private inv: InventarioManagerService, private titleService: Title, private jsonLDS: JsonLDServiceService,
+  constructor(public auth: AuthService, private inv: InventarioManagerService, private titleService: Title,
+              private jsonLDS: JsonLDServiceService,
               private router: Router, private fb: FormBuilder, private analyticsGoogle: GoogleAnalyticsService) { }
 
   ngOnInit(): void {

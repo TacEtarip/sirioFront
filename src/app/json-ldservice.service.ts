@@ -100,7 +100,7 @@ export class JsonLDServiceService {
 
   removeStructuredData(): void {
     const els = [];
-    [ 'structured-data-product', 'structured-org-product' ].forEach(c => {
+    [ 'structured-data-product' ].forEach(c => {
       els.push(...Array.from(this.document.head.getElementsByClassName(c)));
     });
     els.forEach(el => this.document.head.removeChild(el));
