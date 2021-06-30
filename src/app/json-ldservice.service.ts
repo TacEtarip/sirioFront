@@ -48,8 +48,10 @@ export class JsonLDServiceService {
     return     {
       "@context": "https://schema.org",
       "@type": "Organization",
-      "url": "https://inventario.siriodinar.com/assets/main",
-      "logo": "http://www.example.com/images/logo_512.png"
+      name: 'Sirio Dinar',
+      url: 'https://inventario.siriodinar.com/store/main',
+      logo: 'https://inventario.siriodinar.com/assets/logo_512.png',
+      sameAs: 'https://www.facebook.com/siriodinar'
     }
   }
 
