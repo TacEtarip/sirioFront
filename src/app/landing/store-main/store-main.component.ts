@@ -41,7 +41,7 @@ export class StoreMainComponent implements OnInit, OnDestroy {
 
   smallSubs: Subscription;
 
-  constructor(public auth: AuthService, private inv: InventarioManagerService, private titleService: Title, private jsonLDS: JsonLDServiceService,
+  constructor(public auth: AuthService, private inv: InventarioManagerService, private titleService: Title,
               private router: Router, private fb: FormBuilder, breakpointObserver: BreakpointObserver) {
                 const isSmallScreenObs = breakpointObserver.observe(['(max-width: 650px)', '(max-width: 1100px)', '(max-width: 1300px)']);
                 this.smallSubs = isSmallScreenObs.subscribe(res => {
@@ -72,14 +72,11 @@ export class StoreMainComponent implements OnInit, OnDestroy {
       this.smallSubs.unsubscribe();
     }
 
-    this.jsonLDS.removeStructuredData();
   }
 
   ngOnInit(): void {
 
-    const squema = this.jsonLDS.crearOrgSquema();
 
-    this.jsonLDS.insertSchema(squema, 'structured-org-product');
 
     this.busqueda = this.fb.group({
       name: this.fb.control('', Validators.compose([

@@ -91,18 +91,14 @@
           </mat-expansion-panel-header>
 
           <div>
-              <div class="review" itemprop="review" itemscope itemtype="http://schema.org/Review" role="listitem"
+              <div class="review" role="listitem"
               *ngFor="let review of (item$|async).reviews">
-                <div class="review-score" itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating">
-                  <meta itemprop="ratingValue" [content]="review.rating">
+                <div class="review-score">
                   <h4>{{review.rating}}</h4>
                   <i class="fas fa-star star-rating" ></i>
                 </div>
-                <div class="autor" itemprop="author" [ngStyle]="{'color': 'black', 'font-weight': '200'}">
+                <div class="autor" [ngStyle]="{'color': 'black', 'font-weight': '200'}">
                   Por <B>{{review.user}}</B>; El {{review.date|date: 'fullDate'}}
-                </div>
-                <div itemprop="itemReviewed" itemscope itemtype="http://schema.org/Product">
-                    <meta itemprop="name" [content]="(item$|async).name">
                 </div>
                 <h3 itemprop="name"></h3>
                 <div itemprop="reviewBody">

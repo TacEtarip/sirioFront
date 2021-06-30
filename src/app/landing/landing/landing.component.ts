@@ -8,6 +8,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { InventarioManagerService, Item } from 'src/app/inventario-manager.service';
 import { AuthService } from '../../auth.service';
+import { JsonLDServiceService } from 'src/app/json-ldservice.service';
 @Component({
   selector: 'app-landing',
   templateUrl: './landing.component.html',
@@ -29,11 +30,14 @@ export class LandingComponent implements OnInit, OnDestroy {
   whatsAppLinkOne = 'https://wa.me/51977426349?text=' + 'Buenas, me gustaria obtener más información.';
   whatsAppLinkTwo = 'https://wa.me/51922412404?text=' + 'Buenas, me gustaria obtener más información.';
 
-  constructor(public auth: AuthService, private inv: InventarioManagerService, private titleService: Title,
+  constructor(public auth: AuthService, private inv: InventarioManagerService, private titleService: Title, private jsonLDS: JsonLDServiceService,
               private router: Router, private fb: FormBuilder, private analyticsGoogle: GoogleAnalyticsService) { }
 
   ngOnInit(): void {
 
+    const squema = this.jsonLDS.crearOrgSquema();
+
+    this.jsonLDS.insertSchema(squema, 'structured-org-product');
 
     this.analyticsGoogle.addAnalytics();
 

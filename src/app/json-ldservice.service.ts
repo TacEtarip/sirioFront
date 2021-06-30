@@ -1,3 +1,4 @@
+import { Rating } from './inventario-manager.service';
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
 
@@ -8,10 +9,33 @@ export class JsonLDServiceService {
   static scriptType = 'application/ld+json';
   constructor(@Inject(DOCUMENT) private document: Document) { }
 
+  createReviewSquema(rating: number, nameItem: string, autor: string) {
+    return  {
+      '@type': 'Review',
+      reviewRating: {
+        '@type': 'Rating',
+        ratingValue: rating.toString()
+      },
+      name: nameItem,
+      author: {
+        '@type': 'Person',
+        name: autor
+      },
+      reviewBody: '',
+    };
+  }
+
   crearProductSquema(nameProducto: string, image: string[], itemUrl: string,
                      description: string, sku: string, brandName: string, precio: number, availability: string,
-                     ratingCount: number, ratingValue: number): any {
+                     ratingCount: number, ratingValue: number, reviews: Rating[]): any {
     const date = new Date();
+
+    let review = [];
+
+    reviews.forEach(r => {
+      review.push(this.createReviewSquema(r.rating, nameProducto, r.user));
+    });
+
     date.setFullYear(date.getFullYear() + 1);
     let aggregateRating = {
       '@type': 'AggregateRating',
@@ -20,6 +44,7 @@ export class JsonLDServiceService {
     };
     if (ratingCount === 0) {
       aggregateRating = undefined;
+      review = undefined;
     }
     return{
       '@context': 'https://schema.org/',
@@ -40,19 +65,20 @@ export class JsonLDServiceService {
         availability,
         priceValidUntil: date.toISOString()
       },
-      aggregateRating
+      aggregateRating,
+      review
     };
   }
 
   crearOrgSquema() {
     return     {
-      "@context": "https://schema.org/",
-      "@type": "Organization",
+      '@context': 'https://schema.org/',
+      '@type': 'Organization',
       name: 'Sirio Dinar',
       url: 'https://inventario.siriodinar.com/store/main',
       logo: 'https://inventario.siriodinar.com/assets/logo_512.png',
       sameAs: 'https://www.facebook.com/siriodinar'
-    }
+    };
   }
 
   insertSchema(schema: Record<string, any>, className = 'structured-data-product'): void {

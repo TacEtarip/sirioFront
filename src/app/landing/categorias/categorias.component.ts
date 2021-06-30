@@ -199,7 +199,7 @@ export class CategoriasComponent implements OnInit, OnDestroy {
             'https://inventario.siriodinar.com/store/categorias/' + resT.tipo + '/'  + resT.subTipo + '/' + resT.codigo,
             descripcionComplicada, resT.codigo,
             resT.marca, resT.priceIGV, resT.cantidad > 0 ? 'https://schema.org/InStock' : 'https://schema.org/SoldOut',
-            resT.reviews.length, reviewMean);
+            resT.reviews.length, reviewMean, resT.reviews);
 
             this.jsonLDS.insertSchema(schema);
             const mensajeInicio = 'Buenas estoy interesado en ';
