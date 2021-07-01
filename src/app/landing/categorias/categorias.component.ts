@@ -110,12 +110,29 @@ export class CategoriasComponent implements OnInit, OnDestroy {
               if (rutaM.get('item')) {
                 this.itemCod = rutaM.get('item');
                 this.estado$.next('item');
+                const bSquemeCategoria =
+                this.jsonLDS.createBreadSqueme([
+                  {position: 2, name: 'Categorias', link: '/categorias'},
+                  {position: 3, name: rutaM.get('categoria').toUpperCase(), link: '/categorias' + '/' + rutaM.get('categoria')},
+                  {position: 4, name: rutaM.get('sub').toUpperCase(),
+                  link: '/categorias' + '/' + rutaM.get('categoria') + '/' + rutaM.get('sub') }
+                ]);
+                this.jsonLDS.insertSchema(bSquemeCategoria, 'structured-data-bread');
               } else {
                 this.estado$.next('sub');
                 this.addMetaTagsGeneral(rutaM.get('sub'), res.name + '/' + rutaM.get('sub'));
+                const bSquemeCategoria =
+                this.jsonLDS.createBreadSqueme([
+                  {position: 2, name: 'Categorias', link: '/categorias'},
+                  {position: 3, name: rutaM.get('categoria').toUpperCase(), link: '/categorias' + '/' + rutaM.get('categoria')}
+                ]);
+                this.jsonLDS.insertSchema(bSquemeCategoria, 'structured-data-bread');
               }
             } else {
               this.estado$.next('categoria');
+              const bSquemeCategoria =
+              this.jsonLDS.createBreadSqueme([{position: 2, name: 'Categorias', link: '/categorias'}]);
+              this.jsonLDS.insertSchema(bSquemeCategoria, 'structured-data-bread');
               this.subTipos$.next(res.subTipo);
               this.subTiposPhoto$.next(res.subTipoLink);
               this.addMetaTagsGeneral(res.name, res.name);
@@ -125,6 +142,8 @@ export class CategoriasComponent implements OnInit, OnDestroy {
       } else {
         this.addMetaTagsCategoria();
         this.inv.getTipos().subscribe(res => {
+          const bSquemeCategoria = this.jsonLDS.createBreadSqueme();
+          this.jsonLDS.insertSchema(bSquemeCategoria, 'structured-data-bread');
           this.titulo$.next('CATEGORIAS');
           this.estado$.next('pre');
           this.tipos.next(res);
@@ -219,21 +238,34 @@ export class CategoriasComponent implements OnInit, OnDestroy {
   }
 
   addMetaTagsCategoria() {
+    const descripcion = 'Venta de indumentaria de seguridad a el mejor precio en Trujillo, venta al por menor y al por mayor,' +
+    'guantes, respiradores, cascos, lentes, entre otros productos para tu seguridad o la de tus empleados. ' +
+    'Además confeccionamos indumentaria de seguridad como chalecos con el logo de tu empresa. Para más informacion enviar un mensaje' +
+    ' al +51 977 426 349, estamos para servirle.';
+
     this.titleService.setTitle('Sirio Dinar | Categorias');
-    this.metaService.updateTag({ name: 'description', content: 'Distintas categorias de indumentaria de seguridad a el mejor precio en trujillo, venta al por menor y al por mayor.' });
+    this.metaService.updateTag({ name: 'description',
+    content: descripcion });
     this.metaService.updateTag({ property: 'og:url', content: 'https://inventario.siriodinar.com/store/categorias' });
     this.metaService.updateTag({ property: 'og:title', content: 'Sirio Dinar | Categorias' });
-    this.metaService.updateTag({ property: 'og:description', content: 'Distintas categorias de indumentaria de seguridad a el mejor precio en trujillo, venta al por menor y al por mayor.' });
+    this.metaService.updateTag({ property: 'og:description',
+    content: descripcion });
     this.metaService.updateTag({ property: 'og:image', content: 'https://inventario.siriodinar.com/assets/itemsSocial.jpg' });
     this.metaService.updateTag({ property: 'og:image:alt', content: 'sirio presentacion' });
   }
 
   addMetaTagsGeneral(titulo: string, link: string, imageLink?: string, descripcion = '', itemPrice = 0) {
     this.titleService.setTitle('Sirio Dinar | ' + titulo);
-    this.metaService.updateTag({ name: 'description', content: titulo + ' | ' + descripcion + '\nAl mejor precio y de gran calidad. Venta al por mayor o al por menor en Trujillo.' });
+
+    const descripcionEsp = 'Venta de indumentaria de seguridad a el mejor precio en Trujillo, venta al por menor y al por mayor,' +
+    'guantes, respiradores, cascos, lentes, entre otros productos para tu seguridad o la de tus empleados. ' +
+    'Además confeccionamos indumentaria de seguridad como chalecos con el logo de tu empresa. Para más informacion enviar un mensaje' +
+    ' al +51 977 426 349, estamos para servirle.';
+
+    this.metaService.updateTag({ name: 'description', content: titulo + ' | ' + descripcion + '\n' + descripcionEsp });
     this.metaService.updateTag({ property: 'og:url', content: 'https://inventario.siriodinar.com/store/categorias/' + link });
     this.metaService.updateTag({ property: 'og:title', content: 'Sirio Dinar | ' + titulo });
-    this.metaService.updateTag({ property: 'og:description', content: titulo + ' | ' + descripcion + '\nAl mejor precio y de gran calidad. Venta al por mayor o al por menor en Trujillo.' });
+    this.metaService.updateTag({ property: 'og:description', content: titulo + ' | ' + descripcion + '\n' + descripcionEsp});
     this.metaService.updateTag({ property: 'og:image',
     content: imageLink ? 'https://siriouploads.s3.amazonaws.com/' + imageLink.split('.')[0] + '.webp' : 'https://inventario.siriodinar.com/assets/itemsSocial.jpg' });
     this.metaService.updateTag({ property: 'og:image:alt', content: titulo + 'imagen' });

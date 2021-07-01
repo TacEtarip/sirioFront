@@ -26,13 +26,20 @@ export class AppComponent implements OnDestroy, OnInit, OnDestroy {
       { name: 'keywords',
       content: 'Sirio Dinar, Inventario Sirio Dinar, trujillo, peru, casco, filtro' +
       'Compras Seguridad, Trujillo Seguridad, seguridad, mascarillas, minas, cascos, guantes, lentes, orejeras, tampones, respiradores, respirador' },
-      { name: 'description', content: 'Indumentaria de seguridad a el mejor precio en trujillo, venta al por menor y al por mayor.' },
+      { name: 'description',
+      content: 'Venta de indumentaria de seguridad a el mejor precio en Trujillo, venta al por menor y al por mayor,' +
+      'guantes, respiradores, cascos, lentes, entre otros productos para tu seguridad o la de tus empleados. ' +
+      'Además confeccionamos indumentaria de seguridad como chalecos con el logo de tu empresa. Para más informacion enviar un mensaje' +
+      ' al +51 977 426 349, estamos para servirle.'  },
       { name: 'author', content: 'Tac Etarip Web' },
       { property: 'og:site_name', content: 'Sirio Dinar Store' },
       { property: 'og:type', content: 'website' },
       { property: 'og:url', content: 'https://inventario.siriodinar.com/store/main' },
       { property: 'og:title', content: 'Sirio Dinar | Store' },
-      { property: 'og:description', content: 'Indumentaria de seguridad a el mejor precio en trujillo, venta al por menor y al por mayor.'},
+      { property: 'og:description', content: 'Venta de indumentaria de seguridad a el mejor precio en Trujillo, venta al por menor y al por mayor,' +
+      'guantes, respiradores, cascos, lentes, entre otros productos para tu seguridad o la de tus empleados. ' +
+      'Además confeccionamos indumentaria de seguridad como chalecos con el logo de tu empresa. Para más informacion enviar un mensaje' +
+      ' al +51 977 426 349, estamos para servirle.'},
       { property: 'og:image', content: 'https://inventario.siriodinar.com/assets/itemsSocial.jpg' },
       { property: 'og:image:alt', content: 'sirio presentacion' }
     ]);

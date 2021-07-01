@@ -9,6 +9,31 @@ export class JsonLDServiceService {
   static scriptType = 'application/ld+json';
   constructor(@Inject(DOCUMENT) private document: Document) { }
 
+  createBreadSqueme(itemlist: {position: number, name: string, link: string}[] = []) {
+    const baseLink = 'https://inventario.siriodinar.com/store';
+    const itemListElement = [{
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Tienda',
+      item: baseLink + '/main'
+    }];
+
+    itemlist.forEach(i => {
+      itemListElement.push({
+        '@type': 'ListItem',
+        position: i.position,
+        name: i.name,
+        item: baseLink + i.link
+      });
+    });
+
+    return {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement
+    };
+  }
+
   createReviewSquema(rating: number, nameItem: string, autor: string) {
     return  {
       '@type': 'Review',
@@ -100,7 +125,7 @@ export class JsonLDServiceService {
 
   removeStructuredData(): void {
     const els = [];
-    [ 'structured-data-product' ].forEach(c => {
+    [ 'structured-data-product', 'structured-data-bread' ].forEach(c => {
       els.push(...Array.from(this.document.head.getElementsByClassName(c)));
     });
     els.forEach(el => this.document.head.removeChild(el));
