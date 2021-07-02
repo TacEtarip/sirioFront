@@ -129,6 +129,21 @@
         <H2 [ngStyle]="{'padding-top': '1em'}">PRECIOS</H2>
         <h4>Precio: S/{{(item$|async).priceIGV|currency:' '}} | Precio Sin IGV: S/{{(item$|async).priceNoIGV|currency: ' '}} | Marca: {{(item$|async).marca}} | {{(item$|async).codigo}}</h4>
         <h5>*Los precios son por unidad. No dude en consultarnos por precios al por mayor.</h5>
+        <H2>COMPRAR</H2>
+        <div class="comprar">
+          <form [formGroup]="carritoForm" class="carrito">
+            <mat-form-field appearance="outline" class="venta-input">
+              <mat-label>Cantidad</mat-label>
+              <input name="priceIGV" id="priceNoIGV" formControlName="cantidad" type="number" min="1" step="1" matInput>
+              <mat-icon matPrefix>shopping_cart</mat-icon>
+              <mat-error *ngIf="carritoForm.invalid">Cantidad no disponible</mat-error>
+            </mat-form-field>
+          </form>
+          <button mat-flat-button color="accent"> <mat-icon>add_shopping_cart</mat-icon> Agregar a carrito</button>
+          <button mat-stroked-button color="accent"> <mat-icon>add_shopping_cart</mat-icon> Agregar e ir a carrito</button>
+          <a href=""><button mat-stroked-button color="primary"> <mat-icon>shopping_cart</mat-icon> Ir a carrito</button></a>
+        </div>
+
         <div class="btns">
           <button class="reporte" [ngStyle]="{'background-color': '#00A859'}" (click)="openLink()" mat-flat-button color="accent">
             <i class="fa fa-whatsapp fa-2x" aria-hidden="true"></i> Consultar</button>

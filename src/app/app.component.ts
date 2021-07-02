@@ -24,7 +24,7 @@ export class AppComponent implements OnDestroy, OnInit, OnDestroy {
   ngOnInit(): void {
     this.metaTagService.addTags([
       { name: 'keywords',
-      content: 'Sirio Dinar, Inventario Sirio Dinar, trujillo, peru, casco, filtro' +
+      content: 'Sirio Dinar, Inventario Sirio Dinar, trujillo, peru, casco, filtro, epp, epps,' +
       'Compras Seguridad, Trujillo Seguridad, seguridad, mascarillas, minas, cascos, guantes, lentes, orejeras, tampones, respiradores, respirador' },
       { name: 'description',
       content: 'Venta de indumentaria de seguridad a el mejor precio en Trujillo, venta al por menor y al por mayor,' +

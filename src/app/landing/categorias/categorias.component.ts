@@ -21,6 +21,7 @@ import { VentaDialogComponent } from 'src/app/inventario/inventario/venta-dialog
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { EditarItemDialogComponent } from 'src/app/inventario/inventario/editar-item-dialog/editar-item-dialog.component';
 import { JsonLDServiceService } from 'src/app/json-ldservice.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 export interface SubConteoOrder {
   name: string;
@@ -40,6 +41,7 @@ export class CategoriasComponent implements OnInit, OnDestroy {
   estados = ['pre', 'categoria', 'sub', 'item'];
   subTipos$ = new BehaviorSubject<string[]>(null);
   subTiposPhoto$ = new BehaviorSubject<string[]>(null);
+  carritoForm: FormGroup;
 
   columnas = 'repeat(4, max-content)';
   titulo$  = new BehaviorSubject<string>('');
@@ -76,7 +78,7 @@ export class CategoriasComponent implements OnInit, OnDestroy {
   }
 
   constructor(private inv: InventarioManagerService, public dialog: MatDialog, private ar: ActivatedRoute,
-              private titleService: Title, private jsonLDS: JsonLDServiceService,
+              private titleService: Title, private jsonLDS: JsonLDServiceService, private fb: FormBuilder,
               public auth: AuthService, private snackBar: MatSnackBar, private metaService: Meta) { }
 
   ngOnDestroy(): void {
@@ -170,6 +172,14 @@ export class CategoriasComponent implements OnInit, OnDestroy {
           if (resT) {
             this.item$.next(resT);
 
+            this.carritoForm = this.fb.group({
+              cantidad:  this.fb.control(1,  Validators.compose([
+                Validators.required,
+                Validators.min(1),
+                Validators.max(resT.cantidad)
+              ])),
+            });
+
             const descripcionComplicada = resT.description
             + '. Al mejor precio y de gran calidad. Venta al por mayor o al por menor en Trujillo.'
             + ((resT.caracteristicas.length > 0) ? resT.caracteristicas.join(' | ') : '')
@@ -231,6 +241,9 @@ export class CategoriasComponent implements OnInit, OnDestroy {
         });
       }
     });
+
+
+
   }
 
   openLink() {

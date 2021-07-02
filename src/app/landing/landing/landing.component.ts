@@ -18,9 +18,9 @@ export class LandingComponent implements OnInit, OnDestroy {
 
   busquedaForm: FormGroup;
 
-  descripcion = 'Venta de indumentaria de seguridad a el mejor precio en Trujillo, venta al por menor y al por mayor,' +
+  descripcion = 'Venta de indumentaria de seguridad a el mejor precio en Trujillo, venta al por menor y al por mayor;' +
       'guantes, respiradores, cascos, lentes, entre otros productos para tu seguridad o la de tus empleados. ' +
-      'Además confeccionamos indumentaria de seguridad como chalecos con el logo de tu empresa. Para más informacion enviar un mensaje' +
+      'Además confeccionamos indumentaria de seguridad como chalecos con el logo de tu empresa. Para más información enviar un mensaje' +
       ' al +51 977 426 349, estamos para servirle.';
 
   filteredItem$ = new BehaviorSubject<Item[]>(null);
