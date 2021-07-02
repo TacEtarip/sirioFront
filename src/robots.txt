@@ -1,3 +1,7 @@
-Sitemap: https://inventario.siriodinar.com/assets/sitemapv5.xml
 User-agent: Googlebot
 Disallow:
+
+User-agent: *
+Allow: /
+
+Sitemap: https://inventario.siriodinar.com/assets/sitemap.xml
