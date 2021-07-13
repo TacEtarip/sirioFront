@@ -11,7 +11,7 @@ input[type=number] {
 
 h1 {
   color: #014c7e;
-  font-family: jubilat, sans-serif;
+  font-family: Roboto, sans-serif;
   font-weight: 400;
   font-size: 26px;
 }
@@ -119,7 +119,7 @@ img:hover {
 @media screen and (max-width: 800px) {
   h1 {
     color: #014c7e;
-    font-family: jubilat, sans-serif;
+    font-family: Roboto, sans-serif;
     font-weight: 400;
     font-size: 20px;
   }
@@ -139,7 +139,7 @@ img:hover {
 
   h1 {
     color: #014c7e;
-    font-family: jubilat, sans-serif;
+    font-family: Roboto, sans-serif;
     font-weight: 400;
     font-size: 16px;
   }

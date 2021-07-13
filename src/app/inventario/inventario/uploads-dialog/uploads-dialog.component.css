@@ -5,7 +5,7 @@
 }
 .title {
   color: #014c7e;
-  font-family: jubilat, sans-serif;
+  font-family: Roboto, sans-serif;
   font-size: 26px;
   font-weight: 400;
 }
@@ -156,7 +156,7 @@ input[type="file"] {
 @media screen and (max-width: 700px) and (orientation:portrait) {
   .title {
     color: #014c7e;
-    font-family: jubilat, sans-serif;
+    font-family: Roboto, sans-serif;
     font-size: 20px;
   }
 

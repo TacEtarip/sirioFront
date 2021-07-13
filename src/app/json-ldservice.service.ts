@@ -88,7 +88,9 @@ export class JsonLDServiceService {
         priceCurrency: 'PEN',
         price: precio.toString(),
         availability,
-        priceValidUntil: date.toISOString()
+        priceValidUntil: date.toISOString(),
+        itemCondition: 'new',
+        category: ''
       },
       aggregateRating,
       review

@@ -55,6 +55,7 @@ import {LayoutModule} from '@angular/cdk/layout';
 import { ChangeOrderComponent } from './change-order/change-order.component';
 import { ChangeFoldersComponent } from './change-folders/change-folders.component';
 import {MatExpansionModule} from '@angular/material/expansion';
+import { MensajeTemplateComponent } from './mensaje-template/mensaje-template.component';
 
 @NgModule({
   declarations: [LandingComponent, ItemcardComponent, StoreMainComponent, SeguroEliminarComponent,  EditarClaseComponent,
@@ -62,7 +63,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
     CategoriaCardComponent, CategoriasComponent, MainCategoriaCardComponent, MarcasDialogComponent, AgregarSubCategoriasComponent,
     UploadCatImageComponent, VentaDialogComponent, AgregarClaseItemComponent, EditarCantidadesDialogComponent, EliminarSubTipoComponent,
      SubCategoriaCardComponent, ItemCardVendComponent, TagsComponent, CaracteristicasComponent,
-     BusquedaComponent, ChangeOrderComponent, ChangeFoldersComponent],
+     BusquedaComponent, ChangeOrderComponent, ChangeFoldersComponent, MensajeTemplateComponent],
   imports: [
     CommonModule,
     LandingRoutingModule,

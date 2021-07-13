@@ -904,7 +904,4 @@ export class VentaDialogComponent implements OnInit, OnDestroy {
   }
   }
 
-  testValueForm(testV) {
-  }
-
 }

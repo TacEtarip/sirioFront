@@ -1810,6 +1810,7 @@ export interface Item {
   caracteristicas?: string[];
   order?: number;
   reviews?: Rating[];
+  deleted?: boolean;
 }
 
 export interface Rating {

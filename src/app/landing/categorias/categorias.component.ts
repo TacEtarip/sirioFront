@@ -4,7 +4,7 @@ import { ChangeOrderComponent } from './../change-order/change-order.component';
 import { AgregarSubCategoriasComponent } from './../../inventario/inventario/agregar-sub-categorias/agregar-sub-categorias.component';
 import { CaracteristicasComponent } from './../caracteristicas/caracteristicas.component';
 import { TagsComponent } from './../tags/tags.component';
-import { Item } from 'src/app/inventario-manager.service';
+import { Item, ItemVendido, Order, Venta } from 'src/app/inventario-manager.service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/auth.service';
 import { InventarioManagerService, Tipo } from './../../inventario-manager.service';
@@ -22,7 +22,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { EditarItemDialogComponent } from 'src/app/inventario/inventario/editar-item-dialog/editar-item-dialog.component';
 import { JsonLDServiceService } from 'src/app/json-ldservice.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-
+import { MensajeTemplateComponent } from '../mensaje-template/mensaje-template.component';
 export interface SubConteoOrder {
   name: string;
   nameSecond: string;
@@ -42,6 +42,8 @@ export class CategoriasComponent implements OnInit, OnDestroy {
   subTipos$ = new BehaviorSubject<string[]>(null);
   subTiposPhoto$ = new BehaviorSubject<string[]>(null);
   carritoForm: FormGroup;
+
+  aCarrito = false;
 
   columnas = 'repeat(4, max-content)';
   titulo$  = new BehaviorSubject<string>('');
@@ -70,6 +72,14 @@ export class CategoriasComponent implements OnInit, OnDestroy {
 
   userActualRating = 0;
 
+  scActive = 0;
+  scSecondActive = 0;
+
+  simpleOrder$ = new BehaviorSubject<{ name: string, disabled: boolean }[]>([]);
+
+  simpleSecondOrder$ = new BehaviorSubject<{ name: string, disabled: boolean }[]>([]);
+
+  mensajeDeError = { texto: 'Ejemplo de mensaje de error.', mostrar: false };
 
   @ViewChild(MatSort, {static: false}) set content(sort: MatSort) {
     if ( this.item$.value && this.item$.value.subConteo) {
@@ -173,12 +183,37 @@ export class CategoriasComponent implements OnInit, OnDestroy {
             this.item$.next(resT);
 
             this.carritoForm = this.fb.group({
-              cantidad:  this.fb.control(1,  Validators.compose([
+              cantidad:  this.fb.control(0,  Validators.compose([
                 Validators.required,
                 Validators.min(1),
                 Validators.max(resT.cantidad)
               ])),
             });
+
+
+            if (resT.subConteo) {
+              this.simpleOrder$.next([]);
+              this.simpleSecondOrder$.next([]);
+              this.simpleOrder$.next(this.getSimpleOrderEND(resT.subConteo.order));
+              if (resT.subConteo.nameSecond !== '') {
+                this.simpleSecondOrder$.next(this.getSimpleSecondOrderEND(resT.subConteo.order));
+                const inOrder = resT.subConteo.order
+                .find(o => o.name === this.simpleOrder$.value[this.scActive].name &&
+                  o.nameSecond === this.simpleSecondOrder$.value[this.scSecondActive].name);
+                this.carritoForm.get('cantidad').setValidators([
+                  Validators.required,
+                  Validators.min(1),
+                  Validators.max(inOrder.cantidad)
+                ]);
+              } else {
+                const inOrder = resT.subConteo.order.find(o => o.name === this.simpleOrder$.value[this.scActive].name);
+                this.carritoForm.get('cantidad').setValidators([
+                  Validators.required,
+                  Validators.min(1),
+                  Validators.max(inOrder.cantidad)
+                ]);
+              }
+            }
 
             const descripcionComplicada = resT.description
             + '. Al mejor precio y de gran calidad. Venta al por mayor o al por menor en Trujillo.'
@@ -196,8 +231,6 @@ export class CategoriasComponent implements OnInit, OnDestroy {
             resT.reviews.forEach(r => {
               reviewsSum += r.rating;
             });
-
-
 
             const reviewMean =  Math.round(reviewsSum / resT.reviews.length) || 0;
 
@@ -241,9 +274,62 @@ export class CategoriasComponent implements OnInit, OnDestroy {
         });
       }
     });
+  }
 
+  getSimpleOrderEND(order: Order[]): { name: string, disabled: boolean }[] {
+    const orderListNoRepeat: { name: string, disabled: boolean }[] = [];
+    order.forEach(o => {
+        const indexLNR = orderListNoRepeat.findIndex(oln => oln.name === o.name);
+        if (indexLNR === -1) {
+          if (o.cantidad > 0) {
+            orderListNoRepeat.push({ name: o.name, disabled: false });
+          } else {
+            orderListNoRepeat.push({ name: o.name, disabled: true });
+          }
+        } else {
+            if (o.cantidad > 0) {
+              orderListNoRepeat[indexLNR].disabled = false;
+            }
+        }
+    });
+    // tslint:disable-next-line: prefer-for-of
+    for (let index = 0; index < orderListNoRepeat.length; index++) {
+      if (orderListNoRepeat[index].disabled === true) {
+        this.scActive = index + 1;
+      } else {
+        return orderListNoRepeat;
+      }
+    }
+    return orderListNoRepeat;
+  }
 
-
+  getSimpleSecondOrderEND(order: Order[]): { name: string, disabled: boolean }[] {
+    const orderListNoRepeat: { name: string, disabled: boolean }[] = [];
+    order.forEach(o => {
+      if (o.name === this.simpleOrder$.value[this.scActive].name) {
+        const indexLNR = orderListNoRepeat.findIndex(oln => oln.name === o.nameSecond);
+        if (indexLNR === -1) {
+          if (o.cantidad > 0) {
+            orderListNoRepeat.push({ name: o.nameSecond, disabled: false });
+          } else {
+            orderListNoRepeat.push({ name: o.nameSecond, disabled: true });
+          }
+        } else {
+            if (o.cantidad > 0) {
+              orderListNoRepeat[indexLNR].disabled = false;
+            }
+        }
+      }
+    });
+       // tslint:disable-next-line: prefer-for-of
+    for (let index = 0; index < orderListNoRepeat.length; index++) {
+        if (orderListNoRepeat[index].disabled === true) {
+          this.scSecondActive = index + 1;
+        } else {
+          return orderListNoRepeat;
+        }
+      }
+    return orderListNoRepeat;
   }
 
   openLink() {
@@ -600,7 +686,6 @@ export class CategoriasComponent implements OnInit, OnDestroy {
     }
     this.mockListTwo.next(tempMockTwo);
 
-    console.log(this.userActualRating);
 
     this.inv.addItemReview(this.item$.value.codigo, this.userActualRating).subscribe(res => {
       if (res) {
@@ -624,6 +709,160 @@ export class CategoriasComponent implements OnInit, OnDestroy {
 
   }
 
+  getSCname(order: Order[]): string[] {
+    const tempArray = [];
+    order.forEach(o => {
+      if (tempArray.indexOf(o.name) === -1) {
+        tempArray.push(o.name);
+      }
+    });
+    return tempArray;
+  }
+
+  getSCnameSecond(order: Order[]): string[] {
+    const tempArray = [];
+    order.forEach(o => {
+      if (tempArray.indexOf(o.nameSecond) === -1) {
+        tempArray.push(o.nameSecond);
+      }
+    });
+    return tempArray;
+  }
 
 
+  selectSCsecond(i: number) {
+    if (this.scSecondActive !== i) {
+      this.carritoForm.get('cantidad').reset();
+      this.carritoForm.get('cantidad').setValue(0);
+      this.scSecondActive = i;
+      const inOrder = this.item$.value.subConteo.order
+      .find(o => o.name === this.simpleOrder$.value[this.scActive].name &&
+        o.nameSecond === this.simpleSecondOrder$.value[this.scSecondActive].name);
+      this.carritoForm.get('cantidad').setValidators([
+        Validators.required,
+        Validators.min(1),
+        Validators.max(inOrder.cantidad)
+      ]);
+    }
+  }
+
+  selectSC(i: number) {
+    if (this.scActive !== i) {
+      this.carritoForm.get('cantidad').reset();
+      this.carritoForm.get('cantidad').setValue(0);
+      this.scActive = i;
+      this.scSecondActive = 0;
+      if (this.item$.value.subConteo.nameSecond !== '') {
+        this.simpleSecondOrder$.next(this.getSimpleSecondOrderEND(this.item$.value.subConteo.order));
+        const inOrder = this.item$.value.subConteo.order
+        .find(o => o.name === this.simpleOrder$.value[this.scActive].name &&
+          o.nameSecond === this.simpleSecondOrder$.value[this.scSecondActive].name);
+        this.carritoForm.get('cantidad').setValidators([
+          Validators.required,
+          Validators.min(1),
+          Validators.max(inOrder.cantidad)
+        ]);
+      } else {
+        const inOrder = this.item$.value.subConteo.order.find(o => o.name === this.simpleOrder$.value[this.scActive].name);
+        this.carritoForm.get('cantidad').setValidators([
+          Validators.required,
+          Validators.min(1),
+          Validators.max(inOrder.cantidad)
+        ]);
+      }
+    }
+  }
+
+  crearNewVentaBody() {
+    if (this.auth.loggedIn() === false && this.auth.getTtype() !== 'low') {
+      this.dialog.open(MensajeTemplateComponent, {
+        width: '600px',
+        data: {codigo: this.ruta},
+      });
+      return;
+    }
+
+    this.aCarrito = true;
+    this.carritoForm.disable();
+    this.inv.getItem(this.item$.value.codigo).subscribe(itemAct => {
+
+      let inOrder: Order;
+      let inOrderAct: Order;
+
+      if (itemAct.subConteo) {
+        if (this.item$.value.subConteo.nameSecond !== '') {
+          inOrder = this.item$.value.subConteo.order
+          .find(o => o.name === this.simpleOrder$.value[this.scActive].name &&
+            o.nameSecond === this.simpleSecondOrder$.value[this.scSecondActive].name);
+
+          inOrderAct = itemAct.subConteo.order
+            .find(o => o.name === this.simpleOrder$.value[this.scActive].name &&
+              o.nameSecond === this.simpleSecondOrder$.value[this.scSecondActive].name);
+        } else {
+          inOrder = this.item$.value.subConteo.order.find(o => o.name === this.simpleOrder$.value[this.scActive].name);
+          inOrderAct = itemAct.subConteo.order.find(o => o.name === this.simpleOrder$.value[this.scActive].name);
+        }
+      } else {
+        inOrderAct = { name: '', nameSecond: '', cantidad: this.carritoForm.get('cantidad').value};
+      }
+
+      if (!itemAct) {
+        this.mensajeDeError.texto = 'Ocurrio un error';
+        this.mensajeDeError.mostrar = true;
+        this.resetForm();
+      } else if (itemAct.deleted) {
+        this.mensajeDeError.texto = 'El item ha sido eliminado';
+        this.mensajeDeError.mostrar = true;
+        this.item$.next(itemAct);
+        this.resetForm();
+      } else if ((itemAct.cantidad < this.carritoForm.get('cantidad').value) && (itemAct.subConteo === undefined)) {
+        this.mensajeDeError.texto = 'Ya no disponemos con estas cantidades';
+        this.mensajeDeError.mostrar = true;
+        this.item$.next(itemAct);
+        this.resetForm();
+      } else if ((inOrderAct.cantidad < this.carritoForm.get('cantidad').value) && (itemAct.subConteo)) {
+        this.mensajeDeError.texto = 'Ya no disponemos con estas cantidades';
+        this.mensajeDeError.mostrar = true;
+        this.item$.next(itemAct);
+        this.resetForm();
+      } else if (itemAct.priceIGV !== this.item$.value.priceIGV) {
+        this.mensajeDeError.texto = 'El precio a cambiado';
+        this.mensajeDeError.mostrar = true;
+        this.item$.next(itemAct);
+        this.resetForm();
+      } else {
+
+        this.mensajeDeError.mostrar = false;
+
+        let orderToSend;
+
+        this.item$.next(itemAct);
+
+        if (itemAct.subConteo) {
+          orderToSend = { name: this.simpleOrder$.value[this.scActive].name, nameSecond: '' };
+          if (itemAct.subConteo.nameSecond !== '') {
+            orderToSend.nameSecond = this.simpleSecondOrder$.value[this.scSecondActive].name;
+          }
+        }
+        const itemVendido =
+        {
+          codigo: this.item$.value.codigo, priceIGV: this.item$.value.priceIGV,
+          cantidad: this.carritoForm.get('cantidad').value, orderToAdd: orderToSend
+        };
+
+        this.aCarrito = false;
+        this.resetForm();
+        console.log(itemVendido);
+
+      }
+    });
+  }
+
+  resetForm() {
+    this.carritoForm.enable();
+    this.carritoForm.reset();
+    this.carritoForm.get('cantidad').setValue(0);
+  }
 }
+
+

@@ -209,7 +209,52 @@ h3 {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  margin: 1em 0 .5em 0;
+  margin: 1em 0 0 0;
+}
+
+.big-toogle-btn {
+  display: flex;
+  gap: 2em;
+  flex-wrap: wrap;
+  margin-bottom: 1em;
+}
+
+.botones-toogle {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5em;
+}
+
+.page-panel {
+  position:fixed;
+  padding:0;
+  margin:0;
+
+  top:0;
+  left:0;
+
+  width: 100%;
+  height: 100%;
+  background:rgba(128, 128, 128, 0.5);
+
+  z-index: 500000;
+
+  display: grid;
+  align-items: center;
+  justify-items: center;
+}
+
+.botones-toogle h4 {
+  font-weight: 100;
+}
+
+.btn-selected {
+  border-color: #E87200;
+}
+
+.botones-toogle button {
+  height: 63.5px;
+  width:100px
 }
 
 .comprar ::ng-deep .mat-form-field-prefix {

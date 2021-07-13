@@ -96,7 +96,9 @@
 
         <ng-container matColumnDef="documento">
           <th class="documentoTable" mat-header-cell *matHeaderCellDef> Para </th>
-          <td class="documentoTable" mat-cell *matCellDef="let element"> {{element.documento.name}} <span *ngIf="element.documento.name">|</span> {{element.documento.codigo}} </td>
+          <td class="documentoTable" mat-cell *matCellDef="let element"> {{element.documento.name}}
+            <span *ngIf="element.documento.name">|</span>
+            <span *ngIf="element.documento.codigo"> {{element.documento.codigo.toString().length === 7 ? '0' + element.documento.codigo.toString() : element.documento.codigo}}</span> </td>
         </ng-container>
 
 

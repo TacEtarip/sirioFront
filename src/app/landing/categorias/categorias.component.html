@@ -129,7 +129,35 @@
         <H2 [ngStyle]="{'padding-top': '1em'}">PRECIOS</H2>
         <h4>Precio: S/{{(item$|async).priceIGV|currency:' '}} | Precio Sin IGV: S/{{(item$|async).priceNoIGV|currency: ' '}} | Marca: {{(item$|async).marca}} | {{(item$|async).codigo}}</h4>
         <h5>*Los precios son por unidad. No dude en consultarnos por precios al por mayor.</h5>
-        <H2>COMPRAR</H2>
+        <div class="btns">
+          <button class="reporte" [ngStyle]="{'background-color': '#00A859'}" (click)="openLink()" mat-flat-button color="accent">
+            <i class="fa fa-whatsapp fa-2x" aria-hidden="true"></i> Consultar</button>
+          <button  class="reporte"   [disabled]="!(item$|async).ficha" mat-stroked-button >Descargar Ficha</button>
+          <button *ngIf="auth.loggedIn() && (auth.getTtype() === 'admin' || auth.getTtype() === 'vent')" (click)=" openDialogVenta()" mat-stroked-button >Vender</button>
+          <button (click)="descargarReporte()" *ngIf="auth.loggedIn() && (auth.getTtype() === 'admin' || auth.getTtype() === 'vent')" class="reporte"  mat-stroked-button >Ver Reporte</button>
+        </div>
+        <H2 [ngStyle]="{'padding-top': '1em'}">COMPRAR</H2>
+        <div class="big-toogle-btn">
+          <div *ngIf="(item$|async).subConteo">
+            <h4>{{(item$|async).subConteo.name}}</h4>
+            <div class="botones-toogle">
+              <button *ngFor="let sc of simpleOrder$|async; let i=index"
+              [ngClass]="{'btn-selected': i === scActive }" [color]="i === scActive ? 'accent' : 'primary'"
+              [disabled]="sc.disabled"  (click)="selectSC(i)"
+              mat-stroked-button>{{sc.name}}</button>
+            </div>
+          </div>
+          <div  *ngIf="(item$|async).subConteo && (item$|async).subConteo.nameSecond !== ''">
+            <h4>{{(item$|async).subConteo.nameSecond}}</h4>
+            <div class="botones-toogle">
+              <button *ngFor="let sc of simpleSecondOrder$|async; let i=index"
+              [ngClass]="{'btn-selected': i === scSecondActive }" [color]="i === scSecondActive ? 'accent' : 'primary'"
+              [disabled]="sc.disabled" (click)="selectSCsecond(i)"
+              mat-stroked-button>
+                {{sc.name}}</button>
+            </div>
+          </div>
+        </div>
         <div class="comprar">
           <form [formGroup]="carritoForm" class="carrito">
             <mat-form-field appearance="outline" class="venta-input">
@@ -139,18 +167,13 @@
               <mat-error *ngIf="carritoForm.invalid">Cantidad no disponible</mat-error>
             </mat-form-field>
           </form>
-          <button mat-flat-button color="accent"> <mat-icon>add_shopping_cart</mat-icon> Agregar a carrito</button>
-          <button mat-stroked-button color="accent"> <mat-icon>add_shopping_cart</mat-icon> Agregar e ir a carrito</button>
+          <button (click)="crearNewVentaBody()"
+          [disabled]="!carritoForm.valid" mat-flat-button color="accent"> <mat-icon>add_shopping_cart</mat-icon> Agregar a carrito</button>
+          <button [disabled]="!carritoForm.valid" mat-stroked-button color="accent"> <mat-icon>add_shopping_cart</mat-icon> Agregar e ir a carrito</button>
           <a href=""><button mat-stroked-button color="primary"> <mat-icon>shopping_cart</mat-icon> Ir a carrito</button></a>
         </div>
+        <h5 *ngIf="mensajeDeError.mostrar">{{mensajeDeError.texto}}</h5>
 
-        <div class="btns">
-          <button class="reporte" [ngStyle]="{'background-color': '#00A859'}" (click)="openLink()" mat-flat-button color="accent">
-            <i class="fa fa-whatsapp fa-2x" aria-hidden="true"></i> Consultar</button>
-          <button  class="reporte"   [disabled]="!(item$|async).ficha" mat-stroked-button >Descargar Ficha</button>
-          <button *ngIf="auth.loggedIn() && (auth.getTtype() === 'admin' || auth.getTtype() === 'vent')" (click)=" openDialogVenta()" mat-stroked-button >Vender</button>
-          <button (click)="descargarReporte()" *ngIf="auth.loggedIn() && (auth.getTtype() === 'admin' || auth.getTtype() === 'vent')" class="reporte"  mat-stroked-button >Ver Reporte</button>
-        </div>
         <H2 [ngStyle]="{'padding-top': '1em'}">TAGS</H2>
         <mat-chip-list aria-label="Tags" [ngStyle]="{'padding': ' 1em 0'}">
           <mat-chip color="primary" selected  *ngFor="let tag of (item$|async).tags">{{tag}}</mat-chip>
@@ -201,6 +224,7 @@
         </mat-expansion-panel>
     </div>
   </div>
-
-
 </main>
+<div class="page-panel" *ngIf="aCarrito">
+  <mat-spinner></mat-spinner>
+</div>
