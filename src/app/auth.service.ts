@@ -394,16 +394,83 @@ export class AuthService {
     return logged;
   }
 
+  public loogedInV2(): Observable<boolean> {
+    let logged = false;
+    if (isPlatformBrowser(this.platformId)) {
+      return this.http.get<{authenticated: boolean}>('/auth/isLoggedV2')
+      .pipe(map(r => {
+        console.log(r);
+        return r.authenticated;
+      }),
+      catchError(error => {
+        switch (error.status) {
+          case 0:
+            alert('Error al tratar de conectar al servidor');
+            break;
+          case 700:
+            break;
+          default:
+            break;
+        }
+        return of(false);
+      }));
+    }
+    if (this.request.cookies.jwt_token) {
+      logged = true;
+    }
+    return of(logged);
+  }
+
+  public getUserTypeV2(): Observable<string> {
+    let tipo: string;
+    if (isPlatformBrowser(this.platformId)) {
+      return this.http.get<{type: string}>('/auth/getUserType')
+      .pipe(map(r => {
+        console.log(r);
+        return r.type;
+      }));
+    }
+    if (this.request.cookies.jwt_token) {
+      tipo = this.request.cookies.usuario_tipo;
+    }
+    return of(tipo);
+  }
+
   public getCookies(): Observable<any> {
     if (isPlatformBrowser(this.platformId)) {
       return of({
         login_info: this.cs.get('login_info')
       });
     }
+
     return of({
-      login_info: this.request.cookies.usuario_user + ' ' + this.request.cookies.jwt_token + ' ' + this.request.cookies.usuario_user
+      login_info: this.request.cookies.usuario_user + ' ' + this.request.cookies.jwt_token + ' ' + this.request.cookies.usuario_tipo
     });
   }
+
+  public getAuhtInfo(): Observable<UserInfo> {
+    if (isPlatformBrowser(this.platformId)) {
+      return this.http.get<UserInfo>('/auth/getAuhtInfo')
+      .pipe(catchError(error => {
+        switch (error.status) {
+          case 0:
+            alert('Error al tratar de conectar al servidor');
+            break;
+          case 700:
+            break;
+          default:
+            break;
+        }
+        return of(null);
+      }));
+    }
+    const sendServerAuthInfo: UserInfo =
+    { token: this.request.cookies.jwt_token || '', type: this.request.cookies.usuario_tipo || '',
+    user: this.request.cookies.jwt_token || '', userShow: this.request.cookies.jwt_token || '',
+    authenticated: !!this.request.cookies.jwt_token };
+    return of(sendServerAuthInfo);
+  }
+
 }
 
 interface Token {
@@ -459,3 +526,5 @@ export interface UserRegisterGoogle {
   email: string;
   googleCod: string;
 }
+
+export interface UserInfo { token: string; type: string; user: string; userShow: string; authenticated: boolean; }

@@ -5,7 +5,7 @@
   <h1 *ngIf="(estado$|async) === 'item' && item$|async">{{((item$|async).name)}}</h1>
 </div>
 
-<main>
+<main *ngIf="(loggedInfo$|async) as loggedInfo">
   <div class="navegacion">
     <a aria-label="Ir a categorias" href="/store/categorias">CATEGORIAS</a>
     <h6 *ngIf="(estado$|async) === 'categoria' || (estado$|async) === 'sub' || (estado$|async) === 'item'">></h6>
@@ -15,7 +15,7 @@
     <h6 *ngIf="(estado$|async) === 'item'">></h6>
     <a aria-label="Ir Item" *ngIf="(estado$|async) === 'item' && item$|async" href="/store/categorias/{{ruta}}/{{tituloSub$|async}}/{{itemCod}}">{{((item$|async).name)|uppercase}}</a>
   </div>
-  <div *ngIf="auth.loggedIn() && (auth.getTtype() === 'admin' || auth.getTtype() === 'vent') && (estado$|async) !== 'item'" class="controles">
+  <div *ngIf="loggedInfo.authenticated && (loggedInfo.type === 'admin' || loggedInfo.type === 'vent') && (estado$|async) !== 'item'" class="controles">
     <button *ngIf="(estado$|async) === 'pre'" (click)="openDialogAgregarCat()" matTooltip="Añadir Categoria" mat-fab color="warn" aria-label="Example icon button with a home icon">
       <mat-icon class="icon-img">add_box</mat-icon>
     </button>
@@ -69,7 +69,7 @@
             (mouseover)="thisAndTheOnesBehind(item)" (mouseleave)="returnRatingToNormal()" ></i>
 
           </div>
-          <a href="/login/login"><h5  *ngIf="!auth.loggedIn()">Necesitas iniciar sesión.</h5></a>
+          <a href="/login/login"><h5  *ngIf="!loggedInfo.authenticated">Necesitas iniciar sesión.</h5></a>
           <h5  *ngIf="showNotBuyed|async">No has comprado este item.</h5>
         </div>
 
@@ -121,7 +121,7 @@
               <p [ngStyle]="{'font-size': '18px', 'padding-left': '1em'}">{{caract}}</p>
             </mat-list-item>
           </mat-list>
-        <div  *ngIf="auth.loggedIn() && (auth.getTtype() === 'admin' || auth.getTtype() === 'vent')" class="btns">
+        <div  *ngIf="loggedInfo.authenticated && (loggedInfo.type === 'admin' || loggedInfo.type === 'vent')" class="btns">
           <button (click)="openDialogEditarItem()" mat-stroked-button >Editar Item</button>
           <button (click)="openDialogEditarItemCantidades()" mat-stroked-button >Editar Cantidades</button>
           <button (click)="openCaracteristicas()" mat-stroked-button class="reporte">Caracteristicas</button>
@@ -133,8 +133,8 @@
           <button class="reporte" [ngStyle]="{'background-color': '#00A859'}" (click)="openLink()" mat-flat-button color="accent">
             <i class="fa fa-whatsapp fa-2x" aria-hidden="true"></i> Consultar</button>
           <button  class="reporte"   [disabled]="!(item$|async).ficha" mat-stroked-button >Descargar Ficha</button>
-          <button *ngIf="auth.loggedIn() && (auth.getTtype() === 'admin' || auth.getTtype() === 'vent')" (click)=" openDialogVenta()" mat-stroked-button >Vender</button>
-          <button (click)="descargarReporte()" *ngIf="auth.loggedIn() && (auth.getTtype() === 'admin' || auth.getTtype() === 'vent')" class="reporte"  mat-stroked-button >Ver Reporte</button>
+          <button *ngIf="loggedInfo.authenticated && (loggedInfo.type === 'admin'|| loggedInfo.type === 'vent')" (click)=" openDialogVenta()" mat-stroked-button >Vender</button>
+          <button (click)="descargarReporte()" *ngIf="loggedInfo.authenticated && (loggedInfo.type === 'admin' || loggedInfo.type === 'vent')" class="reporte"  mat-stroked-button >Ver Reporte</button>
         </div>
         <H2 [ngStyle]="{'padding-top': '1em'}">COMPRAR</H2>
         <div class="big-toogle-btn">

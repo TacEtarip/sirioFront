@@ -7,14 +7,19 @@ import { Router } from '@angular/router';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { InventarioManagerService, Item } from 'src/app/inventario-manager.service';
-import { AuthService } from '../../auth.service';
+import { AuthService, UserInfo } from '../../auth.service';
 import { JsonLDServiceService } from 'src/app/json-ldservice.service';
+import { first } from 'rxjs/operators';
 @Component({
   selector: 'app-landing',
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.css']
 })
 export class LandingComponent implements OnInit, OnDestroy {
+
+
+  loggedInfo$ = new BehaviorSubject<UserInfo>(null);
+
 
   busquedaForm: FormGroup;
 
@@ -37,7 +42,12 @@ export class LandingComponent implements OnInit, OnDestroy {
 
   constructor(public auth: AuthService, private inv: InventarioManagerService, private titleService: Title,
               private jsonLDS: JsonLDServiceService,
-              private router: Router, private fb: FormBuilder, private analyticsGoogle: GoogleAnalyticsService) { }
+              private router: Router, private fb: FormBuilder, private analyticsGoogle: GoogleAnalyticsService) {
+                this.auth.getAuhtInfo().pipe(first()).subscribe(res => {
+                  console.log('wee');
+                  this.loggedInfo$.next(res);
+                });
+               }
 
   ngOnInit(): void {
 

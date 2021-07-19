@@ -17,6 +17,53 @@ export class InventarioManagerService {
   constructor(private http: HttpClient, private auth: AuthService, private router: Router,
              ) { }
 
+    getCarrito(): Observable<ItemsVentaForCard[]> {
+      return this.http.get<ItemsVentaForCard[]>(this.baseUrl + 'carrito/getCarrito')
+      .pipe( first(), catchError(error => {
+        switch (error.status) {
+        case 0:
+          alert('Error al tratar de conectar al servidor');
+          break;
+        case 409:
+          alert('Ya no contamos con la cantidad deseada');
+          break;
+        case 410:
+          alert('El item ha sido elminado');
+          break;
+        case 500:
+            alert('Ocurrio un error interno');
+            break;
+        default:
+          break;
+      }
+        return of(null);
+      }));
+    }
+
+    agregarItemCarrito(itemCarrito:
+      {codigo: string, priceIGV: number, cantidad: number, orderToAdd: { name: string, nameSecond: string } }): Observable<Venta> {
+      return this.http.post<Venta>(this.baseUrl + 'carrito/agregarItem', itemCarrito)
+      .pipe( first(), catchError(error => {
+        switch (error.status) {
+        case 0:
+          alert('Error al tratar de conectar al servidor');
+          break;
+        case 409:
+          alert('Ya no contamos con la cantidad deseada');
+          break;
+        case 410:
+          alert('El item ha sido elminado');
+          break;
+        case 500:
+            alert('Ocurrio un error interno');
+            break;
+        default:
+          break;
+      }
+        return of(null);
+      }));
+    }
+
     getItemsNoStock(): Observable<Item[]> {
               return this.http.get<Item[]>(this.baseUrl + 'inventario/getItemsNoStock')
               .pipe( first(), catchError(error => {
@@ -1012,7 +1059,6 @@ export class InventarioManagerService {
     const formData: FormData = new FormData();
     formData.append('img', img);
     formData.append('oldPhoto', oldPhoto);
-    console.log(img);
     return this.http.post<Tipo>(this.baseUrl +  'inventario/uploads/imageCat/' + cod, formData)
             .pipe(first(),
               catchError(error => {
@@ -1934,6 +1980,7 @@ export interface ItemsVentaForCard {
   unidadDeMedida?: string;
   priceCosto: number;
   tipo: string;
+  photo?: string;
 }
 
 

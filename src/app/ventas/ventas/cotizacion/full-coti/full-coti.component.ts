@@ -97,7 +97,6 @@ export class FullCotiComponent implements OnInit {
   }
 
   openEditarItemDialog(item: TableVentaInfo) {
-    console.log(item);
     const dialogRef = this.dialog.open(GenerarVentaComponent, {
       width: '600px',
       data: {

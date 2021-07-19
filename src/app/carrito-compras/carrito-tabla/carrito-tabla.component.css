@@ -1,0 +1,79 @@
+main {
+  padding: 3em;
+}
+
+
+
+table {
+  width: 100%;
+  min-width: 850px;
+}
+
+
+.borderTable {
+  border: solid .5px rgb(211, 211, 211);
+}
+
+.mainTableContenedor {
+  padding: 1em 0;
+  overflow: auto;
+}
+
+.mat-column-priceIGV {
+  width: 12%;
+}
+
+.mat-paginator {
+  min-width: 850px;
+}
+
+.numeracion-tabla {
+  border-right: solid 1px rgb(179, 179, 179);
+  padding-right: 24px;
+  width: 4%;
+  text-align: center;
+}
+
+.mat-column-name {
+
+  width: 26%;
+}
+
+.mat-column-cantidad input {
+  width: 50%;
+}
+
+.vientoPor {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+
+.mat-column-imagen div {
+  display: flex;
+  padding: 8px 0;
+  justify-content: center;
+}
+
+
+.mat-column-cantidad,
+.mat-column-total,
+.mat-column-subName
+{
+  width: 12%;
+}
+
+.mat-column-subNameSecond {
+  width: 12%;
+}
+
+.mat-column-delete {
+  width: 4%;
+}
+
+.mat-column-imagen {
+  width: 6%;
+}
+
+
+

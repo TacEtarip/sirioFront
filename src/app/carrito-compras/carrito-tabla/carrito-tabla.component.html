@@ -1,0 +1,75 @@
+<main>
+  <div class="mainTableContenedor">
+    <div class="borderTable">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <!-- Item Column -->
+        <ng-container matColumnDef="numero" >
+          <th class="numeracion-tabla"  mat-header-cell *matHeaderCellDef> Nº </th>
+          <td class="numeracion-tabla" mat-cell *matCellDef="let i = index">
+            {{this.paginator.pageIndex == 0 ? i + 1 : 1 + i + this.paginator.pageIndex * this.paginator.pageSize}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="imagen">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td  mat-cell *matCellDef="let tableVentaInfo">
+            <div>
+              <img height="50px" src="{{'https://siriouploads.s3.amazonaws.com/' + tableVentaInfo.photo.split('.')[0] + '.webp'}}" alt="">
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <th  mat-header-cell *matHeaderCellDef> Nombre </th>
+          <td class="vientoPor" mat-cell *matCellDef="let tableVentaInfo"> {{tableVentaInfo.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="subName">
+          <th  mat-header-cell *matHeaderCellDef> Descripción I </th>
+          <td mat-cell *matCellDef="let tableVentaInfo"> {{tableVentaInfo.cantidadSC ? tableVentaInfo.cantidadSC.name : '...'}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="subNameSecond">
+          <th  mat-header-cell *matHeaderCellDef> Descripción II </th>
+          <td mat-cell *matCellDef="let tableVentaInfo"> {{tableVentaInfo.cantidadSC && tableVentaInfo.cantidadSC.nameSecond ? tableVentaInfo.cantidadSC.nameSecond : '...'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="cantidad">
+          <th  mat-header-cell *matHeaderCellDef> Cantidad </th>
+          <td mat-cell *matCellDef="let tableVentaInfo">
+            <input min="1" type="number" [value]="tableVentaInfo.cantidadSC ? tableVentaInfo.cantidadSC.cantidadVenta : tableVentaInfo.cantidad">
+           </td>
+        </ng-container>
+
+        <ng-container matColumnDef="priceIGV">
+          <th  mat-header-cell *matHeaderCellDef> Precio </th>
+          <td mat-cell *matCellDef="let tableVentaInfo"> S/{{tableVentaInfo.priceIGV|currency: ' '}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="total">
+          <th  mat-header-cell *matHeaderCellDef> P. Total </th>
+          <td mat-cell *matCellDef="let tableVentaInfo">
+            S/{{(tableVentaInfo.cantidadSC ?  tableVentaInfo.cantidadSC.cantidadVenta * tableVentaInfo.priceIGV : tableVentaInfo.totalPrice)|currency: ' ' }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="delete">
+          <th  mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let tableVentaInfo">
+            <button matTooltip="Eliminar" mat-icon-button color="accent" aria-label="Quitar item">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[5, 15, 30]" showFirstLastButtons></mat-paginator>
+
+    </div>
+  </div>
+</main>

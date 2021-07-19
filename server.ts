@@ -113,7 +113,7 @@ export function app(): express.Express {
       const readable = Readable.from(listaURL);
       readable.pipe(smStream);
       // smStream.end();
-      pipeline.pipe(res).on('error', (e) => {throw e;});
+      pipeline.pipe(res).on('error', (e) => { throw e; });
     } catch (error) {
       return res.status(500).json(error);
     }
@@ -151,7 +151,6 @@ export function app(): express.Express {
     res.cookie('jwt_token', req.body.jwt, {
       maxAge: 24 * 60 * 60 * 60 * 1000,
       httpOnly: true,
-
     });
     res.cookie('usuario_tipo', req.body.type, {
       maxAge: 24 * 60 * 60 * 60 * 1000,
@@ -176,13 +175,30 @@ export function app(): express.Express {
     res.status(200).send({status: 'authenticated'});
   });
 
+  server.get('/auth/isLoggedV2', (req, res) => {
+    return res.status(200).send({authenticated: !!req.cookies.jwt_token});
+  });
+
+  server.get('/auth/getAuhtInfo', (req, res) => {
+    try {
+      return res.status(200)
+      .send({token: req.cookies.jwt_token || '', type: req.cookies.usuario_tipo || '',
+      user: req.cookies.usuario_user || '', userShow: req.cookies.usuario_user_show || '',
+      authenticated: !!req.cookies.jwt_token});
+    } catch (error) {
+      return res.json(error.message);
+    }
+  });
+
+  server.get('/auth/getUserType', (req, res) => {
+    return res.status(200).send({type: req.cookies.usuario_tipo || ''});
+  });
+
   server.get('*.*', express.static(distFolder, {
     maxAge: '1y'
   }));
 
-  server.get('/auth/isLogged', express.json(), express.urlencoded({extended: true}), (req, res) => {
-    res.status(200).send({authenticated: !!req.cookies.jwt_token});
-  });
+
 
   // All regular routes use the Universal engine
 
@@ -203,6 +219,7 @@ export function app(): express.Express {
   });
   return server;
 }
+
 
 function run(): void {
   const port = process.env.PORT || 4000;

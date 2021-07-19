@@ -30,43 +30,22 @@ export class AuthInterceptor implements HttpInterceptor {
           },
           withCredentials: true,
         });
-        if (this.router.url !== '/login') {
+        if (this.auth.loggedIn() === true) {
           reqToSend = reqWithAuth;
         } else {
           reqToSend = request;
         }
         return next.handle(reqToSend).pipe(catchError((error) => {
           if (error.status === 401) {
-            alert('Usuario no autorizado.');
-            this.auth.cerrarSesion();
+            if (this.auth.loggedIn()) {
+              this.auth.cerrarSesion();
+            }
             this.router.navigate(['/login']);
+            console.log({error, message: 'w'});
           }
           return throwError(error);
         }));
       })
     );
-
-    /*let reqToSend: HttpRequest<any>;
-
-    const reqWithAuth = request.clone({
-      setHeaders: {
-        Authorization: 'JWT ' + this.auth.getToken() + ' ' + this.auth.getUser() + ' ' + this.auth.getTtype(),
-      },
-      withCredentials: true,
-    });
-
-    if (this.router.url !== '/login') {
-      reqToSend = reqWithAuth;
-    } else {
-      reqToSend = request;
-    }
-    return next.handle(reqToSend).pipe(catchError((error) => {
-      if (error.status === 401) {
-        alert('Usuario no autorizado.');
-        this.auth.cerrarSesion();
-        this.router.navigate(['/login']);
-      }
-      return throwError(error);
-    }));*/
   }
 }

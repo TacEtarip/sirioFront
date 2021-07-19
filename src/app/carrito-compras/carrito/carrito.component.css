@@ -1,0 +1,336 @@
+.toolBar {
+  background-color: whitesmoke;
+  border-bottom: solid gray 1px;
+  z-index: 1000;
+}
+
+.menu {
+  background-color: white;
+  z-index: 1000;
+  width: calc(100% - 200px);
+  padding: 0px 100px;
+  border-bottom: solid gray 1px;
+  top: 0;
+  position: sticky;
+}
+
+.menu .menuContenedorTodo {
+  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.dropMenu, .dropMenuBuscar {
+  position: absolute;
+  border-top: 1px solid grey;
+  background-color: whitesmoke;
+  width: calc(100% - 200px);
+  z-index: -1;
+  right: 100px;
+  display: none;
+}
+
+
+
+
+
+h6 {
+  margin: 0;
+  font-weight: 200;
+  font-size: 18px;
+  font-family: Roboto, sans-serif;
+  text-align: center;
+  cursor: pointer;
+  color: #005087;
+  /* padding: .8em 1em; */
+  align-self: center;
+}
+
+h6:hover {
+  color: #E87200;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+b {
+  color: #E87200;
+}
+
+::ng-deep .sizeIcon{
+  height:44px !important;
+  width:44px !important;
+  font-size:34px !important;
+  line-height: 42px !important;
+}
+
+.presentacionFooter p {
+  font-family: Roboto, sans-serif;
+  font-weight: 200;
+}
+
+::ng-deep .sizeShop {
+  font-size:24px !important;
+  line-height: 45px !important;
+}
+
+
+.toolBarName {
+  margin-left: .1em;
+  font-family: Roboto, sans-serif;
+  font-size: 26px;
+  font-weight: 200;
+}
+
+.cName {
+  /**#005087;*/
+  font-family: Roboto, sans-serif;
+  font-weight: 200;
+  /*color: #E87200;*/
+  color:  #E87200;
+}
+
+
+.perfilBtns {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 4px;
+  margin-right: 8px;
+}
+
+.perfilBtns span {
+  font-weight: 200;
+  padding-top: .2em;
+}
+
+::ng-deep .sizeShop {
+  font-size:24px !important;
+  line-height: 45px !important;
+}
+
+.mainCtn {
+  background-color: #005087;
+  background-image: url('/assets/background.jpg');
+  height: 1200px;
+  z-index: 1;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+h1 {
+  grid-column: 2/4;
+  justify-self: center;
+  margin: 0;
+  align-self: center;
+  text-align: center;
+}
+
+
+
+footer {
+  padding: 3em 3em;
+  display: grid;
+  gap: 2em;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  background-color: #005087;
+  color: white;
+}
+
+
+.social-link:hover {
+  cursor: pointer;
+  color: #E87200;
+}
+
+
+.social-link {
+  cursor: pointer;
+  color: white;
+}
+
+.mat-subheader {
+  color: white;
+}
+
+.navegacion {
+  display: flex !important;
+  grid-column: 3;
+  justify-content: flex-end;
+}
+
+
+.menu a {
+  text-decoration: none;
+  padding: 1em 0em;
+}
+
+a h6 {
+  text-align: inherit;
+}
+
+a {  text-decoration: none; font-weight: 200;}
+
+
+a:hover {
+  color: #E87200;
+}
+
+.spacer {
+  width: 0.5em;
+}
+
+
+.main-carrito {
+  padding: 2em;
+}
+
+h1 {
+  font-family: Roboto, sans-serif;
+}
+
+.previo {
+  background-color: #005087;
+  height: 220px;
+  display: grid;
+  justify-items: center;
+  align-self: center;
+  background-image: url('/assets/itemsSocialBG.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.previo h1 {
+
+
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  margin: 0;
+  color: white;
+  text-align: center;
+  align-self: center;
+  font-family: Roboto, sans-serif;
+  font-size: 50px;
+  font-weight: 900;
+  grid-row: 1;
+  grid-column: 1;
+  margin-top: 120px;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+     -moz-user-select: none; /* Old versions of Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+          user-select: none; /* Non-prefixed version, currently
+                                supported by Chrome, Edge, Opera and Firefox */
+}
+
+.presImg {
+  grid-row: 1;
+  grid-column: 1;
+  align-self: end;
+  justify-self: center;
+}
+
+
+.previo h1 span {
+  font-size: 50px !important;
+  height: 50px;
+}
+
+
+
+@media screen and (max-width: 1300px) {
+  footer {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  footer .presentacionFooter {
+    grid-column: span 3;
+  }
+
+  .dropMenuBuscar .contenedorMenuBuscar {
+    grid-template-columns: 1fr;
+  }
+
+  .buscarField {
+    width: 100%;
+  }
+
+}
+
+@media screen and (max-width: 950px) {
+  footer {
+    grid-template-columns: 1fr ;
+  }
+
+  footer .presentacionFooter {
+    grid-column: span 1;
+  }
+  .dropMenu .contenedorMenu {
+    display: grid;
+    gap: 0.5em;
+  }
+
+  .dropMenu, .dropMenuBuscar {
+    width: calc(100%);
+    right: 0;
+    overflow: auto;
+    /* width: 200px; */
+    max-height: 55vh;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .menu {
+    padding: 0 20px;
+    width: calc(100% - 40px);
+  }
+
+  footer {
+    padding: 3em 1.5em;
+    gap: 1em;
+
+  }
+
+
+
+  ::ng-deep .mat-list-item-content {
+    flex-wrap: wrap;
+  }
+
+  .menu .menuContenedorTodo {
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr;
+  }
+
+  .phoneLink {
+    display: none;
+  }
+
+  .navegacion {
+    justify-content: center;
+    grid-column: 1;
+
+  }
+
+  .cName {
+    font-size: 22px;
+  }
+
+  .dropMenuBuscar .contenedorMenuBuscar {
+    padding: 2em;
+  }
+
+  .spacer {
+    flex: 1 1 auto;
+  }
+}

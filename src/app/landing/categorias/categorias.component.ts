@@ -6,13 +6,13 @@ import { CaracteristicasComponent } from './../caracteristicas/caracteristicas.c
 import { TagsComponent } from './../tags/tags.component';
 import { Item, ItemVendido, Order, Venta } from 'src/app/inventario-manager.service';
 import { ActivatedRoute } from '@angular/router';
-import { AuthService } from 'src/app/auth.service';
+import { AuthService, UserInfo } from 'src/app/auth.service';
 import { InventarioManagerService, Tipo } from './../../inventario-manager.service';
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { AgregarClaseItemComponent } from '../../inventario/inventario/agregar-clase-item/agregar-clase-item.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { first } from 'rxjs/operators';
+import { filter, first } from 'rxjs/operators';
 import { MarcasDialogComponent } from './../../inventario/inventario/marcas-dialog/marcas-dialog.component';
 import { NewItemDialogComponent } from './../../inventario/inventario/new-item-dialog/new-item-dialog.component';
 import { MatTableDataSource } from '@angular/material/table';
@@ -23,6 +23,7 @@ import { EditarItemDialogComponent } from 'src/app/inventario/inventario/editar-
 import { JsonLDServiceService } from 'src/app/json-ldservice.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MensajeTemplateComponent } from '../mensaje-template/mensaje-template.component';
+
 export interface SubConteoOrder {
   name: string;
   nameSecond: string;
@@ -81,6 +82,8 @@ export class CategoriasComponent implements OnInit, OnDestroy {
 
   mensajeDeError = { texto: 'Ejemplo de mensaje de error.', mostrar: false };
 
+  loggedInfo$ = new BehaviorSubject<UserInfo>(null);
+
   @ViewChild(MatSort, {static: false}) set content(sort: MatSort) {
     if ( this.item$.value && this.item$.value.subConteo) {
       this.dataSource.sort = sort;
@@ -89,7 +92,9 @@ export class CategoriasComponent implements OnInit, OnDestroy {
 
   constructor(private inv: InventarioManagerService, public dialog: MatDialog, private ar: ActivatedRoute,
               private titleService: Title, private jsonLDS: JsonLDServiceService, private fb: FormBuilder,
-              public auth: AuthService, private snackBar: MatSnackBar, private metaService: Meta) { }
+              public auth: AuthService, private snackBar: MatSnackBar, private metaService: Meta) {
+
+               }
 
   ngOnDestroy(): void {
     if (this.routesSub) {
@@ -105,6 +110,9 @@ export class CategoriasComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.routesSub = this.ar.paramMap.subscribe(rutaM => {
+      this.auth.getAuhtInfo().pipe(first()).subscribe(res => {
+        this.loggedInfo$.next(res);
+      });
       this.subTipos$.next(null);
       this.tipos.next(null);
       this.items.next(null);
@@ -164,116 +172,122 @@ export class CategoriasComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.estadoSub = this.estado$.subscribe(res => {
-      if (res === 'sub') {
-          this.inv.getAllItemsOfSubTypeII(this.tituloSub$.value, this.titulo$.value).subscribe(resT => {
+    this.loggedInfo$.pipe(filter(x => !!x)).subscribe(loggedRes => {
+      console.log('here');
+      this.estadoSub = this.estado$.subscribe(res => {
+        if (res === 'sub') {
+            this.inv.getAllItemsOfSubTypeII(this.tituloSub$.value, this.titulo$.value).subscribe(resT => {
+              this.loaded$.next(true);
+
+              if (loggedRes.authenticated &&
+                (loggedRes.type === 'admin' || loggedRes.type === 'vent')) {
+                this.items.next(resT);
+              } else {
+                this.itemSecond.next(resT);
+              }
+            });
+        } else if (res === 'item') {
+          this.inv.getItem(this.itemCod).subscribe(resT => {
             this.loaded$.next(true);
 
-            if (this.auth.loggedIn() && (this.auth.getTtype() === 'admin' || this.auth.getTtype() === 'vent')) {
-              this.items.next(resT);
-            } else {
-              this.itemSecond.next(resT);
+            if (resT) {
+              this.item$.next(resT);
+
+              this.carritoForm = this.fb.group({
+                cantidad:  this.fb.control(0,  Validators.compose([
+                  Validators.required,
+                  Validators.min(1),
+                  Validators.max(resT.cantidad)
+                ])),
+              });
+
+
+              if (resT.subConteo) {
+                this.simpleOrder$.next([]);
+                this.simpleSecondOrder$.next([]);
+                this.simpleOrder$.next(this.getSimpleOrderEND(resT.subConteo.order));
+                if (resT.subConteo.nameSecond !== '') {
+                  this.simpleSecondOrder$.next(this.getSimpleSecondOrderEND(resT.subConteo.order));
+                  const inOrder = resT.subConteo.order
+                  .find(o => o.name === this.simpleOrder$.value[this.scActive].name &&
+                    o.nameSecond === this.simpleSecondOrder$.value[this.scSecondActive].name);
+                  this.carritoForm.get('cantidad').setValidators([
+                    Validators.required,
+                    Validators.min(1),
+                    Validators.max(inOrder.cantidad)
+                  ]);
+                } else {
+                  const inOrder = resT.subConteo.order.find(o => o.name === this.simpleOrder$.value[this.scActive].name);
+                  this.carritoForm.get('cantidad').setValidators([
+                    Validators.required,
+                    Validators.min(1),
+                    Validators.max(inOrder.cantidad)
+                  ]);
+                }
+              }
+
+              const descripcionComplicada = resT.description
+              + '. Al mejor precio y de gran calidad. Venta al por mayor o al por menor en Trujillo.'
+              + ((resT.caracteristicas.length > 0) ? resT.caracteristicas.join(' | ') : '')
+              + 'Precio: S/' + resT.priceIGV.toString() + ' | Cantidad Disponible: ' + resT.cantidad.toString()
+              + ' | ' + 'Marca: ' + resT.marca
+              + '. Mas información al: +51 977 426 349';
+
+              this.titleService.setTitle('Sirio Dinar | ' + resT.name);
+              this.addMetaTagsGeneral(resT.name, resT.tipo + '/' + resT.subTipo + '/' +
+              resT.codigo, resT.photo, descripcionComplicada, resT.priceIGV );
+
+              let reviewsSum = 0;
+
+              resT.reviews.forEach(r => {
+                reviewsSum += r.rating;
+              });
+
+              const reviewMean =  Math.round(reviewsSum / resT.reviews.length) || 0;
+
+              const tempMock = [];
+              const tempMockTwo = [];
+
+              this.mockList.next(tempMock);
+
+              const storedReview = resT.reviews.find(x => x.user === this.auth.getUser());
+
+              this.userActualRating = storedReview ? storedReview.rating : 0;
+
+              for (let index = 0; index < this.userActualRating; index++) {
+                tempMock.push(index);
+                this.mockList.next(tempMock);
+              }
+
+              for (let index = this.userActualRating; index < 5; index++) {
+                tempMockTwo.push(index);
+                this.mockListTwo.next(tempMockTwo);
+              }
+
+
+              this.reviewMean$.next(reviewMean);
+
+              const schema = this.jsonLDS
+              .crearProductSquema(resT.name, ['https://siriouploads.s3.amazonaws.com/' + resT.photo.split('.')[0] + '.webp'],
+              'https://inventario.siriodinar.com/store/categorias/' + resT.tipo + '/'  + resT.subTipo + '/' + resT.codigo,
+              descripcionComplicada, resT.codigo,
+              resT.marca, resT.priceIGV, resT.cantidad > 0 ? 'https://schema.org/InStock' : 'https://schema.org/SoldOut',
+              resT.reviews.length, reviewMean, resT.reviews);
+
+              this.jsonLDS.insertSchema(schema);
+              const mensajeInicio = 'Buenas estoy interesado en ';
+              const mensajeFinal = ' quisiera obtener más información';
+              this.whatsAppLinkOne = 'https://wa.me/51977426349?text=' + mensajeInicio + this.item$.value.name + mensajeFinal;
+              if (this.item$.value && this.item$.value.subConteo) {
+                this.dataSource = new MatTableDataSource(this.item$.value.subConteo.order);
+               }
             }
           });
-      } else if (res === 'item') {
-        this.inv.getItem(this.itemCod).subscribe(resT => {
-          this.loaded$.next(true);
-
-          if (resT) {
-            this.item$.next(resT);
-
-            this.carritoForm = this.fb.group({
-              cantidad:  this.fb.control(0,  Validators.compose([
-                Validators.required,
-                Validators.min(1),
-                Validators.max(resT.cantidad)
-              ])),
-            });
-
-
-            if (resT.subConteo) {
-              this.simpleOrder$.next([]);
-              this.simpleSecondOrder$.next([]);
-              this.simpleOrder$.next(this.getSimpleOrderEND(resT.subConteo.order));
-              if (resT.subConteo.nameSecond !== '') {
-                this.simpleSecondOrder$.next(this.getSimpleSecondOrderEND(resT.subConteo.order));
-                const inOrder = resT.subConteo.order
-                .find(o => o.name === this.simpleOrder$.value[this.scActive].name &&
-                  o.nameSecond === this.simpleSecondOrder$.value[this.scSecondActive].name);
-                this.carritoForm.get('cantidad').setValidators([
-                  Validators.required,
-                  Validators.min(1),
-                  Validators.max(inOrder.cantidad)
-                ]);
-              } else {
-                const inOrder = resT.subConteo.order.find(o => o.name === this.simpleOrder$.value[this.scActive].name);
-                this.carritoForm.get('cantidad').setValidators([
-                  Validators.required,
-                  Validators.min(1),
-                  Validators.max(inOrder.cantidad)
-                ]);
-              }
-            }
-
-            const descripcionComplicada = resT.description
-            + '. Al mejor precio y de gran calidad. Venta al por mayor o al por menor en Trujillo.'
-            + ((resT.caracteristicas.length > 0) ? resT.caracteristicas.join(' | ') : '')
-            + 'Precio: S/' + resT.priceIGV.toString() + ' | Cantidad Disponible: ' + resT.cantidad.toString()
-            + ' | ' + 'Marca: ' + resT.marca
-            + '. Mas información al: +51 977 426 349';
-
-            this.titleService.setTitle('Sirio Dinar | ' + resT.name);
-            this.addMetaTagsGeneral(resT.name, resT.tipo + '/' + resT.subTipo + '/' +
-            resT.codigo, resT.photo, descripcionComplicada, resT.priceIGV );
-
-            let reviewsSum = 0;
-
-            resT.reviews.forEach(r => {
-              reviewsSum += r.rating;
-            });
-
-            const reviewMean =  Math.round(reviewsSum / resT.reviews.length) || 0;
-
-            const tempMock = [];
-            const tempMockTwo = [];
-
-            this.mockList.next(tempMock);
-
-            const storedReview = resT.reviews.find(x => x.user === this.auth.getUser());
-
-            this.userActualRating = storedReview ? storedReview.rating : 0;
-
-            for (let index = 0; index < this.userActualRating; index++) {
-              tempMock.push(index);
-              this.mockList.next(tempMock);
-            }
-
-            for (let index = this.userActualRating; index < 5; index++) {
-              tempMockTwo.push(index);
-              this.mockListTwo.next(tempMockTwo);
-            }
-
-
-            this.reviewMean$.next(reviewMean);
-
-            const schema = this.jsonLDS
-            .crearProductSquema(resT.name, ['https://siriouploads.s3.amazonaws.com/' + resT.photo.split('.')[0] + '.webp'],
-            'https://inventario.siriodinar.com/store/categorias/' + resT.tipo + '/'  + resT.subTipo + '/' + resT.codigo,
-            descripcionComplicada, resT.codigo,
-            resT.marca, resT.priceIGV, resT.cantidad > 0 ? 'https://schema.org/InStock' : 'https://schema.org/SoldOut',
-            resT.reviews.length, reviewMean, resT.reviews);
-
-            this.jsonLDS.insertSchema(schema);
-            const mensajeInicio = 'Buenas estoy interesado en ';
-            const mensajeFinal = ' quisiera obtener más información';
-            this.whatsAppLinkOne = 'https://wa.me/51977426349?text=' + mensajeInicio + this.item$.value.name + mensajeFinal;
-            if (this.item$.value && this.item$.value.subConteo) {
-              this.dataSource = new MatTableDataSource(this.item$.value.subConteo.order);
-             }
-          }
-        });
-      }
+        }
+      });
     });
+
+
   }
 
   getSimpleOrderEND(order: Order[]): { name: string, disabled: boolean }[] {
@@ -774,10 +788,9 @@ export class CategoriasComponent implements OnInit, OnDestroy {
   }
 
   crearNewVentaBody() {
-    if (this.auth.loggedIn() === false && this.auth.getTtype() !== 'low') {
+    if (this.auth.loggedIn() === false || this.auth.getTtype() !== 'low') {
       this.dialog.open(MensajeTemplateComponent, {
         width: '600px',
-        data: {codigo: this.ruta},
       });
       return;
     }
@@ -850,9 +863,18 @@ export class CategoriasComponent implements OnInit, OnDestroy {
           cantidad: this.carritoForm.get('cantidad').value, orderToAdd: orderToSend
         };
 
-        this.aCarrito = false;
-        this.resetForm();
-        console.log(itemVendido);
+
+        // console.log(itemVendido);
+
+        this.inv.agregarItemCarrito(itemVendido).subscribe(res => {
+          this.aCarrito = false;
+          this.resetForm();
+          if (res) {
+            this.snackBar.open('Producto Agregado!!', '', {
+              duration: 2500,
+              });
+          }
+        });
 
       }
     });
