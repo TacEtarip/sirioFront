@@ -1,8 +1,10 @@
 import { DOCUMENT } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
 import { Subscription } from 'rxjs';
+import { AuthService } from './auth.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -13,13 +15,18 @@ export class AppComponent implements OnDestroy, OnInit, OnDestroy {
   title = 'inventarioSirioFront';
   subI: Subscription;
   subII: Subscription;
-  constructor(update: SwUpdate, private metaTagService: Meta,
-              @Inject(DOCUMENT) private document: Document) {
+  constructor(update: SwUpdate, private metaTagService: Meta, private auth: AuthService,
+              @Inject(DOCUMENT) private document: Document, private router: Router) {
     this.subI = update.available.subscribe(event => {
         update.activateUpdate().then(() => this.document.location.reload());
     });
   }
   ngOnInit(): void {
+    const version = this.auth.getLoginVersion();
+    if (version !== 'V2') {
+      this.auth.cerrarSesion();
+      this.router.navigate(['/login']);
+    }
     this.metaTagService.addTags([
       { name: 'keywords',
       content: 'Sirio Dinar, Inventario Sirio Dinar, trujillo, peru, casco, filtro, epp, epps,' +

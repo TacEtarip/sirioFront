@@ -149,6 +149,12 @@ export function app(): express.Express {
   });
 
   server.post('/auth/signIn', express.json(), express.urlencoded({extended: true}), (req, res) => {
+
+    res.cookie('login_version', 'V2', {
+      maxAge: 24 * 60 * 60 * 60 * 1000,
+      httpOnly: false,
+    });
+
     res.cookie('jwt_token', req.body.jwt, {
       maxAge: 24 * 60 * 60 * 60 * 1000,
       httpOnly: false,
