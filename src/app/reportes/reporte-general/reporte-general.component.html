@@ -96,7 +96,7 @@
         </mat-list>
       </div>
     </div>
-    <div class="graphContainer">
+    <div  *ngIf="auth.isPlatformB()" class="graphContainer">
     <ngx-charts-line-chart [ngStyle]="{'font-family': 'Roboto, sans-serif'}"
     [view] = "view"
     [scheme]="colorScheme"
@@ -146,7 +146,7 @@
         </mat-list>
       </div>
     </div>
-    <div class="graphContainer">
+    <div *ngIf="auth.isPlatformB()" class="graphContainer">
     <ngx-charts-bar-vertical-2d
     [view] = "view"
     [ngStyle]="{'font-family': 'Roboto, sans-serif'}"
@@ -186,7 +186,7 @@
         </mat-list>
       </div>
     </div>
-    <div class="graphContainer">
+    <div *ngIf="auth.isPlatformB()" class="graphContainer">
       <ngx-charts-bar-vertical
       [view] = "view"
       [ngStyle]="{'font-family': 'Roboto, sans-serif'}"

@@ -1,8 +1,9 @@
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../auth.service';
+import { AuthService, UserInfo } from '../../auth.service';
 import { BreakpointObserver } from '@angular/cdk/layout';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-reportes',
@@ -17,13 +18,18 @@ export class ReportesComponent implements OnInit, OnDestroy {
 
   smallSubs: Subscription;
 
+  loggedInfo$ = new BehaviorSubject<UserInfo>(null);
+
+
   constructor(public auth: AuthService, private breakpointObserver: BreakpointObserver,
               private router: Router) {
+                this.auth.getAuhtInfo().pipe(first()).subscribe(res => {
+                  this.loggedInfo$.next(res);
+                });
                 const isSmallScreenObs = breakpointObserver.observe(['(max-width: 1150px)']);
                 this.smallSubs = isSmallScreenObs.subscribe(res => {
                   if (res.breakpoints['(max-width: 1150px)'] === false) {
                     this.slide.next(null);
-                    console.log(this.slide);
                   }
                 });
    }

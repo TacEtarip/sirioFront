@@ -1,7 +1,7 @@
 <section class="mainCtn">
-  <div class="elegirItemCont">
+  <div *ngIf="dataJSON|async" class="elegirItemCont">
     <h2>Lista de items</h2>
-    <div class="mainTableContenedor">
+    <div  class="mainTableContenedor">
       <div class="borderTable">
         <table mat-table [dataSource]="dataSource" matSort>
 
@@ -53,34 +53,5 @@
       </div>
     </div>
     <a *ngIf="dataJSON|async" [href]="downloadJsonHref" download="infoTabla.json" color="accent" class="jsonBtn" mat-stroked-button>Descargar JSON</a>
-    <!--
-    <div class="reporteChartOne">
-      <div>
-        <mat-list role="list">
-          <div mat-subheader>Stock Actual</div>
-          <mat-list-item role="listitem">
-            <mat-icon mat-list-icon>show_chart</mat-icon>
-            <h5></h5>
-          </mat-list-item>
-        </mat-list>
-      </div>
-    </div>
-    <div class="graphContainer" >
-      <ngx-charts-line-chart [ngStyle]="{'font-family': 'Roboto, sans-serif'}"
-      [view] = "view"
-      [scheme]="colorSchemeTwo"
-      [legend]="true"
-      [showXAxisLabel]="true"
-      [showYAxisLabel]="true"
-      [xAxis]="true"
-      [yAxis]="true"
-      [xAxisLabel]="'Mes'"
-      [yAxisLabel]="'Monto(S/)'"
-      [results]="multi"
-      [autoScale]="true"
-      [legendPosition]="'below'"
-      >
-    </ngx-charts-line-chart>
-    </div>-->
   </div>
 </section>

@@ -1,25 +1,25 @@
 
-import 'zone.js/dist/zone-node';
-import 'reflect-metadata';
-
-import { ngExpressEngine } from '@nguniversal/express-engine';
-import express from 'express';
-import { join } from 'path';
-import {enableProdMode} from '@angular/core';
-import { AppServerModule } from './src/main.server';
 import { APP_BASE_HREF } from '@angular/common';
+import { enableProdMode } from '@angular/core';
+import { ngExpressEngine } from '@nguniversal/express-engine';
+import axios from 'axios';
+import * as compression from 'compression';
+import cookieParser from 'cookie-parser';
+import express from 'express';
 import { existsSync } from 'fs';
 import helmet from 'helmet';
-import cookieParser from 'cookie-parser';
-import * as compression from 'compression';
-
-import axios from 'axios';
-
+import { join } from 'path';
+import 'reflect-metadata';
 import { SitemapStream } from 'sitemap';
-
 import { Readable } from 'stream';
-
 import { createGzip } from 'zlib';
+import 'zone.js/dist/zone-node';
+import { AppServerModule } from './src/main.server';
+
+
+
+
+
 // tslint:disable-next-line: no-string-literal
 
 
@@ -122,22 +122,22 @@ export function app(): express.Express {
   server.get('/auth/signOut', (req, res) => {
     res.cookie('jwt_token', '', {
       maxAge: -1,
-      httpOnly: true,
+      httpOnly: false,
 
     });
     res.cookie('usuario_tipo', '', {
       maxAge: -1,
-      httpOnly: true,
+      httpOnly: false,
 
     });
     res.cookie('usuario_user_show', '', {
       maxAge: -1,
-      httpOnly: true,
+      httpOnly: false,
 
     });
     res.cookie('usuario_user', '', {
       maxAge: -1,
-      httpOnly: true,
+      httpOnly: false,
 
     });
 
@@ -147,24 +147,25 @@ export function app(): express.Express {
     });
     res.status(200).send({status: 'authenticated'});
   });
+
   server.post('/auth/signIn', express.json(), express.urlencoded({extended: true}), (req, res) => {
     res.cookie('jwt_token', req.body.jwt, {
       maxAge: 24 * 60 * 60 * 60 * 1000,
-      httpOnly: true,
+      httpOnly: false,
     });
     res.cookie('usuario_tipo', req.body.type, {
       maxAge: 24 * 60 * 60 * 60 * 1000,
-      httpOnly: true,
+      httpOnly: false,
 
     });
     res.cookie('usuario_user_show', req.body.usershow, {
       maxAge: 24 * 60 * 60 * 60 * 1000,
-      httpOnly: true,
+      httpOnly: false,
 
     });
     res.cookie('usuario_user', req.body.usuario, {
       maxAge: 24 * 60 * 60 * 60 * 1000,
-      httpOnly: true,
+      httpOnly: false,
 
     });
 
@@ -172,7 +173,11 @@ export function app(): express.Express {
       maxAge: 24 * 60 * 60 * 60 * 1000,
       httpOnly: false,
     });
-    res.status(200).send({status: 'authenticated'});
+
+    return res.status(200)
+    .send({token: req.body.jwt || '', type: req.body.type || '',
+    user: req.body.usuario || '', userShow: req.body.usershow || '',
+    authenticated: true});
   });
 
   server.get('/auth/isLoggedV2', (req, res) => {
@@ -242,3 +247,4 @@ if (moduleFilename === __filename || moduleFilename.includes('iisnode')) {
 }
 
 export * from './src/main.server';
+

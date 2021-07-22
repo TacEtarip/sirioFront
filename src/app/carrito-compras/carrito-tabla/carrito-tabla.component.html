@@ -1,12 +1,12 @@
 <main>
-  <div class="mainTableContenedor">
+  <div  class="mainTableContenedor">
     <div class="borderTable">
-      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <table *ngIf="showTable|async" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
         <!-- Item Column -->
         <ng-container matColumnDef="numero" >
           <th class="numeracion-tabla"  mat-header-cell *matHeaderCellDef> Nº </th>
           <td class="numeracion-tabla" mat-cell *matCellDef="let i = index">
-            {{this.paginator.pageIndex == 0 ? i + 1 : 1 + i + this.paginator.pageIndex * this.paginator.pageSize}}
+            {{this.dataSource.paginator.pageIndex == 0 ? i + 1 : 1 + i + this.dataSource.paginator.pageIndex * this.dataSource.paginator.pageSize}}
           </td>
         </ng-container>
 

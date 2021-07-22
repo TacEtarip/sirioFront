@@ -1,10 +1,9 @@
-import { Component, OnInit, ChangeDetectorRef, ViewChildren, QueryList, AfterViewInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { MediaMatcher } from '@angular/cdk/layout';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import {InventarioManagerService, Item } from '../../inventario-manager.service';
+import { Meta, Title } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 import { AuthService } from '../../auth.service';
-import {MediaMatcher} from '@angular/cdk/layout';
-import {Router} from '@angular/router';
-import { Title, Meta } from '@angular/platform-browser';
 @Component({
   selector: 'app-ventas',
   templateUrl: './ventas.component.html',
@@ -17,7 +16,7 @@ export class VentasComponent implements OnInit, OnDestroy {
 
   nombreUsuario: string;
 
-  constructor(public dialog: MatDialog, private inventarioMNG: InventarioManagerService,
+  constructor(public dialog: MatDialog,
               public auth: AuthService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
               private titleService: Title,
               private metaTagService: Meta,

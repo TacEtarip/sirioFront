@@ -1,9 +1,9 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { InventarioManagerService, Marca} from '../../../inventario-manager.service';
-import { BehaviorSubject } from 'rxjs';
 import { MatListOption } from '@angular/material/list';
+import { BehaviorSubject } from 'rxjs';
+import { InventarioManagerService, Marca } from '../../../inventario-manager.service';
 
 @Component({
   selector: 'app-marcas-dialog',

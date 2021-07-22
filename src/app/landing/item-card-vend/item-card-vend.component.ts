@@ -1,16 +1,16 @@
-import { ChangeFoldersComponent } from './../change-folders/change-folders.component';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { BehaviorSubject } from 'rxjs';
+import { first } from 'rxjs/operators';
+import { InventarioManagerService, Item } from 'src/app/inventario-manager.service';
+import { VentaDialogComponent } from 'src/app/inventario/inventario/venta-dialog/venta-dialog.component';
+import { UploadCatImageComponent } from '../upload-cat-image/upload-cat-image.component';
 import { AuthService } from './../../auth.service';
-import { EliminarDialogComponent } from './../../inventario/inventario/eliminar-dialog/eliminar-dialog.component';
 import { EditarCantidadesDialogComponent } from './../../inventario/inventario/editar-cantidades-dialog/editar-cantidades-dialog.component';
 import { EditarItemDialogComponent } from './../../inventario/inventario/editar-item-dialog/editar-item-dialog.component';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { Item, InventarioManagerService } from 'src/app/inventario-manager.service';
-import { first } from 'rxjs/operators';
-import { MatDialog } from '@angular/material/dialog';
-import { UploadCatImageComponent } from '../upload-cat-image/upload-cat-image.component';
-import { VentaDialogComponent } from 'src/app/inventario/inventario/venta-dialog/venta-dialog.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { EliminarDialogComponent } from './../../inventario/inventario/eliminar-dialog/eliminar-dialog.component';
+import { ChangeFoldersComponent } from './../change-folders/change-folders.component';
 @Component({
   selector: 'app-item-card-vend',
   templateUrl: './item-card-vend.component.html',

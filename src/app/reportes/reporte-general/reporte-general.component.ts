@@ -1,6 +1,5 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth.service';
 import { InventarioManagerService, Item } from 'src/app/inventario-manager.service';

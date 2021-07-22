@@ -33,7 +33,7 @@ export class TagsComponent implements OnInit {
   }
 
 
-  onSubmit(tag:{name: string}) {
+  onSubmit(tag: {name: string}) {
     tag.name = tag.name.trim();
     this.inventarioMNG.addTag(tag).subscribe((addedTag) => {
       if (addedTag !== null) {

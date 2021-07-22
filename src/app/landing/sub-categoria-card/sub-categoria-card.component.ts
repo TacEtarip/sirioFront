@@ -1,11 +1,11 @@
-import { EliminarSubTipoComponent } from './../../inventario/inventario/eliminar-sub-tipo/eliminar-sub-tipo.component';
-import { SubTipoEditarComponent } from './../../inventario/inventario/sub-tipo-editar/sub-tipo-editar.component';
-import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth.service';
 import { InventarioManagerService } from 'src/app/inventario-manager.service';
+import { EliminarSubTipoComponent } from './../../inventario/inventario/eliminar-sub-tipo/eliminar-sub-tipo.component';
+import { SubTipoEditarComponent } from './../../inventario/inventario/sub-tipo-editar/sub-tipo-editar.component';
 import { UploadCatImageComponent } from './../upload-cat-image/upload-cat-image.component';
 
 @Component({

@@ -1,8 +1,8 @@
-import { Tipo, InventarioManagerService, Item } from 'src/app/inventario-manager.service';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
-import { Subscription, timer, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription, timer } from 'rxjs';
+import { InventarioManagerService, Item, Tipo } from 'src/app/inventario-manager.service';
 
 @Component({
   selector: 'app-change-order',

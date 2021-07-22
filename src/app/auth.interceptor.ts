@@ -20,28 +20,29 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    return this.auth.getCookies().pipe(
-      switchMap((res: {login_info: string}) => {
+    return this.auth.getAuhtInfo().pipe(
+      switchMap((res) => {
+        if (res === null) {
+          return  next.handle(request);
+        }
         let reqToSend: HttpRequest<any>;
-        const loginArray = res.login_info.split(' ');
         const reqWithAuth = request.clone({
           setHeaders: {
-            Authorization: 'JWT ' + loginArray[1] + ' ' + loginArray[0] + ' ' + loginArray[2],
+            Authorization: 'JWT ' + res.token + ' ' + res.user + ' ' + res.type,
           },
           withCredentials: true,
         });
-        if (this.auth.loggedIn() === true) {
+        if (res.authenticated === true) {
           reqToSend = reqWithAuth;
         } else {
           reqToSend = request;
         }
         return next.handle(reqToSend).pipe(catchError((error) => {
           if (error.status === 401) {
-            if (this.auth.loggedIn()) {
-              this.auth.cerrarSesion();
+            if ((res.authenticated === true)) {
+                this.auth.cerrarSesion();
+                this.router.navigate(['/login']);
             }
-            this.router.navigate(['/login']);
-            console.log({error, message: 'w'});
           }
           return throwError(error);
         }));

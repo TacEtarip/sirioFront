@@ -1,15 +1,15 @@
-import { GoogleAnalyticsService } from './../../google-analytics.service';
-import { Title } from '@angular/platform-browser';
-import { Tipo } from './../../inventario-manager.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { InventarioManagerService, Item } from 'src/app/inventario-manager.service';
-import { AuthService, UserInfo } from '../../auth.service';
-import { JsonLDServiceService } from 'src/app/json-ldservice.service';
 import { first } from 'rxjs/operators';
+import { InventarioManagerService, Item } from 'src/app/inventario-manager.service';
+import { JsonLDServiceService } from 'src/app/json-ldservice.service';
+import { AuthService, UserInfo } from '../../auth.service';
+import { GoogleAnalyticsService } from './../../google-analytics.service';
+import { Tipo } from './../../inventario-manager.service';
 @Component({
   selector: 'app-landing',
   templateUrl: './landing.component.html',
@@ -44,7 +44,6 @@ export class LandingComponent implements OnInit, OnDestroy {
               private jsonLDS: JsonLDServiceService,
               private router: Router, private fb: FormBuilder, private analyticsGoogle: GoogleAnalyticsService) {
                 this.auth.getAuhtInfo().pipe(first()).subscribe(res => {
-                  console.log('wee');
                   this.loggedInfo$.next(res);
                 });
                }

@@ -7,6 +7,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
+import { AuthService } from 'src/app/auth.service';
 import { InventarioManagerService, Item, Variaciones } from 'src/app/inventario-manager.service';
 
 @Component({
@@ -56,7 +57,7 @@ export class ReportePorItemComponent implements OnInit, OnDestroy {
     }
   }
 
-  constructor(private router: Router, private fb: FormBuilder, private ar: ActivatedRoute,
+  constructor(private router: Router, private fb: FormBuilder, private ar: ActivatedRoute, public auth: AuthService,
               breakpointObserver: BreakpointObserver, private inv: InventarioManagerService) {
     const isSmallScreenObs = breakpointObserver.observe(['(max-width: 900px)', '(max-width: 700px)']);
     this.smallSubs = isSmallScreenObs.subscribe(res => {

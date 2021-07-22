@@ -1,10 +1,10 @@
-import { InventarioManagerService } from 'src/app/inventario-manager.service';
-import { BehaviorSubject } from 'rxjs';
-import { Item, Tipo } from './../../inventario-manager.service';
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { BehaviorSubject } from 'rxjs';
+import { InventarioManagerService } from 'src/app/inventario-manager.service';
+import { Item, Tipo } from './../../inventario-manager.service';
 
 @Component({
   selector: 'app-change-folders',

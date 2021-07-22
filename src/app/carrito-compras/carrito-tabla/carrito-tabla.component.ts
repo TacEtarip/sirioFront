@@ -1,9 +1,9 @@
-import { InventarioManagerService, ItemsVentaForCard, ItemVendido, Venta } from './../../inventario-manager.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { BehaviorSubject } from 'rxjs';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
+import { AuthService } from 'src/app/auth.service';
+import { InventarioManagerService, ItemsVentaForCard, Venta } from './../../inventario-manager.service';
 
 @Component({
   selector: 'app-carrito-tabla',
@@ -18,18 +18,24 @@ export class CarritoTablaComponent implements OnInit {
 
   displayedColumns: string[] = ['numero', 'imagen', 'name', 'subName', 'subNameSecond', 'cantidad', 'priceIGV', 'total', 'delete'];
 
-  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
+  showTable = new BehaviorSubject<boolean>(false);
+
+  @ViewChild(MatPaginator, {static: false})  set content(paginator: MatPaginator) {
+    if (paginator && this.dataSource) {
+      this.dataSource.paginator = paginator;
+      this.showTable.next(true);
+    }
+  }
 
   venta$ = new BehaviorSubject<Venta>(null);
 
-  constructor(private inv: InventarioManagerService) { }
+  constructor(private inv: InventarioManagerService, public auth: AuthService) { }
 
   ngOnInit(): void {
     this.inv.getCarrito().subscribe(res => {
       if (res) {
         this.dataSource = new MatTableDataSource(res);
-        this.dataSource.paginator = this.paginator;
-        console.log(this.dataSource);
+        this.dateSource$.next(this.dataSource);
       }
     });
   }

@@ -1,12 +1,12 @@
-import { distinctUntilChanged } from 'rxjs/operators';
-import { AuthService } from './../../../auth.service';
-import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { FormGroup, Validators, FormBuilder, FormArray, AbstractControl, ValidatorFn } from '@angular/forms';
-import { Item, InventarioManagerService, Venta, ItemVendido, Documento, Order, DNI, RUC } from '../../../inventario-manager.service';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { AbstractControl, FormArray, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs/operators';
 import jsonCode from '../../../../assets/sunatCodes.json';
+import { DNI, Documento, InventarioManagerService, Item, ItemVendido, Order, RUC, Venta } from '../../../inventario-manager.service';
+import { AuthService } from './../../../auth.service';
 
 
 export interface VentaSimple {

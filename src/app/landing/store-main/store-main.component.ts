@@ -1,14 +1,13 @@
-import { Title } from '@angular/platform-browser';
-import {  Component, OnInit, OnDestroy } from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import anime from 'animejs';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { InventarioManagerService, Item, Tipo } from 'src/app/inventario-manager.service';
 import { AuthService } from '../../auth.service';
-import anime from 'animejs';
-import { JsonLDServiceService } from 'src/app/json-ldservice.service';
 
 @Component({
   selector: 'app-store-main',

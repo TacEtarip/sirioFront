@@ -1,16 +1,16 @@
-import { InventarioManagerService, Venta } from './../../inventario-manager.service';
-import { first } from 'rxjs/operators';
-import { BehaviorSubject, Subscription } from 'rxjs';
-import { FullUser, AuthService } from 'src/app/auth.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { EditarCelularDialogComponent } from '../editar-celular-dialog/editar-celular-dialog.component';
-import { AgregarDireccionDialogComponent  } from '../agregar-direccion-dialog/agregar-direccion-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Meta, Title } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { first } from 'rxjs/operators';
+import { AuthService, FullUser } from 'src/app/auth.service';
+import { AgregarDireccionDialogComponent } from '../agregar-direccion-dialog/agregar-direccion-dialog.component';
 import { AgregarDocumentoDialogComponent } from '../agregar-documento-dialog/agregar-documento-dialog.component';
 import { CambiarContrasenaDialogComponent } from '../cambiar-contrasena-dialog/cambiar-contrasena-dialog.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
-import { Title, Meta } from '@angular/platform-browser';
+import { EditarCelularDialogComponent } from '../editar-celular-dialog/editar-celular-dialog.component';
+import { InventarioManagerService, Venta } from './../../inventario-manager.service';
 
 @Component({
   selector: 'app-usuario',

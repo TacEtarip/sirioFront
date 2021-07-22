@@ -112,7 +112,7 @@
         </mat-list>
       </div>
     </div>
-    <div class="graphContainer">
+    <div  *ngIf="auth.isPlatformB()" class="graphContainer">
       <ngx-charts-line-chart [ngStyle]="{'font-family': 'Roboto, sans-serif'}"
       [view] = "view"
       [scheme]="colorScheme"
@@ -129,7 +129,7 @@
       >
     </ngx-charts-line-chart>
   </div>
-  <div class="graphContainer" >
+  <div  *ngIf="auth.isPlatformB()" class="graphContainer" >
     <ngx-charts-line-chart [ngStyle]="{'font-family': 'Roboto, sans-serif'}"
     [view] = "view"
     [scheme]="colorSchemeTwo"

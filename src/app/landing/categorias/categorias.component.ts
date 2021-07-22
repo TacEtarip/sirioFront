@@ -1,28 +1,28 @@
-import { Title, Meta } from '@angular/platform-browser';
-import { EditarCantidadesDialogComponent } from './../../inventario/inventario/editar-cantidades-dialog/editar-cantidades-dialog.component';
-import { ChangeOrderComponent } from './../change-order/change-order.component';
-import { AgregarSubCategoriasComponent } from './../../inventario/inventario/agregar-sub-categorias/agregar-sub-categorias.component';
-import { CaracteristicasComponent } from './../caracteristicas/caracteristicas.component';
-import { TagsComponent } from './../tags/tags.component';
-import { Item, ItemVendido, Order, Venta } from 'src/app/inventario-manager.service';
-import { ActivatedRoute } from '@angular/router';
-import { AuthService, UserInfo } from 'src/app/auth.service';
-import { InventarioManagerService, Tipo } from './../../inventario-manager.service';
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { BehaviorSubject, Subscription } from 'rxjs';
-import { AgregarClaseItemComponent } from '../../inventario/inventario/agregar-clase-item/agregar-clase-item.component';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { Meta, Title } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { filter, first } from 'rxjs/operators';
+import { AuthService, UserInfo } from 'src/app/auth.service';
+import { Item, Order } from 'src/app/inventario-manager.service';
+import { EditarItemDialogComponent } from 'src/app/inventario/inventario/editar-item-dialog/editar-item-dialog.component';
+import { VentaDialogComponent } from 'src/app/inventario/inventario/venta-dialog/venta-dialog.component';
+import { JsonLDServiceService } from 'src/app/json-ldservice.service';
+import { AgregarClaseItemComponent } from '../../inventario/inventario/agregar-clase-item/agregar-clase-item.component';
+import { MensajeTemplateComponent } from '../mensaje-template/mensaje-template.component';
+import { InventarioManagerService, Tipo } from './../../inventario-manager.service';
+import { AgregarSubCategoriasComponent } from './../../inventario/inventario/agregar-sub-categorias/agregar-sub-categorias.component';
+import { EditarCantidadesDialogComponent } from './../../inventario/inventario/editar-cantidades-dialog/editar-cantidades-dialog.component';
 import { MarcasDialogComponent } from './../../inventario/inventario/marcas-dialog/marcas-dialog.component';
 import { NewItemDialogComponent } from './../../inventario/inventario/new-item-dialog/new-item-dialog.component';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
-import { VentaDialogComponent } from 'src/app/inventario/inventario/venta-dialog/venta-dialog.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { EditarItemDialogComponent } from 'src/app/inventario/inventario/editar-item-dialog/editar-item-dialog.component';
-import { JsonLDServiceService } from 'src/app/json-ldservice.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MensajeTemplateComponent } from '../mensaje-template/mensaje-template.component';
+import { CaracteristicasComponent } from './../caracteristicas/caracteristicas.component';
+import { ChangeOrderComponent } from './../change-order/change-order.component';
+import { TagsComponent } from './../tags/tags.component';
 
 export interface SubConteoOrder {
   name: string;
@@ -110,9 +110,7 @@ export class CategoriasComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.routesSub = this.ar.paramMap.subscribe(rutaM => {
-      this.auth.getAuhtInfo().pipe(first()).subscribe(res => {
-        this.loggedInfo$.next(res);
-      });
+
       this.subTipos$.next(null);
       this.tipos.next(null);
       this.items.next(null);
@@ -121,6 +119,9 @@ export class CategoriasComponent implements OnInit, OnDestroy {
       this.loaded$.next(false);
       this.ruta = rutaM.get('categoria');
       this.jsonLDS.removeStructuredData();
+      this.auth.getAuhtInfo().pipe(first()).subscribe(res => {
+        this.loggedInfo$.next(res);
+      });
       if (this.ruta) {
           this.inv.getTipo(this.ruta).subscribe(res => {
             this.loaded$.next(true);
@@ -173,7 +174,6 @@ export class CategoriasComponent implements OnInit, OnDestroy {
     });
 
     this.loggedInfo$.pipe(filter(x => !!x)).subscribe(loggedRes => {
-      console.log('here');
       this.estadoSub = this.estado$.subscribe(res => {
         if (res === 'sub') {
             this.inv.getAllItemsOfSubTypeII(this.tituloSub$.value, this.titulo$.value).subscribe(resT => {

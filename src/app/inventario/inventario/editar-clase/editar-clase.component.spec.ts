@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
 import { EditarClaseComponent } from './editar-clase.component';
+
 
 describe('EditarClaseComponent', () => {
   let component: EditarClaseComponent;

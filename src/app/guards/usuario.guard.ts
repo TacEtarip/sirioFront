@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, CanLoad, Router } from '@angular/router';
+import { Observable, of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { AuthService } from '../auth.service';
 
 @Injectable({
@@ -8,15 +10,25 @@ import { AuthService } from '../auth.service';
 export class UsuarioGuard implements CanActivate, CanLoad {
   constructor(private auth: AuthService, private router: Router) { }
 
-  canLoad() {
+  canLoad(): Observable<boolean> {
     return this.canActivate();
   }
-  canActivate() {
-    if (!this.auth.loggedIn()) {
-      this.router.navigate(['/login']);
-    }
-    const guard = this.auth.loggedIn();
-    return guard;
+  canActivate(): Observable<boolean> {
+    return this.auth.getAuhtInfo().pipe(
+      switchMap(r => {
+        if (r === null) {
+          this.router.navigate(['/login']);
+          return of(false);
+        }
+
+        if (r.authenticated === false) {
+          this.router.navigate(['/login']);
+          return of(false);
+        }
+
+        return of(true);
+      })
+    );
   }
 
 }

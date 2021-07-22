@@ -1,8 +1,8 @@
-import { Router } from '@angular/router';
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { catchError, mapTo, first } from 'rxjs/operators';
+import { catchError, first, mapTo } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -10,8 +10,8 @@ import { AuthService } from './auth.service';
 })
 export class InventarioManagerService {
 
-  baseUrl = 'https://inventario-sirio-dinar.herokuapp.com/';
-  // baseUrl = 'http://localhost:5000/';
+  // baseUrl = 'https://inventario-sirio-dinar.herokuapp.com/';
+  baseUrl = 'http://localhost:5000/';
 
 
   constructor(private http: HttpClient, private auth: AuthService, private router: Router,
@@ -22,16 +22,16 @@ export class InventarioManagerService {
       .pipe( first(), catchError(error => {
         switch (error.status) {
         case 0:
-          alert('Error al tratar de conectar al servidor');
+          this.auth.alertaUniversal('Error al tratar de conectar al servidor');
           break;
         case 409:
-          alert('Ya no contamos con la cantidad deseada');
+          this.auth.alertaUniversal('Ya no contamos con la cantidad deseada');
           break;
         case 410:
-          alert('El item ha sido elminado');
+          this.auth.alertaUniversal('El item ha sido elminado');
           break;
         case 500:
-            alert('Ocurrio un error interno');
+            this.auth.alertaUniversal('Ocurrio un error interno');
             break;
         default:
           break;
@@ -46,16 +46,16 @@ export class InventarioManagerService {
       .pipe( first(), catchError(error => {
         switch (error.status) {
         case 0:
-          alert('Error al tratar de conectar al servidor');
+          this.auth.alertaUniversal('Error al tratar de conectar al servidor');
           break;
         case 409:
-          alert('Ya no contamos con la cantidad deseada');
+          this.auth.alertaUniversal('Ya no contamos con la cantidad deseada');
           break;
         case 410:
-          alert('El item ha sido elminado');
+          this.auth.alertaUniversal('El item ha sido elminado');
           break;
         case 500:
-            alert('Ocurrio un error interno');
+            this.auth.alertaUniversal('Ocurrio un error interno');
             break;
         default:
           break;
@@ -69,7 +69,7 @@ export class InventarioManagerService {
               .pipe( first(), catchError(error => {
                 switch (error.status) {
                 case 0:
-                  alert('Error al tratar de conectar al servidor');
+                  this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                   break;
                 case 700:
                   break;
@@ -85,7 +85,7 @@ export class InventarioManagerService {
       .pipe( first(), catchError(error => {
         switch (error.status) {
         case 0:
-          alert('Error al tratar de conectar al servidor');
+          this.auth.alertaUniversal('Error al tratar de conectar al servidor');
           break;
         case 700:
           break;
@@ -101,7 +101,7 @@ export class InventarioManagerService {
     .pipe( first(), catchError(error => {
       switch (error.status) {
       case 0:
-        alert('Error al tratar de conectar al servidor');
+        this.auth.alertaUniversal('Error al tratar de conectar al servidor');
         break;
       case 700:
         break;
@@ -118,7 +118,7 @@ export class InventarioManagerService {
     .pipe( first(), catchError(error => {
       switch (error.status) {
       case 0:
-        alert('Error al tratar de conectar al servidor');
+        this.auth.alertaUniversal('Error al tratar de conectar al servidor');
         break;
       case 700:
         break;
@@ -134,7 +134,7 @@ export class InventarioManagerService {
     .pipe( first(), catchError(error => {
       switch (error.status) {
       case 0:
-        alert('Error al tratar de conectar al servidor');
+        this.auth.alertaUniversal('Error al tratar de conectar al servidor');
         break;
       case 700:
         break;
@@ -151,7 +151,7 @@ export class InventarioManagerService {
     .pipe( first(), catchError(error => {
       switch (error.status) {
       case 0:
-        alert('Error al tratar de conectar al servidor');
+        this.auth.alertaUniversal('Error al tratar de conectar al servidor');
         break;
       case 700:
         break;
@@ -167,7 +167,7 @@ export class InventarioManagerService {
     .pipe(first(), catchError(error => {
       switch (error.status) {
       case 0:
-        alert('Error al tratar de conectar al servidor');
+        this.auth.alertaUniversal('Error al tratar de conectar al servidor');
         break;
       case 700:
         break;
@@ -183,7 +183,7 @@ export class InventarioManagerService {
     .pipe( first(), catchError(error => {
       switch (error.status) {
       case 0:
-        alert('Error al tratar de conectar al servidor');
+        this.auth.alertaUniversal('Error al tratar de conectar al servidor');
         break;
       case 700:
         break;
@@ -199,7 +199,7 @@ export class InventarioManagerService {
     .pipe( first(), catchError(error => {
       switch (error.status) {
       case 0:
-        alert('Error al tratar de conectar al servidor');
+        this.auth.alertaUniversal('Error al tratar de conectar al servidor');
         break;
       case 700:
         break;
@@ -216,7 +216,7 @@ export class InventarioManagerService {
     .pipe( first(), catchError(error => {
       switch (error.status) {
       case 0:
-        alert('Error al tratar de conectar al servidor');
+        this.auth.alertaUniversal('Error al tratar de conectar al servidor');
         break;
       case 700:
         break;
@@ -232,7 +232,7 @@ export class InventarioManagerService {
     .pipe( first(), catchError(error => {
       switch (error.status) {
       case 0:
-        alert('Error al tratar de conectar al servidor');
+        this.auth.alertaUniversal('Error al tratar de conectar al servidor');
         break;
       case 700:
         break;
@@ -248,7 +248,7 @@ export class InventarioManagerService {
     .pipe( first(), catchError(error => {
       switch (error.status) {
       case 0:
-        alert('Error al tratar de conectar al servidor');
+        this.auth.alertaUniversal('Error al tratar de conectar al servidor');
         break;
       case 700:
         break;
@@ -264,7 +264,7 @@ export class InventarioManagerService {
     .pipe( first(), catchError(error => {
       switch (error.status) {
       case 0:
-        alert('Error al tratar de conectar al servidor');
+        this.auth.alertaUniversal('Error al tratar de conectar al servidor');
         break;
       case 700:
         break;
@@ -282,7 +282,7 @@ export class InventarioManagerService {
     .pipe( first(), catchError(error => {
       switch (error.status) {
       case 0:
-        alert('Error al tratar de conectar al servidor');
+        this.auth.alertaUniversal('Error al tratar de conectar al servidor');
         break;
       case 700:
         break;
@@ -298,7 +298,7 @@ export class InventarioManagerService {
     catchError(error => {
       switch (error.status) {
       case 0:
-        alert('Error al tratar de conectar al servidor');
+        this.auth.alertaUniversal('Error al tratar de conectar al servidor');
         break;
       case 700:
         break;
@@ -314,7 +314,7 @@ export class InventarioManagerService {
       catchError(error => {
         switch (error.status) {
         case 0:
-          alert('Error al tratar de conectar al servidor');
+          this.auth.alertaUniversal('Error al tratar de conectar al servidor');
           break;
         case 700:
           break;
@@ -330,7 +330,7 @@ export class InventarioManagerService {
       catchError(error => {
         switch (error.status) {
         case 0:
-          alert('Error al tratar de conectar al servidor');
+          this.auth.alertaUniversal('Error al tratar de conectar al servidor');
           break;
         case 700:
           break;
@@ -351,7 +351,7 @@ export class InventarioManagerService {
       catchError(error => {
         switch (error.status) {
         case 0:
-          alert('Error al tratar de conectar al servidor');
+          this.auth.alertaUniversal('Error al tratar de conectar al servidor');
           break;
         case 700:
           break;
@@ -374,7 +374,7 @@ export class InventarioManagerService {
             catchError(error => {
               switch (error.status) {
                 case 0:
-                  alert('Error al tratar de conectar al servidor');
+                  this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                   break;
                 case 700:
                   break;
@@ -391,7 +391,7 @@ export class InventarioManagerService {
             catchError(error => {
               switch (error.status) {
                 case 0:
-                  alert('Error al tratar de conectar al servidor');
+                  this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                   break;
                 case 700:
                   break;
@@ -408,7 +408,7 @@ export class InventarioManagerService {
     catchError(error => {
       switch (error.status) {
         case 0:
-          alert('Error al tratar de conectar al servidor');
+          this.auth.alertaUniversal('Error al tratar de conectar al servidor');
           break;
         case 700:
           break;
@@ -425,7 +425,7 @@ export class InventarioManagerService {
           catchError(error => {
             switch (error.status) {
               case 0:
-                alert('Error al tratar de conectar al servidor');
+                this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                 break;
               case 700:
                 break;
@@ -442,7 +442,7 @@ export class InventarioManagerService {
           catchError(error => {
             switch (error.status) {
               case 0:
-                alert('Error al tratar de conectar al servidor');
+                this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                 break;
               case 700:
                 break;
@@ -459,7 +459,7 @@ export class InventarioManagerService {
           catchError(error => {
             switch (error.status) {
               case 0:
-                alert('Error al tratar de conectar al servidor');
+                this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                 break;
               case 700:
                 break;
@@ -476,7 +476,7 @@ export class InventarioManagerService {
             catchError(error => {
               switch (error.status) {
                 case 0:
-                  alert('Error al tratar de conectar al servidor');
+                  this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                   break;
                 case 700:
                   break;
@@ -495,7 +495,7 @@ export class InventarioManagerService {
             catchError(error => {
               switch (error.status) {
                 case 0:
-                  alert('Error al tratar de conectar al servidor');
+                  this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                   break;
                 case 700:
                   break;
@@ -514,7 +514,7 @@ export class InventarioManagerService {
             catchError(error => {
               switch (error.status) {
                 case 0:
-                  alert('Error al tratar de conectar al servidor');
+                  this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                   break;
                 case 700:
                   break;
@@ -534,7 +534,7 @@ export class InventarioManagerService {
                     catchError(error => {
                       switch (error.status) {
                         case 0:
-                          alert('Error al tratar de conectar al servidor');
+                          this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                           break;
                         case 700:
                           break;
@@ -553,7 +553,7 @@ export class InventarioManagerService {
                     catchError(error => {
                       switch (error.status) {
                         case 0:
-                          alert('Error al tratar de conectar al servidor');
+                          this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                           break;
                         case 700:
                           break;
@@ -571,7 +571,7 @@ export class InventarioManagerService {
             catchError(error => {
               switch (error.status) {
                 case 0:
-                  alert('Error al tratar de conectar al servidor');
+                  this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                   break;
                 case 700:
                   break;
@@ -589,7 +589,7 @@ export class InventarioManagerService {
             catchError(error => {
               switch (error.status) {
                 case 0:
-                  alert('Error al tratar de conectar al servidor');
+                  this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                   break;
                 case 700:
                   break;
@@ -607,7 +607,7 @@ export class InventarioManagerService {
             catchError(error => {
               switch (error.status) {
                 case 0:
-                  alert('Error al tratar de conectar al servidor');
+                  this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                   break;
                 case 700:
                   break;
@@ -666,7 +666,7 @@ export class InventarioManagerService {
             catchError(error => {
               switch (error.status) {
                 case 0:
-                  alert('Error al tratar de conectar al servidor');
+                  this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                   break;
                 case 700:
                   break;
@@ -684,18 +684,18 @@ export class InventarioManagerService {
             catchError(error => {
               switch (error.status) {
                 case 0:
-                  alert('Error al tratar de conectar al servidor');
+                  this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                   break;
                 case 422:
-                  alert('Numero De DNI Invalido');
+                  this.auth.alertaUniversal('Numero De DNI Invalido');
                   break;
                 case 404:
-                  alert('Documento No Encontrado');
+                  this.auth.alertaUniversal('Documento No Encontrado');
                   break;
                 case 700:
                   break;
                 default:
-                  alert(error.error.errorMSG);
+                  this.auth.alertaUniversal(error.error.errorMSG);
                   break;
               }
               const errorItem: DNI = null;
@@ -710,18 +710,18 @@ export class InventarioManagerService {
             catchError(error => {
               switch (error.status) {
                 case 0:
-                  alert('Error al tratar de conectar al servidor');
+                  this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                   break;
                 case 422:
-                  alert('Numero De RUC Invalido');
+                  this.auth.alertaUniversal('Numero De RUC Invalido');
                   break;
                 case 700:
                   break;
                 case 404:
-                    alert('Documento No Encontrado');
+                    this.auth.alertaUniversal('Documento No Encontrado');
                     break;
                 default:
-                  alert(error.error.errorMSG);
+                  this.auth.alertaUniversal(error.error.errorMSG);
                   break;
               }
               const errorItem: RUC = null;
@@ -736,12 +736,12 @@ export class InventarioManagerService {
             catchError(error => {
               switch (error.status) {
                 case 0:
-                  alert('Error al tratar de conectar al servidor');
+                  this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                   break;
                 case 700:
                   break;
                 default:
-                  alert(error.error.errorMSG);
+                  this.auth.alertaUniversal(error.error.errorMSG);
                   break;
               }
               return of(false);
@@ -755,12 +755,12 @@ export class InventarioManagerService {
             catchError(error => {
               switch (error.status) {
                 case 0:
-                  alert('Error al tratar de conectar al servidor');
+                  this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                   break;
                 case 700:
                   break;
                 default:
-                  alert(error.error.errorMSG);
+                  this.auth.alertaUniversal(error.error.errorMSG);
                   break;
               }
               return of(false);
@@ -776,12 +776,12 @@ export class InventarioManagerService {
         catchError(error => {
         switch (error.status) {
           case 0:
-            alert('Error al tratar de conectar al servidor');
+            this.auth.alertaUniversal('Error al tratar de conectar al servidor');
             break;
           case 700:
             break;
           default:
-            alert(error.error.errorMSG);
+            this.auth.alertaUniversal(error.error.errorMSG);
             break;
         }
         return of(null);
@@ -794,12 +794,12 @@ export class InventarioManagerService {
     catchError(error => {
     switch (error.status) {
       case 0:
-        alert('Error al tratar de conectar al servidor');
+        this.auth.alertaUniversal('Error al tratar de conectar al servidor');
         break;
       case 700:
         break;
       default:
-        alert(error.error.errorMSG);
+        this.auth.alertaUniversal(error.error.errorMSG);
         break;
     }
     return of(null);
@@ -825,12 +825,12 @@ export class InventarioManagerService {
             catchError(error => {
             switch (error.status) {
               case 0:
-                alert('Error al tratar de conectar al servidor');
+                this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                 break;
               case 700:
                 break;
               default:
-                alert(error.error.message);
+                this.auth.alertaUniversal(error.error.message);
                 break;
             }
             const errorItem: Item = null;
@@ -844,12 +844,12 @@ export class InventarioManagerService {
             catchError(error => {
             switch (error.status) {
               case 0:
-                alert('Error al tratar de conectar al servidor');
+                this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                 break;
               case 700:
                 break;
               default:
-                alert(error.error.message);
+                this.auth.alertaUniversal(error.error.message);
                 break;
             }
             const errorItem: Marca = null;
@@ -864,12 +864,12 @@ export class InventarioManagerService {
             catchError(error => {
             switch (error.status) {
               case 0:
-                alert('Error al tratar de conectar al servidor');
+                this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                 break;
               case 700:
                 break;
               default:
-                alert(error.error.message);
+                this.auth.alertaUniversal(error.error.message);
                 break;
             }
             return of(false);
@@ -882,12 +882,12 @@ export class InventarioManagerService {
             catchError(error => {
             switch (error.status) {
               case 0:
-                alert('Error al tratar de conectar al servidor');
+                this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                 break;
               case 700:
                 break;
               default:
-                alert(error.error.message);
+                this.auth.alertaUniversal(error.error.message);
                 break;
             }
             const errorMarca: Marca[] = null;
@@ -903,12 +903,12 @@ export class InventarioManagerService {
             catchError(error => {
               switch (error.status) {
               case 0:
-                alert('Error al tratar de conectar al servidor');
+                this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                 break;
               case 700:
                 break;
               default:
-                alert(error.error.error.message);
+                this.auth.alertaUniversal(error.error.error.message);
                 break;
             }
               const errorItem: Item = null;
@@ -922,12 +922,12 @@ export class InventarioManagerService {
             catchError(error => {
             switch (error.status) {
               case 0:
-                alert('Error al tratar de conectar al servidor');
+                this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                 break;
               case 700:
                 break;
               default:
-                alert(error.error.error.message);
+                this.auth.alertaUniversal(error.error.error.message);
                 break;
             }
             const errorItems: Item = null;
@@ -943,12 +943,12 @@ export class InventarioManagerService {
             catchError(error => {
             switch (error.status) {
               case 0:
-                alert('Error al tratar de conectar al servidor');
+                this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                 break;
               case 700:
                 break;
               default:
-                alert(error.error.error.message);
+                this.auth.alertaUniversal(error.error.error.message);
                 break;
             }
             const errorItems: Item[] = null;
@@ -962,12 +962,12 @@ export class InventarioManagerService {
             catchError(error => {
             switch (error.status) {
               case 0:
-                alert('Error al tratar de conectar al servidor');
+                this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                 break;
               case 700:
                 break;
               default:
-                alert(error.error.error.message);
+                this.auth.alertaUniversal(error.error.error.message);
                 break;
             }
             const errorItems: Item[] = null;
@@ -981,12 +981,12 @@ export class InventarioManagerService {
             catchError(error => {
             switch (error.status) {
               case 0:
-                alert('Error al tratar de conectar al servidor');
+                this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                 break;
               case 700:
                 break;
               default:
-                alert(error.error.error.message);
+                this.auth.alertaUniversal(error.error.error.message);
                 break;
             }
             const errorItems: Item[] = null;
@@ -1000,12 +1000,12 @@ export class InventarioManagerService {
             catchError(error => {
             switch (error.status) {
               case 0:
-                alert('Error al tratar de conectar al servidor');
+                this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                 break;
               case 700:
                 break;
               default:
-                alert(error.error.error.message);
+                this.auth.alertaUniversal(error.error.error.message);
                 break;
             }
             const errorItems: Item[] = null;
@@ -1020,12 +1020,12 @@ export class InventarioManagerService {
             catchError(error => {
             switch (error.status) {
               case 0:
-                alert('Error al tratar de conectar al servidor');
+                this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                 break;
               case 700:
                 break;
               default:
-                alert(error.error.error.message);
+                this.auth.alertaUniversal(error.error.error.message);
                 break;
             }
             const errorItems: Item[] = null;
@@ -1042,12 +1042,12 @@ export class InventarioManagerService {
               catchError(error => {
                 switch (error.status) {
                   case 0:
-                    alert('Error al tratar de conectar al servidor');
+                    this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                     break;
                   case 700:
                     break;
                   default:
-                    alert(error.error.error.message);
+                    this.auth.alertaUniversal(error.error.error.message);
                     break;
                 }
                 return of(null);
@@ -1064,12 +1064,12 @@ export class InventarioManagerService {
               catchError(error => {
                 switch (error.status) {
                   case 0:
-                    alert('Error al tratar de conectar al servidor');
+                    this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                     break;
                   case 700:
                     break;
                   default:
-                    alert(error.error.error.message);
+                    this.auth.alertaUniversal(error.error.error.message);
                     break;
                 }
                 return of(null);
@@ -1087,12 +1087,12 @@ export class InventarioManagerService {
               catchError(error => {
                 switch (error.status) {
                   case 0:
-                    alert('Error al tratar de conectar al servidor');
+                    this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                     break;
                   case 700:
                     break;
                   default:
-                    alert(error.error.error.message);
+                    this.auth.alertaUniversal(error.error.error.message);
                     break;
                 }
                 return of(null);
@@ -1109,12 +1109,12 @@ export class InventarioManagerService {
               catchError(error => {
                 switch (error.status) {
                   case 0:
-                    alert('Error al tratar de conectar al servidor');
+                    this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                     break;
                   case 700:
                     break;
                   default:
-                    alert(error.error.error.message);
+                    this.auth.alertaUniversal(error.error.error.message);
                     break;
                 }
                 return of(false);
@@ -1129,12 +1129,12 @@ export class InventarioManagerService {
                           catchError(error => {
                             switch (error.status) {
                               case 0:
-                                alert('Error al tratar de conectar al servidor');
+                                this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                                 break;
                               case 700:
                                 break;
                               default:
-                                alert(error.error.error.message);
+                                this.auth.alertaUniversal(error.error.error.message);
                                 break;
                           }
                             return of(false);
@@ -1147,12 +1147,12 @@ export class InventarioManagerService {
                           catchError(error => {
                             switch (error.status) {
                               case 0:
-                                alert('Error al tratar de conectar al servidor');
+                                this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                                 break;
                               case 700:
                                 break;
                               default:
-                                alert(error.error.error.message);
+                                this.auth.alertaUniversal(error.error.error.message);
                                 break;
                           }
                             return of(null);
@@ -1165,7 +1165,7 @@ export class InventarioManagerService {
                           catchError(error => {
                             switch (error.status) {
                               case 0:
-                                alert('Error al tratar de conectar al servidor');
+                                this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                                 break;
                               case 700:
                                 break;
@@ -1182,12 +1182,12 @@ export class InventarioManagerService {
           catchError(error => {
             switch (error.status) {
               case 0:
-                alert('Error al tratar de conectar al servidor');
+                this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                 break;
               case 700:
                 break;
               default:
-                alert(error.error.error.message);
+                this.auth.alertaUniversal(error.error.error.message);
                 break;
           }
             return of(null);
@@ -1200,7 +1200,7 @@ export class InventarioManagerService {
           catchError(error => {
             switch (error.status) {
               case 0:
-                alert('Error al tratar de conectar al servidor');
+                this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                 break;
               case 700:
                 break;
@@ -1217,12 +1217,12 @@ export class InventarioManagerService {
           catchError(error => {
             switch (error.status) {
               case 0:
-                alert('Error al tratar de conectar al servidor');
+                this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                 break;
               case 700:
                 break;
               default:
-                alert(error.error.error.message);
+                this.auth.alertaUniversal(error.error.error.message);
                 break;
           }
             return of(false);
@@ -1235,12 +1235,12 @@ export class InventarioManagerService {
                           catchError(error => {
                             switch (error.status) {
                               case 0:
-                                alert('Error al tratar de conectar al servidor');
+                                this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                                 break;
                               case 700:
                                 break;
                               default:
-                                alert(error.error.message);
+                                this.auth.alertaUniversal(error.error.message);
                                 break;
                           }
                             return of(null);
@@ -1253,12 +1253,12 @@ export class InventarioManagerService {
                           catchError(error => {
                             switch (error.status) {
                               case 0:
-                                alert('Error al tratar de conectar al servidor');
+                                this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                                 break;
                               case 700:
                                 break;
                               default:
-                                alert(error.error.message);
+                                this.auth.alertaUniversal(error.error.message);
                                 break;
                           }
                             return of(null);
@@ -1271,12 +1271,12 @@ export class InventarioManagerService {
                           catchError(error => {
                             switch (error.status) {
                               case 0:
-                                alert('Error al tratar de conectar al servidor');
+                                this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                                 break;
                               case 700:
                                 break;
                               default:
-                                alert(error.error.message);
+                                this.auth.alertaUniversal(error.error.message);
                                 break;
                           }
                             return of({eliminada: false});
@@ -1289,12 +1289,12 @@ export class InventarioManagerService {
             catchError(error => {
                 switch (error.status) {
                 case 0:
-                  alert('Error al tratar de conectar al servidor');
+                  this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                   break;
                 case 700:
                   break;
                 default:
-                  alert(error.error.message);
+                  this.auth.alertaUniversal(error.error.message);
                   break;
                 }
                 return of(null);
@@ -1307,12 +1307,12 @@ export class InventarioManagerService {
             catchError(error => {
                 switch (error.status) {
                 case 0:
-                  alert('Error al tratar de conectar al servidor');
+                  this.auth.alertaUniversal('Error al tratar de conectar al servidor');
                   break;
                 case 700:
                   break;
                 default:
-                  alert(error.error.message);
+                  this.auth.alertaUniversal(error.error.message);
                   break;
                 }
                 return of(null);
@@ -1325,12 +1325,12 @@ export class InventarioManagerService {
     catchError(error => {
         switch (error.status) {
         case 0:
-          alert('Error al tratar de conectar al servidor');
+          this.auth.alertaUniversal('Error al tratar de conectar al servidor');
           break;
         case 700:
           break;
         default:
-          alert(error.error.message);
+          this.auth.alertaUniversal(error.error.message);
           break;
         }
         return of(null);
@@ -1344,12 +1344,12 @@ export class InventarioManagerService {
     catchError(error => {
         switch (error.status) {
         case 0:
-          alert('Error al tratar de conectar al servidor');
+          this.auth.alertaUniversal('Error al tratar de conectar al servidor');
           break;
         case 700:
           break;
         default:
-          alert(error.error.message);
+          this.auth.alertaUniversal(error.error.message);
           break;
         }
         return of(null);
@@ -1362,12 +1362,12 @@ export class InventarioManagerService {
     catchError(error => {
         switch (error.status) {
         case 0:
-          alert('Error al tratar de conectar al servidor');
+          this.auth.alertaUniversal('Error al tratar de conectar al servidor');
           break;
         case 700:
           break;
         default:
-          alert(error.error.message);
+          this.auth.alertaUniversal(error.error.message);
           break;
         }
         return of(null);
@@ -1380,12 +1380,12 @@ export class InventarioManagerService {
     catchError(error => {
         switch (error.status) {
         case 0:
-          alert('Error al tratar de conectar al servidor');
+          this.auth.alertaUniversal('Error al tratar de conectar al servidor');
           break;
         case 700:
           break;
         default:
-          alert(error.error.message);
+          this.auth.alertaUniversal(error.error.message);
           break;
         }
         return of(null);
@@ -1398,12 +1398,12 @@ export class InventarioManagerService {
     catchError(error => {
         switch (error.status) {
         case 0:
-          alert('Error al tratar de conectar al servidor');
+          this.auth.alertaUniversal('Error al tratar de conectar al servidor');
           break;
         case 700:
           break;
         default:
-          alert(error.error.message);
+          this.auth.alertaUniversal(error.error.message);
           break;
         }
         return of(null);
@@ -1416,12 +1416,12 @@ export class InventarioManagerService {
     catchError(error => {
         switch (error.status) {
         case 0:
-          alert('Error al tratar de conectar al servidor');
+          this.auth.alertaUniversal('Error al tratar de conectar al servidor');
           break;
         case 700:
           break;
         default:
-          alert(error.error.message);
+          this.auth.alertaUniversal(error.error.message);
           break;
         }
         return of(null);
@@ -1434,12 +1434,12 @@ export class InventarioManagerService {
     catchError(error => {
         switch (error.status) {
         case 0:
-          alert('Error al tratar de conectar al servidor');
+          this.auth.alertaUniversal('Error al tratar de conectar al servidor');
           break;
         case 700:
           break;
         default:
-          alert(error.error.message);
+          this.auth.alertaUniversal(error.error.message);
           break;
         }
         return of(null);
@@ -1452,12 +1452,12 @@ export class InventarioManagerService {
     catchError(error => {
         switch (error.status) {
         case 0:
-          alert('Error al tratar de conectar al servidor');
+          this.auth.alertaUniversal('Error al tratar de conectar al servidor');
           break;
         case 700:
           break;
         default:
-          alert(error.error.message);
+          this.auth.alertaUniversal(error.error.message);
           break;
         }
         return of(null);
@@ -1470,12 +1470,12 @@ export class InventarioManagerService {
     catchError(error => {
         switch (error.status) {
         case 0:
-          alert('Error al tratar de conectar al servidor');
+          this.auth.alertaUniversal('Error al tratar de conectar al servidor');
           break;
         case 700:
           break;
         default:
-          alert(error.error.message);
+          this.auth.alertaUniversal(error.error.message);
           break;
         }
         return of(null);
@@ -1488,12 +1488,12 @@ export class InventarioManagerService {
     catchError(error => {
         switch (error.status) {
         case 0:
-          alert('Error al tratar de conectar al servidor');
+          this.auth.alertaUniversal('Error al tratar de conectar al servidor');
           break;
         case 700:
           break;
         default:
-          alert(error.error.message);
+          this.auth.alertaUniversal(error.error.message);
           break;
         }
         return of(null);
@@ -1506,12 +1506,12 @@ export class InventarioManagerService {
     catchError(error => {
         switch (error.status) {
         case 0:
-          alert('Error al tratar de conectar al servidor');
+          this.auth.alertaUniversal('Error al tratar de conectar al servidor');
           break;
         case 700:
           break;
         default:
-          alert(error.error.message);
+          this.auth.alertaUniversal(error.error.message);
           break;
         }
         return of(null);
@@ -1524,12 +1524,12 @@ export class InventarioManagerService {
     catchError(error => {
         switch (error.status) {
         case 0:
-          alert('Error al tratar de conectar al servidor');
+          this.auth.alertaUniversal('Error al tratar de conectar al servidor');
           break;
         case 700:
           break;
         default:
-          alert(error.error.errorMSG);
+          this.auth.alertaUniversal(error.error.errorMSG);
           break;
         }
         return of(null);
@@ -1542,12 +1542,12 @@ export class InventarioManagerService {
     catchError(error => {
         switch (error.status) {
         case 0:
-          alert('Error al tratar de conectar al servidor');
+          this.auth.alertaUniversal('Error al tratar de conectar al servidor');
           break;
         case 700:
           break;
         default:
-          alert(error.error.errorMSG);
+          this.auth.alertaUniversal(error.error.errorMSG);
           break;
         }
         return of(null);
@@ -1560,12 +1560,12 @@ export class InventarioManagerService {
     catchError(error => {
         switch (error.status) {
         case 0:
-          alert('Error al tratar de conectar al servidor');
+          this.auth.alertaUniversal('Error al tratar de conectar al servidor');
           break;
         case 700:
           break;
         default:
-          alert(error.error.errorMSG);
+          this.auth.alertaUniversal(error.error.errorMSG);
           break;
         }
         return of(null);
@@ -1578,12 +1578,12 @@ export class InventarioManagerService {
     catchError(error => {
         switch (error.status) {
         case 0:
-          alert('Error al tratar de conectar al servidor');
+          this.auth.alertaUniversal('Error al tratar de conectar al servidor');
           break;
         case 700:
           break;
         default:
-          alert(error.error.errorMSG);
+          this.auth.alertaUniversal(error.error.errorMSG);
           break;
         }
         return of(null);
@@ -1596,12 +1596,12 @@ export class InventarioManagerService {
     catchError(error => {
         switch (error.status) {
         case 0:
-          alert('Error al tratar de conectar al servidor');
+          this.auth.alertaUniversal('Error al tratar de conectar al servidor');
           break;
         case 700:
           break;
         default:
-          alert(error.error.message);
+          this.auth.alertaUniversal(error.error.message);
           break;
         }
         return of(null);
@@ -1614,12 +1614,12 @@ export class InventarioManagerService {
     catchError(error => {
         switch (error.status) {
         case 0:
-          alert('Error al tratar de conectar al servidor');
+          this.auth.alertaUniversal('Error al tratar de conectar al servidor');
           break;
         case 700:
           break;
         default:
-          alert(error.error.message);
+          this.auth.alertaUniversal(error.error.message);
           break;
         }
         return of(null);
@@ -1632,12 +1632,12 @@ export class InventarioManagerService {
     catchError(error => {
         switch (error.status) {
         case 0:
-          alert('Error al tratar de conectar al servidor');
+          this.auth.alertaUniversal('Error al tratar de conectar al servidor');
           break;
         case 700:
           break;
         default:
-          alert(error.error.message);
+          this.auth.alertaUniversal(error.error.message);
           break;
         }
         return of(null);
@@ -1650,12 +1650,12 @@ export class InventarioManagerService {
     catchError(error => {
         switch (error.status) {
         case 0:
-          alert('Error al tratar de conectar al servidor');
+          this.auth.alertaUniversal('Error al tratar de conectar al servidor');
           break;
         case 700:
           break;
         default:
-          alert(error.error.message);
+          this.auth.alertaUniversal(error.error.message);
           break;
         }
         return of(null);
@@ -1668,12 +1668,12 @@ export class InventarioManagerService {
     catchError(error => {
         switch (error.status) {
         case 0:
-          alert('Error al tratar de conectar al servidor');
+          this.auth.alertaUniversal('Error al tratar de conectar al servidor');
           break;
         case 700:
           break;
         default:
-          alert(error.error.message);
+          this.auth.alertaUniversal(error.error.message);
           break;
         }
         return of(null);
@@ -1686,12 +1686,12 @@ export class InventarioManagerService {
     catchError(error => {
         switch (error.status) {
         case 0:
-          alert('Error al tratar de conectar al servidor');
+          this.auth.alertaUniversal('Error al tratar de conectar al servidor');
           break;
         case 700:
           break;
         default:
-          alert(error.error.message);
+          this.auth.alertaUniversal(error.error.message);
           break;
         }
         return of(null);
@@ -1704,12 +1704,12 @@ export class InventarioManagerService {
     catchError(error => {
         switch (error.status) {
         case 0:
-          alert('Error al tratar de conectar al servidor');
+          this.auth.alertaUniversal('Error al tratar de conectar al servidor');
           break;
         case 700:
           break;
         default:
-          alert(error.error.message);
+          this.auth.alertaUniversal(error.error.message);
           break;
         }
         return of(null);
@@ -1722,12 +1722,12 @@ export class InventarioManagerService {
     catchError(error => {
         switch (error.status) {
         case 0:
-          alert('Error al tratar de conectar al servidor');
+          this.auth.alertaUniversal('Error al tratar de conectar al servidor');
           break;
         case 700:
           break;
         default:
-          alert(error.error.message);
+          this.auth.alertaUniversal(error.error.message);
           break;
         }
         return of(null);
@@ -1740,12 +1740,12 @@ export class InventarioManagerService {
     catchError(error => {
         switch (error.status) {
         case 0:
-          alert('Error al tratar de conectar al servidor');
+          this.auth.alertaUniversal('Error al tratar de conectar al servidor');
           break;
         case 700:
           break;
         default:
-          alert(error.error.message);
+          this.auth.alertaUniversal(error.error.message);
           break;
         }
         return of(null);
@@ -1758,12 +1758,12 @@ export class InventarioManagerService {
     catchError(error => {
         switch (error.status) {
         case 0:
-          alert('Error al tratar de conectar al servidor');
+          this.auth.alertaUniversal('Error al tratar de conectar al servidor');
           break;
         case 700:
           break;
         default:
-          alert(error.error.message);
+          this.auth.alertaUniversal(error.error.message);
           break;
         }
         return of(null);
@@ -1776,12 +1776,12 @@ export class InventarioManagerService {
     catchError(error => {
         switch (error.status) {
         case 0:
-          alert('Error al tratar de conectar al servidor');
+          this.auth.alertaUniversal('Error al tratar de conectar al servidor');
           break;
         case 403:
           return of({notBuyed: true});
         default:
-          alert(error.error.message);
+          this.auth.alertaUniversal(error.error.message);
           break;
         }
         return of(null);

@@ -1,10 +1,8 @@
-import { JsonLDServiceService } from 'src/app/json-ldservice.service';
-import { Subscription } from 'rxjs';
-import { Component, ChangeDetectionStrategy, OnDestroy, OnInit, Inject } from '@angular/core';
-import { SwUpdate } from '@angular/service-worker';
-import { Meta } from '@angular/platform-browser';
 import { DOCUMENT } from '@angular/common';
-import { Router } from '@angular/router';
+import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Meta } from '@angular/platform-browser';
+import { SwUpdate } from '@angular/service-worker';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -15,8 +13,8 @@ export class AppComponent implements OnDestroy, OnInit, OnDestroy {
   title = 'inventarioSirioFront';
   subI: Subscription;
   subII: Subscription;
-  constructor(update: SwUpdate, private metaTagService: Meta, private router: Router,
-              @Inject(DOCUMENT) private document: Document, private jsonLDS: JsonLDServiceService) {
+  constructor(update: SwUpdate, private metaTagService: Meta,
+              @Inject(DOCUMENT) private document: Document) {
     this.subI = update.available.subscribe(event => {
         update.activateUpdate().then(() => this.document.location.reload());
     });

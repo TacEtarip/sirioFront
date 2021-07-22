@@ -1,12 +1,13 @@
-import { Subscription, BehaviorSubject } from 'rxjs';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
-import { InventarioManagerService, TablaReporteItem } from 'src/app/inventario-manager.service';
-import { MatTableDataSource } from '@angular/material/table';
-import {MatPaginator} from '@angular/material/paginator';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { AuthService } from 'src/app/auth.service';
+import { InventarioManagerService, TablaReporteItem } from 'src/app/inventario-manager.service';
 
 @Component({
   selector: 'app-general-item',
@@ -34,11 +35,20 @@ export class GeneralItemComponent implements OnInit, OnDestroy {
   dataJSON = new BehaviorSubject<TablaReporteItem[]>(null);
   // dataSource$ = new Subject<MatTableDataSource<TablaReporteItem>>();
 
-  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
-  @ViewChild(MatSort, {static: false}) sort: MatSort;
+  @ViewChild(MatPaginator, {static: false})  set content(paginator: MatPaginator) {
+    if (paginator && this.dataSource) {
+      this.dataSource.paginator = paginator;
+    }
+  }
+
+  @ViewChild(MatSort, {static: false}) set contentII(sort: MatSort) {
+    if (sort && this.dataSource) {
+      this.dataSource.sort = sort;
+    }
+  }
 
 
-  constructor(private router: Router, private sanitizer: DomSanitizer,
+  constructor(private router: Router, private sanitizer: DomSanitizer, public auth: AuthService,
               breakpointObserver: BreakpointObserver, private inv: InventarioManagerService) {
       const isSmallScreenObs = breakpointObserver.observe(['(max-width: 900px)', '(max-width: 700px)']);
       this.smallSubs = isSmallScreenObs.subscribe(res => {
@@ -62,8 +72,6 @@ export class GeneralItemComponent implements OnInit, OnDestroy {
         const uri = this.sanitizer.bypassSecurityTrustUrl('data:text/json;charset=UTF-8,' + encodeURIComponent(theJSON));
         this.downloadJsonHref = uri;
         this.dataSource = new MatTableDataSource(res);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
       }
     });
   }
