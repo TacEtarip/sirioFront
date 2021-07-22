@@ -20,6 +20,8 @@ export class CarritoTablaComponent implements OnInit {
 
   showTable = new BehaviorSubject<boolean>(false);
 
+  showMessage = new BehaviorSubject<boolean>(false);
+
   @ViewChild(MatPaginator, {static: false})  set content(paginator: MatPaginator) {
     if (paginator && this.dataSource) {
       this.dataSource.paginator = paginator;
@@ -32,12 +34,14 @@ export class CarritoTablaComponent implements OnInit {
   constructor(private inv: InventarioManagerService, public auth: AuthService) { }
 
   ngOnInit(): void {
-    this.inv.getCarrito().subscribe(res => {
-      if (res) {
-        this.dataSource = new MatTableDataSource(res);
-        this.dateSource$.next(this.dataSource);
-      }
-    });
+    if (this.auth.getTtype() === 'low') {
+      this.inv.getCarrito().subscribe(res => {
+        if (res) {
+          this.dataSource = new MatTableDataSource(res);
+          this.dateSource$.next(this.dataSource);
+        }
+      });
+    }
   }
 
 }

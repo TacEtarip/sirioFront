@@ -11,8 +11,8 @@ import { catchError, first, map, mapTo, mergeMap } from 'rxjs/operators';
 })
 export class AuthService {
 
-  baseUrl = 'https://inventario-sirio-dinar.herokuapp.com/';
-  // baseUrl = 'http://localhost:5000/';
+  // baseUrl = 'https://inventario-sirio-dinar.herokuapp.com/';
+  baseUrl = 'http://localhost:5000/';
   USUARIO_USER = 'usuario_user';
   SHOW_USER = 'usuario_user_show';
   TYPE_USER = 'usuario_tipo';

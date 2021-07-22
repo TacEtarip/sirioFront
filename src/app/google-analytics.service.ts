@@ -39,7 +39,7 @@ export class GoogleAnalyticsService {
     scriptII.setAttribute('class', classNameII);
 
     script.async = true;
-    script.src = "https://www.googletagmanager.com/gtag/js?id=UA-199910224-1";
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=UA-199910224-1';
 
     scriptII.text = text;
 

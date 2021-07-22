@@ -1,5 +1,5 @@
 <main>
-  <div  class="mainTableContenedor">
+  <div *ngIf="auth.getTtype() === 'low'" class="mainTableContenedor">
     <div class="borderTable">
       <table *ngIf="showTable|async" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
         <!-- Item Column -->
@@ -71,5 +71,8 @@
       <mat-paginator [pageSizeOptions]="[5, 15, 30]" showFirstLastButtons></mat-paginator>
 
     </div>
+  </div>
+  <div *ngIf="auth.getTtype() !== 'low'">
+    thisdqwepl
   </div>
 </main>
