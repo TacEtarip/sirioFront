@@ -41,7 +41,6 @@ export class AuthInterceptor implements HttpInterceptor {
           if (error.status === 401) {
             if ((res.authenticated === true)) {
                 this.auth.cerrarSesion();
-                this.router.navigate(['/login']);
             }
           }
           return throwError(error);

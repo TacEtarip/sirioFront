@@ -23,9 +23,8 @@ export class AppComponent implements OnDestroy, OnInit, OnDestroy {
   }
   ngOnInit(): void {
     const version = this.auth.getLoginVersion();
-    if (version !== 'V2') {
+    if (version !== 'V2' && this.auth.loggedIn()) {
       this.auth.cerrarSesion();
-      this.router.navigate(['/login']);
     }
     this.metaTagService.addTags([
       { name: 'keywords',

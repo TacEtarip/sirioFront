@@ -76,8 +76,28 @@ table {
 }
 
 main {
-  min-height: 50vh;
+  min-height: 45vh;
+  display: flex;
+  justify-content: center;
 }
 
+.non-message {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-self: center;
+  gap: 1em;
+}
 
+.non-message h1 {
+  color: #005087;
+  font-size: 52px;
+  font-weight: 200;
+  width: 100%;
+  margin: 0;
+  text-align: center;
+}
 
+.non-message a {
+  color: #E87200;
+}

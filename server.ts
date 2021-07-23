@@ -145,6 +145,11 @@ export function app(): express.Express {
       maxAge: -1,
       httpOnly: false,
     });
+
+    res.cookie('login_version', '', {
+      maxAge: -1,
+      httpOnly: false,
+    });
     res.status(200).send({status: 'authenticated'});
   });
 

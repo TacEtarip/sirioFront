@@ -1,5 +1,6 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { LegendPosition } from '@swimlane/ngx-charts';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth.service';
 import { InventarioManagerService, Item } from 'src/app/inventario-manager.service';
@@ -10,6 +11,9 @@ import { InventarioManagerService, Item } from 'src/app/inventario-manager.servi
   styleUrls: ['./reporte-general.component.css']
 })
 export class ReporteGeneralComponent implements OnInit, OnDestroy {
+
+
+  below = LegendPosition.Below;
 
   multi: any[];
   single: any[];

@@ -6,6 +6,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
+import { LegendPosition } from '@swimlane/ngx-charts';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth.service';
 import { InventarioManagerService, Item, Variaciones } from 'src/app/inventario-manager.service';
@@ -17,6 +18,7 @@ import { InventarioManagerService, Item, Variaciones } from 'src/app/inventario-
 })
 export class ReportePorItemComponent implements OnInit, OnDestroy {
 
+  below = LegendPosition.Below;
 
   busqueda: FormGroup;
   filteredItem$ = new BehaviorSubject<Item[]>(null);

@@ -1,6 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, Optional, PLATFORM_ID } from '@angular/core';
+import { Router } from '@angular/router';
 import { REQUEST } from '@nguniversal/express-engine/tokens';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable, of, throwError } from 'rxjs';
@@ -21,7 +22,7 @@ export class AuthService {
 
   defaultKeyValue: UserInfo = {token: '', type: '', user: '', userShow: '', authenticated: false};
 
-  constructor(private http: HttpClient, private cs: CookieService,
+  constructor(private http: HttpClient, private cs: CookieService, private router: Router,
               @Inject(PLATFORM_ID) private platformId: any, @Optional() @Inject(REQUEST) private request: any) {
   }
 
@@ -390,7 +391,9 @@ export class AuthService {
 
   public cerrarSesion() {
     // this.transferState.set(this.key, this.defaultKeyValue);
-    this.http.get<any>('/auth/signOut').subscribe();
+    this.http.get<any>('/auth/signOut').subscribe(res => {
+      this.router.navigate(['/login']);
+    });
   }
 
   public getUser(): string {

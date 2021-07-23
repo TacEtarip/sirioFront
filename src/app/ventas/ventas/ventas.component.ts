@@ -36,7 +36,6 @@ export class VentasComponent implements OnInit, OnDestroy {
 
   cerrarSesion() {
     this.auth.cerrarSesion();
-    this.router.navigate(['/login']);
   }
 
   goToVentaHistorial() {

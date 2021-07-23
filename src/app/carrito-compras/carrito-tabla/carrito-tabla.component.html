@@ -72,7 +72,9 @@
 
     </div>
   </div>
-  <div *ngIf="auth.getTtype() !== 'low'">
-    thisdqwepl
+  <div class="non-message" *ngIf="auth.getTtype() !== 'low'">
+    <h1>NO HAY NADA EN TU CARRITO</h1>
+    <a href=""><mat-icon>shop</mat-icon>Ir a Tienda</a>
+    <a href=""><mat-icon>user</mat-icon>Iniciar Sesión</a>
   </div>
 </main>
