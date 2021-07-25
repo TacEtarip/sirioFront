@@ -1,6 +1,8 @@
-<section class="mainPost">
+<section *ngIf="{
+  venta: venta$ | async
+} as observables" class="mainPost">
   <div class="info">
-    <h1>Venta <span>#{{(venta$|async).codigo}}</span> realizada con exito!</h1>
+    <h1>Venta <span>#{{(observables.venta).codigo}}</span> realizada con exito!</h1>
   </div>
   <mat-tab-group color="accent" dynamicHeight>
     <mat-tab  label="Conteo Simple">
@@ -90,14 +92,14 @@
   </mat-tab-group>
   <div class="final">
     <div class="btns">
-      <button  *ngIf="(venta$|async).linkComprobante"  (click)="desargarPDFsunat()" mat-flat-button color="primary">Descargar PDF SUNAT</button>
-      <button *ngIf="(venta$|async).guia" (click)="descargarGUIA()" mat-flat-button color="primary">Descargar Guía</button>
+      <button  *ngIf="(observables.venta).linkComprobante"  (click)="desargarPDFsunat()" mat-flat-button color="primary">Descargar PDF SUNAT</button>
+      <button *ngIf="(observables.venta).guia" (click)="descargarGUIA()" mat-flat-button color="primary">Descargar Guía</button>
       <button  (click)="descargarPDF()" mat-flat-button color="primary">Descargar PDF</button>
     </div>
     <div class="totales">
-      <h4>Total Base: S/{{((venta$|async).totalPriceNoIGV)|currency:' '}}</h4>
-      <h4>IGV 18%: S/{{((venta$|async).totalPrice - (venta$|async).totalPriceNoIGV)|currency:' '}}</h4>
-      <h3>Total: S/{{((venta$|async).totalPrice)|currency:' '}}</h3>
+      <h4>Total Base: S/{{((observables.venta).totalPriceNoIGV)|currency:' '}}</h4>
+      <h4>IGV 18%: S/{{((observables.venta).totalPrice - (observables.venta).totalPriceNoIGV)|currency:' '}}</h4>
+      <h3>Total: S/{{((observables.venta).totalPrice)|currency:' '}}</h3>
     </div>
   </div>
 </section>

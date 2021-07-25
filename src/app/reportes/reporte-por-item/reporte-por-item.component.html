@@ -1,4 +1,9 @@
-<section class="mainCtn">
+<section class="mainCtn"
+*ngIf="{
+  itemAct: itemAct$ | async,
+  itemHistorico: itemHistorico | async,
+  itemGanancia: itemGanancia | async
+} as observables">
   <div class="elegirItemCont">
     <h2>Elegir Item</h2>
     <form [formGroup]="busqueda">
@@ -17,28 +22,28 @@
       </div>
     </form>
   </div>
-  <div class="elegirItemCont" *ngIf="(itemAct$|async) && (itemHistorico|async) && (single)">
+  <div class="elegirItemCont" *ngIf="(observables.itemAct) && (observables.itemHistorico) && (single)">
     <h2>Costos y precios</h2>
     <div class="reporteChartOne">
       <div>
         <mat-list role="list">
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
-            <h5>Costo propio: <b>S/{{(itemAct$|async).costoPropio | currency:' '}}</b></h5>
+            <h5>Costo propio: <b>S/{{(observables.itemAct).costoPropio | currency:' '}}</b></h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
-            <h5>Valor de venta (IGV incluido): <b>S/{{(itemAct$|async).priceIGV | currency:' '}}</b></h5>
+            <h5>Valor de venta (IGV incluido): <b>S/{{(observables.itemAct).priceIGV | currency:' '}}</b></h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
-            <h5>Valor de venta (No IGV): <b>S/{{(itemAct$|async).priceNoIGV | currency:' '}}</b></h5>
+            <h5>Valor de venta (No IGV): <b>S/{{(observables.itemAct).priceNoIGV | currency:' '}}</b></h5>
           </mat-list-item>
         </mat-list>
       </div>
     </div>
   </div>
-  <div class="elegirItemCont" *ngIf="(itemAct$|async) && (itemHistorico|async) && (single)">
+  <div class="elegirItemCont" *ngIf="(observables.itemAct) && (observables.itemHistorico) && (single)">
     <h2>Stock</h2>
     <div class="reporteChartOne">
       <div>
@@ -46,39 +51,39 @@
           <div mat-subheader>Stock Actual</div>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
-            <h5>Stock disponible: <b>{{(itemAct$|async).cantidad}} {{(itemAct$|async).unidadDeMedida}}</b></h5>
+            <h5>Stock disponible: <b>{{(observables.itemAct).cantidad}} {{(observables.itemAct).unidadDeMedida}}</b></h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
             <h5>Invertido en el stock disponible:
-              <b>S/{{((itemAct$|async).cantidad * (itemAct$|async).costoPropio) | currency: ' '}}</b></h5>
+              <b>S/{{((observables.itemAct).cantidad * (observables.itemAct).costoPropio) | currency: ' '}}</b></h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
             <h5>Posibles ingresos con el stock disponible:
-              <b>S/{{((itemAct$|async).cantidad * (itemAct$|async).priceIGV) | currency: ' '}}</b></h5>
+              <b>S/{{((observables.itemAct).cantidad * (observables.itemAct).priceIGV) | currency: ' '}}</b></h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
             <h5>Posibles ganancias con el stock disponible:
-              <b>S/{{(((itemAct$|async).cantidad * (itemAct$|async).priceIGV ) -
-                ((itemAct$|async).cantidad * (itemAct$|async).costoPropio))  | currency: ' '}}</b></h5>
+              <b>S/{{(((observables.itemAct).cantidad * (observables.itemAct).priceIGV ) -
+                ((observables.itemAct).cantidad * (observables.itemAct).costoPropio))  | currency: ' '}}</b></h5>
           </mat-list-item>
           <mat-divider></mat-divider>
           <div mat-subheader>Stock Total Historico</div>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
-            <h5>Cantidad total historica: <b>{{(itemHistorico|async).cantidadHistorica}} {{(itemAct$|async).unidadDeMedida}}</b></h5>
+            <h5>Cantidad total historica: <b>{{(observables.itemHistorico).cantidadHistorica}} {{(observables.itemAct).unidadDeMedida}}</b></h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
             <h5>Invertido en el item:
-              <b>S/{{(itemHistorico|async).totalCosto | currency: ' '}}</b></h5>
+              <b>S/{{(observables.itemHistorico).totalCosto | currency: ' '}}</b></h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
             <h5>Ingresor generados por el item:
-              <b>S/{{(itemHistorico|async).totalIngreso | currency: ' '}}</b></h5>
+              <b>S/{{(observables.itemHistorico).totalIngreso | currency: ' '}}</b></h5>
           </mat-list-item>
 
 
@@ -88,22 +93,22 @@
     </div>
 
   </div>
-  <div class="elegirItemCont" *ngIf="(itemAct$|async) && (itemHistorico|async) && (single)">
+  <div class="elegirItemCont" *ngIf="(observables.itemAct) && (observables.itemHistorico) && (single)">
     <h2>Ventas</h2>
     <div class="reporteChartOne">
       <div>
         <mat-list role="list">
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
-            <h5>Se han vendido: <b>{{(itemHistorico|async).itemVendidos}} {{(itemAct$|async).unidadDeMedida}}</b></h5>
+            <h5>Se han vendido: <b>{{(observables.itemHistorico).itemVendidos}} {{(observables.itemAct).unidadDeMedida}}</b></h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
-            <h5>Ingreso por ventas: <b>S/{{(itemGanancia|async).totalVenta | currency: ' '}}</b></h5>
+            <h5>Ingreso por ventas: <b>S/{{(observables.itemGanancia).totalVenta | currency: ' '}}</b></h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
-            <h5>Ganancia por ventas: <b>S/{{(itemGanancia|async).value | currency: ' '}}</b></h5>
+            <h5>Ganancia por ventas: <b>S/{{(observables.itemGanancia).value | currency: ' '}}</b></h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
@@ -146,7 +151,7 @@
     >
   </ngx-charts-line-chart>
   </div>
-  <div class="elegirItemCont" *ngIf="(itemAct$|async) && (itemHistorico|async) && (single)">
+  <div class="elegirItemCont" *ngIf="(observables.itemAct) && (observables.itemHistorico) && (single)">
     <h2>Variaciones</h2>
     <mat-form-field>
       <mat-label>Filter</mat-label>

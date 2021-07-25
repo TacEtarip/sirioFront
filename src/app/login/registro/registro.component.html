@@ -3,8 +3,13 @@
   <span class="example-spacer"></span>
   <a class="topLink" href="/"><mat-icon [ngStyle]="{'margin-right': '2px'}" class="changeColor" >assignment</mat-icon> <span>Inventario</span> </a>
 </mat-toolbar>
-<div class="bg">
-  <div *ngIf="!processdone && !(fromToken|async)" class="registerCard">
+<div *ngIf="
+{
+  userExists: userExists | async,
+  userExistsG: userExistsG |async,
+  fromToken: fromToken | async
+} as observables"  class="bg">
+  <div *ngIf="!processdone && !(observables.fromToken)" class="registerCard">
     <h1>Registro</h1>
       <form  autocomplete="off" class="formMult"
       [formGroup]="registroForm">
@@ -31,13 +36,13 @@
             <mat-error *ngIf="registroForm.get('celular').hasError('pattern')">Ingrese un formato de celular valido</mat-error>
           </mat-form-field>
         </div>
-        <div  class="formPone">
-          <mat-error [ngStyle]="{'font-weight': '200'}" *ngIf="userExists|async">Este usuario ya existe</mat-error>
-          <mat-error [ngStyle]="{'font-weight': '200', color: 'green'}" *ngIf="!(userExists|async) && registroForm.get('displayName').valid">Usuario disponible</mat-error>
+        <div class="formPone">
+          <mat-error [ngStyle]="{'font-weight': '200'}" *ngIf="observables.userExists">Este usuario ya existe</mat-error>
+          <mat-error [ngStyle]="{'font-weight': '200', color: 'green'}" *ngIf="!(observables.userExists) && registroForm.get('displayName').valid">Usuario disponible</mat-error>
           <mat-form-field appearance="fill" class="formstyle">
             <mat-label>Ingresa tu usuario</mat-label>
             <input (keydown)="invalidateForChange()" autocomplete="off" (change)="trimThis('displayName')" name="displayName" id="displayName" formControlName="displayName" matInput>
-            <mat-icon [ngStyle]="{'color': !(userExists|async) ? 'green' : 'red'}" matSuffix>{{!(userExists|async) ? 'done' : 'clear'}}</mat-icon>
+            <mat-icon [ngStyle]="{'color': !(observables.userExists) ? 'green' : 'red'}" matSuffix>{{!(observables.userExists) ? 'done' : 'clear'}}</mat-icon>
             <mat-error *ngIf="registroForm.get('displayName').invalid">Solo numeros o letras, maximo 12 caracteres</mat-error>
           </mat-form-field>
           <mat-form-field appearance="fill" class="formstyle">
@@ -111,7 +116,7 @@
           </mat-form-field>
         </div>-->
       </form>
-      <button (click)="registrarUsuario(registroForm.value)" [disabled]="!registroForm.valid || (userExists|async) || (changingUser|async)"
+      <button (click)="registrarUsuario(registroForm.value)" [disabled]="!registroForm.valid || (observables.userExists) || (changingUser|async)"
       *ngIf="state === 1" [ngStyle]="{'width': '100%'}"
       mat-raised-button color="accent">Registrar</button>
       <button *ngIf="state === 0" [disabled]="!siguienteGo() || (emailExists|async) || (changingEmail|async)" (click)="next()"
@@ -124,17 +129,17 @@
       </div>
       <a class="regreso" href="/login">Regresar al inicio de sesión</a>
   </div>
-  <div *ngIf="!processdone && (fromToken|async)" class="registerCard">
+  <div *ngIf="!processdone && (observables.fromToken)" class="registerCard">
     <h1>Registro</h1>
       <form  autocomplete="off" class="formMult"
       [formGroup]="registroGoogleForm">
         <div  class="formPone">
-          <mat-error [ngStyle]="{'font-weight': '200'}" *ngIf="userExistsG|async">Este usuario ya existe</mat-error>
-          <mat-error [ngStyle]="{'font-weight': '200', color: 'green'}" *ngIf="!(userExistsG|async) && registroGoogleForm.get('displayName').valid">Usuario disponible</mat-error>
+          <mat-error [ngStyle]="{'font-weight': '200'}" *ngIf="observables.userExistsG">Este usuario ya existe</mat-error>
+          <mat-error [ngStyle]="{'font-weight': '200', color: 'green'}" *ngIf="!(observables.userExistsG) && registroGoogleForm.get('displayName').valid">Usuario disponible</mat-error>
           <mat-form-field appearance="fill" class="formstyle">
             <mat-label>Ingresa tu usuario</mat-label>
             <input (keydown)="invalidateForChangeG()" autocomplete="off" (change)="trimThisG('displayName')" name="displayName" id="displayName" formControlName="displayName" matInput>
-            <mat-icon [ngStyle]="{'color': !(userExistsG|async) ? 'green' : 'red'}" matSuffix>{{!(userExistsG|async) ? 'done' : 'clear'}}</mat-icon>
+            <mat-icon [ngStyle]="{'color': !(observables.userExistsG) ? 'green' : 'red'}" matSuffix>{{!(observables.userExistsG) ? 'done' : 'clear'}}</mat-icon>
             <mat-error *ngIf="registroGoogleForm.get('displayName').invalid">Solo numeros o letras, maximo 12 caracteres</mat-error>
           </mat-form-field>
           <mat-form-field appearance="fill" class="formstyle">
@@ -160,7 +165,7 @@
           </mat-form-field>
         </div>
       </form>
-      <button (click)="registrarUsuarioGoogle(registroGoogleForm.value)" [disabled]="!registroGoogleForm.valid || (userExistsG|async) || (changingUserG|async)"
+      <button (click)="registrarUsuarioGoogle(registroGoogleForm.value)" [disabled]="!registroGoogleForm.valid || (observables.userExistsG) || (changingUserG|async)"
       [ngStyle]="{'width': '100%'}"
       mat-raised-button color="accent">Registrar</button>
       <a class="regreso" href="/login">Regresar al inicio de sesión</a>

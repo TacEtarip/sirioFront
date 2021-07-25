@@ -1,22 +1,28 @@
-<a aria-label="Ver Categoria" href="/store/categorias/{{(tipoName$|async)}}"  class="imagen"  [ngStyle]="{'background-image': 'url(' + (urlOfImage|async) + ')'}" ></a>
-<a aria-label="Ver Categoria" *ngIf="!auth.loggedIn() || auth.getTtype() === 'contador' || auth.getTtype() === 'low'" href="/store/categorias/{{(tipoName$|async)}}" class="infoPro">
-  <div class="nombre">
-    <h1>{{tipoName$|async}}</h1>
-  </div>
-  <a aria-label="Ver Categoria" href="/store/categorias/{{(tipoName$|async)}}" class="accion">
-    <mat-icon [ngStyle]="{'justify-self': 'end'}">open_in_browser</mat-icon>
-  </a>
-</a>
-<div *ngIf="auth.loggedIn() && (auth.getTtype() === 'admin' || auth.getTtype() === 'vent')" class="infoPro">
-  <div class="nombre">
-    <h1>{{tipoName$|async}}</h1>
-  </div>
-  <div class="accion actLog">
-    <a aria-label="Ver Categoria" class="btnCat" matTooltip="Ver Categoria" href="/store/categorias/{{(tipoName$|async)}}">
+<div [ngStyle]="{'display': 'contents'}"
+*ngIf="{
+  tipoName: tipoName$ | async
+ } as observables">
+  <a aria-label="Ver Categoria" href="/store/categorias/{{(observables.tipoName)}}"  class="imagen"  [ngStyle]="{'background-image': 'url(' + (urlOfImage|async) + ')'}" ></a>
+  <a aria-label="Ver Categoria" *ngIf="!auth.loggedIn() || auth.getTtype() === 'contador' || auth.getTtype() === 'low'" href="/store/categorias/{{(observables.tipoName)}}" class="infoPro">
+    <div class="nombre">
+      <h1>{{observables.tipoName}}</h1>
+    </div>
+    <a aria-label="Ver Categoria" href="/store/categorias/{{(observables.tipoName)}}" class="accion">
       <mat-icon [ngStyle]="{'justify-self': 'end'}">open_in_browser</mat-icon>
     </a>
-    <mat-icon (click)="openEditarNombreTipo()" matTooltip="Editar Nombre">edit</mat-icon>
-    <mat-icon (click)="openCambiarImagen()" matTooltip="Cambiar Foto">insert_photo</mat-icon>
-    <mat-icon (click)=" openEliminarTipo()" matTooltip="Eliminar Categoria">delete</mat-icon>
+  </a>
+  <div *ngIf="auth.loggedIn() && (auth.getTtype() === 'admin' || auth.getTtype() === 'vent')" class="infoPro">
+    <div class="nombre">
+      <h1>{{observables.tipoName}}</h1>
+    </div>
+    <div class="accion actLog">
+      <a aria-label="Ver Categoria" class="btnCat" matTooltip="Ver Categoria" href="/store/categorias/{{(observables.tipoName)}}">
+        <mat-icon [ngStyle]="{'justify-self': 'end'}">open_in_browser</mat-icon>
+      </a>
+      <mat-icon (click)="openEditarNombreTipo()" matTooltip="Editar Nombre">edit</mat-icon>
+      <mat-icon (click)="openCambiarImagen()" matTooltip="Cambiar Foto">insert_photo</mat-icon>
+      <mat-icon (click)=" openEliminarTipo()" matTooltip="Eliminar Categoria">delete</mat-icon>
+    </div>
   </div>
 </div>
+

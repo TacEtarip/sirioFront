@@ -1,7 +1,7 @@
-<section *ngIf="venta$|async" class="mainPost">
+<section *ngIf="(venta$|async) as ventaOBS" class="mainPost">
   <div class="info">
-    <h1><span>#{{(venta$|async).codigo}}</span></h1>
-    <h5>Realizada: {{(venta$|async).date | date}} {{date}} | {{(venta$|async).codigo}} |  {{(venta$|async).vendedor}}</h5>
+    <h1><span>#{{(ventaOBS).codigo}}</span></h1>
+    <h5>Realizada: {{(ventaOBS).date | date}} {{date}} | {{(ventaOBS).codigo}} |  {{(ventaOBS).vendedor}}</h5>
   </div>
 
   <mat-tab-group color="accent" dynamicHeight>
@@ -95,16 +95,16 @@
 
   <div class="final">
     <div class="btns">
-      <button *ngIf="(venta$|async).linkComprobante"  (click)="desargarPDFsunat()" mat-flat-button color="primary">Descargar PDF SUNAT</button>
-      <button *ngIf="(venta$|async).guia"  (click)="descargarGUIA()" mat-flat-button color="primary">Descargar Guía</button>
+      <button *ngIf="(ventaOBS).linkComprobante"  (click)="desargarPDFsunat()" mat-flat-button color="primary">Descargar PDF SUNAT</button>
+      <button *ngIf="(ventaOBS).guia"  (click)="descargarGUIA()" mat-flat-button color="primary">Descargar Guía</button>
       <button    (click)="descargarPDF()" mat-flat-button color="primary">Descargar PDF</button>
-      <button *ngIf="(venta$|async).estado === 'ejecutada'"  (click)="anularVenta()" mat-stroked-button color="accent">Anular Venta</button>
+      <button *ngIf="(ventaOBS).estado === 'ejecutada'"  (click)="anularVenta()" mat-stroked-button color="accent">Anular Venta</button>
     </div>
 
     <div class="totales">
-      <h4>Total Base: S/{{((venta$|async).totalPriceNoIGV)|currency:' '}}</h4>
-      <h4>IGV 18%: S/{{((venta$|async).totalPrice - (venta$|async).totalPriceNoIGV)|currency:' '}}</h4>
-      <h3>Total: S/{{((venta$|async).totalPrice)|currency:' '}}</h3>
+      <h4>Total Base: S/{{((ventaOBS).totalPriceNoIGV)|currency:' '}}</h4>
+      <h4>IGV 18%: S/{{((ventaOBS).totalPrice - (ventaOBS).totalPriceNoIGV)|currency:' '}}</h4>
+      <h3>Total: S/{{((ventaOBS).totalPrice)|currency:' '}}</h3>
     </div>
   </div>
 </section>

@@ -1,14 +1,19 @@
-<section *ngIf="(load|async) && auth.getTtype() !== 'contador'">
-  <div class="info">
-    <h1 *ngIf="(ventasActivas|async).length > 0" >Ventas Activas</h1>
-    <h1 *ngIf="(ventasActivas|async).length === 0" >No hay ni una venta activa</h1>
-    <button [ngStyle]="{'width': '180px'}" *ngIf="(ventasActivas|async).length < 6"
-    (click)="openCrearVentaDialog()"
-    type="button" class="cVenta"
-    color="accent"
-    mat-flat-button>Crear Venta</button>
-  </div>
-  <div *ngIf="ventasActivas|async" class="contenidoMain">
-    <app-venta-activa-card *ngFor="let vent of (ventasActivas|async)" [ventaCod]="vent"></app-venta-activa-card>
-  </div>
-</section>
+<div *ngIf="{
+  ventasActivas: ventasActivas |async
+} as observables">
+  <section *ngIf="(load|async) && auth.getTtype() !== 'contador'">
+    <div class="info">
+      <h1 *ngIf="(observables.ventasActivas).length > 0" >Ventas Activas</h1>
+      <h1 *ngIf="(observables.ventasActivas).length === 0" >No hay ni una venta activa</h1>
+      <button [ngStyle]="{'width': '180px'}" *ngIf="(observables.ventasActivas).length < 6"
+      (click)="openCrearVentaDialog()"
+      type="button" class="cVenta"
+      color="accent"
+      mat-flat-button>Crear Venta</button>
+    </div>
+    <div *ngIf="observables.ventasActivas" class="contenidoMain">
+      <app-venta-activa-card *ngFor="let vent of (observables.ventasActivas)" [ventaCod]="vent"></app-venta-activa-card>
+    </div>
+  </section>
+</div>
+

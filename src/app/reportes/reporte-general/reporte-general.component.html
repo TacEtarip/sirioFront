@@ -1,7 +1,16 @@
 <section *ngIf="(doneDataCollect$|async) === 3" class="mainCtn">
   <div class="firstChart">
     <h2>Resumen de stock</h2>
-    <div class="reporteChartOne">
+    <div class="reporteChartOne"
+    *ngIf="
+  {
+    invercionTotal: invercionTotal | async,
+    ingresoTotal: ingresoTotal | async,
+    gastosHistoricos: gastosHistoricos | async,
+    ingresorHistoricos: ingresorHistoricos | async,
+    itemsLowStock: itemsLowStock$ | async,
+    itemsNoStock: itemsNoStock$ | async
+  } as observables">
       <div>
         <mat-list role="list">
           <div mat-subheader>Stock Actual</div>
@@ -23,14 +32,14 @@
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
             <h5>Invercion total:
-              <b>S/{{(invercionTotal|async)|currency:' '}}</b> | Ingreso total: <b>S/{{(ingresoTotal|async)|currency:' '}} </b> | Balance:
-              <b>S/{{((ingresoTotal|async) - (invercionTotal|async))|currency:' '}}</b></h5>
+              <b>S/{{(observables.invercionTotal)|currency:' '}}</b> | Ingreso total: <b>S/{{(observables.ingresoTotal)|currency:' '}} </b> | Balance:
+              <b>S/{{((observables.ingresoTotal) - (observables.invercionTotal))|currency:' '}}</b></h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
-            <h5>Invercion total en productos de stock: <b>S/{{(gastosHistoricos|async)|currency:' '}}
-            </b> | Ingreso total por productos de stock: <b>S/{{(ingresorHistoricos|async)|currency:' '}}</b> | Balance:
-            <b>S/{{((ingresorHistoricos|async) - (gastosHistoricos|async))|currency:' '}}</b></h5>
+            <h5>Invercion total en productos de stock: <b>S/{{(observables.gastosHistoricos)|currency:' '}}
+            </b> | Ingreso total por productos de stock: <b>S/{{(observables.ingresorHistoricos)|currency:' '}}</b> | Balance:
+            <b>S/{{((observables.ingresorHistoricos) - (observables.gastosHistoricos))|currency:' '}}</b></h5>
           </mat-list-item>
           <mat-divider></mat-divider>
           <div mat-subheader>Alerta de stock</div>
@@ -40,11 +49,11 @@
             (closed)="panelOpenState = false" [ngStyle]="{'width': '100%'}">
               <mat-expansion-panel-header>
               <mat-panel-title>
-                <h5 [ngStyle]="{'align-self': 'center'}">Stock por agotarse en <b class="linkMock">{{(itemsLowStock$|async).length}} items</b></h5>
+                <h5 [ngStyle]="{'align-self': 'center'}">Stock por agotarse en <b class="linkMock">{{(observables.itemsLowStock).length}} items</b></h5>
               </mat-panel-title>
               </mat-expansion-panel-header>
                 <mat-list role="list">
-                  <mat-list-item role="listitem" *ngFor="let item of (itemsLowStock$|async)">
+                  <mat-list-item role="listitem" *ngFor="let item of (observables.itemsLowStock)">
                     <mat-icon mat-list-icon>arrow_right_alt</mat-icon>
                     <a href="/store/categorias/{{item.tipo}}/{{item.subTipo}}/{{item.codigo}}"><h6>{{item.name}}, quedan {{item.cantidad}} {{item.unidadDeMedida}}</h6></a>
                   </mat-list-item>
@@ -57,11 +66,11 @@
             (closed)="panelOpenState = false" [ngStyle]="{'width': '100%'}">
               <mat-expansion-panel-header>
               <mat-panel-title>
-                <h5 [ngStyle]="{'align-self': 'center'}">Stock agotado en <b class="linkMock">{{(itemsNoStock$|async).length}} items</b></h5>
+                <h5 [ngStyle]="{'align-self': 'center'}">Stock agotado en <b class="linkMock">{{(observables.itemsNoStock).length}} items</b></h5>
               </mat-panel-title>
               </mat-expansion-panel-header>
                 <mat-list role="list">
-                  <mat-list-item role="listitem" *ngFor="let item of (itemsNoStock$|async)">
+                  <mat-list-item role="listitem" *ngFor="let item of (observables.itemsNoStock)">
                       <mat-icon mat-list-icon>arrow_right_alt</mat-icon>
                     <a href="/store/categorias/{{item.tipo}}/{{item.subTipo}}/{{item.codigo}}"><h6>{{item.name}}</h6></a>
                   </mat-list-item>
@@ -114,22 +123,29 @@
   </ngx-charts-line-chart></div>
 
   </div>
-  <div class="firstChart">
+  <div
+  *ngIf="
+  {
+    itemMasRentable: itemMasRentable | async,
+    itemMenosRentable: itemMenosRentable | async,
+    itemMayorGananciaPosible: itemMayorGananciaPosible | async,
+    itemMayorGananciaVentas: itemMayorGananciaVentas | async
+  } as observablesII" class="firstChart">
     <h2>Resumen de items</h2>
     <div class="reporteChartOne">
       <div>
         <mat-list role="list">
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
-            <h5>Item más rentable: {{(itemMasRentable|async).name}} con un balance de <b>S/{{(itemMasRentable|async).balance|currency:' '}}</b></h5>
+            <h5>Item más rentable: {{(observablesII.itemMasRentable).name}} con un balance de <b>S/{{(observablesII.itemMasRentable).balance|currency:' '}}</b></h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
-            <h5>Item con mayor dinero en reserva en stock: {{(itemMenosRentable|async).name}} con un balance de <b>S/{{(itemMenosRentable|async).balance|currency:' '}}</b></h5>
+            <h5>Item con mayor dinero en reserva en stock: {{(observablesII.itemMenosRentable).name}} con un balance de <b>S/{{(observablesII.itemMenosRentable).balance|currency:' '}}</b></h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
-            <h5>Item con mayor ganancias posibles: {{(itemMayorGananciaPosible|async).name}} un una posible ganancia de <b>S/{{(itemMayorGananciaPosible|async).value|currency:' '}}</b></h5>
+            <h5>Item con mayor ganancias posibles: {{(observablesII.itemMayorGananciaPosible).name}} un una posible ganancia de <b>S/{{(observablesII.itemMayorGananciaPosible).value|currency:' '}}</b></h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
@@ -137,7 +153,7 @@
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
-            <h5>Item con mayor ganancia en ventas: <b>{{(itemMayorGananciaVentas|async).name}} (S/{{(itemMayorGananciaVentas|async).value|currency:' '}})</b></h5>
+            <h5>Item con mayor ganancia en ventas: <b>{{(observablesII.itemMayorGananciaVentas).name}} (S/{{(observablesII.itemMayorGananciaVentas).value|currency:' '}})</b></h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon> show_chart</mat-icon>
@@ -166,18 +182,23 @@
 
   </div>
 
-  <div class="firstChart">
+  <div
+  *ngIf="
+  {
+    clienteMasRegular: clienteMasRegular | async,
+    clienteMayorIngreso: clienteMayorIngreso | async
+  } as observablesIII" class="firstChart">
     <h2>Resumen de clientes</h2>
     <div class="reporteChartOne">
       <div>
         <mat-list role="list">
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon> show_chart</mat-icon>
-            <h5>Cliente más regular: <b>{{(clienteMasRegular|async).name}} ({{(clienteMasRegular|async).cantidad}} Ventas)</b></h5>
+            <h5>Cliente más regular: <b>{{(observablesIII.clienteMasRegular).name}} ({{(observablesIII.clienteMasRegular).cantidad}} Ventas)</b></h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon> show_chart</mat-icon>
-            <h5>Cliente que ha dado mas ingresos: <b>{{(clienteMayorIngreso|async).name}} (S/{{(clienteMayorIngreso|async).cantidad|currency:' '}})</b></h5>
+            <h5>Cliente que ha dado mas ingresos: <b>{{(observablesIII.clienteMayorIngreso).name}} (S/{{(observablesIII.clienteMayorIngreso).cantidad|currency:' '}})</b></h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon> show_chart</mat-icon>

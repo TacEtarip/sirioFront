@@ -1,29 +1,30 @@
-<a href="/store/categorias/{{codigoTipo}}/{{subTipo}}"  class="imagen"
-[ngStyle]="{'background-image': 'url(' + (urlOfImage|async) + ')'}" ></a>
-<!--
-<a [ngStyle]="{'height': '320px'}" href="/store/categorias/{{codigoTipo}}/{{subTipo}}" class="imagen"
- #imagebg>
-  <img  *ngIf="urlOfImage|async" [ngClass]="{'imageAnimation': animate$|async}" [src]="urlOfImage|async" alt="" class="imageTest" (load)="imageLoaded($event)">
-</a>
--->
-<a aria-label="Ver Sub Categoria" *ngIf="!auth.loggedIn() || auth.getTtype() === 'contador' || auth.getTtype() === 'low'" href="/store/categorias/{{codigoTipo}}/{{subTipo}}" class="infoPro">
-  <div class="nombre">
-    <h1>{{tipoName$|async}}</h1>
-  </div>
-  <div class="accion">
-    <mat-icon [ngStyle]="{'justify-self': 'end'}">open_in_browser</mat-icon>
-  </div>
-</a>
-<div *ngIf="auth.loggedIn() && (auth.getTtype() === 'admin' || auth.getTtype() === 'vent')"  class="infoPro">
-  <div class="nombre">
-    <h1>{{tipoName$|async}}</h1>
-  </div>
-  <div class="accion actLog">
-    <a aria-label="Ver Sub Categoria" class="btnCat" matTooltip="Ver Categoria" href="/store/categorias/{{codigoTipo}}/{{subTipo}}">
+<div [ngStyle]="{'display': 'contents'}"
+*ngIf="{
+  tipoName: tipoName$ | async
+ } as observables">
+  <a href="/store/categorias/{{codigoTipo}}/{{subTipo}}"  class="imagen"
+  [ngStyle]="{'background-image': 'url(' + (urlOfImage|async) + ')'}" ></a>
+
+  <a aria-label="Ver Sub Categoria" *ngIf="!auth.loggedIn() || auth.getTtype() === 'contador' || auth.getTtype() === 'low'" href="/store/categorias/{{codigoTipo}}/{{subTipo}}" class="infoPro">
+    <div class="nombre">
+      <h1>{{observables.tipoName}}</h1>
+    </div>
+    <div class="accion">
       <mat-icon [ngStyle]="{'justify-self': 'end'}">open_in_browser</mat-icon>
-    </a>
-    <mat-icon (click)="openEditarNombreSubTipo()" matTooltip="Editar Nombre">edit</mat-icon>
-    <mat-icon (click)="openCambiarImagen()"  matTooltip="Cambiar Foto">insert_photo</mat-icon>
-    <mat-icon (click)="openEliminarSubTipo()" matTooltip="Eliminar Categoria">delete</mat-icon>
+    </div>
+  </a>
+  <div *ngIf="auth.loggedIn() && (auth.getTtype() === 'admin' || auth.getTtype() === 'vent')"  class="infoPro">
+    <div class="nombre">
+      <h1>{{observables.tipoName}}</h1>
+    </div>
+    <div class="accion actLog">
+      <a aria-label="Ver Sub Categoria" class="btnCat" matTooltip="Ver Categoria" href="/store/categorias/{{codigoTipo}}/{{subTipo}}">
+        <mat-icon [ngStyle]="{'justify-self': 'end'}">open_in_browser</mat-icon>
+      </a>
+      <mat-icon (click)="openEditarNombreSubTipo()" matTooltip="Editar Nombre">edit</mat-icon>
+      <mat-icon (click)="openCambiarImagen()"  matTooltip="Cambiar Foto">insert_photo</mat-icon>
+      <mat-icon (click)="openEliminarSubTipo()" matTooltip="Eliminar Categoria">delete</mat-icon>
+    </div>
   </div>
 </div>
+

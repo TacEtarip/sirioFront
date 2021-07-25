@@ -1,7 +1,7 @@
-<section *ngIf="venta$|async" class="mainPost">
+<section *ngIf="(venta$|async) as ventaOBS" class="mainPost">
   <div class="info">
-    <h1><span>#{{(venta$|async).codigo}}</span></h1>
-    <h5>Realizada: {{(venta$|async).date | date}} {{date}}</h5>
+    <h1><span>#{{(ventaOBS).codigo}}</span></h1>
+    <h5>Realizada: {{(ventaOBS).date | date}} {{date}}</h5>
   </div>
   <div class="cotiBtns">
     <button (click)="openAddItemDialog()"  mat-flat-button color="accent">Agregar Item</button>
@@ -113,8 +113,8 @@
 
   <div class="final">
     <div class="btns">
-      <h5>{{(venta$|async).documento.name}}-{{(venta$|async).documento.codigo}} </h5>
-      <h5>Celular: {{(venta$|async).celular_cliente || 'No se brindo'}} | email: {{(venta$|async).cliente_email || 'No se brindo'}}</h5>
+      <h5>{{(ventaOBS).documento.name}}-{{(ventaOBS).documento.codigo}} </h5>
+      <h5>Celular: {{(ventaOBS).celular_cliente || 'No se brindo'}} | email: {{(ventaOBS).cliente_email || 'No se brindo'}}</h5>
       <button (click)="descargarCotiExcel()"
       mat-flat-button color="primary">Generar Excel</button>
       <!--
@@ -123,9 +123,9 @@
     </div>
 
     <div class="totales">
-      <h4>Total Base: S/{{((venta$|async).totalPriceNoIGV)|currency:' '}}</h4>
-      <h4>IGV 18%: S/{{((venta$|async).totalPrice - (venta$|async).totalPriceNoIGV)|currency:' '}}</h4>
-      <h3>Total: S/{{((venta$|async).totalPrice)|currency:' '}}</h3>
+      <h4>Total Base: S/{{((ventaOBS).totalPriceNoIGV)|currency:' '}}</h4>
+      <h4>IGV 18%: S/{{((ventaOBS).totalPrice - (ventaOBS).totalPriceNoIGV)|currency:' '}}</h4>
+      <h3>Total: S/{{((ventaOBS).totalPrice)|currency:' '}}</h3>
     </div>
   </div>
 </section>

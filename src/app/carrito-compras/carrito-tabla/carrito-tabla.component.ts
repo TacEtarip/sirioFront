@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { filter, first } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth.service';
 import { InventarioManagerService, ItemsVentaForCard, Venta } from './../../inventario-manager.service';
 
@@ -18,14 +19,26 @@ export class CarritoTablaComponent implements OnInit {
 
   displayedColumns: string[] = ['numero', 'imagen', 'name', 'subName', 'subNameSecond', 'cantidad', 'priceIGV', 'total', 'delete'];
 
-  showTable = new BehaviorSubject<boolean>(false);
+  showTable = new Subject<boolean>();
 
   showMessage = new BehaviorSubject<boolean>(false);
 
   @ViewChild(MatPaginator, {static: false})  set content(paginator: MatPaginator) {
-    if (paginator && this.dataSource) {
-      this.dataSource.paginator = paginator;
-      this.showTable.next(true);
+    console.log('at least here');
+    console.log(paginator);
+    console.log(this.dateSource$.value);
+
+    if (paginator) {
+      this.dateSource$.pipe(filter(x => x !== null), first()).subscribe(x => {
+        console.log(x);
+        if (x !== null) {
+          console.log('here');
+          this.dataSource.paginator = paginator;
+          this.showTable.next(true);
+          console.log(this.showTable);
+        }
+      });
+
     }
   }
 
@@ -37,6 +50,7 @@ export class CarritoTablaComponent implements OnInit {
     if (this.auth.getTtype() === 'low') {
       this.inv.getCarrito().subscribe(res => {
         if (res) {
+          console.log(res);
           this.dataSource = new MatTableDataSource(res);
           this.dateSource$.next(this.dataSource);
         }

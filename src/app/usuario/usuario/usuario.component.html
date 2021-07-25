@@ -3,13 +3,15 @@
   <span class="example-spacer"></span>
   <a class="topLink" href="/"><mat-icon [ngStyle]="{'margin-right': '2px'}" class="changeColor" >assignment</mat-icon> <span>Inventario</span> </a>
 </mat-toolbar>
-<div class="bg">
+<div *ngIf="{
+  user: user | async
+} as observables" class="bg">
   <div  class="profilecard">
-    <mat-spinner [ngStyle]="{'grid-column': '1/3', 'justify-self': 'center', 'align-self': 'center'}" *ngIf="!(user|async)"></mat-spinner>
-    <div *ngIf="(user|async)" class="gridUno">
+    <mat-spinner [ngStyle]="{'grid-column': '1/3', 'justify-self': 'center', 'align-self': 'center'}" *ngIf="!(observables.user)"></mat-spinner>
+    <div *ngIf="(observables.user)" class="gridUno">
       <div class="names">
-        <h1>{{(user|async).displayName}}</h1>
-        <h4>{{(user|async).email}}</h4>
+        <h1>{{(observables.user).displayName}}</h1>
+        <h4>{{(observables.user).email}}</h4>
       </div>
       <div class="compras">
         <h3 *ngIf="auth.getTtype() === 'low'">Compras</h3>
@@ -27,22 +29,22 @@
       </div>
     </div>
     <mat-divider class="divider"></mat-divider>
-    <div *ngIf="(user|async)" class="gridDos">
+    <div *ngIf="(observables.user)" class="gridDos">
       <h4>
         Nombre:
       </h4>
       <h3>
-        {{(user|async).nombre}} {{(user|async).apellido}}
+        {{(observables.user).nombre}} {{(observables.user).apellido}}
       </h3>
       <mat-divider class="divider"></mat-divider>
       <h4>
         Direccion:
       </h4>
-      <h3 *ngIf="(user|async).dirOne">
-        {{(user|async).dirOne}} {{(user|async).dirTwo}} {{(user|async).ciudad}}
+      <h3 *ngIf="(observables.user).dirOne">
+        {{(observables.user).dirOne}} {{(observables.user).dirTwo}} {{(observables.user).ciudad}}
         <i (click)="openAgregarDireccionDialog()" matTooltip="Editar" [ngStyle]="{'color': '#E87200', 'padding-left': '12px', 'cursor': 'pointer'}" class="far fa-edit"></i>
       </h3>
-      <h3 (click)="openAgregarDireccionDialog()" *ngIf="!(user|async).dirOne" [ngStyle]="{'color': '#E87200', 'cursor': 'pointer'}">
+      <h3 (click)="openAgregarDireccionDialog()" *ngIf="!(observables.user).dirOne" [ngStyle]="{'color': '#E87200', 'cursor': 'pointer'}">
         Agregar dirección.
       </h3>
       <mat-divider class="divider"></mat-divider>
@@ -57,11 +59,11 @@
       <h4>
         DNI/RUC:
       </h4>
-      <h3 *ngIf="(user|async).documento">
-        {{(user|async).documento}}
+      <h3 *ngIf="(observables.user).documento">
+        {{(observables.user).documento}}
         <i (click)="openAgregarDocumentoDialog()" matTooltip="Editar" [ngStyle]="{'color': '#E87200', 'padding-left': '12px', 'cursor': 'pointer'}" class="far fa-edit"></i>
       </h3>
-      <h3 (click)="openAgregarDocumentoDialog()" *ngIf="!(user|async).documento" [ngStyle]="{'color': '#E87200', 'cursor': 'pointer'}">
+      <h3 (click)="openAgregarDocumentoDialog()" *ngIf="!(observables.user).documento" [ngStyle]="{'color': '#E87200', 'cursor': 'pointer'}">
         Agregar documento de identidad.
       </h3>
       <mat-divider class="divider"></mat-divider>

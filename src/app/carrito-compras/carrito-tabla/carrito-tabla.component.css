@@ -12,6 +12,16 @@ table {
 
 .borderTable {
   border: solid .5px rgb(211, 211, 211);
+  position: relative;
+}
+
+.shade-spin {
+  padding: 50px;
+  background: rgba(0, 0, 0, 0.05);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .mainTableContenedor {
@@ -24,7 +34,7 @@ table {
 }
 
 .mat-paginator {
-  min-width: 850px;
+  min-width: 1200px;
 }
 
 .numeracion-tabla {
@@ -91,7 +101,7 @@ main {
 
 .non-message h1 {
   color: #005087;
-  font-size: 52px;
+  font-size: 58px;
   font-weight: 200;
   width: 100%;
   margin: 0;
@@ -100,4 +110,20 @@ main {
 
 .non-message a {
   color: #E87200;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.non-message h1 span {
+  font-size: 50px!important;
+  height: 50px;
+}
+
+.non-message h1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
 }

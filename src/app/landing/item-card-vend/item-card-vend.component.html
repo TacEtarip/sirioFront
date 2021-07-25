@@ -1,9 +1,9 @@
 <div class="imagen"  [ngStyle]="{'background-image': 'url(' + (urlOfImage|async) + ')'}" >
   <a aria-label="Ver Item" [ngStyle]="{'height': '100%'}" href="/store/categorias/{{tipoCodigo}}/{{item.subTipo}}/{{item.codigo}}"></a>
 </div>
-<div *ngIf="(item$|async)" class="infoPro">
+<div *ngIf="(item$|async) as itemObs" class="infoPro">
   <div class="nombre">
-    <h1>{{(item$|async).name}}</h1>
+    <h1>{{(itemObs).name}}</h1>
   </div>
   <div class="accion">
     <a aria-label="Ver Item" matTooltip="Ver Item" href="/store/categorias/{{tipoCodigo}}/{{item.subTipo}}/{{item.codigo}}"><mat-icon>open_in_browser</mat-icon></a>
@@ -12,6 +12,6 @@
     <mat-icon (click)="openDialogEditarItem()" matTooltip="Editar Item">edit</mat-icon>
     <mat-icon (click)="openDialogCambiarImagen()" matTooltip="Cambiar Foto">insert_photo</mat-icon>
     <mat-icon *ngIf="auth.getTtype() === 'admin' && (auth.getTtype() === 'admin' || auth.getTtype() === 'vent') " (click)="openSeguroEliminarDialog()" matTooltip="Eliminar Item">delete</mat-icon>
-    <button (click)="openDialogVenta()" [disabled]="(item$|async).cantidad === 0" color="primary" mat-stroked-button>Vender S/{{(item$|async).priceIGV|currency:' '}} | Cant. {{(item$|async).cantidad}}</button>
+    <button (click)="openDialogVenta()" [disabled]="(itemObs).cantidad === 0" color="primary" mat-stroked-button>Vender S/{{(itemObs).priceIGV|currency:' '}} | Cant. {{(itemObs).cantidad}}</button>
   </div>
 </div>

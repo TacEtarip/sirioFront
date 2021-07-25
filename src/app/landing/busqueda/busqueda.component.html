@@ -7,10 +7,14 @@
   <div class="navegacion">
     <a href="/store/categorias">CATEGORIAS</a>
   </div>
-  <div class="presentacion">
+  <div
+  *ngIf="{
+    itemSecond: itemSecond$ | async
+  } as observables"
+   class="presentacion">
     <section class="listaCat" >
-      <h2 *ngIf="(items$|async).length === 0 && (itemSecond$|async).length === 0">No Items Que Mostrar</h2>
-      <app-itemcard *ngFor="let item of itemSecond$|async"  [item]="item"></app-itemcard>
+      <h2 *ngIf="(items$|async).length === 0 && (observables.itemSecond).length === 0">No Items Que Mostrar</h2>
+      <app-itemcard *ngFor="let item of observables.itemSecond"  [item]="item"></app-itemcard>
       <app-item-card-vend [tipoCodigo]="item.tipo" (deleteEvent)="eliminarItem($event)" *ngFor="let item of items$|async" [item]="item"></app-item-card-vend>
     </section>
   </div>

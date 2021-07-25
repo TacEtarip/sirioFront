@@ -41,12 +41,17 @@
 
 
 </mat-toolbar>
-<section class="mainSpace">
-  <nav [ngClass]="{'slide-in' : (slide|async) === true, 'slide-out': (slide|async) === false}" class="sidenav">
+<section *ngIf="
+{
+  slide: slide | async,
+  reporte: reporte$ | async
+} as observables"
+ class="mainSpace">
+  <nav [ngClass]="{'slide-in' : (observables.slide) === true, 'slide-out': (observables.slide) === false}" class="sidenav">
     <div class="titulo"><h1>Reportes Estadisticos</h1></div>
     <mat-divider></mat-divider>
     <mat-list  role="list">
-      <mat-list-item (click)="selectReporte(0)" [ngClass]="{'selected': (reporte$|async) === 0}"
+      <mat-list-item (click)="selectReporte(0)" [ngClass]="{'selected': (observables.reporte) === 0}"
       [ngStyle]="{'color': '#005087'}" matRipple
       [matRippleColor]="'#cfaa842c'"
       role="listitem"><h4>RESUMEN GENERAL</h4></mat-list-item>
@@ -55,25 +60,12 @@
     <mat-list role="list">
       <div mat-subheader [ngStyle]="{'color': '#E87200'}">Reportes</div>
       <mat-list-item (click)="selectReporte(1)"
-      [ngClass]="{'selected': (reporte$|async) === 1}" matRipple [matRippleColor]="'#cfaa842c'" role="listitem"><h4>REPORTE DE ITEMS</h4></mat-list-item>
+      [ngClass]="{'selected': (observables.reporte) === 1}" matRipple [matRippleColor]="'#cfaa842c'" role="listitem"><h4>REPORTE DE ITEMS</h4></mat-list-item>
       <mat-list-item  (click)="selectReporte(2)"
-      [ngClass]="{'selected': (reporte$|async) === 2}" matRipple [matRippleColor]="'#cfaa842c'" role="listitem"><h4>REPORTE POR ITEM</h4></mat-list-item>
-      <!--
-      <mat-list-item disabled (click)="selectReporte(3)"
-      [ngClass]="{'selected': (reporte$|async) === 3}" matRipple [matRippleColor]="'#cfaa842c'" role="listitem"><h4>REPORTE DE VENTAS</h4></mat-list-item>
-      <mat-list-item disabled (click)="selectReporte(4)"
-      [ngClass]="{'selected': (reporte$|async) === 4}" matRipple [matRippleColor]="'#cfaa842c'" role="listitem"><h4>REPORTE DE STOCK</h4></mat-list-item>
-      <mat-list-item disabled (click)="selectReporte(5)"
-      [ngClass]="{'selected': (reporte$|async) === 5}" matRipple [matRippleColor]="'#cfaa842c'" role="listitem"><h4>COMPARACION DE CATEGORIAS</h4></mat-list-item>
-      <mat-list-item disabled (click)="selectReporte(6)"
-      [ngClass]="{'selected': (reporte$|async) === 6}" matRipple [matRippleColor]="'#cfaa842c'" role="listitem"><h4>REPORTE POR CATEGORIA</h4></mat-list-item>
-      <mat-list-item disabled (click)="selectReporte(7)"
-      [ngClass]="{'selected': (reporte$|async) === 7}" matRipple [matRippleColor]="'#cfaa842c'" role="listitem"><h4>COMPARACION DE CLIENTES</h4></mat-list-item>
-      <mat-list-item disabled (click)="selectReporte(8)"
-      [ngClass]="{'selected': (reporte$|async) === 8}" matRipple [matRippleColor]="'#cfaa842c'" role="listitem"><h4>REPORTE POR CLIENTE</h4></mat-list-item>-->
+      [ngClass]="{'selected': (observables.reporte) === 2}" matRipple [matRippleColor]="'#cfaa842c'" role="listitem"><h4>REPORTE POR ITEM</h4></mat-list-item>
     </mat-list>
   </nav>
   <router-outlet></router-outlet>
-  <div (click)="slide.next(!slide.value)" *ngIf="slide|async" class="panel"></div>
+  <div (click)="slide.next(!slide.value)" *ngIf="observables.slide" class="panel"></div>
 </section>
 

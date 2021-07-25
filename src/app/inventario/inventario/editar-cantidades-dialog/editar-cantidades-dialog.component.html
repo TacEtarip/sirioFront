@@ -1,6 +1,8 @@
 <h1 mat-dialog-title>Editar Cantidades De {{data.name}}</h1>
 <h2 mat-dialog-title><b>Total Original:</b> {{data.cantidad}} | <b>Total Nuevo:</b> {{cantidadTotal|async}}</h2>
-<form  [formGroup]="editarCantForm" >
+<form *ngIf="{
+  agregar: agregar$ | async
+} as observables"  [formGroup]="editarCantForm" >
   <div *ngIf="!data.subConteo" mat-dialog-content class="gridDisplay">
     <mat-form-field opcionStart appearance="fill" class="comentarioSecond" [ngStyle]="{'grid-column': 'span 6'}">
       <mat-label>Acción</mat-label>
@@ -67,13 +69,13 @@
           <mat-label>Cantidad</mat-label>
           <input (input)="sumCantidades()"  spellcheck="false" formControlName="cantidad" type="number" min="0" step="1" matInput>
         </mat-form-field>
-        <button *ngIf="!(agregar$|async)" [disabled]="unicoSubCantidad" (dblclick)="eliminarOrder(i)" type="button" mat-button mat-stroked-button color="accent" class="deleteBtn">
+        <button *ngIf="!(observables.agregar)" [disabled]="unicoSubCantidad" (dblclick)="eliminarOrder(i)" type="button" mat-button mat-stroked-button color="accent" class="deleteBtn">
           Eliminar Sub Cantidad
         </button>
       </div>
     </div>
   </div>
-  <button *ngIf="agregar$|async" (click)="agregarOrder()" type="button" mat-stroked-button color="accent" class="botonAgregarSubCont" mat-button>Agregar</button>
+  <button *ngIf="observables.agregar" (click)="agregarOrder()" type="button" mat-stroked-button color="accent" class="botonAgregarSubCont" mat-button>Agregar</button>
 </div>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close color="primary">Cancelar</button>
