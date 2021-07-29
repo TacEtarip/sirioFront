@@ -15,6 +15,22 @@ table {
   position: relative;
 }
 
+.actions {
+  display: flex;
+  align-items: center;
+  margin-top: 1.5em;
+}
+
+h3 {
+  margin: 0;
+  color: #005087;
+}
+
+
+.spacer {
+  flex: 1 1 auto;
+}
+
 .shade-spin {
   padding: 50px;
   background: rgba(0, 0, 0, 0.05);
@@ -49,9 +65,9 @@ table {
   width: 26%;
 }
 
-.mat-column-cantidad input {
+/*.mat-column-cantidad input {
   width: 50%;
-}
+}*/
 
 .vientoPor {
   font-size: 18px;
@@ -71,6 +87,26 @@ table {
 .mat-column-subName
 {
   width: 12%;
+}
+
+.outline-form {
+  width: 80%;
+}
+
+.mat-column-cantidad ::ng-deep .mat-form-field-infix {
+  width: auto !important;
+}
+
+.error-state {
+  padding-bottom: 2.5em;
+}
+
+.error-custom {
+  margin-top: 2em;
+}
+
+.mat-column-cantidad ::ng-deep .mat-form-field-wrapper  {
+  padding-bottom: 0;
 }
 
 .mat-column-subNameSecond {

@@ -12,8 +12,8 @@ import { catchError, first, map, mapTo, mergeMap } from 'rxjs/operators';
 })
 export class AuthService {
 
-  baseUrl = 'https://inventario-sirio-dinar.herokuapp.com/';
-  // baseUrl = 'http://localhost:5000/';
+  // baseUrl = 'https://inventario-sirio-dinar.herokuapp.com/';
+  baseUrl = 'http://localhost:5000/';
   USUARIO_USER = 'usuario_user';
   SHOW_USER = 'usuario_user_show';
   TYPE_USER = 'usuario_tipo';
@@ -29,6 +29,12 @@ export class AuthService {
   [name: string]: any;
 
   length: number;
+
+  reoloadPage() {
+    if (isPlatformBrowser(this.platformId)) {
+      window.location.reload();
+    }
+  }
 
   cambiarContra(passwordForm: { passwordOld: string, password: string }, id: string): Observable<{ changed: boolean }> {
     return this.http.post<{ changed: boolean }>(this.baseUrl + 'auth/cambiarContrasena', { ...passwordForm, id })

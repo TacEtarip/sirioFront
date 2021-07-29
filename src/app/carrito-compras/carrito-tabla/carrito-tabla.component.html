@@ -1,14 +1,16 @@
 <main *ngIf="
 {
   showTable: showTable | async,
-  dataSrc: dateSource$ | async
+  dataSrc: dateSource$ | async,
+  totalPrice: totalPrice$ | async
 } as observables">
   <div *ngIf="auth.getTtype() === 'low'" class="mainTableContenedor">
-    <div class="borderTable">
+    <form [formGroup]="cantidadesForm"  class="borderTable">
       <div *ngIf="!observables.showTable" class="shade-spin">
         <mat-spinner></mat-spinner>
       </div>
-      <table *ngIf="observables.showTable" mat-table [dataSource]="observables.dataSrc" class="mat-elevation-z8">
+      <table formArrayName="cantidades"
+      *ngIf="observables.showTable" mat-table [dataSource]="observables.dataSrc" class="mat-elevation-z8">
         <!-- Item Column -->
         <ng-container matColumnDef="numero" >
           <th class="numeracion-tabla"  mat-header-cell *matHeaderCellDef> Nº </th>
@@ -44,9 +46,15 @@
 
         <ng-container matColumnDef="cantidad">
           <th  mat-header-cell *matHeaderCellDef> Cantidad </th>
-          <td mat-cell *matCellDef="let tableVentaInfo">
-            <input min="1" type="number" [value]="tableVentaInfo.cantidadSC ? tableVentaInfo.cantidadSC.cantidadVenta : tableVentaInfo.cantidad">
-           </td>
+          <td [formGroupName]="this.dataSource.paginator.pageIndex == 0 ? i  : i + this.dataSource.paginator.pageIndex * this.dataSource.paginator.pageSize"
+          mat-cell *matCellDef="let tableVentaInfo; let i = index">
+          <mat-form-field [ngClass]="{'error-state': !cantidadesForm.valid}"
+          appearance="outline" class="outline-form">
+            <input min="1" type="number"  matInput
+            formControlName="cantidad">
+            <mat-error class="error-custom" *ngIf="!cantidadesForm.valid">No disponemos de esta cantidad.</mat-error>
+          </mat-form-field>
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="priceIGV">
@@ -57,14 +65,15 @@
         <ng-container matColumnDef="total">
           <th  mat-header-cell *matHeaderCellDef> P. Total </th>
           <td mat-cell *matCellDef="let tableVentaInfo">
-            S/{{(tableVentaInfo.cantidadSC ?  tableVentaInfo.cantidadSC.cantidadVenta * tableVentaInfo.priceIGV : tableVentaInfo.totalPrice)|currency: ' ' }} </td>
+            S/{{(tableVentaInfo.cantidadSC ?  tableVentaInfo.cantidadSC.cantidadVenta * tableVentaInfo.priceIGV : (tableVentaInfo.cantidad * tableVentaInfo.priceIGV))|currency: ' ' }} </td>
         </ng-container>
 
         <ng-container matColumnDef="delete">
           <th  mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let tableVentaInfo">
-            <button matTooltip="Eliminar" mat-icon-button color="accent" aria-label="Quitar item">
-              <mat-icon>delete</mat-icon>
+            <button type="button"  matTooltip="Remover producto" (click)="removerProducto(tableVentaInfo)"
+            mat-icon-button color="primary" aria-label="Quitar item">
+              <mat-icon>remove_shopping_cart</mat-icon>
             </button>
           </td>
         </ng-container>
@@ -77,6 +86,12 @@
 
       <mat-paginator [pageSizeOptions]="[5, 15, 30]" showFirstLastButtons></mat-paginator>
 
+    </form>
+
+    <div class="actions">
+      <h3>Total: S/ {{observables.totalPrice|currency: ' '}}</h3>
+      <div class="spacer"></div>
+      <button [disabled]="!cantidadesForm.valid || !observables.showTable" mat-raised-button color="accent">Ir a Pagar</button>
     </div>
   </div>
   <div class="non-message" *ngIf="auth.getTtype() !== 'low'">
@@ -87,3 +102,6 @@
     <a href="/login"><span><mat-icon>account_box</mat-icon></span>Iniciar Sesión</a>
   </div>
 </main>
+<div id="test">
+dqwe
+</div>

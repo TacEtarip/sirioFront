@@ -17,7 +17,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { CarritoRoutingModule } from './carrito-routing.module';
 import { CarritoTablaComponent } from './carrito-tabla/carrito-tabla.component';
 import { CarritoComponent } from './carrito/carrito.component';
-
+import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -41,7 +42,9 @@ import { CarritoComponent } from './carrito/carrito.component';
     MatPaginatorModule,
     MatFormFieldModule,
     MatInputModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    ReactiveFormsModule,
+    FormsModule
   ]
 })
 export class CarritoComprasModule { }

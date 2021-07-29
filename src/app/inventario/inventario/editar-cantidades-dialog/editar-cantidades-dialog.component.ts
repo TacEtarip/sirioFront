@@ -1,10 +1,10 @@
-import { distinctUntilChanged } from 'rxjs/operators';
-import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FormGroup, Validators, FormBuilder, FormArray } from '@angular/forms';
-
-import { Item, Order,  UploadCantidadSub, InventarioManagerService, UploadCantidadSimple} from '../../../inventario-manager.service';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BehaviorSubject, Subscription } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs/operators';
+import { InventarioManagerService, Item, Order, UploadCantidadSimple, UploadCantidadSub } from '../../../inventario-manager.service';
+
 
 
 

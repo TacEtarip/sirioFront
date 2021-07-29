@@ -10,15 +10,40 @@ import { AuthService } from './auth.service';
 })
 export class InventarioManagerService {
 
-  baseUrl = 'https://inventario-sirio-dinar.herokuapp.com/';
-  // baseUrl = 'http://localhost:5000/';
+  // baseUrl = 'https://inventario-sirio-dinar.herokuapp.com/';
+  baseUrl = 'http://localhost:5000/';
 
 
   constructor(private http: HttpClient, private auth: AuthService, private router: Router,
              ) { }
 
-    getCarrito(): Observable<ItemsVentaForCard[]> {
-      return this.http.get<ItemsVentaForCard[]>(this.baseUrl + 'carrito/getCarrito')
+  removeItemDeCarrito(item: ItemsVentaForCard): Observable<Venta> {
+              return this.http.post<Venta>(this.baseUrl + 'carrito/removeProductoDeCarrito', item)
+              .pipe( first(), catchError(error => {
+                switch (error.status) {
+                case 0:
+                  this.auth.alertaUniversal('Error al tratar de conectar al servidor');
+                  break;
+                case 409:
+                  this.auth.reoloadPage();
+                  break;
+                case 410:
+                  this.auth.alertaUniversal('El item ha sido elminado');
+                  break;
+                case 500:
+                    this.auth.alertaUniversal('Ocurrio un error interno');
+                    break;
+                default:
+                  break;
+              }
+                return of(null);
+              }));
+    }
+
+    getCarrito(): Observable<{carrito: ItemsVentaForCard[], cod_carrito: string,
+      estado_carrito: boolean, alerts: { cod: number, mensaje: string, item_cod: string, item_name: string }[] }> {
+      return this.http.get<{carrito: ItemsVentaForCard[], cod_carrito: string,
+        estado_carrito: boolean, alerts: { cod: number, mensaje: string, item_cod: string, item_name: string }[] }>(this.baseUrl + 'carrito/getCarrito')
       .pipe( first(), catchError(error => {
         switch (error.status) {
         case 0:
@@ -1981,6 +2006,9 @@ export interface ItemsVentaForCard {
   priceCosto: number;
   tipo: string;
   photo?: string;
+  totalPrice?: number;
+  cantidadDisponible?: number;
+  codVent?: string;
 }
 
 
