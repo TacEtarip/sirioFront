@@ -92,10 +92,18 @@ export class RegistroComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.titleService.setTitle('Sirio Dinar | Registro');
+    this.titleService.setTitle('Registro | Sirio Dinar');
     this.metaTagService.updateTag(
       { name: 'description', content: 'Registrar usuario en Sirio Dinar' }
     );
+    this.metaTagService.updateTag({ property: 'og:url', content: 'https://inventario.siriodinar.com/login/registro' });
+    this.metaTagService.updateTag({ property: 'og:title', content: 'Registro | Sirio Dinar' });
+    this.metaTagService.updateTag({ property: 'og:description',
+    content: 'Registrar usuario en Sirio Dinar' });
+    this.metaTagService.updateTag({ property: 'og:image', content: 'https://inventario.siriodinar.com/assets/itemsSocial.jpg' });
+    this.metaTagService.updateTag({ property: 'og:image:alt', content: 'sirio presentacion' });
+    this.metaTagService.updateTag({ property: 'og:type', content: 'website' });
+
     this.registroForm = this.fb.group({
       nombre: this.fb.control('', Validators.compose([
         Validators.required,

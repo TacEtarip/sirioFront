@@ -1,7 +1,7 @@
 <mat-toolbar class="toolbar">
   <a  href="http://www.siriodinar.com/inicio" class="nombrePrincipal"  [ngStyle]="{'cursor': 'pointer'}">Sirio <b>Dinar</b></a>
   <span class="example-spacer"></span>
-  <a class="topLink" href="/"><mat-icon [ngStyle]="{'margin-right': '2px'}" class="changeColor" >assignment</mat-icon> <span>Inventario</span> </a>
+  <a class="topLink" href="/"><mat-icon [ngStyle]="{'margin-right': '2px'}" class="changeColor" >store_mall_directory</mat-icon> <span>Tienda</span> </a>
 </mat-toolbar>
 <div *ngIf="
 {
@@ -16,23 +16,23 @@
         <div  class="formPone">
           <mat-form-field appearance="fill" class="formstyle">
             <mat-label>Ingresa tu nombre</mat-label>
-            <input (change)="trimThis('nombre')" name="nombre" id="nombre" formControlName="nombre" matInput>
+            <input (change)="trimThis('nombre')" name="nombre" id="nombre" formControlName="nombre" matInput required>
             <mat-error *ngIf="registroForm.get('nombre').invalid">Solo letras, minimo 3, maximo 25</mat-error>
           </mat-form-field>
           <mat-form-field appearance="fill" class="formstyle">
             <mat-label>Ingresa tu apellido</mat-label>
-            <input (change)="trimThis('apellido')" name="apellido" id="apellido" formControlName="apellido" matInput>
+            <input (change)="trimThis('apellido')" name="apellido" id="apellido" formControlName="apellido" matInput required>
             <mat-error *ngIf="registroForm.get('apellido').invalid">Solo letras, minimo 3, maximo 25</mat-error>
           </mat-form-field>
           <mat-error [ngStyle]="{'font-weight': '200'}" *ngIf="emailExists|async">Email ya registrado</mat-error>
           <mat-form-field appearance="fill" class="formstyle">
             <mat-label>Ingresa tu email</mat-label>
-            <input (keydown)="invalidateForChangeEmail()"  (change)="trimThis('email')" name="email" id="email" formControlName="email" matInput>
+            <input required (keydown)="invalidateForChangeEmail()"  (change)="trimThis('email')" name="email" id="email" formControlName="email" matInput>
             <mat-error *ngIf="registroForm.get('email').hasError('email')">Ingrese un email valido</mat-error>
           </mat-form-field>
           <mat-form-field appearance="fill" class="formstyle">
             <mat-label>Celular</mat-label>
-            <input (change)="trimThis('celular')" name="celular" id="celular" formControlName="celular" matInput>
+            <input required (change)="trimThis('celular')" name="celular" id="celular" formControlName="celular" matInput>
             <mat-error *ngIf="registroForm.get('celular').hasError('pattern')">Ingrese un formato de celular valido</mat-error>
           </mat-form-field>
         </div>
@@ -41,13 +41,13 @@
           <mat-error [ngStyle]="{'font-weight': '200', color: 'green'}" *ngIf="!(observables.userExists) && registroForm.get('displayName').valid">Usuario disponible</mat-error>
           <mat-form-field appearance="fill" class="formstyle">
             <mat-label>Ingresa tu usuario</mat-label>
-            <input (keydown)="invalidateForChange()" autocomplete="off" (change)="trimThis('displayName')" name="displayName" id="displayName" formControlName="displayName" matInput>
+            <input required (keydown)="invalidateForChange()" autocomplete="off" (change)="trimThis('displayName')" name="displayName" id="displayName" formControlName="displayName" matInput>
             <mat-icon [ngStyle]="{'color': !(observables.userExists) ? 'green' : 'red'}" matSuffix>{{!(observables.userExists) ? 'done' : 'clear'}}</mat-icon>
             <mat-error *ngIf="registroForm.get('displayName').invalid">Solo numeros o letras, maximo 12 caracteres</mat-error>
           </mat-form-field>
           <mat-form-field appearance="fill" class="formstyle">
             <mat-label>Ingresa tu contraseña</mat-label>
-            <input (keyup)="activarCompro()"  autocomplete="off" [type]="hide ? 'password' : 'text'" (change)="trimThis('password')" name="apellido" id="password" formControlName="password" matInput>
+            <input required (keyup)="activarCompro()"  autocomplete="off" [type]="hide ? 'password' : 'text'" (change)="trimThis('password')" name="apellido" id="password" formControlName="password" matInput>
             <button  mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
               <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>
@@ -55,7 +55,7 @@
           </mat-form-field>
           <mat-form-field appearance="fill" class="formstyle">
             <mat-label>Confirma tu contraseña</mat-label>
-            <input (keyup)="comprobarContra()" autocomplete="off" [type]="hide ? 'password' : 'text'" (change)="trimThis('passwordConf')" name="passwordConf" id="passwordConf" formControlName="passwordConf" matInput>
+            <input required (keyup)="comprobarContra()" autocomplete="off" [type]="hide ? 'password' : 'text'" (change)="trimThis('passwordConf')" name="passwordConf" id="passwordConf" formControlName="passwordConf" matInput>
             <button  mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
               <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>
@@ -138,13 +138,13 @@
           <mat-error [ngStyle]="{'font-weight': '200', color: 'green'}" *ngIf="!(observables.userExistsG) && registroGoogleForm.get('displayName').valid">Usuario disponible</mat-error>
           <mat-form-field appearance="fill" class="formstyle">
             <mat-label>Ingresa tu usuario</mat-label>
-            <input (keydown)="invalidateForChangeG()" autocomplete="off" (change)="trimThisG('displayName')" name="displayName" id="displayName" formControlName="displayName" matInput>
+            <input required (keydown)="invalidateForChangeG()" autocomplete="off" (change)="trimThisG('displayName')" name="displayName" id="displayName" formControlName="displayName" matInput>
             <mat-icon [ngStyle]="{'color': !(observables.userExistsG) ? 'green' : 'red'}" matSuffix>{{!(observables.userExistsG) ? 'done' : 'clear'}}</mat-icon>
             <mat-error *ngIf="registroGoogleForm.get('displayName').invalid">Solo numeros o letras, maximo 12 caracteres</mat-error>
           </mat-form-field>
           <mat-form-field appearance="fill" class="formstyle">
             <mat-label>Ingresa tu contraseña</mat-label>
-            <input (keyup)="activarCompro()"  autocomplete="off" [type]="hide ? 'password' : 'text'" (change)="trimThisG('password')" name="apellido" id="password" formControlName="password" matInput>
+            <input required (keyup)="activarCompro()"  autocomplete="off" [type]="hide ? 'password' : 'text'" (change)="trimThisG('password')" name="apellido" id="password" formControlName="password" matInput>
             <button  mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
               <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>
@@ -152,7 +152,7 @@
           </mat-form-field>
           <mat-form-field appearance="fill" class="formstyle">
             <mat-label>Confirma tu contraseña</mat-label>
-            <input (keyup)="comprobarContra()" autocomplete="off" [type]="hide ? 'password' : 'text'" (change)="trimThisG('passwordConf')" name="passwordConf" id="passwordConf" formControlName="passwordConf" matInput>
+            <input required (keyup)="comprobarContra()" autocomplete="off" [type]="hide ? 'password' : 'text'" (change)="trimThisG('passwordConf')" name="passwordConf" id="passwordConf" formControlName="passwordConf" matInput>
             <button  mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
               <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>
@@ -160,7 +160,7 @@
           </mat-form-field>
           <mat-form-field appearance="fill" class="formstyle">
             <mat-label>Celular</mat-label>
-            <input (change)="trimThisG('celular')" name="celular" id="celular" formControlName="celular" matInput>
+            <input required (change)="trimThisG('celular')" name="celular" id="celular" formControlName="celular" matInput>
             <mat-error *ngIf="registroForm.get('celular').hasError('pattern')">Ingrese un formato de celular valido</mat-error>
           </mat-form-field>
         </div>

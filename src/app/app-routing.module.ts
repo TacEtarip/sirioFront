@@ -8,6 +8,8 @@ import { NotFoundPageComponent } from './not-found-page/not-found-page.component
 const routes: Routes = [
   { path: 'store', loadChildren: () => import('./landing/landing.module').then(m => m.LandingModule) },
   { path: 'carrito', loadChildren: () => import('./carrito-compras/carrito-compras.module').then(m => m.CarritoComprasModule) },
+  { path: 'servicio-al-cliente', loadChildren: () => import('./servicio-al-cliente/servicio-al-cliente.module')
+  .then(m => m.ServicioAlClienteModule) },
   { path: 'login', loadChildren: () => import('./login/login.module').then(m => m.LoginModule), canActivate: [LoginGuard]},
   { path: 'ventas', loadChildren: () => import('./ventas/ventas.module').then(m => m.VentasModule)
   , canActivate: [VentasGuard], canLoad: [VentasGuard]},

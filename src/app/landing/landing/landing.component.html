@@ -23,9 +23,11 @@
         <span>Cerrar Sesión</span>
       </button>
     </mat-menu>
-
-    <button aria-label="Ir A Inventario" (click)="aInventario()"  matTooltip="Inventario" mat-icon-button class="sizeIcon">
-      <mat-icon color="accent" class="sizeIcon  sizeShop">assignment</mat-icon>
+    <button aria-label="Carrito" *ngIf="loggedInfo.type === 'low' || !loggedInfo.authenticated" routerLink="/carrito" matTooltip="Carrito" mat-icon-button class="sizeIcon addMargin">
+      <mat-icon color="accent" class="sizeIcon  sizeShop">shopping_cart</mat-icon>
+    </button>
+    <button aria-label="Ir A Inventario" (click)="aInventario()"  matTooltip="Tienda" mat-icon-button class="sizeIcon">
+      <mat-icon color="accent" class="sizeIcon  sizeShop">store_mall_directory</mat-icon>
     </button>
     <button aria-label="Ir a ventas" *ngIf="loggedInfo.authenticated && loggedInfo.type !== 'low'" routerLink="/ventas" matTooltip="Ventas" mat-icon-button class="sizeIcon addMargin">
       <mat-icon color="accent" class="sizeIcon  sizeShop">shopping_cart</mat-icon>
@@ -39,7 +41,7 @@
 </mat-toolbar>
 <div class="menu">
   <div class="menuContenedorTodo">
-    <a aria-label="Ver WhatsApp" class="phoneLink" [href]="whatsAppLinkOne" target="_blank" rel="noreferrer"><h6>Cel: +51 977 426 349</h6></a>
+    <a aria-label="Contactanos" class="phoneLink" href="/servicio-al-cliente/contactanos"><h6>CONTACTANOS</h6></a>
     <div class="navegacion">
       <div class="masterDrop" >
         <h6  [ngStyle]="{'line-height': 3, 'height': '100%' }">CATEGORIAS</h6>
@@ -81,46 +83,72 @@
   <router-outlet></router-outlet>
 </section>
 <footer>
-  <div class="presentacionFooter">
-    <div>
-      <h3 class="toMainPage" (click)="goToLink('http://www.siriodinar.com/inicio')" >¿Quienes Somos?</h3>
-      <mat-divider></mat-divider>
-      <p>{{descripcion}}</p>
-    </div>
-  </div>
+
+  <mat-list>
+    <div mat-subheader>Servicio Al Cliente:</div>
+    <mat-list-item class="social-link">
+      <a mat-line href="/servicio-al-cliente/terminos-y-condiciones"><span><mat-icon mat-list-icon>description</mat-icon></span>Terminos y condiciones</a>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item class="social-link">
+      <a mat-line href="/servicio-al-cliente/politica-de-privacidad"><span><mat-icon mat-list-icon>description</mat-icon></span>Política de privacidad</a>
+    </mat-list-item>
+  </mat-list>
+
+  <mat-list>
+    <div mat-subheader>Envios y devoluciones:</div>
+    <mat-list-item class="social-link">
+      <a mat-line href="/servicio-al-cliente/politica-de-devolucion"><span><mat-icon mat-list-icon>local_shipping</mat-icon></span>Política de devoluciones</a>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item class="social-link">
+      <a mat-line href="/servicio-al-cliente/politica-de-envio"><span><mat-icon mat-list-icon>local_shipping</mat-icon></span>Política de envio</a>
+    </mat-list-item>
+  </mat-list>
 
   <mat-list>
     <div mat-subheader>Redes Sociales:</div>
-    <mat-list-item class="social-link" (click)="goToLink('https://www.facebook.com/siriodinar')">
-      <mat-icon mat-list-icon>facebook</mat-icon>
-      <div mat-line>fb.com/siriodinar</div>
+    <mat-list-item class="social-link" >
+      <a mat-line rel="noreferrer" target="_blank"
+      href="https://www.facebook.com/siriodinar"><span><mat-icon mat-list-icon>facebook</mat-icon></span>fb.com/siriodinar</a>
     </mat-list-item>
     <mat-divider></mat-divider>
-    <mat-list-item class="social-link" (click)="goToLink('https://www.instagram.com/dinarsirio/')">
-      <mat-icon [ngStyle]="{'padding-bottom': '12px'}" mat-list-icon><i class="fab fa-instagram"></i></mat-icon>
-      <div mat-line>@dinarsirio</div>
+    <mat-list-item class="social-link">
+      <a rel="noreferrer" target="_blank" rel="noreferrer" mat-line href="https://www.instagram.com/dinarsirio/">
+        <span><mat-icon [ngStyle]="{'padding-bottom': '12px'}" mat-list-icon>
+        <i class="fab fa-instagram"></i></mat-icon></span>@dinarsirio</a>
     </mat-list-item>
   </mat-list>
 
-  <mat-list >
+  <mat-list>
     <div mat-subheader>WhatsApps:</div>
-    <mat-list-item class="social-link" (click)="goToLink('w1')">
-      <mat-icon [ngStyle]="{'padding-bottom': '12px'}" mat-list-icon><i class="fa fa-whatsapp" aria-hidden="true"></i></mat-icon>
-      <div mat-line>+51 977 426 349</div>
+    <mat-list-item class="social-link">
+      <a mat-line rel="noreferrer" target="_blank"
+      href="https://api.whatsapp.com/send/?phone=51977426349&text=Buenas%2C+me+gustaria+obtener+m%C3%A1s+informaci%C3%B3n.&app_absent=0"><span>
+        <mat-icon [ngStyle]="{'padding-bottom': '12px'}" mat-list-icon><i class="fa fa-whatsapp" aria-hidden="true"></i>
+        </mat-icon></span>+51 977 426 349</a>
     </mat-list-item>
     <mat-divider></mat-divider>
-    <mat-list-item class="social-link" (click)="goToLink('w2')">
-      <mat-icon [ngStyle]="{'padding-bottom': '12px'}" mat-list-icon><i class="fa fa-whatsapp" aria-hidden="true"></i></mat-icon>
-      <div mat-line>+51 922 412 404</div>
+    <mat-list-item class="social-link">
+      <a rel="noreferrer" target="_blank" mat-line
+      href="https://api.whatsapp.com/send/?phone=51922412404&text=Buenas%2C+me+gustaria+obtener+m%C3%A1s+informaci%C3%B3n.&app_absent=0"><span>
+        <mat-icon [ngStyle]="{'padding-bottom': '12px'}" mat-list-icon><i class="fa fa-whatsapp" aria-hidden="true"></i>
+        </mat-icon></span>+51 922 412 404</a>
     </mat-list-item>
   </mat-list>
 
-  <mat-list >
-    <div mat-subheader>Dirección:</div>
-    <mat-list-item class="social-link" (click)="goToLink('https://www.google.com/maps/place/Felipe+Pardo+y+Aliaga+213,+Trujillo+13006/@-8.11283,-79.0178555,19z/data=!3m1!4b1!4m5!3m4!1s0x91ad162a59b1c931:0xda445057079ecc8!8m2!3d-8.1128313!4d-79.0173083?rapsrc=apiv3')">
-      <mat-icon mat-list-icon>room</mat-icon>
-      <div mat-line>Jr. Felipe Pardo Y Aliaga 213</div>
-      <div mat-line>Urb. Palermo. Trujillo, Perú.</div>
+  <mat-list>
+    <div mat-subheader>Comunicate:</div>
+    <mat-list-item class="social-link">
+      <a mat-line href="/servicio-al-cliente/contactanos"><span><mat-icon mat-list-icon>contact_mail</mat-icon></span>Contactanos</a>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item class="social-link">
+      <a rel="noreferrer" target="_blank" mat-line href="https://www.google.com/maps/place/Felipe+Pardo+y+Aliaga+213,+Trujillo+13006/@-8.11283,-79.0178555,19z/data=!3m1!4b1!4m5!3m4!1s0x91ad162a59b1c931:0xda445057079ecc8!8m2!3d-8.1128313!4d-79.0173083?rapsrc=apiv3">
+        <span><mat-icon mat-list-icon>room</mat-icon></span>Jr. Felipe Pardo Y Aliaga 213</a>
+      <div mat-line><mat-icon></mat-icon>Urb. Palermo. Trujillo, Perú.</div>
     </mat-list-item>
   </mat-list>
+
+
 </footer>

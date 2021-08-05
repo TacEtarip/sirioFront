@@ -1,7 +1,5 @@
-User-agent: Googlebot
-Disallow:
-
 User-agent: *
-Allow: /
+Disallow: /reportes/
+Disallow: /ventas/
 
 Sitemap: https://inventario.siriodinar.com/assets/sitemap.xml

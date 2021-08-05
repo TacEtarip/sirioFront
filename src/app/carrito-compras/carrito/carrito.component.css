@@ -31,8 +31,84 @@
 }
 
 
+.masterDrop {
+  padding: 0em 1em;
+}
+
+.btnBuscarContenedor {
+  height: 100%;
+  display: flex;
+  width: 62px;
+  justify-content: center;
+}
 
 
+.busquedaMasterDrop:hover .dropMenuBuscar {
+  display: block;
+}
+
+.masterDrop:hover .dropMenu {
+  display: block;
+}
+
+.showMenu {
+  display: block;
+}
+
+.buscarField {
+  width: 700px;
+}
+
+.navegacion button {
+  align-self: center;
+}
+
+.navegacion button {
+  align-self: center;
+  box-shadow: none;
+}
+
+.navLink {
+  padding: 0 !important;
+  margin-left: 1em;
+  font-family: Roboto, sans-serif;
+  color: rgb(24, 24, 24);
+  margin: .5em .5em;
+}
+
+.dropMenuBuscar .contenedorMenuBuscar {
+  padding: 4em;
+  display: grid;
+  grid-template-columns: 700px 100px 100px;
+  gap: 1em;
+  justify-content: center;
+}
+
+.navLink {
+  padding: 0 !important;
+  margin-left: 1em;
+  font-family: Roboto, sans-serif;
+  color: rgb(24, 24, 24);
+  margin: .5em .5em;
+}
+
+.dropMenu .contenedorMenu {
+  padding: 1em 2em;
+  display: flex;
+  align-self: center;
+  justify-self: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  justify-items: center;
+}
+
+.dropMenuBuscar .contenedorMenuBuscar {
+  padding: 4em;
+  display: grid;
+  grid-template-columns: 700px 100px 100px;
+  gap: 1em;
+  justify-content: center;
+}
 
 h6 {
   margin: 0;
@@ -131,18 +207,6 @@ h1 {
   align-self: center;
   text-align: center;
 }
-
-
-
-footer {
-  padding: 3em 3em;
-  display: grid;
-  gap: 2em;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  background-color: #005087;
-  color: white;
-}
-
 
 .social-link:hover {
   cursor: pointer;
@@ -248,13 +312,6 @@ h1 {
 
 
 @media screen and (max-width: 1300px) {
-  footer {
-    grid-template-columns: 1fr 1fr 1fr;
-  }
-
-  footer .presentacionFooter {
-    grid-column: span 3;
-  }
 
   .dropMenuBuscar .contenedorMenuBuscar {
     grid-template-columns: 1fr;
@@ -267,13 +324,6 @@ h1 {
 }
 
 @media screen and (max-width: 950px) {
-  footer {
-    grid-template-columns: 1fr ;
-  }
-
-  footer .presentacionFooter {
-    grid-column: span 1;
-  }
   .dropMenu .contenedorMenu {
     display: grid;
     gap: 0.5em;
@@ -293,14 +343,6 @@ h1 {
     padding: 0 20px;
     width: calc(100% - 40px);
   }
-
-  footer {
-    padding: 3em 1.5em;
-    gap: 1em;
-
-  }
-
-
 
   ::ng-deep .mat-list-item-content {
     flex-wrap: wrap;
@@ -334,3 +376,48 @@ h1 {
     flex: 1 1 auto;
   }
 }
+
+
+/**Footer*/
+
+.mat-subheader {
+  color: white;
+}
+
+footer {
+  padding: 3em 3em;
+  display: grid;
+  gap: 2em;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  background-color: #005087;
+  color: white;
+}
+
+footer a {
+  color: white;
+  display: flex !important;
+  align-items: center;
+  gap: .5em;
+}
+
+@media screen and (max-width: 1300px) {
+  footer {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: 950px) {
+  footer {
+    grid-template-columns: 1fr ;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  footer {
+    padding: 3em 1.5em;
+    gap: 1em;
+  }
+
+}
+
+

@@ -29,10 +29,18 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.titleService.setTitle('Sirio Dinar | Login');
+    this.titleService.setTitle('Iniciar Sesión | Sirio Dinar');
     this.metaTagService.updateTag(
-      { name: 'description', content: 'Iniciar sesion Sirio Dinar' }
+      { name: 'description', content: 'Iniciar sesion en Sirio Dinar' }
     );
+    this.metaTagService.updateTag({ property: 'og:url', content: 'https://inventario.siriodinar.com/login' });
+    this.metaTagService.updateTag({ property: 'og:title', content: 'Usuario Panel | Sirio Dinar' });
+    this.metaTagService.updateTag({ property: 'og:description',
+    content: 'Iniciar sesion en Sirio Dinar' });
+    this.metaTagService.updateTag({ property: 'og:image', content: 'https://inventario.siriodinar.com/assets/itemsSocial.jpg' });
+    this.metaTagService.updateTag({ property: 'og:image:alt', content: 'sirio presentacion' });
+    this.metaTagService.updateTag({ property: 'og:type', content: 'website' });
+
     this.form = this.formBuilder.group({
       username: this.formBuilder.control('',  Validators.compose([
         Validators.required,

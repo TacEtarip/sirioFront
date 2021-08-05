@@ -1,0 +1,66 @@
+<main>
+  <div  *ngIf="formIsReady | async" [ngStyle]="{'padding': '3em'}">
+    <mat-stepper class="stepper-control" [linear]="true" #stepper>
+      <mat-step [stepControl]="formContacto">
+        <form [formGroup]="formContacto">
+          <ng-template matStepLabel>Datos de contacto</ng-template>
+          <mat-form-field appearance="fill">
+            <mat-label>Nombre</mat-label>
+            <input matInput placeholder="Nombre" formControlName="nombre" required>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Apellido</mat-label>
+            <input matInput placeholder="Apellido" formControlName="apellido" required>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>DNI/RUC</mat-label>
+            <input  matInput placeholder="DNI ó RUC" formControlName="documento" required>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Nombre Documento</mat-label>
+            <input matInput placeholder="Nombre" formControlName="documentoShow">
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>email</mat-label>
+            <input matInput placeholder="Correo Electronico" formControlName="email" required>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Celular</mat-label>
+            <input matInput placeholder="Celular" formControlName="celular" required>
+          </mat-form-field>
+          <div class="button-part">
+            <button [disabled]="documentCharged|async"
+            mat-stroked-button matStepperNext color="accent">Siguiente</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [ngStyle]="{'width': '100%'}">
+        <div class="global-step envio">
+          <ng-template matStepLabel>Envio</ng-template>
+          <h3> <span><mat-icon>announcement</mat-icon></span> Por este momento solo se acepta recojo en tienda.</h3>
+          <div class="links-envio">
+            <a aria-label="Ver Mapa" rel="noreferrer" target="_blank" href="https://www.google.com/maps/place/Felipe+Pardo+y+Aliaga+213,+Trujillo+13006/@-8.11283,-79.0178555,19z/data=!3m1!4b1!4m5!3m4!1s0x91ad162a59b1c931:0xda445057079ecc8!8m2!3d-8.1128313!4d-79.0173083?rapsrc=apiv3"><span><mat-icon>map</mat-icon></span> Ver local en Google Maps</a>
+            <a aria-label="Ver WhatsApp" rel="noreferrer" target="_blank" href="https://api.whatsapp.com/send/?phone=51977426349&text=Buenas%2C+me+gustaria+obtener+m%C3%A1s+informaci%C3%B3n.&app_absent=0"><span><mat-icon>smartphone</mat-icon></span> Contactar por WhatsApp</a>
+          </div>
+          <div class="button-part">
+            <button mat-stroked-button matStepperPrevious color="primary">Anterior</button>
+            <button mat-stroked-button matStepperNext color="accent">Siguiente</button>
+          </div>
+        </div>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Pago</ng-template>
+        <div>
+          <button mat-button matStepperPrevious>Anterior</button>
+          <button mat-button matStepperNext>Siguiente</button>
+        </div>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Post Pago</ng-template>
+        <div>
+          <button mat-button matStepperPrevious>Anterior</button>
+        </div>
+      </mat-step>
+    </mat-stepper>
+  </div>
+</main>

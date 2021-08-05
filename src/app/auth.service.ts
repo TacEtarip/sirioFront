@@ -355,6 +355,25 @@ export class AuthService {
     return this.http.get<FullUser>(this.baseUrl + 'auth/google').pipe(first());
   }
 
+  getOwnUser(): Observable<FullUser> {
+    return this.http.get<FullUser>(this.baseUrl + 'auth/getOwnUser')
+    .pipe(first(), catchError(error => {
+      switch (error.status) {
+        case 0:
+          this.alertaUniversal('Error al tratar de conectar al servidor');
+          break;
+        case 700:
+          break;
+        case 400:
+          return of({logged: false, credentialsErr: true});
+        default:
+          this.alertaUniversal('Error al tratar de compropar credenciales');
+          break;
+      }
+      return of(null);
+    }));
+  }
+
   doLoginObs(res: Token): Observable<UserInfo> {
     return this.http.post<UserInfo>('/auth/signIn',
     { jwt: res.token, type: res.type, usershow: res.displayName, usuario:  res.username.toLowerCase()})

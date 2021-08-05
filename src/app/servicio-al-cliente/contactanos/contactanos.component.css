@@ -1,0 +1,103 @@
+main {
+  min-height: 75vh;
+  padding: 0em 3em;
+}
+
+h1 {
+  color: #005087;
+  margin-top: 0;
+  margin-bottom: 1.5em;
+}
+
+h3 {
+  color: #E87200;
+  margin: 0;
+  margin-bottom: 1em;
+}
+
+button {
+  width: 100%;
+}
+
+p {
+  line-height: 1.5;
+  text-align: justify;
+  letter-spacing: .3px;
+}
+
+textarea {
+  min-height: 100px;
+}
+
+.mensaje-contacto {
+  width: 100%;
+  border: rgb(228, 228, 228) solid 1px;
+  border-radius: .3em;
+  -webkit-box-shadow: 0px 0px 3px 1px rgba(0,0,0,0.1);
+  -moz-box-shadow: 0px 0px 3px 1px rgba(0,0,0,0.1);
+  box-shadow: 0px 0px 3px 1px rgba(0,0,0,0.1);
+}
+
+.full-form {
+  width: 100%;
+}
+
+li {
+  margin-bottom: 1em;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5em;
+}
+
+form {
+  padding: 1.5em;
+}
+
+.links {
+  padding: 1.5em;
+  border: rgb(228, 228, 228) solid 1px;
+  border-radius: .3em;
+  -webkit-box-shadow: 0px 0px 3px 1px rgba(0,0,0,0.1);
+  -moz-box-shadow: 0px 0px 3px 1px rgba(0,0,0,0.1);
+  box-shadow: 0px 0px 3px 1px rgba(0,0,0,0.1);
+}
+
+.links a {
+    font-family: Roboto, sans-serif;
+    margin: 0;
+    display: flex !important;
+    align-items: center;
+    gap: .5em;
+    text-decoration: none;
+    color: #005087;
+    width: fit-content;
+}
+
+@media screen and (max-width: 1600px) {
+  main {
+    padding: 0 1em;
+  }
+  .container {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  main {
+    padding: 0 0 1em 0;
+  }
+
+  form {
+    padding: 0;
+  }
+  .mensaje-contacto, .links {
+    border: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    padding: 0;
+  }
+}

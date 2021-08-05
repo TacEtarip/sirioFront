@@ -1,0 +1,30 @@
+main {
+  min-height: 80vh;
+  padding: 0em 3em;
+}
+
+h1 {
+  color: #005087;
+  margin-top: 0;
+}
+
+h3 {
+  color: #E87200;
+}
+
+p {
+  line-height: 1.5;
+  text-align: justify;
+  letter-spacing: .3px;
+}
+
+li {
+  margin-bottom: 1em;
+}
+
+@media screen and (max-width: 650px) {
+  main {
+    padding: 0 0 1em 0;
+  }
+}
+

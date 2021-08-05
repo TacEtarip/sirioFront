@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { BehaviorSubject, fromEvent, Observable, Subject, Subscription } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, first } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { BehaviorSubject, Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth.service';
 import { InventarioManagerService, ItemsVentaForCard, Venta } from './../../inventario-manager.service';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ElementRef } from '@angular/core';
 
 
 @Component({
@@ -54,7 +54,8 @@ export class CarritoTablaComponent implements OnInit, OnDestroy {
 
   venta$ = new BehaviorSubject<Venta>(null);
 
-  constructor(private inv: InventarioManagerService, public auth: AuthService, private fb: FormBuilder) { }
+  constructor(private inv: InventarioManagerService, private router: Router,
+              public auth: AuthService, private fb: FormBuilder) { }
 
   ngOnDestroy(): void {
     if (this.subsI) {
@@ -74,7 +75,6 @@ export class CarritoTablaComponent implements OnInit, OnDestroy {
       this.inv.getCarrito().subscribe(res => {
         if (res) {
           this.itemsVendidosList = res.carrito;
-          console.log(res);
           this.addGroupFormArray(this.itemsVendidosList);
           this.dataSource = new MatTableDataSource(this.itemsVendidosList);
           this.dateSource$.next(this.dataSource);
@@ -84,7 +84,6 @@ export class CarritoTablaComponent implements OnInit, OnDestroy {
   }
 
   actQTY(index: number, value: number) {
-    console.log(index);
     this.cantidades.at(index).get('cantidad').setValue(Math.round(value));
     if (this.itemsVendidosList[index].cantidadSC) {
       this.itemsVendidosList[index].cantidadSC.cantidadVenta = this.cantidades.at(index).get('cantidad').value;
@@ -148,6 +147,16 @@ export class CarritoTablaComponent implements OnInit, OnDestroy {
     });
   }
 
-
+  iniciarCompra() {
+    this.cantidadesForm.disable();
+    this.inv.iniciarCompra(this.itemsVendidosList).subscribe(res => {
+      this.cantidadesForm.enable();
+      if (res.length !== 0) {
+        this.auth.reoloadPage();
+      } else {
+        this.router.navigate(['carrito', 'pago'], { state: { carrito: this.itemsVendidosList } });
+      }
+    });
+  }
 
 }

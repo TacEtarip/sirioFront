@@ -3,76 +3,41 @@
   <span class="example-spacer"></span>
   <a class="topLink" href="/"><mat-icon [ngStyle]="{'margin-right': '2px'}" class="changeColor" >store_mall_directory</mat-icon> <span>Tienda</span> </a>
 </mat-toolbar>
-<div *ngIf="{
-  user: user | async
-} as observables" class="bg">
-  <div  class="profilecard">
-    <mat-spinner [ngStyle]="{'grid-column': '1/3', 'justify-self': 'center', 'align-self': 'center'}" *ngIf="!(observables.user)"></mat-spinner>
-    <div *ngIf="(observables.user)" class="gridUno">
-      <div class="names">
-        <h1>{{(observables.user).displayName}}</h1>
-        <h4>{{(observables.user).email}}</h4>
-      </div>
-      <div class="compras">
-        <h3 *ngIf="auth.getTtype() === 'low'">Compras</h3>
-        <h3 *ngIf="auth.getTtype() !== 'low' || auth.getTtype() !== 'contador'">Ventas</h3>
-        <div class="comprasList">
-          <mat-list [ngStyle]="{'height': '184px'}" role="list">
-            <mat-list-item *ngFor="let venta of ventasLastTen|async" matRipple [ngStyle]="{'font-size': '14px', 'cursor': 'pointer'}" role="listitem">
-              <a href="/ventas/historialVentas/{{venta.codigo}}">
-                {{venta.codigo}} <span
-                [ngStyle]="{'color': ' #e69a53', 'font-size': '14px', 'margin-left': '8px'}">{{venta.date|date: 'shortDate'}}</span>
-              </a>
-            </mat-list-item>
-          </mat-list>
-        </div>
-      </div>
-    </div>
-    <mat-divider class="divider"></mat-divider>
-    <div *ngIf="(observables.user)" class="gridDos">
-      <h4>
-        Nombre:
-      </h4>
-      <h3>
-        {{(observables.user).nombre}} {{(observables.user).apellido}}
-      </h3>
-      <mat-divider class="divider"></mat-divider>
-      <h4>
-        Direccion:
-      </h4>
-      <h3 *ngIf="(observables.user).dirOne">
-        {{(observables.user).dirOne}} {{(observables.user).dirTwo}} {{(observables.user).ciudad}}
-        <i (click)="openAgregarDireccionDialog()" matTooltip="Editar" [ngStyle]="{'color': '#E87200', 'padding-left': '12px', 'cursor': 'pointer'}" class="far fa-edit"></i>
-      </h3>
-      <h3 (click)="openAgregarDireccionDialog()" *ngIf="!(observables.user).dirOne" [ngStyle]="{'color': '#E87200', 'cursor': 'pointer'}">
-        Agregar dirección.
-      </h3>
-      <mat-divider class="divider"></mat-divider>
-      <h4>
-        Celular:
-      </h4>
-      <h3>
-        {{(userPhone|async)}}
-        <i (click)="openEditarCelDialog()" matTooltip="Editar" [ngStyle]="{'color': '#E87200', 'padding-left': '12px', 'cursor': 'pointer'}" class="far fa-edit"></i>
-      </h3>
-      <mat-divider class="divider"></mat-divider>
-      <h4>
-        DNI/RUC:
-      </h4>
-      <h3 *ngIf="(observables.user).documento">
-        {{(observables.user).documento}}
-        <i (click)="openAgregarDocumentoDialog()" matTooltip="Editar" [ngStyle]="{'color': '#E87200', 'padding-left': '12px', 'cursor': 'pointer'}" class="far fa-edit"></i>
-      </h3>
-      <h3 (click)="openAgregarDocumentoDialog()" *ngIf="!(observables.user).documento" [ngStyle]="{'color': '#E87200', 'cursor': 'pointer'}">
-        Agregar documento de identidad.
-      </h3>
-      <mat-divider class="divider"></mat-divider>
-      <button class="btn fbtn" (click)="openEditarContrasena()" [ngStyle]="{'margin-top': '18px'}" mat-raised-button color="primary">Cambiar Contraseña</button>
-      <button disabled class="btn" [ngStyle]="{'margin-top': '18px', width: '160px'}" mat-raised-button color="primary">Ver Reporte</button>
-      <button color="accent" class="btn" (click)="cerrarSesion()"
-      [ngStyle]="{'margin-top': '18px', width: '160px'}"
-      mat-raised-button>Cerrar Sesión</button>
-    </div>
+<div class="contenedor">
+  <div class="navegacion">
+    <h4>Servicio Al Cliente</h4>
+    <mat-list>
+      <mat-list-item class="social-link">
+        <a mat-line href="/servicio-al-cliente/contactanos">Contactanos</a>
+      </mat-list-item>
+      <mat-list-item class="social-link">
+        <a mat-line href="/servicio-al-cliente/terminos-y-condiciones">Terminos y condiciones</a>
+      </mat-list-item>
+      <mat-list-item class="social-link">
+        <a mat-line href="/servicio-al-cliente/politica-de-privacidad">Política de privacidad</a>
+      </mat-list-item>
+      <mat-list-item class="social-link">
+        <a mat-line href="/servicio-al-cliente/politica-de-devolucion">Política de devolución</a>
+      </mat-list-item>
+      <mat-list-item class="social-link">
+        <a mat-line href="/servicio-al-cliente/politica-de-envio">Política de envio</a>
+      </mat-list-item>
+  </mat-list>
+  </div>
+  <div class="nav-mobile">
+    <button mat-icon-button [matMenuTriggerFor]="menu" color="accent">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+        <a  mat-menu-item href="/servicio-al-cliente/contactanos">Contactanos</a>
+        <a mat-menu-item href="/servicio-al-cliente/terminos-y-condiciones">Terminos y condiciones</a>
+        <a mat-menu-item href="/servicio-al-cliente/politica-de-privacidad">Política de privacidad</a>
+        <a mat-menu-item href="/servicio-al-cliente/politica-de-devolucion">Política de devolución</a>
+        <a mat-menu-item href="/servicio-al-cliente/politica-de-envio">Política de envio</a>
+    </mat-menu>
+  </div>
+  <div>
+    <router-outlet></router-outlet>
   </div>
 </div>
 <footer>

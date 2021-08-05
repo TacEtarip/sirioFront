@@ -17,50 +17,6 @@ a {
   text-decoration: none;
 }
 
-.bg {
-  background-image: url('/assets/patternSirio.jpg');
-  background-repeat: repeat;
-  background-size: 10%;
-  width: 100%;
-  height: calc(100vh - 64px);
-  display: flex;
-  justify-content: center;
-}
-
-
-b {
-  font-weight: 500;
-  color: #E87200;
-}
-
-button {
-  border: none;
-}
-
-button:hover {
-  cursor: pointer;
-}
-
-.profilecard {
-  background-color: white;
-  align-self: center;
-  justify-self: center;
-  border-radius: 16px;
-  display: grid;
-  padding: 3em;
-  gap: 54px;
-  overflow: auto;
-  grid-template-columns: 1fr 3fr;
-  height: calc(420px - 6em);
-  width: calc(940px - 6em);
-}
-
-.gridUno {
-  display: grid;
-  gap: 36px;
-  grid-template-rows: 1fr 3fr;
-}
-
 h4 {
   font-size: 16px;
   font-weight: 200;
@@ -109,6 +65,14 @@ h3 {
   font-size: '14px';
 }
 
+.navegacion {
+  padding: 1.5em;
+}
+
+.navegacion a {
+  color: #005087;
+}
+
 .comprasList {
   overflow: auto;
   height: 192px;
@@ -152,67 +116,14 @@ a {
   display: none;
 }
 
-.btn.fbtn {
-  margin-left: 0;
+.contenedor {
+  display: grid;
+  grid-template-columns: 250px auto;
+  padding: 3em;
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
 }
-
-@media screen and (max-width: 800px) and (orientation: portrait) {
-  .profilecard {
-   transform: scale(.9);
-   height: calc(470px - 6em);
-  }
-
-  .btn {
-    margin-left: 0;
-    margin-right: 10px;
-  }
-}
-
-@media screen and (max-width: 550px) and (orientation: portrait) {
-  .profilecard {
-    grid-template-columns: 1fr;
-    padding: 3em;
-    align-self: initial;
-    height: auto;
-    width: 100%;
-    gap: 0;
-  }
-
-  .btn {
-    display: block;
-    margin-left: 0;
-  }
-
-  .bg {
-    height: auto;
-    background-image: none;
-  }
-
-  .compras {
-    display: none;
-  }
-
-  .gridUno {
-    display: block;
-  }
-
-  .divider {
-    margin-top: 5px;
-    display: block;
-  }
-
-  .notDivide {
-    display: block;
-  }
-}
-
-
-/**Footer*/
-
-.mat-subheader {
-  color: white;
-}
-
 
 footer {
   padding: 3em 3em;
@@ -230,15 +141,40 @@ footer a {
   gap: .5em;
 }
 
+.social-link {
+  color: white;
+}
+
+.mat-subheader {
+  color: white;
+}
+
+.nav-mobile {
+  display: none;
+}
+
 @media screen and (max-width: 1300px) {
   footer {
     grid-template-columns: 1fr 1fr 1fr;
   }
 }
 
-@media screen and (max-width: 950px) {
+@media screen and (max-width: 1050px) {
   footer {
     grid-template-columns: 1fr ;
+  }
+  .contenedor {
+    width: calc(100% - 6em);
+    grid-template-columns: 1fr;
+    gap: 1.5em;
+  }
+
+  .navegacion {
+    display: none;
+  }
+
+  .nav-mobile {
+    display: block;
   }
 }
 
@@ -246,5 +182,13 @@ footer a {
   footer {
     padding: 3em 1.5em;
     gap: 1em;
+  }
+  .contenedor {
+    padding: 1.5em .5em;
+    width: calc(100% - 3em);
+  }
+
+  .navegacion {
+    padding: 1.5em 0;
   }
 }

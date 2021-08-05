@@ -91,14 +91,15 @@
     <div class="actions">
       <h3>Total: S/ {{observables.totalPrice|currency: ' '}}</h3>
       <div class="spacer"></div>
-      <button [disabled]="!cantidadesForm.valid || !observables.showTable" mat-raised-button color="accent">Ir a Pagar</button>
+      <button type="button" [disabled]="!cantidadesForm.valid || !observables.showTable" (click)="iniciarCompra()"
+      mat-raised-button color="accent">Ir a Pagar</button>
     </div>
   </div>
   <div class="non-message" *ngIf="auth.getTtype() !== 'low'">
     <h1> <span >
       <mat-icon [ngStyle]="{ 'font-size': '50px', 'height': '50px', width: '50px'}">remove_shopping_cart</mat-icon>
     </span> NO HAY NADA EN TU CARRITO</h1>
-    <a href="/store/categorias"><span><mat-icon>shop</mat-icon></span>Ir a Tienda</a>
+    <a href="/store/categorias"><span><mat-icon>store_mall_directory</mat-icon></span>Ir a Tienda</a>
     <a href="/login"><span><mat-icon>account_box</mat-icon></span>Iniciar Sesión</a>
   </div>
 </main>

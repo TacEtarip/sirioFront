@@ -19,12 +19,15 @@ import { CarritoTablaComponent } from './carrito-tabla/carrito-tabla.component';
 import { CarritoComponent } from './carrito/carrito.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
+import { MatStepperModule } from '@angular/material/stepper';
+import { PagoComponent } from './pago/pago.component';
 
 
 @NgModule({
   declarations: [
     CarritoComponent,
-    CarritoTablaComponent
+    CarritoTablaComponent,
+    PagoComponent
   ],
   imports: [
     CommonModule,
@@ -44,7 +47,8 @@ import { FormsModule } from '@angular/forms';
     MatInputModule,
     MatProgressSpinnerModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    MatStepperModule
   ]
 })
 export class CarritoComprasModule { }

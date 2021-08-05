@@ -203,14 +203,7 @@ form img {
   justify-self: center;
 }
 
-footer {
-  padding: 3em 3em;
-  display: grid;
-  gap: 2em;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  background-color: #005087;
-  color: white;
-}
+
 
 
 .social-link:hover {
@@ -293,6 +286,24 @@ a:hover {
   width: 0.5em;
 }
 
+/**Footer*/
+
+
+footer {
+  padding: 3em 3em;
+  display: grid;
+  gap: 2em;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  background-color: #005087;
+  color: white;
+}
+
+footer a {
+  color: white;
+  display: flex !important;
+  align-items: center;
+  gap: .5em;
+}
 
 @media screen and (max-width: 1300px) {
   footer {
@@ -316,10 +327,6 @@ a:hover {
 @media screen and (max-width: 950px) {
   footer {
     grid-template-columns: 1fr ;
-  }
-
-  footer .presentacionFooter {
-    grid-column: span 1;
   }
   .dropMenu .contenedorMenu {
     display: grid;
@@ -381,3 +388,5 @@ a:hover {
     flex: 1 1 auto;
   }
 }
+
+

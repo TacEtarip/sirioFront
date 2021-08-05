@@ -52,11 +52,17 @@ export class UsuarioComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.titleService.setTitle('Sirio Dinar | Usuario');
+    this.titleService.setTitle('Usuario Panel | Sirio Dinar');
     this.metaTagService.updateTag(
-      { name: 'description', content: 'Informacion de Sirio Dinar usuario' }
+      { name: 'description', content: 'Panel de control de usuario sirio dianar.' }
     );
-
+    this.metaTagService.updateTag({ property: 'og:url', content: 'https://inventario.siriodinar.com/usuario' });
+    this.metaTagService.updateTag({ property: 'og:title', content: 'Usuario Panel | Sirio Dinar' });
+    this.metaTagService.updateTag({ property: 'og:description',
+    content: 'Panel de control de usuario sirio dianar.' });
+    this.metaTagService.updateTag({ property: 'og:image', content: 'https://inventario.siriodinar.com/assets/itemsSocial.jpg' });
+    this.metaTagService.updateTag({ property: 'og:image:alt', content: 'sirio presentacion' });
+    this.metaTagService.updateTag({ property: 'og:type', content: 'website' });
 
   }
 

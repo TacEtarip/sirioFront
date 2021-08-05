@@ -103,9 +103,9 @@ export class CategoriasComponent implements OnInit, OnDestroy {
     if (this.estadoSub) {
       this.estadoSub.unsubscribe();
     }
-
+    this.metaService.removeTag('property=\'product:price:amount\'');
+    this.metaService.removeTag('property=\'product:price:currency\'');
     this.jsonLDS.removeStructuredData();
-
   }
 
   ngOnInit(): void {
@@ -365,6 +365,7 @@ export class CategoriasComponent implements OnInit, OnDestroy {
     content: descripcion });
     this.metaService.updateTag({ property: 'og:image', content: 'https://inventario.siriodinar.com/assets/itemsSocial.jpg' });
     this.metaService.updateTag({ property: 'og:image:alt', content: 'sirio presentacion' });
+    this.metaService.updateTag({ property: 'og:type', content: 'website' });
   }
 
   addMetaTagsGeneral(titulo: string, link: string, imageLink?: string, descripcion = '', itemPrice = 0) {

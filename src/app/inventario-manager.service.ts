@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { catchError, first, mapTo } from 'rxjs/operators';
 import { AuthService } from './auth.service';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ import { AuthService } from './auth.service';
 export class InventarioManagerService {
 
   // baseUrl = 'https://inventario-sirio-dinar.herokuapp.com/';
-  baseUrl = 'http://localhost:5000/';
+  baseUrl = environment.backEndUrl;
 
 
   constructor(private http: HttpClient, private auth: AuthService, private router: Router,
@@ -38,6 +39,30 @@ export class InventarioManagerService {
               }
                 return of(null);
               }));
+    }
+
+    iniciarCompra(carrito: ItemsVentaForCard[]): Observable<{ cod: number, mensaje: string, item_cod: string, item_name: string }[]> {
+      return this.http
+      .post<{ cod: number, mensaje: string, item_cod: string, item_name: string }[]>(this.baseUrl + 'carrito/iniciarCompra', {carrito})
+      .pipe(first(), catchError(error => {
+        switch (error.status) {
+        case 0:
+          this.auth.alertaUniversal('Error al tratar de conectar al servidor');
+          break;
+        case 409:
+          this.auth.alertaUniversal('Ya no contamos con la cantidad deseada');
+          break;
+        case 410:
+          this.auth.alertaUniversal('El item ha sido elminado');
+          break;
+        case 500:
+          this.auth.alertaUniversal('Ocurrio un error interno');
+          break;
+        default:
+          break;
+      }
+        return of(null);
+      }));
     }
 
     getCarrito(): Observable<{carrito: ItemsVentaForCard[], cod_carrito: string,
