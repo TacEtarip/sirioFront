@@ -6,6 +6,7 @@ import { REQUEST } from '@nguniversal/express-engine/tokens';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, first, map, mapTo, mergeMap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ import { catchError, first, map, mapTo, mergeMap } from 'rxjs/operators';
 export class AuthService {
 
   // baseUrl = 'https://inventario-sirio-dinar.herokuapp.com/';
-  baseUrl = 'http://localhost:5000/';
+  baseUrl = environment.backEndUrl;
   USUARIO_USER = 'usuario_user';
   SHOW_USER = 'usuario_user_show';
   TYPE_USER = 'usuario_tipo';
