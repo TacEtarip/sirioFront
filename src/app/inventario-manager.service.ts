@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { catchError, first, mapTo } from 'rxjs/operators';
-import { AuthService } from './auth.service';
 import { environment } from '../environments/environment';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -350,6 +350,9 @@ export class InventarioManagerService {
       case 0:
         this.auth.alertaUniversal('Error al tratar de conectar al servidor');
         break;
+        case 409:
+          this.auth.reoloadPage();
+          break;
       case 700:
         break;
       default:
@@ -383,6 +386,9 @@ export class InventarioManagerService {
           this.auth.alertaUniversal('Error al tratar de conectar al servidor');
           break;
         case 700:
+          break;
+        case 409:
+          this.auth.reoloadPage();
           break;
         default:
           break;
@@ -527,6 +533,9 @@ export class InventarioManagerService {
               switch (error.status) {
                 case 0:
                   this.auth.alertaUniversal('Error al tratar de conectar al servidor');
+                  break;
+                case 409:
+                  this.auth.reoloadPage();
                   break;
                 case 700:
                   break;
