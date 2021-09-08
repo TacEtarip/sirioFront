@@ -1,6 +1,6 @@
 # Aplicación Web De Inventario Sirio Dinar
 
-Este proyecto front-end esta actuamente utiliza Angular 12 con angular universal (SSR). Link online: https://inventario.siriodinar.com/ (Para algunas las funciones de inventario se requiere una cuenta de administrador).
+Este proyecto front-end esta actuamente utiliza Angular 12 con angular universal (SSR). Link online: <https://inventario.siriodinar.com/> (Para algunas las funciones de inventario se requiere una cuenta de administrador).
 
 ## Tecnologias Usadas
 
@@ -10,8 +10,12 @@ Este proyecto front-end esta actuamente utiliza Angular 12 con angular universal
 
 ## Proyectos Relacionados
 
-*  [Back End (nodejs)](https://github.com/TacEtarip/sirioinventarioserver "Back End Para Inventario")
+*[Back End (nodejs)](https://github.com/TacEtarip/sirioinventarioserver "Back End Para Inventario")
 
 ## Estructura
 
-*
+*Ventas
+**Ventas Activas
+**Cotiazaciones
+**Post Venta
+**Historial
