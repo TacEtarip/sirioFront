@@ -163,7 +163,6 @@ En esta pagina se presenta el negocio usando productos del intenvatio. <https://
 * [Política de privacidad (nodejs)](https://inventario.siriodinar.com/servicio-al-cliente/politica-de-privacidad "Politica de privacidad")
 * [Política de devolución (nodejs)](https://inventario.siriodinar.com/servicio-al-cliente/politica-de-devolucion "Política de devolución")
 
-
 ## Listado de algunos conocimientos de angular usados
 
 * Guards
@@ -175,4 +174,4 @@ En esta pagina se presenta el negocio usando productos del intenvatio. <https://
 * Lazy loading
 * PWA
 
-### PROYECTO REALIZADO POR TAC ETARIP => LUIS HUERTAS; PARA SIRIO DINAR E.I.R.L
+`PROYECTO REALIZADO POR TAC ETARIP => LUIS HUERTAS; PARA SIRIO DINAR E.I.R.L`

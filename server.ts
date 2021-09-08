@@ -20,9 +20,6 @@ import { AppServerModule } from './src/main.server';
 
 
 
-// tslint:disable-next-line: no-string-literal
-
-
 // ssr DOM
 const domino = require('domino');
 const fs = require('fs');
@@ -34,7 +31,6 @@ const win = domino.createWindow(template);
 // mock
 // tslint:disable-next-line: no-string-literal
 global['window'] = win;
-// not implemented property and functions
 Object.defineProperty(win.document.body.style, 'transform', {
   value: () => {
     return {
@@ -43,19 +39,15 @@ Object.defineProperty(win.document.body.style, 'transform', {
     };
   },
 });
-// mock documnet
 // tslint:disable-next-line: no-string-literal
 global['document'] = win.document;
-// othres mock
 // tslint:disable-next-line: no-string-literal
 global['CSS'] = null;
-// global['XMLHttpRequest'] = require('xmlhttprequest').XMLHttpRequest;
 // tslint:disable-next-line: no-string-literal
 global['Prism'] = null;
 
 
 enableProdMode();
-// The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
   const server = express();
   server.use(compression());
@@ -88,11 +80,6 @@ export function app(): express.Express {
 
   server.use(helmet({contentSecurityPolicy: false}));
   server.use(cookieParser());
-  // server.use(enforce.HTTPS({ trustProtoHeader: true }));
-  // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
-  /*server.engine('html', ngExpressEngine({
-    bootstrap: AppServerModule,
-  }));*/
 
   server.engine('html', ngExpressEngine({
     bootstrap: AppServerModule,
@@ -112,7 +99,6 @@ export function app(): express.Express {
 
       const readable = Readable.from(listaURL);
       readable.pipe(smStream);
-      // smStream.end();
       pipeline.pipe(res).on('error', (e) => { throw e; });
     } catch (error) {
       return res.status(500).json(error);
@@ -214,10 +200,6 @@ export function app(): express.Express {
     maxAge: '1y'
   }));
 
-
-
-  // All regular routes use the Universal engine
-
   server.get('*', (req, res) => {
     // tslint:disable-next-line: no-string-literal
     global['navigator'] = { userAgent: req['headers']['user-agent'] } as Navigator;
@@ -240,10 +222,8 @@ export function app(): express.Express {
 function run(): void {
   const port = process.env.PORT || 4000;
 
-  // Start up the Node server
   const server = app();
   server.listen(port, () => {
-    // console.log(`Node Express server listening on http://localhost:${port}`);
   });
 }
 
