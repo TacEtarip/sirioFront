@@ -10,4 +10,9 @@ Este proyecto front-end esta actuamente utiliza Angular 12 con angular universal
 
 ## Proyectos Relacionados
 
-* Back End: [Named Link](http://www.google.fr/ "Named link title")
+*  [Back End (nodejs)](https://github.com/TacEtarip/sirioinventarioserver "Back End Para Inventario")
+
+## Estructura
+
+*
+
