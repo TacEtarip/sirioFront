@@ -158,10 +158,10 @@ En esta pagina se presenta el negocio usando productos del intenvatio. <https://
 
 ### Servicio al cliente
 
-* [Contactanos (nodejs)](https://inventario.siriodinar.com/servicio-al-cliente/contactanos "Contactanos Page")
-* [Terminos y condiciones (nodejs)](https://inventario.siriodinar.com/servicio-al-cliente/terminos-y-condiciones "Terminos y condiciones")
-* [Política de privacidad (nodejs)](https://inventario.siriodinar.com/servicio-al-cliente/politica-de-privacidad "Politica de privacidad")
-* [Política de devolución (nodejs)](https://inventario.siriodinar.com/servicio-al-cliente/politica-de-devolucion "Política de devolución")
+* [Contactanos](https://inventario.siriodinar.com/servicio-al-cliente/contactanos "Contactanos Page")
+* [Terminos y condiciones](https://inventario.siriodinar.com/servicio-al-cliente/terminos-y-condiciones "Terminos y condiciones")
+* [Política de privacidad](https://inventario.siriodinar.com/servicio-al-cliente/politica-de-privacidad "Politica de privacidad")
+* [Política de devolución](https://inventario.siriodinar.com/servicio-al-cliente/politica-de-devolucion "Política de devolución")
 
 ## Listado de algunos conocimientos de angular usados
 
