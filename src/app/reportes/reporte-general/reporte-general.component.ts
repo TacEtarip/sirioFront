@@ -111,9 +111,9 @@ Object.assign(this, { multi } );
 });
 
 inv.getItemMayorGananciaPosible().subscribe(res => {
-if (res) {
-this.itemMayorGananciaPosible.next({ name: res.name, value: res.balance });
-}
+  if (res) {
+    this.itemMayorGananciaPosible.next({ name: res.name, value: res.balance });
+  }
 });
 
 inv.getGraphTopItemsFive().subscribe(single => {

@@ -174,4 +174,10 @@ En esta pagina se presenta el negocio usando productos del intenvatio. <https://
 * Lazy loading
 * PWA
 
-`PROYECTO REALIZADO POR TAC ETARIP => LUIS HUERTAS; PARA SIRIO DINAR E.I.R.L`
+### Comandos
+
+* `ng serve` : Inicializa la aplicación en development enviroment sin SSR.
+* `serve:ssr` : Inicializa la aplicación con SSR.
+* `build:ssr`: Compila la aplicación para SSR.
+
+`PROYECTO REALIZADO POR TAC ETARIP => LUIS HUERTAS; PARA SIRIO DINAR E.I.R.L CONTACTO EN: hu3rtas@outlook.com`

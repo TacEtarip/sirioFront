@@ -1053,8 +1053,9 @@ export class InventarioManagerService {
           }));
   }
 
-  getItemsSorted(subORtipo: string, tipo: string, ordernarPor: string, orden: string, limit: number): Observable<Item[]> {
-    return this.http.get<Item[]>(this.baseUrl +  'inventario/getAllItemsSort/' + subORtipo + '/' + tipo + '/' + ordernarPor + '/' + orden + '/' + limit)
+  /*getItemsSorted(subORtipo: string, tipo: string, ordernarPor: string, orden: string, limit: number): Observable<Item[]> {
+    return this.http.get<Item[]>(this.baseUrl +  'inventario/getAllItemsSort/' + subORtipo + '/' + tipo +
+    '/' + ordernarPor + '/' + orden + '/' + limit)
      .pipe(first(),
             catchError(error => {
             switch (error.status) {
@@ -1070,7 +1071,7 @@ export class InventarioManagerService {
             const errorItems: Item[] = null;
             return of(errorItems);
           }));
-  }
+  }*/
 
 
   getAllItemsByType(tipoLista: string): Observable<Item[]> {
