@@ -404,14 +404,9 @@ export class SeguroEjecDialogComponent implements OnInit, OnDestroy {
     this.inventarioMNG.ejecutarVenta(this.venta).subscribe((res) => {
       this.ventaEnCurso.next(false);
       if (res) {
-        console.log(res.message.split('||'));
-        if (res.message.split('||')[0] === 'Succes') {
+        if (res.message.split('||')[0] === 'Success') {
           this.router.navigateByUrl(`/ventas/postVenta/${res.message.split('||')[1]}`);
           this.dialogRef.close();
-        } else{
-          alert('Ya no se dispone con las cantidades suficientes para realizar esta venta.');
-          this.dialogRef.close();
-        }
 
       } else {
         alert('Ocurrio un error, intente denuevo en un momento.');
