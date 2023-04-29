@@ -404,6 +404,7 @@ export class SeguroEjecDialogComponent implements OnInit, OnDestroy {
     this.inventarioMNG.ejecutarVenta(this.venta).subscribe((res) => {
       this.ventaEnCurso.next(false);
       if (res) {
+        console.log(res.message.split('||'));
         if (res.message.split('||')[0] === 'Succes') {
           this.router.navigateByUrl(`/ventas/postVenta/${res.message.split('||')[1]}`);
           this.dialogRef.close();
