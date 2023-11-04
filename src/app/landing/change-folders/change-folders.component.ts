@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject } from 'rxjs';
@@ -13,14 +13,14 @@ import { Item, Tipo } from './../../inventario-manager.service';
 })
 export class ChangeFoldersComponent implements OnInit {
 
-  cambioFolderForm: FormGroup;
+  cambioFolderForm: UntypedFormGroup;
 
   tiposArray = new BehaviorSubject<Tipo[]>([]);
 
   subTipoArray = new BehaviorSubject<string[]>([]);
 
   constructor(private inv: InventarioManagerService , public dialogRef: MatDialogRef<ChangeFoldersComponent>,
-              private formBuilder: FormBuilder, @Inject(MAT_DIALOG_DATA) public data: { item: Item }, private snackBar: MatSnackBar) { }
+              private formBuilder: UntypedFormBuilder, @Inject(MAT_DIALOG_DATA) public data: { item: Item }, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.cambioFolderForm = this.formBuilder.group({

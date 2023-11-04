@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatListOption } from '@angular/material/list';
 import { BehaviorSubject } from 'rxjs';
@@ -14,10 +14,10 @@ export class TagsComponent implements OnInit {
 
   tagList = new BehaviorSubject<{name: string, deleted: boolean}[]>([]);
 
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   constructor(public dialogRef: MatDialogRef<TagsComponent>,
-              private formBuilder: FormBuilder,
+              private formBuilder: UntypedFormBuilder,
               private inventarioMNG: InventarioManagerService) { }
 
   ngOnInit(): void {

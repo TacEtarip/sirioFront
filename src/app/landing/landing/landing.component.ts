@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -21,7 +21,7 @@ export class LandingComponent implements OnInit, OnDestroy {
   loggedInfo$ = new BehaviorSubject<UserInfo>(null);
 
 
-  busquedaForm: FormGroup;
+  busquedaForm: UntypedFormGroup;
 
   descripcion = 'Venta de indumentaria de seguridad a el mejor precio en Trujillo, venta al por menor y al por mayor;' +
       'guantes, respiradores, cascos, lentes, entre otros productos para tu seguridad o la de tus empleados. ' +
@@ -42,7 +42,7 @@ export class LandingComponent implements OnInit, OnDestroy {
 
   constructor(public auth: AuthService, private inv: InventarioManagerService, private titleService: Title,
               private jsonLDS: JsonLDServiceService,
-              private router: Router, private fb: FormBuilder, private analyticsGoogle: GoogleAnalyticsService) {
+              private router: Router, private fb: UntypedFormBuilder, private analyticsGoogle: GoogleAnalyticsService) {
                 this.auth.getAuhtInfo().pipe(first()).subscribe(res => {
                   this.loggedInfo$.next(res);
                 });

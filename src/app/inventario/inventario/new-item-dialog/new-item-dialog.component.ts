@@ -2,7 +2,7 @@ import { Component, OnInit, EventEmitter, Inject, ElementRef, ViewChild } from '
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material/chips';
 
-import { FormGroup, Validators, FormBuilder, FormArray } from '@angular/forms';
+import { UntypedFormGroup, Validators, UntypedFormBuilder, UntypedFormArray } from '@angular/forms';
 
 import { InventarioManagerService, Item, SubConteo, Marca} from '../../../inventario-manager.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -22,13 +22,13 @@ export class NewItemDialogComponent implements OnInit {
 
   subsAsignaciones = 0;
 
-  myForm: FormGroup;
+  myForm: UntypedFormGroup;
 
   scEnabled = false;
 
   textIndex;
 
-  listOfOrders: FormArray[] = [];
+  listOfOrders: UntypedFormArray[] = [];
 
   sumatorias: number[] = [0, 0];
   disponibles: number[] = [0, 0];
@@ -37,7 +37,7 @@ export class NewItemDialogComponent implements OnInit {
   subCant: string[] = [];
   removable = true;
   addOnBlur = true;
-  subConteo: FormArray;
+  subConteo: UntypedFormArray;
   dualActiveStates = [false, false];
   @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
 
@@ -54,7 +54,7 @@ export class NewItemDialogComponent implements OnInit {
 
   caracteristicas: string[] = [];
 
-  constructor(private formBuilder: FormBuilder, private inventarioMNG: InventarioManagerService,
+  constructor(private formBuilder: UntypedFormBuilder, private inventarioMNG: InventarioManagerService,
               public dialogRef: MatDialogRef<NewItemDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: {subTipo: string, parentTipoName: string}) { }
 
@@ -100,7 +100,7 @@ export class NewItemDialogComponent implements OnInit {
     }
     );
 
-    this.subConteo = this.myForm.get('subConteo') as FormArray;
+    this.subConteo = this.myForm.get('subConteo') as UntypedFormArray;
 
     this.myForm.get('tags').valueChanges.subscribe((changeV: any) => {
       if (changeV) {
@@ -179,7 +179,7 @@ export class NewItemDialogComponent implements OnInit {
 
   changeCantidadMain() {
     let index = -1;
-    this.listOfOrders.forEach((fa: FormArray) => {
+    this.listOfOrders.forEach((fa: UntypedFormArray) => {
       index++;
       this.sumatorias[index] = 0;
       fa.value.forEach(fg => {
@@ -236,13 +236,13 @@ export class NewItemDialogComponent implements OnInit {
        });
       this.addOrder(fg);
       this.subConteo.push(fg);
-      this.listOfOrders.push(fg.get('order') as FormArray);
+      this.listOfOrders.push(fg.get('order') as UntypedFormArray);
       this.subsAsignaciones++;
       this.disponibles[this.listOfOrders.length - 1] =  this.myForm.get('cantidad').value;
     }
   }
 
-  addOrder(secondOrderFormGropup: FormGroup) {
+  addOrder(secondOrderFormGropup: UntypedFormGroup) {
     const fg = this.formBuilder.group({
       name: this.formBuilder.control('', Validators.compose([
       Validators.required,
@@ -260,7 +260,7 @@ export class NewItemDialogComponent implements OnInit {
         Validators.min(0)
       ]))
      });
-    const tempFormArray = secondOrderFormGropup.get('order') as FormArray;
+    const tempFormArray = secondOrderFormGropup.get('order') as UntypedFormArray;
     tempFormArray.push(fg);
   }
 

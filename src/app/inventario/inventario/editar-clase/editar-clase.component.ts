@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, Validators, UntypedFormBuilder } from '@angular/forms';
 import {InventarioManagerService, Tipo} from '../../../inventario-manager.service';
 
 @Component({
@@ -10,12 +10,12 @@ import {InventarioManagerService, Tipo} from '../../../inventario-manager.servic
 })
 export class EditarClaseComponent implements OnInit {
   onSub = new EventEmitter();
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   constructor(
     public dialogRef: MatDialogRef<EditarClaseComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Tipo,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private inv: InventarioManagerService) { }
 
   ngOnInit(): void {

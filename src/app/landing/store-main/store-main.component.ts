@@ -1,6 +1,6 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -16,7 +16,7 @@ import { AuthService } from '../../auth.service';
 })
 export class StoreMainComponent implements OnInit, OnDestroy {
 
-  busqueda: FormGroup;
+  busqueda: UntypedFormGroup;
 
   filteredItem$ = new BehaviorSubject<Item[]>(null);
 
@@ -41,7 +41,7 @@ export class StoreMainComponent implements OnInit, OnDestroy {
   smallSubs: Subscription;
 
   constructor(public auth: AuthService, private inv: InventarioManagerService, private titleService: Title,
-              private router: Router, private fb: FormBuilder, breakpointObserver: BreakpointObserver) {
+              private router: Router, private fb: UntypedFormBuilder, breakpointObserver: BreakpointObserver) {
                 const isSmallScreenObs = breakpointObserver.observe(['(max-width: 650px)', '(max-width: 1100px)', '(max-width: 1300px)']);
                 this.smallSubs = isSmallScreenObs.subscribe(res => {
                   if (res.breakpoints['(max-width: 650px)'] === true) {

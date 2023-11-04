@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
@@ -28,9 +28,9 @@ export class CarritoTablaComponent implements OnInit, OnDestroy {
 
   totalPrice$ = new BehaviorSubject<number>(0);
 
-  cantidadesForm: FormGroup;
+  cantidadesForm: UntypedFormGroup;
 
-  cantidades: FormArray;
+  cantidades: UntypedFormArray;
 
   itemsVendidosList: ItemsVentaForCard[];
 
@@ -55,7 +55,7 @@ export class CarritoTablaComponent implements OnInit, OnDestroy {
   venta$ = new BehaviorSubject<Venta>(null);
 
   constructor(private inv: InventarioManagerService, private router: Router,
-              public auth: AuthService, private fb: FormBuilder) { }
+              public auth: AuthService, private fb: UntypedFormBuilder) { }
 
   ngOnDestroy(): void {
     if (this.subsI) {
@@ -70,7 +70,7 @@ export class CarritoTablaComponent implements OnInit, OnDestroy {
       this.cantidadesForm = this.fb.group({
         cantidades: this.fb.array([]),
       });
-      this.cantidades = this.cantidadesForm.get('cantidades') as FormArray;
+      this.cantidades = this.cantidadesForm.get('cantidades') as UntypedFormArray;
 
       this.inv.getCarrito().subscribe(res => {
         if (res) {

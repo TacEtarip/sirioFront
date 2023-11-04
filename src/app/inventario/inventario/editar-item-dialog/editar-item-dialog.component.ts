@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, Inject, ViewChild, ElementRef } from '@angular/core';
 
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, Validators, UntypedFormBuilder } from '@angular/forms';
 
 import { InventarioManagerService, Item, Marca} from '../../../inventario-manager.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -15,8 +15,8 @@ import { MatChipInputEvent } from '@angular/material/chips';
   styleUrls: ['./editar-item-dialog.component.css']
 })
 export class EditarItemDialogComponent implements OnInit {
-  uploadForm: FormGroup;
-  uploadFileForm: FormGroup;
+  uploadForm: UntypedFormGroup;
+  uploadFileForm: UntypedFormGroup;
 
   fileToUpload: File;
   fileToUploadPDF: File;
@@ -34,7 +34,7 @@ export class EditarItemDialogComponent implements OnInit {
 
   public tipoOn: string;
 
-  myForm: FormGroup;
+  myForm: UntypedFormGroup;
 
   @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
 
@@ -49,7 +49,7 @@ export class EditarItemDialogComponent implements OnInit {
 
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
-  constructor(private formBuilder: FormBuilder, private inventarioMNG: InventarioManagerService,
+  constructor(private formBuilder: UntypedFormBuilder, private inventarioMNG: InventarioManagerService,
               public dialogRef: MatDialogRef<EditarItemDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public item: Item) { }
 

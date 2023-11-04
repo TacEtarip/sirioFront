@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { ContactoService } from 'src/app/contacto.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Title, Meta } from '@angular/platform-browser';
@@ -11,14 +11,14 @@ import { Title, Meta } from '@angular/platform-browser';
 })
 export class ContactanosComponent implements OnInit {
 
-  formContacto: FormGroup;
+  formContacto: UntypedFormGroup;
 
   descripcion = 'Contactanos. Tienda de indumentaria de seguridad a el mejor precio en Trujillo, venta al por menor y al por mayor;' +
   'guantes, respiradores, cascos, lentes, entre otros productos para tu seguridad o la de tus empleados. ' +
   'Además confeccionamos indumentaria de seguridad como chalecos con el logo de tu empresa. Para más información enviar un mensaje' +
   ' al +51 977 426 349, estamos para servirle.';
 
-  constructor(private fb: FormBuilder, private ctnS: ContactoService, private snackBar: MatSnackBar,
+  constructor(private fb: UntypedFormBuilder, private ctnS: ContactoService, private snackBar: MatSnackBar,
               private titleService: Title, private metaTagService: Meta) { }
 
   ngOnInit(): void {

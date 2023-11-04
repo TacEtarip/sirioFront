@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
@@ -42,7 +42,7 @@ export class CategoriasComponent implements OnInit, OnDestroy {
   estados = ['pre', 'categoria', 'sub', 'item'];
   subTipos$ = new BehaviorSubject<string[]>(null);
   subTiposPhoto$ = new BehaviorSubject<string[]>(null);
-  carritoForm: FormGroup;
+  carritoForm: UntypedFormGroup;
 
   aCarrito = false;
 
@@ -91,7 +91,7 @@ export class CategoriasComponent implements OnInit, OnDestroy {
   }
 
   constructor(private inv: InventarioManagerService, public dialog: MatDialog, private ar: ActivatedRoute,
-              private titleService: Title, private jsonLDS: JsonLDServiceService, private fb: FormBuilder,
+              private titleService: Title, private jsonLDS: JsonLDServiceService, private fb: UntypedFormBuilder,
               public auth: AuthService, private snackBar: MatSnackBar, private metaService: Meta) {
 
                }

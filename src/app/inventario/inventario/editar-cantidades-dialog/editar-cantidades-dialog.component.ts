@@ -1,5 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
@@ -15,11 +15,11 @@ import { InventarioManagerService, Item, Order, UploadCantidadSimple, UploadCant
   styleUrls: ['./editar-cantidades-dialog.component.css']
 })
 export class EditarCantidadesDialogComponent implements OnInit, OnDestroy {
-  editarCantForm: FormGroup;
+  editarCantForm: UntypedFormGroup;
 
-  editarCantiSimpleForm: FormGroup;
+  editarCantiSimpleForm: UntypedFormGroup;
 
-  order: FormArray;
+  order: UntypedFormArray;
 
   cantidadesEliminadasSC = [];
 
@@ -42,7 +42,7 @@ export class EditarCantidadesDialogComponent implements OnInit, OnDestroy {
 
   constructor(public dialogRef: MatDialogRef<EditarCantidadesDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: Item,
-              private formBuilder: FormBuilder, private inventarioMNG: InventarioManagerService) { }
+              private formBuilder: UntypedFormBuilder, private inventarioMNG: InventarioManagerService) { }
   ngOnDestroy(): void {
     this.subI.unsubscribe();
   }
@@ -76,7 +76,7 @@ export class EditarCantidadesDialogComponent implements OnInit, OnDestroy {
         order: this.formBuilder.array([]),
       });
 
-      this.order = this.editarCantForm.get('order') as FormArray;
+      this.order = this.editarCantForm.get('order') as UntypedFormArray;
 
       this.data.subConteo.order.forEach( (ord: Order) => {
         this.addOrder(ord.name, ord.nameSecond, true, true, ord.cantidad);

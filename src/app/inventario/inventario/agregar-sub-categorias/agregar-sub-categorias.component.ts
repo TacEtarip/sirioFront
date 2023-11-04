@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, Validators, UntypedFormBuilder } from '@angular/forms';
 import {InventarioManagerService} from '../../../inventario-manager.service';
 
 @Component({
@@ -14,10 +14,10 @@ export class AgregarSubCategoriasComponent implements OnInit {
 
   showMessage = false;
 
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   constructor(public dialogRef: MatDialogRef<AgregarSubCategoriasComponent>,
-              private formBuilder: FormBuilder,
+              private formBuilder: UntypedFormBuilder,
               private inventarioMNG: InventarioManagerService,
               @Inject(MAT_DIALOG_DATA) public data: {codigo: string}) { }
 

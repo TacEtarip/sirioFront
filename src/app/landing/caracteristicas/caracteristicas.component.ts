@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatListOption } from '@angular/material/list';
 import { BehaviorSubject } from 'rxjs';
@@ -15,10 +15,10 @@ export class CaracteristicasComponent implements OnInit {
 
   caracteristicaList = new BehaviorSubject<string[]>([]);
 
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   constructor(public dialogRef: MatDialogRef<CaracteristicasComponent>,
-              private formBuilder: FormBuilder, @Inject(MAT_DIALOG_DATA) public item: Item,
+              private formBuilder: UntypedFormBuilder, @Inject(MAT_DIALOG_DATA) public item: Item,
               private inventarioMNG: InventarioManagerService) { }
 
   ngOnInit(): void {

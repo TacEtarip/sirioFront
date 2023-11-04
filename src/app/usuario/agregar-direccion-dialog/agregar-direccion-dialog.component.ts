@@ -1,7 +1,7 @@
 import { FullUser, AuthService } from 'src/app/auth.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormGroup, FormControl, Validators, FormBuilder, AbstractControl, ValidatorFn } from '@angular/forms';
+import { UntypedFormGroup, FormControl, Validators, UntypedFormBuilder, AbstractControl, ValidatorFn } from '@angular/forms';
 
 @Component({
   selector: 'app-agregar-direccion-dialog',
@@ -9,11 +9,11 @@ import { FormGroup, FormControl, Validators, FormBuilder, AbstractControl, Valid
   styleUrls: ['./agregar-direccion-dialog.component.css']
 })
 export class AgregarDireccionDialogComponent implements OnInit {
-  direccionForm: FormGroup;
+  direccionForm: UntypedFormGroup;
 
   constructor(@Inject(MAT_DIALOG_DATA) public user: FullUser,
               public dialogRef: MatDialogRef<AgregarDireccionDialogComponent>,
-              private fb: FormBuilder, private auth: AuthService) { }
+              private fb: UntypedFormBuilder, private auth: AuthService) { }
 
   ngOnInit(): void {
     this.direccionForm = this.fb.group({

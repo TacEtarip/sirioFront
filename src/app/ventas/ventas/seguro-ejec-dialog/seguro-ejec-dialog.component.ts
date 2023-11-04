@@ -3,7 +3,7 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { Venta, InventarioManagerService, RUC, DNI, Item } from 'src/app/inventario-manager.service';
 import { Router } from '@angular/router';
-import { FormGroup, FormControl, Validators, FormBuilder, AbstractControl, ValidatorFn } from '@angular/forms';
+import { UntypedFormGroup, FormControl, Validators, UntypedFormBuilder, AbstractControl, ValidatorFn } from '@angular/forms';
 import { distinctUntilChanged } from 'rxjs/operators';
 import jsonCode from '../../../../assets/sunatCodes.json';
 
@@ -27,7 +27,7 @@ export class SeguroEjecDialogComponent implements OnInit, OnDestroy {
 
   generarGuia$ = new BehaviorSubject<boolean>(false);
 
-  ventaEjecutarForm: FormGroup;
+  ventaEjecutarForm: UntypedFormGroup;
   ventaEnCurso = new BehaviorSubject<boolean>(false);
   documentAccepted = new BehaviorSubject<boolean>(false);
 
@@ -71,7 +71,7 @@ export class SeguroEjecDialogComponent implements OnInit, OnDestroy {
   constructor(public dialogRef: MatDialogRef<SeguroEjecDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public venta: Venta,
               private inventarioMNG: InventarioManagerService,
-              private router: Router, private fb: FormBuilder) { }
+              private router: Router, private fb: UntypedFormBuilder) { }
 
   ngOnDestroy(): void {
     this.subOne.unsubscribe();

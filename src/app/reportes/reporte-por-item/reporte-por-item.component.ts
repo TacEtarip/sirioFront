@@ -1,6 +1,6 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -20,7 +20,7 @@ export class ReportePorItemComponent implements OnInit, OnDestroy {
 
   below = LegendPosition.Below;
 
-  busqueda: FormGroup;
+  busqueda: UntypedFormGroup;
   filteredItem$ = new BehaviorSubject<Item[]>(null);
   busquedaSub: Subscription;
   routesSub: Subscription;
@@ -59,7 +59,7 @@ export class ReportePorItemComponent implements OnInit, OnDestroy {
     }
   }
 
-  constructor(private router: Router, private fb: FormBuilder, private ar: ActivatedRoute, public auth: AuthService,
+  constructor(private router: Router, private fb: UntypedFormBuilder, private ar: ActivatedRoute, public auth: AuthService,
               breakpointObserver: BreakpointObserver, private inv: InventarioManagerService) {
     const isSmallScreenObs = breakpointObserver.observe(['(max-width: 900px)', '(max-width: 700px)']);
     this.smallSubs = isSmallScreenObs.subscribe(res => {

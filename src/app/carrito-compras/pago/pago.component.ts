@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { InventarioManagerService, ItemsVentaForCard } from 'src/app/inventario-manager.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { AuthService, FullUser } from 'src/app/auth.service';
 import { BehaviorSubject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
@@ -13,14 +13,14 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 })
 export class PagoComponent implements OnInit {
 
-  formContacto: FormGroup;
+  formContacto: UntypedFormGroup;
 
   formIsReady = new BehaviorSubject<boolean>(false);
 
   documentCharged = new BehaviorSubject<boolean>(false);
 
   carrito: ItemsVentaForCard[];
-  constructor(private router: Router, private fb: FormBuilder, private auth: AuthService, private inv: InventarioManagerService) {
+  constructor(private router: Router, private fb: UntypedFormBuilder, private auth: AuthService, private inv: InventarioManagerService) {
     console.log(this.router.getCurrentNavigation().extras.state);
     if (this.router.getCurrentNavigation().extras.state === undefined) {
       this.router.navigate(['carrito']);

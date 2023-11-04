@@ -1,6 +1,6 @@
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, Validators, UntypedFormBuilder } from '@angular/forms';
 import { AuthService, User } from '../../auth.service';
 import { Router } from '@angular/router';
 import { Title, Meta } from '@angular/platform-browser';
@@ -12,14 +12,14 @@ import { Title, Meta } from '@angular/platform-browser';
 })
 export class LoginComponent implements OnInit, OnDestroy {
 
-  form: FormGroup;
+  form: UntypedFormGroup;
   hide = true;
   countCredentialsError = new BehaviorSubject<number>(0);
   badCredentials = false;
   sitekey: string;
   subOne: Subscription;
 
-  constructor(private formBuilder: FormBuilder, private auth: AuthService,
+  constructor(private formBuilder: UntypedFormBuilder, private auth: AuthService,
               private titleService: Title,
               private metaTagService: Meta, private router: Router) {
     this.sitekey = '6Lc-GTIaAAAAABaw-oeMyoV6jZvkn9jRdaUwa_VT';

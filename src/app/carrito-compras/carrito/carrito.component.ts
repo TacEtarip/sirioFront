@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Meta, Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
@@ -15,7 +15,7 @@ import { InventarioManagerService, Item, Tipo } from 'src/app/inventario-manager
 })
 export class CarritoComponent implements OnInit {
 
-  busquedaForm: FormGroup;
+  busquedaForm: UntypedFormGroup;
 
   loggedInfo$ = new BehaviorSubject<UserInfo>(null);
 
@@ -32,7 +32,7 @@ export class CarritoComponent implements OnInit {
   whatsAppLinkTwo = 'https://wa.me/51922412404?text=' + 'Buenas, me gustaria obtener más información.';
 
   constructor(public auth: AuthService, private router: Router, private analyticsGoogle: GoogleAnalyticsService,
-              private fb: FormBuilder, private inv: InventarioManagerService, private metaService: Meta, private titleService: Title) {
+              private fb: UntypedFormBuilder, private inv: InventarioManagerService, private metaService: Meta, private titleService: Title) {
     this.auth.getAuhtInfo().pipe(first()).subscribe(res => {
       this.loggedInfo$.next(res);
     });

@@ -2,7 +2,7 @@ import { AuthService } from './../../../../auth.service';
 import { Item, InventarioManagerService, Order, Venta, ItemVendido } from 'src/app/inventario-manager.service';
 import { BehaviorSubject } from 'rxjs';
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder, FormArray, AbstractControl, ValidatorFn } from '@angular/forms';
+import { UntypedFormGroup, FormControl, Validators, UntypedFormBuilder, UntypedFormArray, AbstractControl, ValidatorFn } from '@angular/forms';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { TableVentaInfo } from '../venta-activa-card/venta-activa-card.component';
@@ -54,13 +54,13 @@ export class GenerarVentaComponent implements OnInit {
 
   ventaEnCurso$ = new BehaviorSubject<boolean>(false);
 
-  cantidadList: FormArray;
+  cantidadList: UntypedFormArray;
 
   totalPriceIGV: string;
 
   sum = 0;
 
-  ventaForm: FormGroup;
+  ventaForm: UntypedFormGroup;
 
   filteredItem$ = new BehaviorSubject<Item[]>(null);
 
@@ -73,7 +73,7 @@ export class GenerarVentaComponent implements OnInit {
 
   opcionStart = this.agregarOption[0].value;
 
-  constructor(private fb: FormBuilder, private invManager: InventarioManagerService,
+  constructor(private fb: UntypedFormBuilder, private invManager: InventarioManagerService,
               public dialogRef: MatDialogRef<GenerarVentaComponent>, private auth: AuthService,
               @Inject(MAT_DIALOG_DATA) public crear:
               { coti: boolean, crear: boolean, ventaCod: string, item: TableVentaInfo,
@@ -174,7 +174,7 @@ export class GenerarVentaComponent implements OnInit {
           this.ventaForm.removeControl('cantidadDisponible');
           this.ventaForm.removeControl('cantidadVenta');
           this.ventaForm.addControl('cantidadList', this.fb.array([]));
-          this.cantidadList = this.ventaForm.get('cantidadList') as FormArray;
+          this.cantidadList = this.ventaForm.get('cantidadList') as UntypedFormArray;
           this.item$.value.subConteo.order.forEach((order: Order) => {
             if (order.cantidad > 0) {
               this.addOrder(order.name, order.nameSecond, order.cantidad);

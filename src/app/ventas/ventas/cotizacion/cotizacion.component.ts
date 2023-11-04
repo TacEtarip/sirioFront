@@ -5,7 +5,7 @@ import { GenerarVentaComponent } from '../ventas-activas/generar-venta/generar-v
 import { InventarioManagerService, Venta } from 'src/app/inventario-manager.service';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { GenerarCotiComponent } from './generar-coti/generar-coti.component';
@@ -18,7 +18,7 @@ export class CotizacionComponent implements OnInit, AfterViewInit, OnDestroy {
 
   estadoCoti$ = new BehaviorSubject<string>('pendiente');
 
-  range: FormGroup;
+  range: UntypedFormGroup;
 
   minDate: Date;
   maxDate: Date;
@@ -46,7 +46,7 @@ export class CotizacionComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ventasLength$ = new BehaviorSubject<number>(11);
 
-  constructor(private inventarioMNG: InventarioManagerService, public dialog: MatDialog, private fb: FormBuilder, private router: Router) {
+  constructor(private inventarioMNG: InventarioManagerService, public dialog: MatDialog, private fb: UntypedFormBuilder, private router: Router) {
     this.minDate = new Date('2021-01-26T00:00:00+0000');
     this.maxDate = new Date();
     this.maxDate.setDate(this.maxDate.getDate() + 1);

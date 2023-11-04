@@ -1,6 +1,6 @@
 import { saveAs } from 'file-saver';
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder, FormArray, AbstractControl, ValidatorFn } from '@angular/forms';
+import { UntypedFormGroup, FormControl, Validators, UntypedFormBuilder, FormArray, AbstractControl, ValidatorFn } from '@angular/forms';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { AuthService } from 'src/app/auth.service';
 import { InventarioManagerService } from 'src/app/inventario-manager.service';
@@ -13,11 +13,11 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class PreExcelDialogComponent implements OnInit {
 
-  preCotiForm: FormGroup;
+  preCotiForm: UntypedFormGroup;
   ventaEnCurso$ = new BehaviorSubject<boolean>(false);
 
   image = true;
-  constructor(private fb: FormBuilder, private invManager: InventarioManagerService,
+  constructor(private fb: UntypedFormBuilder, private invManager: InventarioManagerService,
               public dialogRef: MatDialogRef<PreExcelDialogComponent>, private auth: AuthService,
               @Inject(MAT_DIALOG_DATA) public preInfoCoti: { cotiCod: string, pdf: boolean }) { }
 

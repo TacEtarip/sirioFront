@@ -2,7 +2,7 @@ import { InventarioManagerService } from 'src/app/inventario-manager.service';
 import { FullUser, AuthService } from 'src/app/auth.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormGroup, FormControl, Validators, FormBuilder, AbstractControl, ValidatorFn } from '@angular/forms';
+import { UntypedFormGroup, FormControl, Validators, UntypedFormBuilder, AbstractControl, ValidatorFn } from '@angular/forms';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 
@@ -18,7 +18,7 @@ interface TipoDoc {
 })
 export class AgregarDocumentoDialogComponent implements OnInit {
 
-  documentoForm: FormGroup;
+  documentoForm: UntypedFormGroup;
 
   tiposDocumentos: TipoDoc[] = [
     {value: 'dni', viewValue: 'DNI'},
@@ -33,7 +33,7 @@ export class AgregarDocumentoDialogComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public user: FullUser,
               public dialogRef: MatDialogRef<AgregarDocumentoDialogComponent>,
-              private fb: FormBuilder, private auth: AuthService,
+              private fb: UntypedFormBuilder, private auth: AuthService,
               private invManager: InventarioManagerService) { }
 
   ngOnInit(): void {

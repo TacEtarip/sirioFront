@@ -2,7 +2,7 @@ import { AuthService } from './../../../../auth.service';
 import { Item, InventarioManagerService, Order, Venta, ItemVendido, DNI, RUC } from 'src/app/inventario-manager.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder, FormArray, AbstractControl, ValidatorFn } from '@angular/forms';
+import { UntypedFormGroup, FormControl, Validators, UntypedFormBuilder, FormArray, AbstractControl, ValidatorFn } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { GenerarVentaComponent } from '../../ventas-activas/generar-venta/generar-venta.component';
@@ -22,10 +22,10 @@ export interface Documento {
 })
 export class GenerarCotiComponent implements OnInit, OnDestroy {
 
-  documentoForm: FormGroup;
+  documentoForm: UntypedFormGroup;
   subI: Subscription;
 
-  constructor(private fb: FormBuilder, public dialog: MatDialog,
+  constructor(private fb: UntypedFormBuilder, public dialog: MatDialog,
               public dialogRef: MatDialogRef<GenerarCotiComponent>, private invManager: InventarioManagerService,
               @Inject(MAT_DIALOG_DATA) public venta: Venta) { }
   ngOnDestroy(): void {

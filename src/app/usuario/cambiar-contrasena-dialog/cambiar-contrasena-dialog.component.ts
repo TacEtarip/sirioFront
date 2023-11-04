@@ -2,7 +2,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { FullUser, AuthService } from 'src/app/auth.service';
 import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormGroup, FormControl, Validators, FormBuilder, AbstractControl, ValidatorFn } from '@angular/forms';
+import { UntypedFormGroup, FormControl, Validators, UntypedFormBuilder, AbstractControl, ValidatorFn } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
 })
 export class CambiarContrasenaDialogComponent implements OnInit, OnDestroy {
 
-  passwordForm: FormGroup;
+  passwordForm: UntypedFormGroup;
 
   hide = true;
   hideTwo = true;
@@ -28,7 +28,7 @@ export class CambiarContrasenaDialogComponent implements OnInit, OnDestroy {
 
   constructor(@Inject(MAT_DIALOG_DATA) public user: FullUser,
               public dialogRef: MatDialogRef<CambiarContrasenaDialogComponent>,
-              private fb: FormBuilder, private auth: AuthService) { }
+              private fb: UntypedFormBuilder, private auth: AuthService) { }
 
   ngOnDestroy(): void {
     this.subOne.unsubscribe();
@@ -95,7 +95,7 @@ export class CambiarContrasenaDialogComponent implements OnInit, OnDestroy {
   }
 
   confirmedValidator(controlName: string, matchingControlName: string){
-    return (formGroup: FormGroup) => {
+    return (formGroup: UntypedFormGroup) => {
         const control = formGroup.controls[controlName];
         const matchingControl = formGroup.controls[matchingControlName];
         if (matchingControl.errors && !matchingControl.errors.confirmedValidator) {

@@ -1,5 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
@@ -78,9 +78,9 @@ export class VentaDialogComponent implements OnInit, OnDestroy {
 
   generarGuia$ = new BehaviorSubject<boolean>(false);
 
-  ventaForm: FormGroup;
+  ventaForm: UntypedFormGroup;
 
-  cantidadList: FormArray;
+  cantidadList: UntypedFormArray;
 
   ventaEnCurso = new BehaviorSubject<boolean>(false);
 
@@ -153,7 +153,7 @@ export class VentaDialogComponent implements OnInit, OnDestroy {
   constructor(
     public dialogRef: MatDialogRef<VentaDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public item: Item,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private inventarioMNG: InventarioManagerService,
     private router: Router, private auth: AuthService) {
       this.sunatCodes = jsonCode;
@@ -315,7 +315,7 @@ export class VentaDialogComponent implements OnInit, OnDestroy {
         ])));
       } else {
         this.ventaForm.addControl('cantidadList', this.formBuilder.array([]));
-        this.cantidadList = this.ventaForm.get('cantidadList') as FormArray;
+        this.cantidadList = this.ventaForm.get('cantidadList') as UntypedFormArray;
         this.item.subConteo.order.forEach((order: Order) => {
           if (order.cantidad > 0) {
             this.addOrder(order.name, order.nameSecond, order.cantidad);

@@ -2,7 +2,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService, UserRegister, FullUser, UserRegisterGoogle } from 'src/app/auth.service';
 import { BehaviorSubject, Subscription, interval } from 'rxjs';
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
-import { FormGroup, Validators, FormBuilder, AbstractControl, ValidatorFn } from '@angular/forms';
+import { UntypedFormGroup, Validators, UntypedFormBuilder, AbstractControl, ValidatorFn } from '@angular/forms';
 import anime from 'animejs';
 import { distinctUntilChanged, first, debounceTime, takeWhile } from 'rxjs/operators';
 import { Title, Meta } from '@angular/platform-browser';
@@ -19,9 +19,9 @@ interface TipoDoc {
 })
 export class RegistroComponent implements OnInit, OnDestroy, AfterViewInit {
 
-  registroForm: FormGroup;
+  registroForm: UntypedFormGroup;
 
-  registroGoogleForm: FormGroup;
+  registroGoogleForm: UntypedFormGroup;
 
   fromToken = new BehaviorSubject<boolean>(false);
 
@@ -74,7 +74,7 @@ export class RegistroComponent implements OnInit, OnDestroy, AfterViewInit {
 
   reaload = new BehaviorSubject<boolean>(false);
 
-  constructor(private fb: FormBuilder, private auth: AuthService,
+  constructor(private fb: UntypedFormBuilder, private auth: AuthService,
               private titleService: Title, private router: Router,
               private metaTagService: Meta, private ar: ActivatedRoute) {
     this.sitekey = '6Lc-GTIaAAAAABaw-oeMyoV6jZvkn9jRdaUwa_VT';
@@ -238,7 +238,7 @@ export class RegistroComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   confirmedValidator(controlName: string, matchingControlName: string){
-    return (formGroup: FormGroup) => {
+    return (formGroup: UntypedFormGroup) => {
         const control = formGroup.controls[controlName];
         const matchingControl = formGroup.controls[matchingControlName];
         if (matchingControl.errors && !matchingControl.errors.confirmedValidator) {

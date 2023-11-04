@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, Validators, UntypedFormBuilder } from '@angular/forms';
 import {InventarioManagerService} from '../../../inventario-manager.service';
 
 @Component({
@@ -11,10 +11,10 @@ import {InventarioManagerService} from '../../../inventario-manager.service';
 export class AgregarClaseItemComponent implements OnInit {
   onSub = new EventEmitter();
 
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   constructor(public dialogRef: MatDialogRef<AgregarClaseItemComponent>,
-              private formBuilder: FormBuilder,
+              private formBuilder: UntypedFormBuilder,
               private inventarioMNG: InventarioManagerService) { }
 
   ngOnInit(): void {

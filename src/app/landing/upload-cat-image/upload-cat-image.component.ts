@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { InventarioManagerService, Tipo, Item } from 'src/app/inventario-manager.service';
 
@@ -9,13 +9,13 @@ import { InventarioManagerService, Tipo, Item } from 'src/app/inventario-manager
   styleUrls: ['./upload-cat-image.component.css']
 })
 export class UploadCatImageComponent implements OnInit {
-  uploadForm: FormGroup;
+  uploadForm: UntypedFormGroup;
   fileToUpload: File;
   showMessage = false;
   disabled = false;
   onUploaded = new EventEmitter();
 
-  constructor(private formBuilder: FormBuilder, private inventarioMNG: InventarioManagerService,
+  constructor(private formBuilder: UntypedFormBuilder, private inventarioMNG: InventarioManagerService,
               public dialogRef: MatDialogRef<UploadCatImageComponent>,
               @Inject(MAT_DIALOG_DATA) public data:
               { tipo: Tipo, item: Item, subTipo: { tipoName: string, subTipoName: string, oldPhoto: string } }) { }

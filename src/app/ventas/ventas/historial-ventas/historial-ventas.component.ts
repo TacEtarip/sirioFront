@@ -3,7 +3,7 @@ import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import { InventarioManagerService, Venta } from '../../../inventario-manager.service';
 import { BehaviorSubject, Subject } from 'rxjs';
-import {FormGroup, FormBuilder, Validators} from '@angular/forms';
+import {UntypedFormGroup, UntypedFormBuilder, Validators} from '@angular/forms';
 import { first, distinctUntilChanged, debounceTime } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
@@ -16,7 +16,7 @@ import anime from 'animejs';
 })
 export class HistorialVentasComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  range: FormGroup;
+  range: UntypedFormGroup;
 
   minDate: Date;
   maxDate: Date;
@@ -78,7 +78,7 @@ export class HistorialVentasComponent implements OnInit, AfterViewInit, OnDestro
 
   ventasLength$ = new BehaviorSubject<number>(11);
 
-  constructor(private inventarioMNG: InventarioManagerService, private fb: FormBuilder, private router: Router) {
+  constructor(private inventarioMNG: InventarioManagerService, private fb: UntypedFormBuilder, private router: Router) {
     this.minDate = new Date('2020-07-26T00:00:00+0000');
     this.maxDate = new Date();
     this.maxDate.setDate(this.maxDate.getDate() + 1);

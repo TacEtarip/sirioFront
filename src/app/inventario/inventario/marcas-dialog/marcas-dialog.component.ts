@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatListOption } from '@angular/material/list';
 import { BehaviorSubject } from 'rxjs';
@@ -16,10 +16,10 @@ export class MarcasDialogComponent implements OnInit {
   marcasList = new BehaviorSubject<Marca[]>([]);
   onSub = new EventEmitter();
 
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   constructor(public dialogRef: MatDialogRef<MarcasDialogComponent>,
-              private formBuilder: FormBuilder,
+              private formBuilder: UntypedFormBuilder,
               private inventarioMNG: InventarioManagerService) { }
 
   ngOnInit(): void {

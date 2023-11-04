@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, Validators, UntypedFormBuilder } from '@angular/forms';
 import { InventarioManagerService } from '../../../inventario-manager.service';
 
 @Component({
@@ -10,12 +10,12 @@ import { InventarioManagerService } from '../../../inventario-manager.service';
 })
 export class SubTipoEditarComponent implements OnInit {
 
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   constructor(
     public dialogRef: MatDialogRef<SubTipoEditarComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {codigo: string, antiguoSubName: string},
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private inventarioMNG: InventarioManagerService) { }
 
   ngOnInit(): void {

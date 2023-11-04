@@ -1,7 +1,7 @@
 import { FullUser, AuthService } from 'src/app/auth.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormGroup, FormControl, Validators, FormBuilder, AbstractControl, ValidatorFn } from '@angular/forms';
+import { UntypedFormGroup, FormControl, Validators, UntypedFormBuilder, AbstractControl, ValidatorFn } from '@angular/forms';
 
 @Component({
   selector: 'app-editar-celular-dialog',
@@ -10,11 +10,11 @@ import { FormGroup, FormControl, Validators, FormBuilder, AbstractControl, Valid
 })
 export class EditarCelularDialogComponent implements OnInit {
 
-  celularForm: FormGroup;
+  celularForm: UntypedFormGroup;
 
   constructor(@Inject(MAT_DIALOG_DATA) public user: FullUser,
               public dialogRef: MatDialogRef<EditarCelularDialogComponent>,
-              private fb: FormBuilder, private auth: AuthService) { }
+              private fb: UntypedFormBuilder, private auth: AuthService) { }
 
   ngOnInit(): void {
     this.celularForm = this.fb.group({

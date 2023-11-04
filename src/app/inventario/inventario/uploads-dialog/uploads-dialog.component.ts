@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 
 import { InventarioManagerService } from '../../../inventario-manager.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -11,8 +11,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./uploads-dialog.component.css']
 })
 export class UploadsDialogComponent implements OnInit {
-  uploadForm: FormGroup;
-  uploadFileForm: FormGroup;
+  uploadForm: UntypedFormGroup;
+  uploadFileForm: UntypedFormGroup;
 
   fileToUpload: File;
   fileToUploadPDF: File;
@@ -26,7 +26,7 @@ export class UploadsDialogComponent implements OnInit {
 
   photoName: string;
 
-  constructor(private formBuilder: FormBuilder, private inventarioMNG: InventarioManagerService,
+  constructor(private formBuilder: UntypedFormBuilder, private inventarioMNG: InventarioManagerService,
               public dialogRef: MatDialogRef<UploadsDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: {codigo: string}) { }
 
