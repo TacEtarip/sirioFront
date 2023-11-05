@@ -1,32 +1,40 @@
 <h1 mat-dialog-title>Cambiar Contraseña</h1>
 <mat-dialog-content class="mat-typography">
   <h3 *ngIf="errorPassword">Contraseña incorrecta</h3>
-  <form  [ngStyle]="{'display': 'grid', 'gap': '1em' }" [formGroup]="passwordForm">
-    <mat-form-field [ngStyle]="{'width': '100%'}" appearance="fill" >
+  <form [ngStyle]="{'display': 'grid', 'gap': '1em' }" [formGroup]="passwordForm">
+    <mat-form-field [ngStyle]="{'width': '100%'}" appearance="fill">
       <mat-label>Ingresa tu contraseña actual</mat-label>
-      <input autocomplete="off" [type]="hideTwo ? 'password' : 'text'" (change)="trimThis('passwordOld')" name="passwordOld" id="passwordOld" formControlName="passwordOld" matInput>
-      <button  mat-icon-button matSuffix (click)="hideTwo = !hideTwo" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+      <input autocomplete="off" [type]="hideTwo ? 'password' : 'text'" (change)="trimThis('passwordOld')"
+        name="passwordOld" id="passwordOld" formControlName="passwordOld" matInput>
+      <button mat-icon-button matSuffix (click)="hideTwo = !hideTwo" [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide">
         <mat-icon>{{hideTwo ? 'visibility_off' : 'visibility'}}</mat-icon>
       </button>
-      <mat-error *ngIf="passwordForm.get('passwordOld').hasError('pattern')">Debe contener 1 mayuscula, 1 minuscula y 1 numero </mat-error>
+      <mat-error *ngIf="passwordForm.get('passwordOld').hasError('pattern')">Debe contener 1 mayuscula, 1 minuscula y 1
+        numero </mat-error>
     </mat-form-field>
     <mat-spinner *ngIf="cargandoPassword" [diameter]="50"></mat-spinner>
     <i [ngStyle]="{'color': '#E87200', 'justify-self': 'center', 'align-self': 'center' }"
-    *ngIf="!errorPassword && checkedPassword && !cargandoPassword" class="fas fa-check fa-2x"></i>
+      *ngIf="!errorPassword && checkedPassword && !cargandoPassword" class="fas fa-check fa-2x"></i>
     <i [ngStyle]="{'color': '#005087', 'justify-self': 'center', 'align-self': 'center' }"
-    *ngIf="errorPassword && checkedPassword && !cargandoPassword" class="fas fa-times fa-2x"></i>
-    <mat-form-field [ngStyle]="{'width': '100%', 'grid-column': '1/3'}" appearance="fill" >
+      *ngIf="errorPassword && checkedPassword && !cargandoPassword" class="fas fa-times fa-2x"></i>
+    <mat-form-field [ngStyle]="{'width': '100%', 'grid-column': '1/3'}" appearance="fill">
       <mat-label>Ingresa tu nueva contraseña</mat-label>
-      <input autocomplete="off" [type]="hide ? 'password' : 'text'" (change)="trimThis('password')" name="apellido" id="password" formControlName="password" matInput>
-      <button  mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+      <input autocomplete="off" [type]="hide ? 'password' : 'text'" (change)="trimThis('password')" name="apellido"
+        id="password" formControlName="password" matInput>
+      <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide">
         <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
       </button>
-      <mat-error *ngIf="passwordForm.get('password').hasError('pattern')">Debe contener 1 mayuscula, 1 minuscula y 1 numero </mat-error>
+      <mat-error *ngIf="passwordForm.get('password').hasError('pattern')">Debe contener 1 mayuscula, 1 minuscula y 1
+        numero </mat-error>
     </mat-form-field>
-    <mat-form-field [ngStyle]="{'width': '100%', 'grid-column': '1/3'}" appearance="fill" >
+    <mat-form-field [ngStyle]="{'width': '100%', 'grid-column': '1/3'}" appearance="fill">
       <mat-label>Confirma tu contraseña nueva</mat-label>
-      <input autocomplete="off" [type]="hide ? 'password' : 'text'" (change)="trimThis('passwordConf')" name="passwordConf" id="passwordConf" formControlName="passwordConf" matInput>
-      <button  mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+      <input autocomplete="off" [type]="hide ? 'password' : 'text'" (change)="trimThis('passwordConf')"
+        name="passwordConf" id="passwordConf" formControlName="passwordConf" matInput>
+      <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide">
         <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
       </button>
       <mat-error *ngIf="passwordForm.get('passwordConf').hasError">Tu contraseña no coincide.</mat-error>
@@ -37,8 +45,8 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancelar</button>
-  <button disabled (click)="cambiarContra(passwordForm.value)"
-   mat-stroked-button color="accent" cdkFocusInitial [disabled]="!passwordForm.valid || !passwordApro">Cambiar</button>
+  <button disabled (click)="cambiarContra(passwordForm.value)" mat-stroked-button color="accent" cdkFocusInitial
+    [disabled]="!passwordForm.valid || !passwordApro">Cambiar</button>
 </mat-dialog-actions>
 
 <div *ngIf="false" class="bloqueo">

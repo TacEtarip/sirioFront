@@ -7,20 +7,27 @@ import { CategoriasComponent } from './categorias/categorias.component';
 import { BusquedaComponent } from './busqueda/busqueda.component';
 
 const routes: Routes = [
-  { path: '', component: LandingComponent, children: [
-    {path: 'main', component: StoreMainComponent},
-    {path: 'busqueda', component: BusquedaComponent},
-    {path: 'busqueda/:busqueda', component: BusquedaComponent},
-    {path: 'categorias', component: CategoriasComponent},
-    {path: 'categorias/:categoria', component: CategoriasComponent},
-    {path: 'categorias/:categoria/:sub', component: CategoriasComponent},
-    {path: 'categorias/:categoria/:sub/:item', component: CategoriasComponent},
-    {path: '', redirectTo: 'main', pathMatch: 'full'}
-  ] },
+  {
+    path: '',
+    component: LandingComponent,
+    children: [
+      { path: 'main', component: StoreMainComponent },
+      { path: 'busqueda', component: BusquedaComponent },
+      { path: 'busqueda/:busqueda', component: BusquedaComponent },
+      { path: 'categorias', component: CategoriasComponent },
+      { path: 'categorias/:categoria', component: CategoriasComponent },
+      { path: 'categorias/:categoria/:sub', component: CategoriasComponent },
+      {
+        path: 'categorias/:categoria/:sub/:item',
+        component: CategoriasComponent,
+      },
+      { path: '', redirectTo: 'main', pathMatch: 'full' },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class LandingRoutingModule { }
+export class LandingRoutingModule {}

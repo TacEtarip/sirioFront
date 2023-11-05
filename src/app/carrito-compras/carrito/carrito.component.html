@@ -1,38 +1,43 @@
-<mat-toolbar [ngStyle]="{'padding': '.5em'}"  class="example-toolbar toolBar">
-  <a href="/store/main"><span  class="toolBarName"> <b [ngStyle]="{'cursor': 'pointer'}" class="cName">Sirio Dinar</b></span></a>
+<mat-toolbar [ngStyle]="{'padding': '.5em'}" class="example-toolbar toolBar">
+  <a href="/store/main"><span class="toolBarName"> <b [ngStyle]="{'cursor': 'pointer'}" class="cName">Sirio
+        Dinar</b></span></a>
   <span class="example-spacer"></span>
   <div [ngStyle]="{'display': 'flex'}" *ngIf="(loggedInfo$|async) as loggedInfo">
-  <div tabindex="0" matTooltip="Usuario" class="perfilBtns" [ngStyle]="{'cursor': 'pointer', 'padding-bottom': '2px' }" [matMenuTriggerFor]="menu">
-    <!--<span *ngIf="!mobileQuery.matches">{{nombreUsuario}}</span>-->
-    <mat-icon class="personI" color="accent" [ngStyle]="{  'align-self': 'center', 'font-size': '26px',
+    <div tabindex="0" matTooltip="Usuario" class="perfilBtns"
+      [ngStyle]="{'cursor': 'pointer', 'padding-bottom': '2px' }" [matMenuTriggerFor]="menu">
+      <!--<span *ngIf="!mobileQuery.matches">{{nombreUsuario}}</span>-->
+      <mat-icon class="personI" color="accent" [ngStyle]="{  'align-self': 'center', 'font-size': '26px',
     border: 0, outline: 'none' }">
-      person</mat-icon>
-  </div>
+        person</mat-icon>
+    </div>
 
     <mat-menu #menu="matMenu">
-      <button aria-label="Usuario" routerLink="/usuario" *ngIf="loggedInfo.authenticated"  mat-menu-item>
+      <button aria-label="Usuario" routerLink="/usuario" *ngIf="loggedInfo.authenticated" mat-menu-item>
         <mat-icon color="accent">account_box</mat-icon>
         Perfil
       </button>
-      <button aria-label="Inicio de sesión" (click)="aToLogin()" *ngIf="!loggedInfo.authenticated"  mat-menu-item>
+      <button aria-label="Inicio de sesión" (click)="aToLogin()" *ngIf="!loggedInfo.authenticated" mat-menu-item>
         <mat-icon color="accent">account_box</mat-icon>
         <span>Iniciar Sesión</span>
       </button>
-      <button aria-label="Cerrar Sesisón" (click)="cerrarSesion()"  *ngIf="loggedInfo.authenticated" mat-menu-item>
+      <button aria-label="Cerrar Sesisón" (click)="cerrarSesion()" *ngIf="loggedInfo.authenticated" mat-menu-item>
         <mat-icon color="accent">power_off</mat-icon>
         <span>Cerrar Sesión</span>
       </button>
     </mat-menu>
-    <button aria-label="Carrito" *ngIf="loggedInfo.type === 'low' || !loggedInfo.authenticated" routerLink="/carrito" matTooltip="Carrito" mat-icon-button class="sizeIcon addMargin">
+    <button aria-label="Carrito" *ngIf="loggedInfo.type === 'low' || !loggedInfo.authenticated" routerLink="/carrito"
+      matTooltip="Carrito" mat-icon-button class="sizeIcon addMargin">
       <mat-icon color="accent" class="sizeIcon  sizeShop">shopping_cart</mat-icon>
     </button>
-    <button aria-label="Ir A Inventario" (click)="aInventario()"  matTooltip="Tienda" mat-icon-button class="sizeIcon">
+    <button aria-label="Ir A Inventario" (click)="aInventario()" matTooltip="Tienda" mat-icon-button class="sizeIcon">
       <mat-icon color="accent" class="sizeIcon  sizeShop">store_mall_directory</mat-icon>
     </button>
-    <button aria-label="Ir a ventas" *ngIf="loggedInfo.authenticated && loggedInfo.type !== 'low'" routerLink="/ventas" matTooltip="Ventas" mat-icon-button class="sizeIcon addMargin">
+    <button aria-label="Ir a ventas" *ngIf="loggedInfo.authenticated && loggedInfo.type !== 'low'" routerLink="/ventas"
+      matTooltip="Ventas" mat-icon-button class="sizeIcon addMargin">
       <mat-icon color="accent" class="sizeIcon  sizeShop">shopping_cart</mat-icon>
     </button>
-    <button aria-label="Ir a reportes" *ngIf="loggedInfo.authenticated && loggedInfo.type !== 'low'" routerLink="/reportes" matTooltip="Reportes" mat-icon-button class="sizeIcon addMargin">
+    <button aria-label="Ir a reportes" *ngIf="loggedInfo.authenticated && loggedInfo.type !== 'low'"
+      routerLink="/reportes" matTooltip="Reportes" mat-icon-button class="sizeIcon addMargin">
       <mat-icon color="accent" class="sizeIcon  sizeShop">show_chart</mat-icon>
     </button>
 
@@ -41,13 +46,16 @@
 </mat-toolbar>
 <div class="menu">
   <div class="menuContenedorTodo">
-    <a aria-label="Contactanos" class="phoneLink" href="/servicio-al-cliente/contactanos"><h6>CONTACTANOS</h6></a>
+    <a aria-label="Contactanos" class="phoneLink" href="/servicio-al-cliente/contactanos">
+      <h6>CONTACTANOS</h6>
+    </a>
     <div class="navegacion">
-      <div class="masterDrop" >
-        <h6  [ngStyle]="{'line-height': 3, 'height': '100%' }">CATEGORIAS</h6>
-        <div  class="dropMenu">
+      <div class="masterDrop">
+        <h6 [ngStyle]="{'line-height': 3, 'height': '100%' }">CATEGORIAS</h6>
+        <div class="dropMenu">
           <div class="contenedorMenu">
-            <a aria-label="Ver Tipo" class="navLink" *ngFor="let tipo of tipos|async" href="store/categorias/{{tipo.name}}">{{tipo.name|uppercase}}</a>
+            <a aria-label="Ver Tipo" class="navLink" *ngFor="let tipo of tipos|async"
+              href="store/categorias/{{tipo.name}}">{{tipo.name|uppercase}}</a>
           </div>
         </div>
       </div>
@@ -61,12 +69,13 @@
         <div class="dropMenuBuscar">
           <div class="contenedorMenuBuscar">
             <form [formGroup]="busquedaForm" (ngSubmit)="goToBusqueda(busquedaForm.value.name)">
-              <mat-form-field class="buscarField"  appearance="standard" >
+              <mat-form-field class="buscarField" appearance="fill">
                 <mat-label>Busqueda...</mat-label>
-                <input type="text" matInput formControlName="name"  autocomplete="off" >
+                <input type="text" matInput formControlName="name" autocomplete="off">
               </mat-form-field>
             </form>
-            <button aria-label="Realizar Busqueda" mat-flat-button color="accent" (click)="goToBusqueda(busquedaForm.value.name)" [disabled]="!busquedaForm.valid">
+            <button aria-label="Realizar Busqueda" mat-flat-button color="accent"
+              (click)="goToBusqueda(busquedaForm.value.name)" [disabled]="!busquedaForm.valid">
               Buscar
             </button>
             <button aria-label="Cancelar Busqueda" mat-stroked-button color="primary" (click)="clearBusqueda()">
@@ -98,36 +107,40 @@
   <mat-list>
     <div mat-subheader>Servicio Al Cliente:</div>
     <mat-list-item class="social-link">
-      <a mat-line href="/servicio-al-cliente/terminos-y-condiciones"><span><mat-icon mat-list-icon>description</mat-icon></span>Terminos y condiciones</a>
+      <a mat-line href="/servicio-al-cliente/terminos-y-condiciones"><span><mat-icon
+            mat-list-icon>description</mat-icon></span>Terminos y condiciones</a>
     </mat-list-item>
     <mat-divider></mat-divider>
     <mat-list-item class="social-link">
-      <a mat-line href="/servicio-al-cliente/politica-de-privacidad"><span><mat-icon mat-list-icon>description</mat-icon></span>Política de privacidad</a>
+      <a mat-line href="/servicio-al-cliente/politica-de-privacidad"><span><mat-icon
+            mat-list-icon>description</mat-icon></span>Política de privacidad</a>
     </mat-list-item>
   </mat-list>
 
   <mat-list>
     <div mat-subheader>Envios y devoluciones:</div>
     <mat-list-item class="social-link">
-      <a mat-line href="/servicio-al-cliente/politica-de-devolucion"><span><mat-icon mat-list-icon>local_shipping</mat-icon></span>Política de devoluciones</a>
+      <a mat-line href="/servicio-al-cliente/politica-de-devolucion"><span><mat-icon
+            mat-list-icon>local_shipping</mat-icon></span>Política de devoluciones</a>
     </mat-list-item>
     <mat-divider></mat-divider>
     <mat-list-item class="social-link">
-      <a mat-line href="/servicio-al-cliente/politica-de-envio"><span><mat-icon mat-list-icon>local_shipping</mat-icon></span>Política de envio</a>
+      <a mat-line href="/servicio-al-cliente/politica-de-envio"><span><mat-icon
+            mat-list-icon>local_shipping</mat-icon></span>Política de envio</a>
     </mat-list-item>
   </mat-list>
 
   <mat-list>
     <div mat-subheader>Redes Sociales:</div>
-    <mat-list-item class="social-link" >
-      <a mat-line rel="noreferrer" target="_blank"
-      href="https://www.facebook.com/siriodinar"><span><mat-icon mat-list-icon>facebook</mat-icon></span>fb.com/siriodinar</a>
+    <mat-list-item class="social-link">
+      <a mat-line rel="noreferrer" target="_blank" href="https://www.facebook.com/siriodinar"><span><mat-icon
+            mat-list-icon>facebook</mat-icon></span>fb.com/siriodinar</a>
     </mat-list-item>
     <mat-divider></mat-divider>
     <mat-list-item class="social-link">
       <a rel="noreferrer" target="_blank" rel="noreferrer" mat-line href="https://www.instagram.com/dinarsirio/">
         <span><mat-icon [ngStyle]="{'padding-bottom': '12px'}" mat-list-icon>
-        <i class="fab fa-instagram"></i></mat-icon></span>@dinarsirio</a>
+            <i class="fab fa-instagram"></i></mat-icon></span>@dinarsirio</a>
     </mat-list-item>
   </mat-list>
 
@@ -135,27 +148,31 @@
     <div mat-subheader>WhatsApps:</div>
     <mat-list-item class="social-link">
       <a mat-line rel="noreferrer" target="_blank"
-      href="https://api.whatsapp.com/send/?phone=51977426349&text=Buenas%2C+me+gustaria+obtener+m%C3%A1s+informaci%C3%B3n.&app_absent=0"><span>
-        <mat-icon [ngStyle]="{'padding-bottom': '12px'}" mat-list-icon><i class="fa fa-whatsapp" aria-hidden="true"></i>
-        </mat-icon></span>+51 977 426 349</a>
+        href="https://api.whatsapp.com/send/?phone=51977426349&text=Buenas%2C+me+gustaria+obtener+m%C3%A1s+informaci%C3%B3n.&app_absent=0"><span>
+          <mat-icon [ngStyle]="{'padding-bottom': '12px'}" mat-list-icon><i class="fa fa-whatsapp"
+              aria-hidden="true"></i>
+          </mat-icon></span>+51 977 426 349</a>
     </mat-list-item>
     <mat-divider></mat-divider>
     <mat-list-item class="social-link">
       <a rel="noreferrer" target="_blank" mat-line
-      href="https://api.whatsapp.com/send/?phone=51922412404&text=Buenas%2C+me+gustaria+obtener+m%C3%A1s+informaci%C3%B3n.&app_absent=0"><span>
-        <mat-icon [ngStyle]="{'padding-bottom': '12px'}" mat-list-icon><i class="fa fa-whatsapp" aria-hidden="true"></i>
-        </mat-icon></span>+51 922 412 404</a>
+        href="https://api.whatsapp.com/send/?phone=51922412404&text=Buenas%2C+me+gustaria+obtener+m%C3%A1s+informaci%C3%B3n.&app_absent=0"><span>
+          <mat-icon [ngStyle]="{'padding-bottom': '12px'}" mat-list-icon><i class="fa fa-whatsapp"
+              aria-hidden="true"></i>
+          </mat-icon></span>+51 922 412 404</a>
     </mat-list-item>
   </mat-list>
 
   <mat-list>
     <div mat-subheader>Comunicate:</div>
     <mat-list-item class="social-link">
-      <a mat-line href="/servicio-al-cliente/contactanos"><span><mat-icon mat-list-icon>contact_mail</mat-icon></span>Contactanos</a>
+      <a mat-line href="/servicio-al-cliente/contactanos"><span><mat-icon
+            mat-list-icon>contact_mail</mat-icon></span>Contactanos</a>
     </mat-list-item>
     <mat-divider></mat-divider>
     <mat-list-item class="social-link">
-      <a rel="noreferrer" target="_blank" mat-line href="https://www.google.com/maps/place/Felipe+Pardo+y+Aliaga+213,+Trujillo+13006/@-8.11283,-79.0178555,19z/data=!3m1!4b1!4m5!3m4!1s0x91ad162a59b1c931:0xda445057079ecc8!8m2!3d-8.1128313!4d-79.0173083?rapsrc=apiv3">
+      <a rel="noreferrer" target="_blank" mat-line
+        href="https://www.google.com/maps/place/Felipe+Pardo+y+Aliaga+213,+Trujillo+13006/@-8.11283,-79.0178555,19z/data=!3m1!4b1!4m5!3m4!1s0x91ad162a59b1c931:0xda445057079ecc8!8m2!3d-8.1128313!4d-79.0173083?rapsrc=apiv3">
         <span><mat-icon mat-list-icon>room</mat-icon></span>Jr. Felipe Pardo Y Aliaga 213</a>
       <div mat-line><mat-icon></mat-icon>Urb. Palermo. Trujillo, Perú.</div>
     </mat-list-item>

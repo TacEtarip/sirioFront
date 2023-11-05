@@ -2,13 +2,15 @@
 <mat-dialog-content class="mat-typography">
   <form [formGroup]="celularForm">
     <mat-form-field [ngStyle]="{'width': '100%'}" appearance="fill" class="formstyle">
-      <mat-label >Celular Nuevo</mat-label>
-      <input [ngStyle]="{'width': '100%'}" (change)="trimThis('celular')" name="celular" id="celular" formControlName="celular" matInput>
+      <mat-label>Celular Nuevo</mat-label>
+      <input [ngStyle]="{'width': '100%'}" (change)="trimThis('celular')" name="celular" id="celular"
+        formControlName="celular" matInput>
       <mat-error *ngIf="celularForm.get('celular').hasError('pattern')">Ingrese un formato de celular valido</mat-error>
     </mat-form-field>
   </form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>
-  <button [disabled]="!celularForm.valid" mat-stroked-button color="accent" cdkFocusInitial (click)="actualizarCel(celularForm.value)">Actualizar</button>
+  <button [disabled]="!celularForm.valid" mat-stroked-button color="accent" cdkFocusInitial
+    (click)="actualizarCel(celularForm.value)">Actualizar</button>
 </mat-dialog-actions>

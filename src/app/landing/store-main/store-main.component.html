@@ -3,30 +3,34 @@
   <div class="main"></div>
   <form [formGroup]="busqueda">
     <img width="600px" src="assets/pareja.png" alt="">
-    <mat-form-field  appearance="fill" >
+    <mat-form-field appearance="fill">
       <mat-label>Nombre Item...</mat-label>
-      <input type="text" matInput formControlName="name" [matAutocomplete]="auto"  autocomplete="off">
-      <mat-autocomplete (optionSelected)="selectItem($event)" #auto="matAutocomplete" [displayWith]="displayFn" >
+      <input type="text" matInput formControlName="name" [matAutocomplete]="auto" autocomplete="off">
+      <mat-autocomplete (optionSelected)="selectItem($event)" #auto="matAutocomplete" [displayWith]="displayFn">
         <mat-option *ngFor="let option of filteredItem$ | async" [value]="option">
           {{option.name}}
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
     <div class="btns">
-       <button aria-label="Ir a producto" type="button"  mat-flat-button color="primary" (click)="goToProducto()" [disabled]="!(item$|async) || !busqueda.valid">Ver Producto</button>
-       <button aria-label="Ir a inventario" type="button" mat-flat-button color="primary" (click)="goToInventario()">Ver Inventario</button>
+      <button aria-label="Ir a producto" type="button" mat-flat-button color="primary" (click)="goToProducto()"
+        [disabled]="!(item$|async) || !busqueda.valid">Ver Producto</button>
+      <button aria-label="Ir a inventario" type="button" mat-flat-button color="primary" (click)="goToInventario()">Ver
+        Inventario</button>
     </div>
   </form>
 </section>
 <section class="destacados">
   <H2>CATEGORIAS</H2>
-  <button (click)="backSlideTwo()" [disabled]="(toShowBackTwo$|async) <= 0" mat-icon-button color="primary"><mat-icon>keyboard_arrow_left</mat-icon></button>
+  <button (click)="backSlideTwo()" [disabled]="(toShowBackTwo$|async) <= 0" mat-icon-button
+    color="primary"><mat-icon>keyboard_arrow_left</mat-icon></button>
   <div class="sliderContainer">
     <div class="sliderTwo">
       <app-categoria-card *ngFor="let tipo of tipos|async" [tipo]="tipo"></app-categoria-card>
     </div>
   </div>
-  <button (click)="nextSlideTwo()" [disabled]="(toShowNextTwo$|async) <= 0" mat-icon-button color="primary"><mat-icon>keyboard_arrow_right</mat-icon></button>
+  <button (click)="nextSlideTwo()" [disabled]="(toShowNextTwo$|async) <= 0" mat-icon-button
+    color="primary"><mat-icon>keyboard_arrow_right</mat-icon></button>
   <img class="pointP" width="240px" src="assets/rPoint.png" alt="">
   <img class="femP" width="220px" src="assets/femPoint.png" alt="">
 </section>
@@ -46,18 +50,22 @@
 </section>
 <section class="destacados">
   <H2>NUESTROS PRODUCTOS DESTACADOS</H2>
-  <button aria-label="Ir a slide anterior" (click)="backSlide()" [disabled]="(toShowBack$|async) <= 0" mat-icon-button color="primary"><mat-icon>keyboard_arrow_left</mat-icon></button>
+  <button aria-label="Ir a slide anterior" (click)="backSlide()" [disabled]="(toShowBack$|async) <= 0" mat-icon-button
+    color="primary"><mat-icon>keyboard_arrow_left</mat-icon></button>
   <div class="sliderContainer">
     <div class="slider">
-      <app-itemcard [ngStyle]="{'grid-row': 1}"  *ngFor="let item of itemsDestacados$|async" [item]="item"></app-itemcard>
+      <app-itemcard [ngStyle]="{'grid-row': 1}" *ngFor="let item of itemsDestacados$|async"
+        [item]="item"></app-itemcard>
     </div>
   </div>
-  <a aria-label="Ir a inventario" class="irInv" href="/store/categorias"><button class="verinv"  mat-flat-button color="primary">Ver Inventario</button></a>
-  <button aria-label="Ir a slide siguiente" (click)="nextSlide()" [disabled]="(toShowNext$|async) <= 0" mat-icon-button color="primary"><mat-icon>keyboard_arrow_right</mat-icon></button>
+  <a aria-label="Ir a inventario" class="irInv" href="/store/categorias"><button class="verinv" mat-flat-button
+      color="primary">Ver Inventario</button></a>
+  <button aria-label="Ir a slide siguiente" (click)="nextSlide()" [disabled]="(toShowNext$|async) <= 0" mat-icon-button
+    color="primary"><mat-icon>keyboard_arrow_right</mat-icon></button>
   <img class="pointP" width="240px" src="assets/rPoint.png" alt="">
 </section>
 <section class="galeria">
-  <a aria-label="Ver Item" *ngFor="let item of tenRandomItems$|async" href="/store/categorias/{{item.tipo}}/{{item.subTipo}}/{{item.codigo}}"
-  [ngStyle]="{'background-image': 'url(' + 'https://siriouploads.s3.amazonaws.com/' + item.photo.split('.')[0] + '.webp' + ')' }"></a>
+  <a aria-label="Ver Item" *ngFor="let item of tenRandomItems$|async"
+    href="/store/categorias/{{item.tipo}}/{{item.subTipo}}/{{item.codigo}}"
+    [ngStyle]="{'background-image': 'url(' + 'https://siriouploads.s3.amazonaws.com/' + item.photo.split('.')[0] + '.webp' + ')' }"></a>
 </section>
-

@@ -1,21 +1,35 @@
-import {Component, OnInit, ViewChild, AfterViewInit, OnDestroy} from '@angular/core';
-import {MatPaginator, PageEvent} from '@angular/material/paginator';
-import {MatTableDataSource} from '@angular/material/table';
-import { InventarioManagerService, Venta } from '../../../inventario-manager.service';
-import { BehaviorSubject, Subject } from 'rxjs';
-import {UntypedFormGroup, UntypedFormBuilder, Validators} from '@angular/forms';
-import { first, distinctUntilChanged, debounceTime } from 'rxjs/operators';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { saveAs } from 'file-saver';
 import anime from 'animejs';
+import { saveAs } from 'file-saver';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import {
+  InventarioManagerService,
+  Venta,
+} from '../../../inventario-manager.service';
 
 @Component({
   selector: 'app-historial-ventas',
   templateUrl: './historial-ventas.component.html',
-  styleUrls: ['./historial-ventas.component.css']
+  styleUrls: ['./historial-ventas.component.css'],
 })
-export class HistorialVentasComponent implements OnInit, AfterViewInit, OnDestroy {
-
+export class HistorialVentasComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   range: UntypedFormGroup;
 
   minDate: Date;
@@ -26,7 +40,14 @@ export class HistorialVentasComponent implements OnInit, AfterViewInit, OnDestro
   endISO$ = new BehaviorSubject<string>('noone');
   startISO$ = new BehaviorSubject<string>('noone');
 
-  displayedColumns: string[] = ['fecha', 'codigo', 'vendedor', 'totalPrice', 'documento', 'comprobante'];
+  displayedColumns: string[] = [
+    'fecha',
+    'codigo',
+    'vendedor',
+    'totalPrice',
+    'documento',
+    'comprobante',
+  ];
   dataSource: MatTableDataSource<Venta>;
   dataSource$ = new Subject<MatTableDataSource<Venta>>();
 
@@ -34,15 +55,15 @@ export class HistorialVentasComponent implements OnInit, AfterViewInit, OnDestro
 
   gettingInfo$ = new BehaviorSubject<boolean>(true);
 
-  metodosDeBusqueda: { value: string[], viewValue: string }[] = [
+  metodosDeBusqueda: { value: string[]; viewValue: string }[] = [
     { value: ['ejecutada'], viewValue: 'Ejecutadas' },
     { value: ['anuladaPost'], viewValue: 'Anuladas' },
-    { value: ['ejecutada', 'anuladaPost'], viewValue: 'Todas' }
+    { value: ['ejecutada', 'anuladaPost'], viewValue: 'Todas' },
   ];
 
   currentMetodoBusqueda = this.metodosDeBusqueda[0].value;
 
-  tiposV: { value: string[], viewValue: string }[] = [
+  tiposV: { value: string[]; viewValue: string }[] = [
     { value: ['boleta', 'factura', 'noone'], viewValue: 'Todas' },
     { value: ['factura'], viewValue: 'Facturas' },
     { value: ['boleta'], viewValue: 'Boletas' },
@@ -51,26 +72,21 @@ export class HistorialVentasComponent implements OnInit, AfterViewInit, OnDestro
 
   currentTipoV = this.tiposV[0].value;
 
-  tiposO: { value: string, viewValue: string }[] = [
+  tiposO: { value: string; viewValue: string }[] = [
     { value: 'date', viewValue: 'Fecha' },
     { value: 'totalPrice', viewValue: 'Monto' },
   ];
 
   currentOrdenBusqueda = this.tiposO[0].value;
 
-  tiposOO: { value: number, viewValue: string }[] = [
+  tiposOO: { value: number; viewValue: string }[] = [
     { value: -1, viewValue: 'Descendente' },
     { value: 1, viewValue: 'Ascendente' },
   ];
 
   currentOrdenOrdenBusqueda = this.tiposOO[0].value;
 
-  // dataSource$ = new BehaviorSubject<MatTableDataSource<PeriodicElement>>(null);
-
-  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
-
-  /*@ViewChild(MatPaginator, {static: false}) set content(paginator: MatPaginator) {
-  }*/
+  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
 
   dataForTable: Venta[] = [];
 
@@ -78,106 +94,169 @@ export class HistorialVentasComponent implements OnInit, AfterViewInit, OnDestro
 
   ventasLength$ = new BehaviorSubject<number>(11);
 
-  constructor(private inventarioMNG: InventarioManagerService, private fb: UntypedFormBuilder, private router: Router) {
+  constructor(
+    private inventarioMNG: InventarioManagerService,
+    private fb: UntypedFormBuilder,
+    private router: Router
+  ) {
     this.minDate = new Date('2020-07-26T00:00:00+0000');
     this.maxDate = new Date();
     this.maxDate.setDate(this.maxDate.getDate() + 1);
 
     this.startISO$.next(this.minDate.toISOString());
     this.endISO$.next(this.maxDate.toISOString());
-    // this.dataSource = new MatTableDataSource(ELEMENT_DATA);
-   }
+  }
 
-   ngAfterViewInit(): void {
-    this.inventarioMNG.getVentasEJecutadas(10, 0, 'noone', 'noone', this.range.get('estado').value,
-    this.range.get('tipo').value,
-    this.range.get('busqueda').value,  this.range.get('busquedaItemCodigo').value, this.range.get('busquedaUsername').value,
-    this.range.get('orden').value,
-    this.range.get('ordenOrden').value).subscribe(res => {
-      const temp = new MatTableDataSource(res);
-      this.dataSource$.next(temp);
-      this.gettingInfo$.next(false);
-    });
+  ngAfterViewInit(): void {
+    this.inventarioMNG
+      .getVentasEJecutadas(
+        10,
+        0,
+        'noone',
+        'noone',
+        this.range.get('estado').value,
+        this.range.get('tipo').value,
+        this.range.get('busqueda').value,
+        this.range.get('busquedaItemCodigo').value,
+        this.range.get('busquedaUsername').value,
+        this.range.get('orden').value,
+        this.range.get('ordenOrden').value
+      )
+      .subscribe((res) => {
+        const temp = new MatTableDataSource(res);
+        this.dataSource$.next(temp);
+        this.gettingInfo$.next(false);
+      });
 
-    this.inventarioMNG.getCantidadVentasPorEstado(this.range.get('estado').value, 'noone', 'noone',
-    this.range.get('tipo').value,
-    this.range.get('busqueda').value,  this.range.get('busquedaItemCodigo').value, this.range.get('busquedaUsername').value)
-    .subscribe(res => {
-      this.ventasLength$.next(res.cantidadVentas);
-    });
+    this.inventarioMNG
+      .getCantidadVentasPorEstado(
+        this.range.get('estado').value,
+        'noone',
+        'noone',
+        this.range.get('tipo').value,
+        this.range.get('busqueda').value,
+        this.range.get('busquedaItemCodigo').value,
+        this.range.get('busquedaUsername').value
+      )
+      .subscribe((res) => {
+        this.ventasLength$.next(res.cantidadVentas);
+      });
 
     this.paginator.page.subscribe((res: PageEvent) => {
       this.gettingInfo$.next(true);
       this.newSource(res.pageIndex);
     });
-
-   }
+  }
 
   ngOnInit(): void {
     this.range = this.fb.group({
-      start: this.fb.control({value: '', disabled: false}, Validators.compose([
-        Validators.required
-      ])),
-      end: this.fb.control({value: '', disabled: false}, Validators.compose([
-      ])),
+      start: this.fb.control(
+        { value: '', disabled: false },
+        Validators.compose([Validators.required])
+      ),
+      end: this.fb.control(
+        { value: '', disabled: false },
+        Validators.compose([])
+      ),
       estado: this.fb.control(this.metodosDeBusqueda[0].value),
       tipo: this.fb.control(this.currentTipoV),
       orden: this.fb.control(this.currentOrdenBusqueda),
       ordenOrden: this.fb.control(this.currentOrdenOrdenBusqueda),
-      busqueda: this.fb.control('', Validators.compose([
-        Validators.pattern(/^[a-zA-Z0-9.-_# ]*$/),
-        Validators.minLength(1),
-      ])),
-      busquedaItemCodigo: this.fb.control('', Validators.compose([
-        Validators.pattern(/^[a-zA-Z0-9.-_# ]*$/),
-        Validators.minLength(1),
-      ])),
-      busquedaUsername: this.fb.control('', Validators.compose([
-        Validators.pattern(/^[a-zA-Z0-9.-_# ]*$/),
-        Validators.minLength(1),
-      ]))
+      busqueda: this.fb.control(
+        '',
+        Validators.compose([
+          Validators.pattern(/^[a-zA-Z0-9.-_# ]*$/),
+          Validators.minLength(1),
+        ])
+      ),
+      busquedaItemCodigo: this.fb.control(
+        '',
+        Validators.compose([
+          Validators.pattern(/^[a-zA-Z0-9.-_# ]*$/),
+          Validators.minLength(1),
+        ])
+      ),
+      busquedaUsername: this.fb.control(
+        '',
+        Validators.compose([
+          Validators.pattern(/^[a-zA-Z0-9.-_# ]*$/),
+          Validators.minLength(1),
+        ])
+      ),
     });
 
-    this.range.get('estado').valueChanges.pipe(distinctUntilChanged()).subscribe(res => {
-      this.cargarVentas();
-    });
-
-    this.range.get('tipo').valueChanges.pipe(distinctUntilChanged()).subscribe(res => {
-      this.cargarVentas();
-    });
-
-    this.range.get('orden').valueChanges.pipe(distinctUntilChanged()).subscribe(res => {
-      this.cargarVentas();
-    });
-
-    this.range.get('ordenOrden').valueChanges.pipe(distinctUntilChanged()).subscribe(res => {
-      this.cargarVentas();
-    });
-
-    this.range.get('busqueda').valueChanges.pipe(distinctUntilChanged(), debounceTime(500)).subscribe(res => {
-      if (this.range.get('busqueda').valid) {
+    this.range
+      .get('estado')
+      .valueChanges.pipe(distinctUntilChanged())
+      .subscribe((res) => {
         this.cargarVentas();
-      }
-    });
+      });
 
-    this.range.get('busquedaItemCodigo').valueChanges.pipe(distinctUntilChanged(), debounceTime(500)).subscribe(res => {
-      if (this.range.get('busquedaItemCodigo').valid) {
+    this.range
+      .get('tipo')
+      .valueChanges.pipe(distinctUntilChanged())
+      .subscribe((res) => {
         this.cargarVentas();
-      }
-    });
+      });
 
-    this.range.get('busquedaUsername').valueChanges.pipe(distinctUntilChanged(), debounceTime(500)).subscribe(res => {
-      if (this.range.get('busquedaUsername').valid) {
+    this.range
+      .get('orden')
+      .valueChanges.pipe(distinctUntilChanged())
+      .subscribe((res) => {
         this.cargarVentas();
-      }
-    });
+      });
+
+    this.range
+      .get('ordenOrden')
+      .valueChanges.pipe(distinctUntilChanged())
+      .subscribe((res) => {
+        this.cargarVentas();
+      });
+
+    this.range
+      .get('busqueda')
+      .valueChanges.pipe(distinctUntilChanged(), debounceTime(500))
+      .subscribe((res) => {
+        if (this.range.get('busqueda').valid) {
+          this.cargarVentas();
+        }
+      });
+
+    this.range
+      .get('busquedaItemCodigo')
+      .valueChanges.pipe(distinctUntilChanged(), debounceTime(500))
+      .subscribe((res) => {
+        if (this.range.get('busquedaItemCodigo').valid) {
+          this.cargarVentas();
+        }
+      });
+
+    this.range
+      .get('busquedaUsername')
+      .valueChanges.pipe(distinctUntilChanged(), debounceTime(500))
+      .subscribe((res) => {
+        if (this.range.get('busquedaUsername').valid) {
+          this.cargarVentas();
+        }
+      });
   }
 
   newSource(index: number) {
-      this.inventarioMNG.getVentasEJecutadas(10, index * 10, this.startISO$.value,
-         this.endISO$.value, this.range.get('estado').value, this.range.get('tipo').value,
-         this.range.get('busqueda').value,  this.range.get('busquedaItemCodigo').value, this.range.get('busquedaUsername').value,
-         this.range.get('orden').value, this.range.get('ordenOrden').value).subscribe(res => {
+    this.inventarioMNG
+      .getVentasEJecutadas(
+        10,
+        index * 10,
+        this.startISO$.value,
+        this.endISO$.value,
+        this.range.get('estado').value,
+        this.range.get('tipo').value,
+        this.range.get('busqueda').value,
+        this.range.get('busquedaItemCodigo').value,
+        this.range.get('busquedaUsername').value,
+        this.range.get('orden').value,
+        this.range.get('ordenOrden').value
+      )
+      .subscribe((res) => {
         this.gettingInfo$.next(false);
         const temp = new MatTableDataSource(res);
         this.dataSource$.next(temp);
@@ -192,26 +271,44 @@ export class HistorialVentasComponent implements OnInit, AfterViewInit, OnDestro
       this.paginator.firstPage();
     } else {
       this.gettingInfo$.next(true);
-      this.inventarioMNG.getVentasEJecutadas(10, 0, this.startISO$.value,
-        this.endISO$.value, this.range.get('estado').value, this.range.get('tipo').value,
-        this.range.get('busqueda').value,  this.range.get('busquedaItemCodigo').value, this.range.get('busquedaUsername').value,
-        this.range.get('orden').value, this.range.get('ordenOrden').value).subscribe(res => {
-        this.gettingInfo$.next(false);
-        const temp = new MatTableDataSource(res);
-        this.dataSource$.next(temp);
-      });
+      this.inventarioMNG
+        .getVentasEJecutadas(
+          10,
+          0,
+          this.startISO$.value,
+          this.endISO$.value,
+          this.range.get('estado').value,
+          this.range.get('tipo').value,
+          this.range.get('busqueda').value,
+          this.range.get('busquedaItemCodigo').value,
+          this.range.get('busquedaUsername').value,
+          this.range.get('orden').value,
+          this.range.get('ordenOrden').value
+        )
+        .subscribe((res) => {
+          this.gettingInfo$.next(false);
+          const temp = new MatTableDataSource(res);
+          this.dataSource$.next(temp);
+        });
     }
 
     this.inventarioMNG
-    .getCantidadVentasPorEstado(this.range.get('estado').value, this.startISO$.value, this.endISO$.value, this.range.get('tipo').value,
-    this.range.get('busqueda').value,  this.range.get('busquedaItemCodigo').value, this.range.get('busquedaUsername').value)
-    .subscribe(res => {
-      if (res) {
-        this.ventasLength$.next(res.cantidadVentas);
-      } else {
-        this.ventasLength$.next(0);
-      }
-    });
+      .getCantidadVentasPorEstado(
+        this.range.get('estado').value,
+        this.startISO$.value,
+        this.endISO$.value,
+        this.range.get('tipo').value,
+        this.range.get('busqueda').value,
+        this.range.get('busquedaItemCodigo').value,
+        this.range.get('busquedaUsername').value
+      )
+      .subscribe((res) => {
+        if (res) {
+          this.ventasLength$.next(res.cantidadVentas);
+        } else {
+          this.ventasLength$.next(0);
+        }
+      });
   }
 
   datePicked() {
@@ -219,7 +316,6 @@ export class HistorialVentasComponent implements OnInit, AfterViewInit, OnDestro
       this.startISO$.next(this.range.get('start').value.toISOString());
       this.endISO$.next(this.range.get('end').value.toISOString());
       this.cargarVentas();
-      // this.inDateSearch.next(true);
     }
   }
 
@@ -234,32 +330,44 @@ export class HistorialVentasComponent implements OnInit, AfterViewInit, OnDestro
     this.showF = !this.showF;
     if (this.showF) {
       this.animateTrans(this.showF)
-    .add({
-      targets: '.sm1',
-      height: this.getAnimationH(this.showF),
-    })
-    .add({
-      targets: '.sm2',
-      height: this.getAnimationH(this.showF),
-    }, '-=100')
-    .add({
-      targets: '.sm3',
-      height: this.getAnimationH(this.showF),
-    }, '-=100');
+        .add({
+          targets: '.sm1',
+          height: this.getAnimationH(this.showF),
+        })
+        .add(
+          {
+            targets: '.sm2',
+            height: this.getAnimationH(this.showF),
+          },
+          '-=100'
+        )
+        .add(
+          {
+            targets: '.sm3',
+            height: this.getAnimationH(this.showF),
+          },
+          '-=100'
+        );
     } else {
       this.animateTrans(this.showF)
-      .add({
-        targets: '.sm3',
-        height: this.getAnimationH(this.showF),
-      })
-      .add({
-        targets: '.sm2',
-        height: this.getAnimationH(this.showF),
-      }, '-=100')
-      .add({
-        targets: '.sm1',
-        height: this.getAnimationH(this.showF),
-      }, '-=100');
+        .add({
+          targets: '.sm3',
+          height: this.getAnimationH(this.showF),
+        })
+        .add(
+          {
+            targets: '.sm2',
+            height: this.getAnimationH(this.showF),
+          },
+          '-=100'
+        )
+        .add(
+          {
+            targets: '.sm1',
+            height: this.getAnimationH(this.showF),
+          },
+          '-=100'
+        );
     }
   }
 
@@ -272,11 +380,18 @@ export class HistorialVentasComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   descargarExcel() {
-    this.inventarioMNG.getExcelReport(this.startISO$.value, this.endISO$.value,
-      this.range.get('estado').value,  this.range.get('tipo').value,
-      this.range.get('busqueda').value,  this.range.get('busquedaItemCodigo').value, this.range.get('busquedaUsername').value)
-      .subscribe(res => {
-      saveAs(res, 'reporte.xlsx');
-    });
+    this.inventarioMNG
+      .getExcelReport(
+        this.startISO$.value,
+        this.endISO$.value,
+        this.range.get('estado').value,
+        this.range.get('tipo').value,
+        this.range.get('busqueda').value,
+        this.range.get('busquedaItemCodigo').value,
+        this.range.get('busquedaUsername').value
+      )
+      .subscribe((res) => {
+        saveAs(res, 'reporte.xlsx');
+      });
   }
 }

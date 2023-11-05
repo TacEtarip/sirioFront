@@ -3,29 +3,30 @@
   <div class="container">
     <div class="mensaje-contacto">
       <form [formGroup]="formContacto">
-      <h3>ENVIAR MENSAJE:</h3>
-      <mat-form-field appearance="fill" class="full-form">
-        <mat-label>Nombre</mat-label>
-        <input matInput placeholder="Nombre" formControlName="nombre" required>
-      </mat-form-field>
-      <mat-form-field appearance="fill" class="full-form">
-        <mat-label>Apellido</mat-label>
-        <input matInput placeholder="Apellido" formControlName="apellido" required>
-      </mat-form-field>
-      <mat-form-field appearance="fill" class="full-form">
-        <mat-label>Correo electronico</mat-label>
-        <input matInput placeholder="E-mail" formControlName="email" required>
-      </mat-form-field>
-      <mat-form-field appearance="fill" class="full-form">
-        <mat-label>Mensaje</mat-label>
-        <textarea matInput formControlName="mensaje" required></textarea>
-      </mat-form-field>
-      <button (click)="enviarMensaje(this.formContacto.value)"  mat-stroked-button color="primary">Enviar Mensaje</button>
-    </form>
+        <h3>ENVIAR MENSAJE:</h3>
+        <mat-form-field appearance="fill" class="full-form">
+          <mat-label>Nombre</mat-label>
+          <input matInput placeholder="Nombre" formControlName="nombre" required>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="full-form">
+          <mat-label>Apellido</mat-label>
+          <input matInput placeholder="Apellido" formControlName="apellido" required>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="full-form">
+          <mat-label>Correo electronico</mat-label>
+          <input matInput placeholder="E-mail" formControlName="email" required>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="full-form">
+          <mat-label>Mensaje</mat-label>
+          <textarea matInput formControlName="mensaje" required></textarea>
+        </mat-form-field>
+        <button (click)="enviarMensaje(this.formContacto.value)" mat-stroked-button color="primary">Enviar
+          Mensaje</button>
+      </form>
     </div>
     <div class="links">
       <h3>ENCUENTRANOS EN:</h3>
-      <mat-list >
+      <mat-list>
         <div mat-subheader>Dirección:</div>
         <mat-list-item class="social-link">
           <mat-icon mat-list-icon>room</mat-icon>
@@ -36,14 +37,14 @@
       <mat-divider></mat-divider>
       <mat-list>
         <div mat-subheader>Redes Sociales:</div>
-        <mat-list-item class="social-link" >
-          <a mat-line rel="noreferrer" target="_blank"
-      href="https://www.facebook.com/siriodinar"><span><mat-icon mat-list-icon>facebook</mat-icon></span>fb.com/siriodinar</a>
+        <mat-list-item class="social-link">
+          <a mat-line rel="noreferrer" target="_blank" href="https://www.facebook.com/siriodinar"><span><mat-icon
+                mat-list-icon>facebook</mat-icon></span>fb.com/siriodinar</a>
         </mat-list-item>
         <mat-list-item class="social-link">
           <a rel="noreferrer" target="_blank" rel="noreferrer" mat-line href="https://www.instagram.com/dinarsirio/">
             <span><mat-icon [ngStyle]="{'padding-bottom': '12px'}" mat-list-icon>
-            <i class="fab fa-instagram"></i></mat-icon></span>@dinarsirio</a>
+                <i class="fab fa-instagram"></i></mat-icon></span>@dinarsirio</a>
         </mat-list-item>
       </mat-list>
       <mat-divider></mat-divider>
@@ -51,15 +52,17 @@
         <div mat-subheader>WhatsApps:</div>
         <mat-list-item class="social-link">
           <a mat-line rel="noreferrer" target="_blank"
-          href="https://api.whatsapp.com/send/?phone=51977426349&text=Buenas%2C+me+gustaria+obtener+m%C3%A1s+informaci%C3%B3n.&app_absent=0"><span>
-            <mat-icon [ngStyle]="{'padding-bottom': '12px'}" mat-list-icon><i class="fa fa-whatsapp" aria-hidden="true"></i>
-            </mat-icon></span>+51 977 426 349</a>
+            href="https://api.whatsapp.com/send/?phone=51977426349&text=Buenas%2C+me+gustaria+obtener+m%C3%A1s+informaci%C3%B3n.&app_absent=0"><span>
+              <mat-icon [ngStyle]="{'padding-bottom': '12px'}" mat-list-icon><i class="fa fa-whatsapp"
+                  aria-hidden="true"></i>
+              </mat-icon></span>+51 977 426 349</a>
         </mat-list-item>
         <mat-list-item class="social-link">
           <a rel="noreferrer" target="_blank" mat-line
-          href="https://api.whatsapp.com/send/?phone=51922412404&text=Buenas%2C+me+gustaria+obtener+m%C3%A1s+informaci%C3%B3n.&app_absent=0"><span>
-            <mat-icon [ngStyle]="{'padding-bottom': '12px'}" mat-list-icon><i class="fa fa-whatsapp" aria-hidden="true"></i>
-            </mat-icon></span>+51 922 412 404</a>
+            href="https://api.whatsapp.com/send/?phone=51922412404&text=Buenas%2C+me+gustaria+obtener+m%C3%A1s+informaci%C3%B3n.&app_absent=0"><span>
+              <mat-icon [ngStyle]="{'padding-bottom': '12px'}" mat-list-icon><i class="fa fa-whatsapp"
+                  aria-hidden="true"></i>
+              </mat-icon></span>+51 922 412 404</a>
         </mat-list-item>
       </mat-list>
     </div>

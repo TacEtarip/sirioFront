@@ -6,16 +6,20 @@ import { CarritoComponent } from './carrito/carrito.component';
 import { PagoComponent } from './pago/pago.component';
 
 const routes: Routes = [
-  { path: '', component: CarritoComponent, children: [
-    { path: 'listado', component: CarritoTablaComponent },
-    { path: 'pago', component: PagoComponent },
-    { path: '', redirectTo: 'listado', pathMatch: 'full' },
-    { path: '**', redirectTo: 'listado' }
-  ] },
+  {
+    path: '',
+    component: CarritoComponent,
+    children: [
+      { path: 'listado', component: CarritoTablaComponent },
+      { path: 'pago', component: PagoComponent },
+      { path: '', redirectTo: 'listado', pathMatch: 'full' },
+      { path: '**', redirectTo: 'listado' },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class CarritoRoutingModule { }
+export class CarritoRoutingModule {}

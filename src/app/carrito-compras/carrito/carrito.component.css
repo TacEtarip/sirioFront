@@ -20,7 +20,8 @@
   grid-template-columns: 1fr 1fr 1fr;
 }
 
-.dropMenu, .dropMenuBuscar {
+.dropMenu,
+.dropMenuBuscar {
   position: absolute;
   border-top: 1px solid grey;
   background-color: whitesmoke;
@@ -29,7 +30,6 @@
   right: 100px;
   display: none;
 }
-
 
 .masterDrop {
   padding: 0em 1em;
@@ -41,7 +41,6 @@
   width: 62px;
   justify-content: center;
 }
-
 
 .busquedaMasterDrop:hover .dropMenuBuscar {
   display: block;
@@ -73,7 +72,7 @@
   margin-left: 1em;
   font-family: Roboto, sans-serif;
   color: rgb(24, 24, 24);
-  margin: .5em .5em;
+  margin: 0.5em 0.5em;
 }
 
 .dropMenuBuscar .contenedorMenuBuscar {
@@ -89,7 +88,7 @@
   margin-left: 1em;
   font-family: Roboto, sans-serif;
   color: rgb(24, 24, 24);
-  margin: .5em .5em;
+  margin: 0.5em 0.5em;
 }
 
 .dropMenu .contenedorMenu {
@@ -123,7 +122,7 @@ h6 {
 }
 
 h6:hover {
-  color: #E87200;
+  color: #e87200;
 }
 
 .example-spacer {
@@ -131,13 +130,13 @@ h6:hover {
 }
 
 b {
-  color: #E87200;
+  color: #e87200;
 }
 
-::ng-deep .sizeIcon{
-  height:44px !important;
-  width:44px !important;
-  font-size:34px !important;
+::ng-deep .sizeIcon {
+  height: 44px !important;
+  width: 44px !important;
+  font-size: 34px !important;
   line-height: 42px !important;
 }
 
@@ -147,13 +146,12 @@ b {
 }
 
 ::ng-deep .sizeShop {
-  font-size:24px !important;
+  font-size: 24px !important;
   line-height: 45px !important;
 }
 
-
 .toolBarName {
-  margin-left: .1em;
+  margin-left: 0.1em;
   font-family: Roboto, sans-serif;
   font-size: 26px;
   font-weight: 200;
@@ -164,9 +162,8 @@ b {
   font-family: Roboto, sans-serif;
   font-weight: 200;
   /*color: #E87200;*/
-  color:  #E87200;
+  color: #e87200;
 }
-
 
 .perfilBtns {
   display: grid;
@@ -177,23 +174,22 @@ b {
 
 .perfilBtns span {
   font-weight: 200;
-  padding-top: .2em;
+  padding-top: 0.2em;
 }
 
 ::ng-deep .sizeShop {
-  font-size:24px !important;
+  font-size: 24px !important;
   line-height: 45px !important;
 }
 
 .mainCtn {
   background-color: #005087;
-  background-image: url('/assets/background.jpg');
+  background-image: url("/assets/background.jpg");
   height: 1200px;
   z-index: 1;
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
-
 }
 
 .mat-form-field {
@@ -210,9 +206,8 @@ h1 {
 
 .social-link:hover {
   cursor: pointer;
-  color: #E87200;
+  color: #e87200;
 }
-
 
 .social-link {
   cursor: pointer;
@@ -229,7 +224,6 @@ h1 {
   justify-content: flex-end;
 }
 
-
 .menu a {
   text-decoration: none;
   padding: 1em 0em;
@@ -239,17 +233,18 @@ a h6 {
   text-align: inherit;
 }
 
-a {  text-decoration: none; font-weight: 200;}
-
+a {
+  text-decoration: none;
+  font-weight: 200;
+}
 
 a:hover {
-  color: #E87200;
+  color: #e87200;
 }
 
 .spacer {
   width: 0.5em;
 }
-
 
 .main-carrito {
   padding: 2em;
@@ -265,14 +260,12 @@ h1 {
   display: grid;
   justify-items: center;
   align-self: center;
-  background-image: url('/assets/itemsSocialBG.jpg');
+  background-image: url("/assets/itemsSocialBG.jpg");
   background-size: cover;
   background-position: center;
 }
 
 .previo h1 {
-
-
   display: flex;
   align-items: center;
   gap: 5px;
@@ -289,10 +282,10 @@ h1 {
   margin-top: 120px;
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Safari */
-   -khtml-user-select: none; /* Konqueror HTML */
-     -moz-user-select: none; /* Old versions of Firefox */
-      -ms-user-select: none; /* Internet Explorer/Edge */
-          user-select: none; /* Non-prefixed version, currently
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
                                 supported by Chrome, Edge, Opera and Firefox */
 }
 
@@ -303,16 +296,12 @@ h1 {
   justify-self: center;
 }
 
-
 .previo h1 span {
   font-size: 50px !important;
   height: 50px;
 }
 
-
-
 @media screen and (max-width: 1300px) {
-
   .dropMenuBuscar .contenedorMenuBuscar {
     grid-template-columns: 1fr;
   }
@@ -320,7 +309,6 @@ h1 {
   .buscarField {
     width: 100%;
   }
-
 }
 
 @media screen and (max-width: 950px) {
@@ -329,7 +317,8 @@ h1 {
     gap: 0.5em;
   }
 
-  .dropMenu, .dropMenuBuscar {
+  .dropMenu,
+  .dropMenuBuscar {
     width: calc(100%);
     right: 0;
     overflow: auto;
@@ -361,7 +350,6 @@ h1 {
   .navegacion {
     justify-content: center;
     grid-column: 1;
-
   }
 
   .cName {
@@ -376,7 +364,6 @@ h1 {
     flex: 1 1 auto;
   }
 }
-
 
 /**Footer*/
 
@@ -397,7 +384,7 @@ footer a {
   color: white;
   display: flex !important;
   align-items: center;
-  gap: .5em;
+  gap: 0.5em;
 }
 
 @media screen and (max-width: 1300px) {
@@ -408,7 +395,7 @@ footer a {
 
 @media screen and (max-width: 950px) {
   footer {
-    grid-template-columns: 1fr ;
+    grid-template-columns: 1fr;
   }
 }
 
@@ -417,7 +404,4 @@ footer a {
     padding: 3em 1.5em;
     gap: 1em;
   }
-
 }
-
-

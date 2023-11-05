@@ -1,26 +1,45 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormArray,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth.service';
-import { InventarioManagerService, ItemsVentaForCard, Venta } from './../../inventario-manager.service';
-
+import {
+  InventarioManagerService,
+  ItemsVentaForCard,
+  Venta,
+} from './../../inventario-manager.service';
 
 @Component({
   selector: 'app-carrito-tabla',
   templateUrl: './carrito-tabla.component.html',
-  styleUrls: ['./carrito-tabla.component.css']
+  styleUrls: ['./carrito-tabla.component.css'],
 })
 export class CarritoTablaComponent implements OnInit, OnDestroy {
-
   dataSource: MatTableDataSource<ItemsVentaForCard>;
 
-  dateSource$ = new BehaviorSubject<MatTableDataSource<ItemsVentaForCard>>(null);
+  dateSource$ = new BehaviorSubject<MatTableDataSource<ItemsVentaForCard>>(
+    null
+  );
 
-  displayedColumns: string[] = ['numero', 'imagen', 'name', 'subName', 'subNameSecond', 'cantidad', 'priceIGV', 'total', 'delete'];
+  displayedColumns: string[] = [
+    'numero',
+    'imagen',
+    'name',
+    'subName',
+    'subNameSecond',
+    'cantidad',
+    'priceIGV',
+    'total',
+    'delete',
+  ];
 
   showTable = new Subject<boolean>();
 
@@ -40,22 +59,28 @@ export class CarritoTablaComponent implements OnInit, OnDestroy {
 
   subsII = new Subscription();
 
-  @ViewChild(MatPaginator, {static: false})  set content(paginator: MatPaginator) {
-
+  @ViewChild(MatPaginator, { static: false }) set content(
+    paginator: MatPaginator
+  ) {
     if (paginator) {
-      this.subsI = this.dateSource$.pipe(filter(x => x !== null)).subscribe(x => {
+      this.subsI = this.dateSource$
+        .pipe(filter((x) => x !== null))
+        .subscribe((x) => {
           this.dataSource.paginator = paginator;
           this.calcularTotal(x.data);
           this.showTable.next(true);
-      });
-
+        });
     }
   }
 
   venta$ = new BehaviorSubject<Venta>(null);
 
-  constructor(private inv: InventarioManagerService, private router: Router,
-              public auth: AuthService, private fb: UntypedFormBuilder) { }
+  constructor(
+    private inv: InventarioManagerService,
+    private router: Router,
+    public auth: AuthService,
+    private fb: UntypedFormBuilder
+  ) {}
 
   ngOnDestroy(): void {
     if (this.subsI) {
@@ -65,14 +90,15 @@ export class CarritoTablaComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-
     if (this.auth.getTtype() === 'low') {
       this.cantidadesForm = this.fb.group({
         cantidades: this.fb.array([]),
       });
-      this.cantidades = this.cantidadesForm.get('cantidades') as UntypedFormArray;
+      this.cantidades = this.cantidadesForm.get(
+        'cantidades'
+      ) as UntypedFormArray;
 
-      this.inv.getCarrito().subscribe(res => {
+      this.inv.getCarrito().subscribe((res) => {
         if (res) {
           this.itemsVendidosList = res.carrito;
           this.addGroupFormArray(this.itemsVendidosList);
@@ -86,15 +112,15 @@ export class CarritoTablaComponent implements OnInit, OnDestroy {
   actQTY(index: number, value: number) {
     this.cantidades.at(index).get('cantidad').setValue(Math.round(value));
     if (this.itemsVendidosList[index].cantidadSC) {
-      this.itemsVendidosList[index].cantidadSC.cantidadVenta = this.cantidades.at(index).get('cantidad').value;
+      this.itemsVendidosList[index].cantidadSC.cantidadVenta = this.cantidades
+        .at(index)
+        .get('cantidad').value;
     } else {
-      this.itemsVendidosList[index].cantidad = this.cantidades.at(index).get('cantidad').value;
+      this.itemsVendidosList[index].cantidad = this.cantidades
+        .at(index)
+        .get('cantidad').value;
     }
     this.calcularTotal(this.itemsVendidosList);
-  }
-
-  actualizarCantidades() {
-
   }
 
   addGroupFormArray(items: ItemsVentaForCard[]) {
@@ -102,39 +128,53 @@ export class CarritoTablaComponent implements OnInit, OnDestroy {
     this.subsII = new Subscription();
     items.forEach((r, index) => {
       const group = this.fb.group({
-        index: this.fb.control({ value: index, disabled: false}),
-        cantidad: this.fb.control({ value: r.cantidadSC ? r.cantidadSC.cantidadVenta : r.cantidad, disabled: false},
+        index: this.fb.control({ value: index, disabled: false }),
+        cantidad: this.fb.control(
+          {
+            value: r.cantidadSC ? r.cantidadSC.cantidadVenta : r.cantidad,
+            disabled: false,
+          },
           Validators.compose([
-          Validators.required, Validators.min(1), Validators.max(r.cantidadDisponible)
-        ]))
+            Validators.required,
+            Validators.min(1),
+            Validators.max(r.cantidadDisponible),
+          ])
+        ),
       });
-      this.subsII.add(group.valueChanges.pipe(distinctUntilChanged((prev, curr) => prev.cantidad === curr.cantidad),
-      debounceTime(400)).subscribe(vlGC => {
-        this.actQTY(vlGC.index, vlGC.cantidad);
-      }));
+      this.subsII.add(
+        group.valueChanges
+          .pipe(
+            distinctUntilChanged(
+              (prev, curr) => prev.cantidad === curr.cantidad
+            ),
+            debounceTime(400)
+          )
+          .subscribe((vlGC) => {
+            this.actQTY(vlGC.index, vlGC.cantidad);
+          })
+      );
       this.cantidades.push(group);
     });
   }
 
   calcularTotal(itemsEnVenta: ItemsVentaForCard[]): void {
     let sum = 0;
-    itemsEnVenta.forEach(item => {
-        if (item.cantidadSC) {
-          sum += (item.cantidadSC.cantidadVenta * item.priceIGV);
-        } else {
-          sum += item.cantidad * item.priceIGV;
-        }
-      });
+    itemsEnVenta.forEach((item) => {
+      if (item.cantidadSC) {
+        sum += item.cantidadSC.cantidadVenta * item.priceIGV;
+      } else {
+        sum += item.cantidad * item.priceIGV;
+      }
+    });
     this.totalPrice$.next(sum);
   }
 
   removerProducto(item: ItemsVentaForCard) {
     this.cargando$.next(true);
     this.showTable.next(false);
-    this.inv.removeItemDeCarrito(item).subscribe(res => {
+    this.inv.removeItemDeCarrito(item).subscribe((res) => {
       this.cargando$.next(false);
       if (res) {
-
         const indexToRMV = this.itemsVendidosList.indexOf(item);
         this.cantidades.removeAt(indexToRMV);
         this.itemsVendidosList.splice(indexToRMV, 1);
@@ -149,14 +189,15 @@ export class CarritoTablaComponent implements OnInit, OnDestroy {
 
   iniciarCompra() {
     this.cantidadesForm.disable();
-    this.inv.iniciarCompra(this.itemsVendidosList).subscribe(res => {
+    this.inv.iniciarCompra(this.itemsVendidosList).subscribe((res) => {
       this.cantidadesForm.enable();
       if (res.length !== 0) {
         this.auth.reoloadPage();
       } else {
-        this.router.navigate(['carrito', 'pago'], { state: { carrito: this.itemsVendidosList } });
+        this.router.navigate(['carrito', 'pago'], {
+          state: { carrito: this.itemsVendidosList },
+        });
       }
     });
   }
-
 }

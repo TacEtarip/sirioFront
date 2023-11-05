@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRippleModule } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
@@ -11,24 +12,17 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSortModule } from '@angular/material/sort';
+import { MatStepperModule } from '@angular/material/stepper';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CarritoRoutingModule } from './carrito-routing.module';
 import { CarritoTablaComponent } from './carrito-tabla/carrito-tabla.component';
 import { CarritoComponent } from './carrito/carrito.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { FormsModule } from '@angular/forms';
-import { MatStepperModule } from '@angular/material/stepper';
 import { PagoComponent } from './pago/pago.component';
 
-
 @NgModule({
-  declarations: [
-    CarritoComponent,
-    CarritoTablaComponent,
-    PagoComponent
-  ],
+  declarations: [CarritoComponent, CarritoTablaComponent, PagoComponent],
   imports: [
     CommonModule,
     CarritoRoutingModule,
@@ -48,7 +42,7 @@ import { PagoComponent } from './pago/pago.component';
     MatProgressSpinnerModule,
     ReactiveFormsModule,
     FormsModule,
-    MatStepperModule
-  ]
+    MatStepperModule,
+  ],
 })
-export class CarritoComprasModule { }
+export class CarritoComprasModule {}

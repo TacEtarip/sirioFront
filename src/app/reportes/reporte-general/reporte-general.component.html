@@ -1,8 +1,7 @@
 <section *ngIf="(doneDataCollect$|async) === 3" class="mainCtn">
   <div class="firstChart">
     <h2>Resumen de stock</h2>
-    <div class="reporteChartOne"
-    *ngIf="
+    <div class="reporteChartOne" *ngIf="
   {
     invercionTotal: invercionTotal | async,
     ingresoTotal: ingresoTotal | async,
@@ -32,49 +31,59 @@
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
             <h5>Invercion total:
-              <b>S/{{(observables.invercionTotal)|currency:' '}}</b> | Ingreso total: <b>S/{{(observables.ingresoTotal)|currency:' '}} </b> | Balance:
-              <b>S/{{((observables.ingresoTotal) - (observables.invercionTotal))|currency:' '}}</b></h5>
+              <b>S/{{(observables.invercionTotal)|currency:' '}}</b> | Ingreso total:
+              <b>S/{{(observables.ingresoTotal)|currency:' '}} </b> | Balance:
+              <b>S/{{((observables.ingresoTotal) - (observables.invercionTotal))|currency:' '}}</b>
+            </h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
             <h5>Invercion total en productos de stock: <b>S/{{(observables.gastosHistoricos)|currency:' '}}
-            </b> | Ingreso total por productos de stock: <b>S/{{(observables.ingresorHistoricos)|currency:' '}}</b> | Balance:
-            <b>S/{{((observables.ingresorHistoricos) - (observables.gastosHistoricos))|currency:' '}}</b></h5>
+              </b> | Ingreso total por productos de stock: <b>S/{{(observables.ingresorHistoricos)|currency:' '}}</b> |
+              Balance:
+              <b>S/{{((observables.ingresorHistoricos) - (observables.gastosHistoricos))|currency:' '}}</b>
+            </h5>
           </mat-list-item>
           <mat-divider></mat-divider>
           <div mat-subheader>Alerta de stock</div>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
             <mat-expansion-panel class="mat-elevation-z0" (opened)="panelOpenState = true"
-            (closed)="panelOpenState = false" [ngStyle]="{'width': '100%'}">
+              (closed)="panelOpenState = false" [ngStyle]="{'width': '100%'}">
               <mat-expansion-panel-header>
-              <mat-panel-title>
-                <h5 [ngStyle]="{'align-self': 'center'}">Stock por agotarse en <b class="linkMock">{{(observables.itemsLowStock).length}} items</b></h5>
-              </mat-panel-title>
+                <mat-panel-title>
+                  <h5 [ngStyle]="{'align-self': 'center'}">Stock por agotarse en <b
+                      class="linkMock">{{(observables.itemsLowStock).length}} items</b></h5>
+                </mat-panel-title>
               </mat-expansion-panel-header>
-                <mat-list role="list">
-                  <mat-list-item role="listitem" *ngFor="let item of (observables.itemsLowStock)">
-                    <mat-icon mat-list-icon>arrow_right_alt</mat-icon>
-                    <a href="/store/categorias/{{item.tipo}}/{{item.subTipo}}/{{item.codigo}}"><h6>{{item.name}}, quedan {{item.cantidad}} {{item.unidadDeMedida}}</h6></a>
-                  </mat-list-item>
-                </mat-list>
+              <mat-list role="list">
+                <mat-list-item role="listitem" *ngFor="let item of (observables.itemsLowStock)">
+                  <mat-icon mat-list-icon>arrow_right_alt</mat-icon>
+                  <a href="/store/categorias/{{item.tipo}}/{{item.subTipo}}/{{item.codigo}}">
+                    <h6>{{item.name}}, quedan {{item.cantidad}} {{item.unidadDeMedida}}</h6>
+                  </a>
+                </mat-list-item>
+              </mat-list>
             </mat-expansion-panel>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
             <mat-expansion-panel class="mat-elevation-z0" (opened)="panelOpenState = true"
-            (closed)="panelOpenState = false" [ngStyle]="{'width': '100%'}">
+              (closed)="panelOpenState = false" [ngStyle]="{'width': '100%'}">
               <mat-expansion-panel-header>
-              <mat-panel-title>
-                <h5 [ngStyle]="{'align-self': 'center'}">Stock agotado en <b class="linkMock">{{(observables.itemsNoStock).length}} items</b></h5>
-              </mat-panel-title>
+                <mat-panel-title>
+                  <h5 [ngStyle]="{'align-self': 'center'}">Stock agotado en <b
+                      class="linkMock">{{(observables.itemsNoStock).length}} items</b></h5>
+                </mat-panel-title>
               </mat-expansion-panel-header>
-                <mat-list role="list">
-                  <mat-list-item role="listitem" *ngFor="let item of (observables.itemsNoStock)">
-                      <mat-icon mat-list-icon>arrow_right_alt</mat-icon>
-                    <a href="/store/categorias/{{item.tipo}}/{{item.subTipo}}/{{item.codigo}}"><h6>{{item.name}}</h6></a>
-                  </mat-list-item>
-                </mat-list>
+              <mat-list role="list">
+                <mat-list-item role="listitem" *ngFor="let item of (observables.itemsNoStock)">
+                  <mat-icon mat-list-icon>arrow_right_alt</mat-icon>
+                  <a href="/store/categorias/{{item.tipo}}/{{item.subTipo}}/{{item.codigo}}">
+                    <h6>{{item.name}}</h6>
+                  </a>
+                </mat-list-item>
+              </mat-list>
             </mat-expansion-panel>
           </mat-list-item>
         </mat-list>
@@ -88,11 +97,12 @@
         <mat-list role="list">
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon> show_chart</mat-icon>
-            <h5 >Ganancia por ventas total: <b>S/{{(gananciasVentasTotales|async)|currency:' '}}</b></h5>
+            <h5>Ganancia por ventas total: <b>S/{{(gananciasVentasTotales|async)|currency:' '}}</b></h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon> show_chart</mat-icon>
-            <h5 >Ganancia por ventas con items fuera de tienda: <b>S/{{(gananciasVentasFueraStock|async)|currency:' '}}</b></h5>
+            <h5>Ganancia por ventas con items fuera de tienda: <b>S/{{(gananciasVentasFueraStock|async)|currency:'
+                '}}</b></h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon> show_chart</mat-icon>
@@ -105,26 +115,16 @@
         </mat-list>
       </div>
     </div>
-    <div  *ngIf="auth.isPlatformB()" class="graphContainer">
-    <ngx-charts-line-chart [ngStyle]="{'font-family': 'Roboto, sans-serif'}"
-    [view] = "view"
-    [scheme]="colorScheme"
-    [legend]="true"
-    [showXAxisLabel]="showXAxisLabel"
-    [showYAxisLabel]="showYAxisLabel"
-    [xAxis]="xAxis"
-    [yAxis]="yAxis"
-    [xAxisLabel]="xAxisLabel"
-    [yAxisLabel]="yAxisLabel"
-    [results]="multi"
-    [autoScale]="true"
-    [legendPosition]="below"
-    >
-  </ngx-charts-line-chart></div>
+    <div *ngIf="auth.isPlatformB()" class="graphContainer">
+      <ngx-charts-line-chart [ngStyle]="{'font-family': 'Roboto, sans-serif'}" [view]="view" [legend]="true"
+        [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxis]="xAxis" [yAxis]="yAxis"
+        [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [results]="multi" [autoScale]="true"
+        [legendPosition]="below">
+      </ngx-charts-line-chart>
+    </div>
 
   </div>
-  <div
-  *ngIf="
+  <div *ngIf="
   {
     itemMasRentable: itemMasRentable | async,
     itemMenosRentable: itemMenosRentable | async,
@@ -137,15 +137,20 @@
         <mat-list role="list">
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
-            <h5>Item más rentable: {{(observablesII.itemMasRentable).name}} con un balance de <b>S/{{(observablesII.itemMasRentable).balance|currency:' '}}</b></h5>
+            <h5>Item más rentable: {{(observablesII.itemMasRentable).name}} con un balance de
+              <b>S/{{(observablesII.itemMasRentable).balance|currency:' '}}</b>
+            </h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
-            <h5>Item con mayor dinero en reserva en stock: {{(observablesII.itemMenosRentable).name}} con un balance de <b>S/{{(observablesII.itemMenosRentable).balance|currency:' '}}</b></h5>
+            <h5>Item con mayor dinero en reserva en stock: {{(observablesII.itemMenosRentable).name}} con un balance de
+              <b>S/{{(observablesII.itemMenosRentable).balance|currency:' '}}</b>
+            </h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
-            <h5>Item con mayor ganancias posibles: {{(observablesII.itemMayorGananciaPosible).name}} un una posible ganancia de <b>S/{{(observablesII.itemMayorGananciaPosible).value|currency:' '}}</b></h5>
+            <h5>Item con mayor ganancias posibles: {{(observablesII.itemMayorGananciaPosible).name}} un una posible
+              ganancia de <b>S/{{(observablesII.itemMayorGananciaPosible).value|currency:' '}}</b></h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
@@ -153,7 +158,8 @@
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon>show_chart</mat-icon>
-            <h5>Item con mayor ganancia en ventas: <b>{{(observablesII.itemMayorGananciaVentas).name}} (S/{{(observablesII.itemMayorGananciaVentas).value|currency:' '}})</b></h5>
+            <h5>Item con mayor ganancia en ventas: <b>{{(observablesII.itemMayorGananciaVentas).name}}
+                (S/{{(observablesII.itemMayorGananciaVentas).value|currency:' '}})</b></h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon> show_chart</mat-icon>
@@ -163,27 +169,15 @@
       </div>
     </div>
     <div *ngIf="auth.isPlatformB()" class="graphContainer">
-    <ngx-charts-bar-vertical-2d
-    [view] = "view"
-    [ngStyle]="{'font-family': 'Roboto, sans-serif'}"
-    [scheme]="colorSchemeBarItems"
-    [legend]="true"
-    [showXAxisLabel]="showXAxisLabel"
-    [showYAxisLabel]="showYAxisLabel"
-    [xAxis]="xAxis"
-    [yAxis]="yAxis"
-    [xAxisLabel]="'Item'"
-    [yAxisLabel]="yAxisLabel"
-    [results]="single"
-    [legendPosition]="below"
-    >
-  </ngx-charts-bar-vertical-2d>
-  </div>
+      <ngx-charts-bar-vertical-2d [view]="view" [ngStyle]="{'font-family': 'Roboto, sans-serif'}" [legend]="true"
+        [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxis]="xAxis" [yAxis]="yAxis"
+        [xAxisLabel]="'Item'" [yAxisLabel]="yAxisLabel" [results]="single" [legendPosition]="below">
+      </ngx-charts-bar-vertical-2d>
+    </div>
 
   </div>
 
-  <div
-  *ngIf="
+  <div *ngIf="
   {
     clienteMasRegular: clienteMasRegular | async,
     clienteMayorIngreso: clienteMayorIngreso | async
@@ -194,11 +188,13 @@
         <mat-list role="list">
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon> show_chart</mat-icon>
-            <h5>Cliente más regular: <b>{{(observablesIII.clienteMasRegular).name}} ({{(observablesIII.clienteMasRegular).cantidad}} Ventas)</b></h5>
+            <h5>Cliente más regular: <b>{{(observablesIII.clienteMasRegular).name}}
+                ({{(observablesIII.clienteMasRegular).cantidad}} Ventas)</b></h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon> show_chart</mat-icon>
-            <h5>Cliente que ha dado mas ingresos: <b>{{(observablesIII.clienteMayorIngreso).name}} (S/{{(observablesIII.clienteMayorIngreso).cantidad|currency:' '}})</b></h5>
+            <h5>Cliente que ha dado mas ingresos: <b>{{(observablesIII.clienteMayorIngreso).name}}
+                (S/{{(observablesIII.clienteMayorIngreso).cantidad|currency:' '}})</b></h5>
           </mat-list-item>
           <mat-list-item role="listitem">
             <mat-icon mat-list-icon> show_chart</mat-icon>
@@ -208,21 +204,10 @@
       </div>
     </div>
     <div *ngIf="auth.isPlatformB()" class="graphContainer">
-      <ngx-charts-bar-vertical
-      [view] = "view"
-      [ngStyle]="{'font-family': 'Roboto, sans-serif'}"
-      [scheme]="colorSchemeBarItemsCliente"
-      [legend]="true"
-      [showXAxisLabel]="showXAxisLabel"
-      [showYAxisLabel]="showYAxisLabel"
-      [xAxis]="xAxis"
-      [yAxis]="yAxis"
-      [xAxisLabel]="'Item'"
-      [yAxisLabel]="yAxisLabel"
-      [results]="clientes"
-      [legendPosition]="below"
-      >
-    </ngx-charts-bar-vertical>
+      <ngx-charts-bar-vertical [view]="view" [ngStyle]="{'font-family': 'Roboto, sans-serif'}" [legend]="true"
+        [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxis]="xAxis" [yAxis]="yAxis"
+        [xAxisLabel]="'Item'" [yAxisLabel]="yAxisLabel" [results]="clientes" [legendPosition]="below">
+      </ngx-charts-bar-vertical>
     </div>
   </div>
 </section>

@@ -2,10 +2,9 @@ import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class WindowScrollService {
-
   elementScroll: Element;
 
   scrollY = new BehaviorSubject(0);
@@ -15,10 +14,10 @@ export class WindowScrollService {
 
   porcent = new BehaviorSubject(0);
 
-  constructor(@Inject(PLATFORM_ID) private platformId: any) { }
+  constructor(@Inject(PLATFORM_ID) private platformId: any) {}
 
   updateScrollY(value: number): void {
-      this.scrollY.next(value);
+    this.scrollY.next(value);
   }
 
   scrollToTop() {
@@ -26,5 +25,4 @@ export class WindowScrollService {
       this.elementScroll.scroll(0, 0);
     }
   }
-
 }

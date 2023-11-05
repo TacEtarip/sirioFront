@@ -3,61 +3,75 @@ import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class JsonLDServiceService {
   static scriptType = 'application/ld+json';
-  constructor(@Inject(DOCUMENT) private document: Document) { }
+  constructor(@Inject(DOCUMENT) private document: Document) {}
 
-  createBreadSqueme(itemlist: {position: number, name: string, link: string}[] = []) {
+  createBreadSqueme(
+    itemlist: { position: number; name: string; link: string }[] = []
+  ) {
     const baseLink = 'https://inventario.siriodinar.com/store';
-    const itemListElement = [{
-      '@type': 'ListItem',
-      position: 1,
-      name: 'Tienda',
-      item: baseLink + '/main'
-    }];
+    const itemListElement = [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Tienda',
+        item: baseLink + '/main',
+      },
+    ];
 
-    itemlist.forEach(i => {
+    itemlist.forEach((i) => {
       itemListElement.push({
         '@type': 'ListItem',
         position: i.position,
         name: i.name,
-        item: baseLink + i.link
+        item: baseLink + i.link,
       });
     });
 
     return {
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
-      itemListElement
+      itemListElement,
     };
   }
 
   createReviewSquema(rating: number, nameItem: string, autor: string) {
-    return  {
+    return {
       '@type': 'Review',
       reviewRating: {
         '@type': 'Rating',
-        ratingValue: rating.toString()
+        ratingValue: rating.toString(),
       },
       name: nameItem,
       author: {
         '@type': 'Person',
-        name: autor
+        name: autor,
       },
       reviewBody: '',
     };
   }
 
-  crearProductSquema(nameProducto: string, image: string[], itemUrl: string,
-                     description: string, sku: string, brandName: string, precio: number, availability: string,
-                     ratingCount: number, ratingValue: number, reviews: Rating[]): any {
+  crearProductSquema(
+    nameProducto: string,
+    image: string[],
+    itemUrl: string,
+    description: string,
+    sku: string,
+    brandName: string,
+    precio: number,
+    availability: string,
+    ratingCount: number,
+    ratingValue: number,
+    reviews: Rating[]
+  ): any {
     const date = new Date();
 
     let review = [];
 
-    reviews.forEach(r => {
+    reviews.forEach((r) => {
       review.push(this.createReviewSquema(r.rating, nameProducto, r.user));
     });
 
@@ -65,13 +79,13 @@ export class JsonLDServiceService {
     let aggregateRating = {
       '@type': 'AggregateRating',
       ratingValue,
-      ratingCount
+      ratingCount,
     };
     if (ratingCount === 0) {
       aggregateRating = undefined;
       review = undefined;
     }
-    return{
+    return {
       '@context': 'https://schema.org/',
       '@type': 'Product',
       name: nameProducto,
@@ -80,7 +94,7 @@ export class JsonLDServiceService {
       sku,
       brand: {
         '@type': 'Brand',
-        name: brandName
+        name: brandName,
       },
       offers: {
         '@type': 'Offer',
@@ -90,25 +104,28 @@ export class JsonLDServiceService {
         availability,
         priceValidUntil: date.toISOString(),
         itemCondition: 'new',
-        category: ''
+        category: '',
       },
       aggregateRating,
-      review
+      review,
     };
   }
 
   crearOrgSquema() {
-    return     {
+    return {
       '@context': 'https://schema.org/',
       '@type': 'Organization',
       name: 'Sirio Dinar',
       url: 'https://inventario.siriodinar.com/store/main',
       logo: 'https://inventario.siriodinar.com/assets/logo_512.png',
-      sameAs: 'https://www.facebook.com/siriodinar'
+      sameAs: 'https://www.facebook.com/siriodinar',
     };
   }
 
-  insertSchema(schema: Record<string, any>, className = 'structured-data-product'): void {
+  insertSchema(
+    schema: Record<string, any>,
+    className = 'structured-data-product'
+  ): void {
     let script: any;
     let shouldAppend = false;
     if (this.document.head.getElementsByClassName(className).length) {
@@ -127,9 +144,9 @@ export class JsonLDServiceService {
 
   removeStructuredData(): void {
     const els = [];
-    [ 'structured-data-product', 'structured-data-bread' ].forEach(c => {
+    ['structured-data-product', 'structured-data-bread'].forEach((c) => {
       els.push(...Array.from(this.document.head.getElementsByClassName(c)));
     });
-    els.forEach(el => this.document.head.removeChild(el));
+    els.forEach((el) => this.document.head.removeChild(el));
   }
 }

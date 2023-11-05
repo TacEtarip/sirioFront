@@ -1,21 +1,36 @@
-import { Component, OnInit, EventEmitter, Inject, ElementRef, ViewChild } from '@angular/core';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {MatChipInputEvent} from '@angular/material/chips';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { MatChipInputEvent } from '@angular/material/chips';
 
-import { UntypedFormGroup, Validators, UntypedFormBuilder, UntypedFormArray } from '@angular/forms';
+import {
+  UntypedFormArray,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 
-import { InventarioManagerService, Item, SubConteo, Marca} from '../../../inventario-manager.service';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { BehaviorSubject } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { BehaviorSubject } from 'rxjs';
+import {
+  InventarioManagerService,
+  Item,
+  Marca,
+} from '../../../inventario-manager.service';
 
 @Component({
   selector: 'app-new-item-dialog',
   templateUrl: './new-item-dialog.component.html',
-  styleUrls: ['./new-item-dialog.component.css']
+  styleUrls: ['./new-item-dialog.component.css'],
 })
 export class NewItemDialogComponent implements OnInit {
-
   marcasList = new BehaviorSubject<Marca[]>([]);
 
   onNewItem = new EventEmitter();
@@ -41,9 +56,11 @@ export class NewItemDialogComponent implements OnInit {
   dualActiveStates = [false, false];
   @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
 
-  filteredTags$ = new BehaviorSubject<{name: string, deleted: boolean}[]>(null);
+  filteredTags$ = new BehaviorSubject<{ name: string; deleted: boolean }[]>(
+    null
+  );
 
-  tagsList$ = new BehaviorSubject<{name: string, deleted: boolean}[]>(null);
+  tagsList$ = new BehaviorSubject<{ name: string; deleted: boolean }[]>(null);
 
   tagsList: string[] = [];
 
@@ -54,51 +71,65 @@ export class NewItemDialogComponent implements OnInit {
 
   caracteristicas: string[] = [];
 
-  constructor(private formBuilder: UntypedFormBuilder, private inventarioMNG: InventarioManagerService,
-              public dialogRef: MatDialogRef<NewItemDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: {subTipo: string, parentTipoName: string}) { }
+  constructor(
+    private formBuilder: UntypedFormBuilder,
+    private inventarioMNG: InventarioManagerService,
+    public dialogRef: MatDialogRef<NewItemDialogComponent>,
+    @Inject(MAT_DIALOG_DATA)
+    public data: { subTipo: string; parentTipoName: string }
+  ) {}
 
   ngOnInit(): void {
     this.inventarioMNG.getAllMarcas().subscribe((res: Marca[]) => {
       this.marcasList.next(res);
     });
     this.myForm = this.formBuilder.group({
-      name: this.formBuilder.control('',  Validators.compose([
-        Validators.required,
-        Validators.minLength(2),
-        Validators.maxLength(30)
-      ])),
-      priceIGV: this.formBuilder.control('',  Validators.compose([
-        Validators.required,
-        Validators.pattern(/^\d*\.?\d{0,2}$/),
-        Validators.minLength(1),
-        Validators.min(0.01)
-      ])),
-      cantidad: this.formBuilder.control(0,  Validators.compose([
-        Validators.required,
-        Validators.pattern('^-?[0-9][^\.]*$'),
-        Validators.min(0),
-      ])),
-      unidadDeMedida: this.formBuilder.control('',  Validators.compose([
-        Validators.required
-      ]))
-      ,
-      description: this.formBuilder.control('',  Validators.compose([
-        Validators.required
-      ])),
-      costoPropio: this.formBuilder.control('',  Validators.compose([
-        Validators.required,
-        Validators.pattern(/^\d*\.?\d{0,2}$/),
-        Validators.minLength(1),
-        Validators.min(0)
-      ])),
-      marca: this.formBuilder.control('',  Validators.compose([
-      ])),
-      tags: this.formBuilder.control('',  Validators.compose([
-      ])),
+      name: this.formBuilder.control(
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(30),
+        ])
+      ),
+      priceIGV: this.formBuilder.control(
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(/^\d*\.?\d{0,2}$/),
+          Validators.minLength(1),
+          Validators.min(0.01),
+        ])
+      ),
+      cantidad: this.formBuilder.control(
+        0,
+        Validators.compose([
+          Validators.required,
+          Validators.pattern('^-?[0-9][^.]*$'),
+          Validators.min(0),
+        ])
+      ),
+      unidadDeMedida: this.formBuilder.control(
+        '',
+        Validators.compose([Validators.required])
+      ),
+      description: this.formBuilder.control(
+        '',
+        Validators.compose([Validators.required])
+      ),
+      costoPropio: this.formBuilder.control(
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(/^\d*\.?\d{0,2}$/),
+          Validators.minLength(1),
+          Validators.min(0),
+        ])
+      ),
+      marca: this.formBuilder.control('', Validators.compose([])),
+      tags: this.formBuilder.control('', Validators.compose([])),
       subConteo: this.formBuilder.array([]),
-    }
-    );
+    });
 
     this.subConteo = this.myForm.get('subConteo') as UntypedFormArray;
 
@@ -115,8 +146,8 @@ export class NewItemDialogComponent implements OnInit {
     });
   }
 
-  displayFn(tag: {name: string, deleted: boolean}): string {
-    return tag && tag.name ? tag.name : '';
+  displayFn(tag: { name: string; deleted: boolean }): string {
+    return tag?.name ?? '';
   }
 
   selectTag(e: MatAutocompleteSelectedEvent) {
@@ -134,24 +165,26 @@ export class NewItemDialogComponent implements OnInit {
     this.filteredTags$.next(null);
     this.myForm.get('tags').setValue('');
     this.errorNoTag = false;
-    // this.filteredTags$.next(null);
   }
 
   filterTagValue(value: any) {
-    this.inventarioMNG.getListOfTagsFilteredByRegex(value.name || value, 15).subscribe(res => {
-      if (res && res.length > 0) {
-        this.filteredTags$.next(res);
-      } else {
-        this.filteredTags$.next(null);
-      }
-    });
+    this.inventarioMNG
+      .getListOfTagsFilteredByRegex(value.name ?? value, 15)
+      .subscribe((res) => {
+        if (res && res.length > 0) {
+          this.filteredTags$.next(res);
+        } else {
+          this.filteredTags$.next(null);
+        }
+      });
   }
-
 
   checkExist(i: number, name: string) {
     let finded = 0;
-    this.listOfOrders[0].controls.forEach(ord => {
-      if (ord.get(name).value === this.listOfOrders[0].controls[i].get(name).value) {
+    this.listOfOrders[0].controls.forEach((ord) => {
+      if (
+        ord.get(name).value === this.listOfOrders[0].controls[i].get(name).value
+      ) {
         finded++;
       }
     });
@@ -161,19 +194,21 @@ export class NewItemDialogComponent implements OnInit {
   }
   sumCantidades(index: number, yindex: number) {
     this.sumatorias[index] = 0;
-    this.listOfOrders[index].value.forEach( (fg) => {
+    this.listOfOrders[index].value.forEach((fg) => {
       let toSum = fg.cantidad;
       if (toSum === null || toSum < 0) {
         toSum = 0;
       }
       this.sumatorias[index] += toSum;
     });
-    const preDisponible = this.myForm.get('cantidad').value - this.sumatorias[index];
+    const preDisponible =
+      this.myForm.get('cantidad').value - this.sumatorias[index];
     if (preDisponible < 0) {
       this.listOfOrders[index].at(yindex).get('cantidad').setValue(0);
       this.sumCantidades(index, yindex);
     } else {
-      this.disponibles[index] = this.myForm.get('cantidad').value - this.sumatorias[index];
+      this.disponibles[index] =
+        this.myForm.get('cantidad').value - this.sumatorias[index];
     }
   }
 
@@ -182,14 +217,15 @@ export class NewItemDialogComponent implements OnInit {
     this.listOfOrders.forEach((fa: UntypedFormArray) => {
       index++;
       this.sumatorias[index] = 0;
-      fa.value.forEach(fg => {
+      fa.value.forEach((fg) => {
         let toSum = fg.cantidad;
         if (toSum === null || toSum < 0) {
-        toSum = 0;
+          toSum = 0;
         }
         this.sumatorias[index] += toSum;
       });
-      const preDisponible = this.myForm.get('cantidad').value - this.sumatorias[index];
+      const preDisponible =
+        this.myForm.get('cantidad').value - this.sumatorias[index];
       if (preDisponible < 0) {
         // tslint:disable-next-line: prefer-for-of
         for (let yindex = 0; yindex < fa.value.length; yindex++) {
@@ -197,25 +233,36 @@ export class NewItemDialogComponent implements OnInit {
         }
         this.disponibles[index] = this.myForm.get('cantidad').value;
       } else {
-        this.disponibles[index] = this.myForm.get('cantidad').value - this.sumatorias[index];
+        this.disponibles[index] =
+          this.myForm.get('cantidad').value - this.sumatorias[index];
       }
-
     });
   }
 
   activateDualAss(index: number) {
-    if (this.subConteo.at(index).get('nameSecond').valid && this.subConteo.at(index).get('nameSecond').value !== '') {
+    if (
+      this.subConteo.at(index).get('nameSecond').valid &&
+      this.subConteo.at(index).get('nameSecond').value !== ''
+    ) {
       this.dualActiveStates[index] = true;
-        // tslint:disable-next-line: prefer-for-of
-      for (let yindex = 0; yindex < this.listOfOrders[index].value.length; yindex++) {
+      // tslint:disable-next-line: prefer-for-of
+      for (
+        let yindex = 0;
+        yindex < this.listOfOrders[index].value.length;
+        yindex++
+      ) {
         this.listOfOrders[index].at(yindex).get('nameSecond').enable();
       }
     } else {
       this.dualActiveStates[index] = false;
 
-      for (let yindex = 0; yindex < this.listOfOrders[index].value.length; yindex++) {
-          this.listOfOrders[index].at(yindex).get('nameSecond').disable();
-          this.listOfOrders[index].at(yindex).get('nameSecond').reset();
+      for (
+        let yindex = 0;
+        yindex < this.listOfOrders[index].value.length;
+        yindex++
+      ) {
+        this.listOfOrders[index].at(yindex).get('nameSecond').disable();
+        this.listOfOrders[index].at(yindex).get('nameSecond').reset();
       }
     }
   }
@@ -223,82 +270,109 @@ export class NewItemDialogComponent implements OnInit {
   addSC() {
     if (this.subsAsignaciones < 1) {
       const fg = this.formBuilder.group({
-        name: this.formBuilder.control('', Validators.compose([
-        Validators.required,
-        Validators.minLength(1),
-        Validators.maxLength(30)
-        ])),
-        nameSecond: this.formBuilder.control('', Validators.compose([
-          Validators.minLength(1),
-          Validators.maxLength(30)
-          ])),
-        order: this.formBuilder.array([])
-       });
+        name: this.formBuilder.control(
+          '',
+          Validators.compose([
+            Validators.required,
+            Validators.minLength(1),
+            Validators.maxLength(30),
+          ])
+        ),
+        nameSecond: this.formBuilder.control(
+          '',
+          Validators.compose([
+            Validators.minLength(1),
+            Validators.maxLength(30),
+          ])
+        ),
+        order: this.formBuilder.array([]),
+      });
       this.addOrder(fg);
       this.subConteo.push(fg);
       this.listOfOrders.push(fg.get('order') as UntypedFormArray);
       this.subsAsignaciones++;
-      this.disponibles[this.listOfOrders.length - 1] =  this.myForm.get('cantidad').value;
+      this.disponibles[this.listOfOrders.length - 1] =
+        this.myForm.get('cantidad').value;
     }
   }
 
   addOrder(secondOrderFormGropup: UntypedFormGroup) {
     const fg = this.formBuilder.group({
-      name: this.formBuilder.control('', Validators.compose([
-      Validators.required,
-      Validators.minLength(1),
-      Validators.maxLength(20)
-      ])),
-      nameSecond: this.formBuilder.control({value: '', disabled: true}, Validators.compose([
-        Validators.required,
-        Validators.minLength(1),
-        Validators.maxLength(20)
-        ])),
-      cantidad: this.formBuilder.control(0, Validators.compose([
-        Validators.required,
-        Validators.pattern('^-?[0-9][^\.]*$'),
-        Validators.min(0)
-      ]))
-     });
-    const tempFormArray = secondOrderFormGropup.get('order') as UntypedFormArray;
+      name: this.formBuilder.control(
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(20),
+        ])
+      ),
+      nameSecond: this.formBuilder.control(
+        { value: '', disabled: true },
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(20),
+        ])
+      ),
+      cantidad: this.formBuilder.control(
+        0,
+        Validators.compose([
+          Validators.required,
+          Validators.pattern('^-?[0-9][^.]*$'),
+          Validators.min(0),
+        ])
+      ),
+    });
+    const tempFormArray = secondOrderFormGropup.get(
+      'order'
+    ) as UntypedFormArray;
     tempFormArray.push(fg);
   }
 
   agregarSubAsig(index: number, yindex: number) {
     const fg = this.formBuilder.group({
-      name: this.formBuilder.control('', Validators.compose([
-      Validators.required,
-      Validators.minLength(1),
-      Validators.maxLength(20)
-      ])),
-      nameSecond: this.formBuilder.control({value: '', disabled: !this.dualActiveStates[index]}, Validators.compose([
-        Validators.required,
-        Validators.minLength(1),
-        Validators.maxLength(20)
-        ])),
-      cantidad: this.formBuilder.control(0, Validators.compose([
-        Validators.required,
-        Validators.pattern('^-?[0-9][^\.]*$'),
-        Validators.min(0)
-      ]))
-     });
+      name: this.formBuilder.control(
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(20),
+        ])
+      ),
+      nameSecond: this.formBuilder.control(
+        { value: '', disabled: !this.dualActiveStates[index] },
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(20),
+        ])
+      ),
+      cantidad: this.formBuilder.control(
+        0,
+        Validators.compose([
+          Validators.required,
+          Validators.pattern('^-?[0-9][^.]*$'),
+          Validators.min(0),
+        ])
+      ),
+    });
     this.listOfOrders[index].insert(yindex + 1, fg);
   }
 
   deleteSubAsig(index: number, yindex: number) {
     if (this.listOfOrders[index].length === 1) {
-        if (index === 0) {
-          this.dualActiveStates[0] = this.dualActiveStates[1];
-          this.dualActiveStates[1] = false;
-          this.disponibles[0] = this.disponibles[1];
-          this.disponibles[1] = 0;
-        }
+      if (index === 0) {
+        this.dualActiveStates[0] = this.dualActiveStates[1];
+        this.dualActiveStates[1] = false;
+        this.disponibles[0] = this.disponibles[1];
         this.disponibles[1] = 0;
-        this.subsAsignaciones--;
-        this.listOfOrders[index].removeAt(yindex);
-        this.listOfOrders.splice(index, 1);
-        this.subConteo.removeAt(index);
-    }else {
+      }
+      this.disponibles[1] = 0;
+      this.subsAsignaciones--;
+      this.listOfOrders[index].removeAt(yindex);
+      this.listOfOrders.splice(index, 1);
+      this.subConteo.removeAt(index);
+    } else {
       this.listOfOrders[index].removeAt(yindex);
       this.sumCantidades(index, yindex);
     }
@@ -317,12 +391,13 @@ export class NewItemDialogComponent implements OnInit {
     this.subConteo.removeAt(index);
   }
 
-
   changedInstanceCB() {
     this.scEnabled = !this.scEnabled;
     if (this.scEnabled) {
       this.myForm.get('scName').enable();
-      this.myForm.get('scName').setValidators([Validators.minLength(3), Validators.required]);
+      this.myForm
+        .get('scName')
+        .setValidators([Validators.minLength(3), Validators.required]);
     } else {
       this.myForm.get('scName').disable();
       this.myForm.get('scName').clearValidators();
@@ -330,15 +405,17 @@ export class NewItemDialogComponent implements OnInit {
     }
   }
 
-  convertCostoPropio(){
+  convertCostoPropio() {
     if (this.myForm.get('costoPropio').value !== '') {
       const numberPre: number = this.myForm.get('costoPropio').value;
       const valid: boolean = this.myForm.get('costoPropio').valid;
-      this.myForm.get('costoPropio').setValue(this.rebrandNumber(valid, numberPre));
+      this.myForm
+        .get('costoPropio')
+        .setValue(this.rebrandNumber(valid, numberPre));
     }
   }
 
-  convertPriceIGV(){
+  convertPriceIGV() {
     const numberPre: number = this.myForm.get('priceIGV').value;
     const valid: boolean = this.myForm.get('priceIGV').valid;
     this.myForm.get('priceIGV').setValue(this.rebrandNumber(valid, numberPre));
@@ -376,7 +453,7 @@ export class NewItemDialogComponent implements OnInit {
       if (newItem.subConteo.nameSecond) {
         newItem.subConteo.nameSecond = newItem.subConteo.nameSecond.trim();
       }
-      newItem.subConteo.order.forEach( sc => {
+      newItem.subConteo.order.forEach((sc) => {
         sc.name = sc.name.trim();
         if (sc.nameSecond) {
           sc.nameSecond = sc.nameSecond.trim();
@@ -389,7 +466,6 @@ export class NewItemDialogComponent implements OnInit {
       if (addedItem !== null) {
         this.myForm.reset();
         this.dialogRef.close(addedItem);
-        // this.onNewItem.emit(addedItem.codigo);
       } else {
         this.myForm.enable();
         alert('Error al agregar un nuevo item');
@@ -398,10 +474,11 @@ export class NewItemDialogComponent implements OnInit {
   }
 
   add(event: MatChipInputEvent): void {
-    const input = event.input;
     const value = event.value;
     if (this.filteredTags$.value) {
-      const searchInd = this.filteredTags$.value.findIndex(x => x.name === value.trim());
+      const searchInd = this.filteredTags$.value.findIndex(
+        (x) => x.name === value.trim()
+      );
       if (searchInd === -1) {
         this.errorNoTag = true;
         return;
@@ -412,7 +489,7 @@ export class NewItemDialogComponent implements OnInit {
     }
     this.errorNoTag = false;
     this.filteredTags$.next(null);
-    if ((value || '').trim()) {
+    if ((value ?? '').trim()) {
       const index = this.tagsList.indexOf(value.trim());
       if (index >= 0) {
         this.tagsList.splice(index, 1);
@@ -424,13 +501,9 @@ export class NewItemDialogComponent implements OnInit {
       } else {
         this.errorCantidadTags = false;
       }
-
     }
 
-    // Reset the input value
-    if (input) {
-      input.value = '';
-    }
+    event.chipInput.clear();
   }
 
   remove(sC: string): void {
@@ -455,17 +528,12 @@ export class NewItemDialogComponent implements OnInit {
   }
 
   removeAll() {
-    this.subCant.forEach(sc => {
+    this.subCant.forEach((sc) => {
       this.remove(sc);
     });
   }
 
   cantidadChanged() {
     this.removeAll();
-    if (this.myForm.get('cantidad').valid === false) {
-      // this.myForm.get('scName').setValue('');
-      // this.scEnabled = false;
-    }
   }
-
 }

@@ -8,9 +8,8 @@ describe('SubCategoriaCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SubCategoriaCardComponent ]
-    })
-    .compileComponents();
+      declarations: [SubCategoriaCardComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

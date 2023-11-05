@@ -1,8 +1,23 @@
-import { Component, OnInit, EventEmitter, Inject, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  EventEmitter,
+  Inject,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
 
-import { UntypedFormGroup, Validators, UntypedFormBuilder } from '@angular/forms';
+import {
+  UntypedFormGroup,
+  Validators,
+  UntypedFormBuilder,
+} from '@angular/forms';
 
-import { InventarioManagerService, Item, Marca} from '../../../inventario-manager.service';
+import {
+  InventarioManagerService,
+  Item,
+  Marca,
+} from '../../../inventario-manager.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
@@ -12,7 +27,7 @@ import { MatChipInputEvent } from '@angular/material/chips';
 @Component({
   selector: 'app-editar-item-dialog',
   templateUrl: './editar-item-dialog.component.html',
-  styleUrls: ['./editar-item-dialog.component.css']
+  styleUrls: ['./editar-item-dialog.component.css'],
 })
 export class EditarItemDialogComponent implements OnInit {
   uploadForm: UntypedFormGroup;
@@ -38,9 +53,11 @@ export class EditarItemDialogComponent implements OnInit {
 
   @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
 
-  filteredTags$ = new BehaviorSubject<{name: string, deleted: boolean}[]>(null);
+  filteredTags$ = new BehaviorSubject<{ name: string; deleted: boolean }[]>(
+    null
+  );
 
-  tagsList$ = new BehaviorSubject<{name: string, deleted: boolean}[]>(null);
+  tagsList$ = new BehaviorSubject<{ name: string; deleted: boolean }[]>(null);
 
   tagsList: string[] = [];
 
@@ -49,9 +66,12 @@ export class EditarItemDialogComponent implements OnInit {
 
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
-  constructor(private formBuilder: UntypedFormBuilder, private inventarioMNG: InventarioManagerService,
-              public dialogRef: MatDialogRef<EditarItemDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public item: Item) { }
+  constructor(
+    private formBuilder: UntypedFormBuilder,
+    private inventarioMNG: InventarioManagerService,
+    public dialogRef: MatDialogRef<EditarItemDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public item: Item
+  ) {}
 
   ngOnInit(): void {
     this.inventarioMNG.getItem(this.item.codigo).subscribe((res) => {
@@ -64,44 +84,52 @@ export class EditarItemDialogComponent implements OnInit {
       this.marcasList.next(res);
     });
     this.myForm = this.formBuilder.group({
-      name: this.formBuilder.control(this.item.name,  Validators.compose([
-        Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(30),
-      ])),
-      priceIGV: this.formBuilder.control(this.item.priceIGV,  Validators.compose([
-        Validators.required,
-        Validators.pattern(/^\d*\.?\d{0,2}$/),
-        Validators.min(0.01),
-        Validators.minLength(1)
-      ])),
-      cantidad: this.formBuilder.control({value: this.item.cantidad, disabled: true},  Validators.compose([
-        Validators.required,
-      ])),
-      unidadDeMedida: this.formBuilder.control(this.item.unidadDeMedida,  Validators.compose([
-        Validators.required
-      ]))
-      ,
-      description: this.formBuilder.control(this.item.description,  Validators.compose([
-        Validators.required
-      ])),
-      costoPropio: this.formBuilder.control(this.item.costoPropio,  Validators.compose([
-        Validators.pattern(/^\d*\.?\d{0,2}$/),
-        Validators.minLength(1),
-        Validators.min(0),
-        Validators.required
-      ])),
-      marca: this.formBuilder.control(this.item.marca,  Validators.compose([
-      ])),
-      tags: this.formBuilder.control('',  Validators.compose([
-      ])),
-    }
-    );
+      name: this.formBuilder.control(
+        this.item.name,
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(30),
+        ])
+      ),
+      priceIGV: this.formBuilder.control(
+        this.item.priceIGV,
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(/^\d*\.?\d{0,2}$/),
+          Validators.min(0.01),
+          Validators.minLength(1),
+        ])
+      ),
+      cantidad: this.formBuilder.control(
+        { value: this.item.cantidad, disabled: true },
+        Validators.compose([Validators.required])
+      ),
+      unidadDeMedida: this.formBuilder.control(
+        this.item.unidadDeMedida,
+        Validators.compose([Validators.required])
+      ),
+      description: this.formBuilder.control(
+        this.item.description,
+        Validators.compose([Validators.required])
+      ),
+      costoPropio: this.formBuilder.control(
+        this.item.costoPropio,
+        Validators.compose([
+          Validators.pattern(/^\d*\.?\d{0,2}$/),
+          Validators.minLength(1),
+          Validators.min(0),
+          Validators.required,
+        ])
+      ),
+      marca: this.formBuilder.control(this.item.marca, Validators.compose([])),
+      tags: this.formBuilder.control('', Validators.compose([])),
+    });
     this.uploadForm = this.formBuilder.group({
-      img: ['']
+      img: [''],
     });
     this.uploadFileForm = this.formBuilder.group({
-      pdf: ['']
+      pdf: [''],
     });
 
     this.myForm.get('tags').valueChanges.subscribe((changeV: any) => {
@@ -115,12 +143,10 @@ export class EditarItemDialogComponent implements OnInit {
         this.filteredTags$.next(null);
       }
     });
-
-
   }
 
-  displayFn(tag: {name: string, deleted: boolean}): string {
-    return tag && tag.name ? tag.name : '';
+  displayFn(tag: { name: string; deleted: boolean }): string {
+    return tag?.name ?? '';
   }
 
   selectTag(e: MatAutocompleteSelectedEvent) {
@@ -138,24 +164,27 @@ export class EditarItemDialogComponent implements OnInit {
     this.filteredTags$.next(null);
     this.myForm.get('tags').setValue('');
     this.errorNoTag = false;
-    // this.filteredTags$.next(null);
   }
 
   filterTagValue(value: any) {
-    this.inventarioMNG.getListOfTagsFilteredByRegex(value.name || value, 15).subscribe(res => {
-      if (res && res.length > 0) {
-        this.filteredTags$.next(res);
-      } else {
-        this.filteredTags$.next(null);
-      }
-    });
+    this.inventarioMNG
+      .getListOfTagsFilteredByRegex(value.name || value, 15)
+      .subscribe((res) => {
+        if (res && res.length > 0) {
+          this.filteredTags$.next(res);
+        } else {
+          this.filteredTags$.next(null);
+        }
+      });
   }
 
   add(event: MatChipInputEvent): void {
-    const input = event.input;
     const value = event.value;
+
     if (this.filteredTags$.value) {
-      const searchInd = this.filteredTags$.value.findIndex(x => x.name === value.trim());
+      const searchInd = this.filteredTags$.value.findIndex(
+        (x) => x.name === value.trim()
+      );
       if (searchInd === -1) {
         this.errorNoTag = true;
         return;
@@ -178,13 +207,9 @@ export class EditarItemDialogComponent implements OnInit {
       } else {
         this.errorCantidadTags = false;
       }
-
     }
 
-    // Reset the input value
-    if (input) {
-      input.value = '';
-    }
+    event.chipInput.clear();
   }
 
   removeTag(tag: string) {
@@ -200,23 +225,23 @@ export class EditarItemDialogComponent implements OnInit {
     }
   }
 
-  testFocus(){
+  testFocus() {
     const numberPre: number = this.myForm.get('priceIGV').value;
     const stringNumber = numberPre.toString().trim().replace(',', '.');
     const indexOfComa = stringNumber.indexOf('.');
     let newNumber = '';
 
     if (this.myForm.get('priceIGV').valid) {
-        if (stringNumber.indexOf('.') === -1) {
-          newNumber = stringNumber + '.00';
-        } else if (stringNumber.charAt(indexOfComa + 1) === '') {
-          newNumber = stringNumber + '00';
-        } else if (stringNumber.charAt(indexOfComa + 2) === '') {
-          newNumber = stringNumber + '0';
-        } else {
-          newNumber = stringNumber;
-        }
-  }
+      if (stringNumber.indexOf('.') === -1) {
+        newNumber = stringNumber + '.00';
+      } else if (stringNumber.charAt(indexOfComa + 1) === '') {
+        newNumber = stringNumber + '00';
+      } else if (stringNumber.charAt(indexOfComa + 2) === '') {
+        newNumber = stringNumber + '0';
+      } else {
+        newNumber = stringNumber;
+      }
+    }
     if (newNumber !== '') {
       this.myForm.get('priceIGV').setValue(newNumber);
     }
@@ -242,30 +267,34 @@ export class EditarItemDialogComponent implements OnInit {
       }
     });
   }
-  onSubmitIMG(){
+  onSubmitIMG() {
     this.uploadFileForm.disable();
     this.uploadForm.disable();
-    this.inventarioMNG.uploadFile(this.fileToUpload, this.item.codigo, this.item.photo).subscribe((result) => {
-      if (result) {
-        this.disabled = true;
-        this.showMessage = true;
-      }
-      this.uploadFileForm.enable();
-      this.uploadForm.enable();
-    });
+    this.inventarioMNG
+      .uploadFile(this.fileToUpload, this.item.codigo, this.item.photo)
+      .subscribe((result) => {
+        if (result) {
+          this.disabled = true;
+          this.showMessage = true;
+        }
+        this.uploadFileForm.enable();
+        this.uploadForm.enable();
+      });
   }
 
-  onSubmitPDF(){
+  onSubmitPDF() {
     this.uploadFileForm.disable();
     this.uploadForm.disable();
-    this.inventarioMNG.uploadFilePDF(this.fileToUploadPDF, this.item.codigo).subscribe((result) => {
-      if (result) {
-        this.disabledPDF = true;
-        this.showMessagePDF = true;
-      }
-      this.uploadFileForm.enable();
-      this.uploadForm.enable();
-    });
+    this.inventarioMNG
+      .uploadFilePDF(this.fileToUploadPDF, this.item.codigo)
+      .subscribe((result) => {
+        if (result) {
+          this.disabledPDF = true;
+          this.showMessagePDF = true;
+        }
+        this.uploadFileForm.enable();
+        this.uploadForm.enable();
+      });
   }
 
   onFileSelect(files: FileList) {
@@ -278,15 +307,17 @@ export class EditarItemDialogComponent implements OnInit {
     this.onSubmitPDF();
   }
 
-  convertCostoPropio(){
+  convertCostoPropio() {
     if (this.myForm.get('costoPropio').value !== '') {
       const numberPre: number = this.myForm.get('costoPropio').value;
       const valid: boolean = this.myForm.get('costoPropio').valid;
-      this.myForm.get('costoPropio').setValue(this.rebrandNumber(valid, numberPre));
+      this.myForm
+        .get('costoPropio')
+        .setValue(this.rebrandNumber(valid, numberPre));
     }
   }
 
-  convertPriceIGV(){
+  convertPriceIGV() {
     const numberPre: number = this.myForm.get('priceIGV').value;
     const valid: boolean = this.myForm.get('priceIGV').valid;
     this.myForm.get('priceIGV').setValue(this.rebrandNumber(valid, numberPre));

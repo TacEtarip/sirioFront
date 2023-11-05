@@ -1,13 +1,14 @@
 <h1 mat-dialog-title>Agregar nueva categoría</h1>
 <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
-    <div mat-dialog-content>
-      <mat-form-field appearance="fill"  class="example-full-width">
-        <mat-label>Categoria</mat-label>
-        <input spellcheck="false" name="name" id="name" formControlName="name" maxlength = "40" matInput>
-      </mat-form-field>
-    </div>
-    <div mat-dialog-actions align="end">
-      <button  type="button" type="button" mat-flat-button mat-dialog-close>Listo</button>
-      <button (click)="onSubmit(form.value)" type="submit" [disabled]="!form.valid" type="button" mat-flat-button color="primary">Agregar</button>
-    </div>
+  <div mat-dialog-content>
+    <mat-form-field appearance="fill" class="example-full-width">
+      <mat-label>Categoria</mat-label>
+      <input spellcheck="false" name="name" id="name" formControlName="name" maxlength="40" matInput>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions align="end">
+    <button type="button" type="button" mat-flat-button mat-dialog-close>Listo</button>
+    <button (click)="onSubmit(form.value)" type="submit" [disabled]="!form.valid" type="button" mat-flat-button
+      color="primary">Agregar</button>
+  </div>
 </form>

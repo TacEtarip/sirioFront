@@ -2,84 +2,94 @@
 <h2 mat-dialog-title><b>Total Original:</b> {{data.cantidad}} | <b>Total Nuevo:</b> {{cantidadTotal|async}}</h2>
 <form *ngIf="{
   agregar: agregar$ | async
-} as observables"  [formGroup]="editarCantForm" >
+} as observables" [formGroup]="editarCantForm">
   <div *ngIf="!data.subConteo" mat-dialog-content class="gridDisplay">
     <mat-form-field opcionStart appearance="fill" class="comentarioSecond" [ngStyle]="{'grid-column': 'span 6'}">
       <mat-label>Acción</mat-label>
-      <mat-select [(value)]="opcionStart" name="agregar"  formControlName="agregar" >
+      <mat-select [(value)]="opcionStart" name="agregar" formControlName="agregar">
         <mat-option *ngFor="let item of agregarOption" [value]="item.value">{{item.viewValue}}</mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field  appearance="fill" class="comentarioSecond">
+    <mat-form-field appearance="fill" class="comentarioSecond">
       <mat-label>Comentario...</mat-label>
       <input spellcheck="false" formControlName="comentario" maxlength="80" matInput>
     </mat-form-field>
-    <mat-form-field (input)="actCantidad()"  appearance="fill" class="cantidad">
+    <mat-form-field (input)="actCantidad()" appearance="fill" class="cantidad">
       <mat-label>Cantidad...</mat-label>
       <input spellcheck="false" formControlName="cantidad" type="number" min="0" step="1" matInput>
     </mat-form-field>
-    <mat-form-field appearance="fill"  class="example-full-width precioForm">
+    <mat-form-field appearance="fill" class="example-full-width precioForm">
       <mat-label>Costo Propio Por Unidad...</mat-label>
-      <input (focusout)="convertPriceIGV()" spellcheck="false" name="costoVar" id="costoVar" formControlName="costoVar" min="0" step="1" type="number" class="example-right-align" matInput>
+      <input (focusout)="convertPriceIGV()" spellcheck="false" name="costoVar" id="costoVar" formControlName="costoVar"
+        min="0" step="1" type="number" class="example-right-align" matInput>
       <span matPrefix>S/ </span>
     </mat-form-field>
   </div>
-<div *ngIf="data.subConteo" mat-dialog-content class="gridDisplay">
-  <mat-form-field opcionStart appearance="fill" class="comentarioSecond" [ngStyle]="{'grid-column': 'span 6'}">
-    <mat-label>Acción</mat-label>
-    <mat-select [(value)]="opcionStart" name="agregar"  formControlName="agregar" [ngStyle]="{'grid-column': 'span 4'}">
-      <mat-option *ngFor="let item of agregarOption" [value]="item.value">{{item.viewValue}}</mat-option>
-    </mat-select>
-  </mat-form-field>
+  <div *ngIf="data.subConteo" mat-dialog-content class="gridDisplay">
+    <mat-form-field opcionStart appearance="fill" class="comentarioSecond" [ngStyle]="{'grid-column': 'span 6'}">
+      <mat-label>Acción</mat-label>
+      <mat-select [(value)]="opcionStart" name="agregar" formControlName="agregar"
+        [ngStyle]="{'grid-column': 'span 4'}">
+        <mat-option *ngFor="let item of agregarOption" [value]="item.value">{{item.viewValue}}</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-  <mat-form-field  appearance="fill" class="comentario">
-    <mat-label>Comentario...</mat-label>
-    <input spellcheck="false" formControlName="comentario" maxlength="80" matInput>
-  </mat-form-field>
-  <mat-form-field appearance="fill"  class="example-full-width precioForm">
-    <mat-label>Costo Por Unidad...</mat-label>
-    <input (focusout)="convertPriceIGV()" spellcheck="false" name="costoVar" id="costoVar" formControlName="costoVar" min="0" step="1" type="number" class="example-right-align" matInput>
-    <span matPrefix>S/ </span>
-  </mat-form-field>
-  <h3 [ngStyle]="{'grid-column': 'span 6'}">Sub Conteo</h3>
-  <mat-form-field  appearance="fill"  class="tituloInput">
-    <mat-label>Asignacion...</mat-label>
-    <input spellcheck="false" formControlName="name" maxlength="60" matInput>
-  </mat-form-field>
-  <mat-form-field  appearance="fill"  class="tituloInput">
-    <mat-label>Asignacion II...</mat-label>
-    <input spellcheck="false" formControlName="nameSecond" maxlength="60" matInput>
-  </mat-form-field>
-  <div formArrayName="order" class="formArrayContainer">
-    <div *ngFor="let sub of order.controls; index as i" textIndex = "i">
-      <div [formGroupName]="i" class="gridInterna">
-        <mat-form-field  appearance="fill" class="names">
-          <mat-label>Sub...</mat-label>
-          <input (change)="checkExist(i, 'name')" spellcheck="false" formControlName="name" maxlength="60" matInput>
-        </mat-form-field>
-        <mat-form-field  appearance="fill" class="names">
-          <mat-label>Sub II...</mat-label>
-          <input  (change)="checkExist(i, 'nameSecond')" spellcheck="false" formControlName="nameSecond" maxlength="60" matInput>
-        </mat-form-field>
-        <mat-form-field  appearance="fill" class="names">
-          <mat-label>Cantidad Actual</mat-label>
-          <input spellcheck="false" formControlName="cantidadAct" type="number" min="0" step="1" matInput>
-        </mat-form-field>
-        <mat-form-field  appearance="fill" class="names">
-          <mat-label>Cantidad</mat-label>
-          <input (input)="sumCantidades()"  spellcheck="false" formControlName="cantidad" type="number" min="0" step="1" matInput>
-        </mat-form-field>
-        <button *ngIf="!(observables.agregar)" [disabled]="unicoSubCantidad" (dblclick)="eliminarOrder(i)" type="button" mat-button mat-stroked-button color="accent" class="deleteBtn">
-          Eliminar Sub Cantidad
-        </button>
+    <mat-form-field appearance="fill" class="comentario">
+      <mat-label>Comentario...</mat-label>
+      <input spellcheck="false" formControlName="comentario" maxlength="80" matInput>
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="example-full-width precioForm">
+      <mat-label>Costo Por Unidad...</mat-label>
+      <input (focusout)="convertPriceIGV()" spellcheck="false" name="costoVar" id="costoVar" formControlName="costoVar"
+        min="0" step="1" type="number" class="example-right-align" matInput>
+      <span matPrefix>S/ </span>
+    </mat-form-field>
+    <h3 [ngStyle]="{'grid-column': 'span 6'}">Sub Conteo</h3>
+    <mat-form-field appearance="fill" class="tituloInput">
+      <mat-label>Asignacion...</mat-label>
+      <input spellcheck="false" formControlName="name" maxlength="60" matInput>
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="tituloInput">
+      <mat-label>Asignacion II...</mat-label>
+      <input spellcheck="false" formControlName="nameSecond" maxlength="60" matInput>
+    </mat-form-field>
+    <div formArrayName="order" class="formArrayContainer">
+      <div *ngFor="let sub of order.controls; index as i" textIndex="i">
+        <div [formGroupName]="i" class="gridInterna">
+          <mat-form-field appearance="fill" class="names">
+            <mat-label>Sub...</mat-label>
+            <input (change)="checkExist(i, 'name')" spellcheck="false" formControlName="name" maxlength="60" matInput>
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="names">
+            <mat-label>Sub II...</mat-label>
+            <input (change)="checkExist(i, 'nameSecond')" spellcheck="false" formControlName="nameSecond" maxlength="60"
+              matInput>
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="names">
+            <mat-label>Cantidad Actual</mat-label>
+            <input spellcheck="false" formControlName="cantidadAct" type="number" min="0" step="1" matInput>
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="names">
+            <mat-label>Cantidad</mat-label>
+            <input (input)="sumCantidades()" spellcheck="false" formControlName="cantidad" type="number" min="0"
+              step="1" matInput>
+          </mat-form-field>
+          <button *ngIf="!(observables.agregar)" [disabled]="unicoSubCantidad" (dblclick)="eliminarOrder(i)"
+            type="button" mat-button mat-stroked-button color="accent" class="deleteBtn">
+            Eliminar Sub Cantidad
+          </button>
+        </div>
       </div>
     </div>
+    <button *ngIf="observables.agregar" (click)="agregarOrder()" type="button" mat-stroked-button color="accent"
+      class="botonAgregarSubCont" mat-button>Agregar</button>
   </div>
-  <button *ngIf="observables.agregar" (click)="agregarOrder()" type="button" mat-stroked-button color="accent" class="botonAgregarSubCont" mat-button>Agregar</button>
-</div>
-<mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close color="primary">Cancelar</button>
-  <button *ngIf="data.subConteo"  (click)="actualizarCantidades(editarCantForm.getRawValue())" [disabled]="!editarCantForm.valid || (!(suma > 0) && cantidadesEliminadasSC.length === 0)" type="submit" mat-button color="accent">Actualizar</button>
-  <button *ngIf="!data.subConteo"  (click)="actualizarCantidadesSimple(editarCantForm.value)" [disabled]="!editarCantForm.valid" type="submit" mat-button color="accent">Actualizar</button>
-</mat-dialog-actions>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close color="primary">Cancelar</button>
+    <button *ngIf="data.subConteo" (click)="actualizarCantidades(editarCantForm.getRawValue())"
+      [disabled]="!editarCantForm.valid || (!(suma > 0) && cantidadesEliminadasSC.length === 0)" type="submit"
+      mat-button color="accent">Actualizar</button>
+    <button *ngIf="!data.subConteo" (click)="actualizarCantidadesSimple(editarCantForm.value)"
+      [disabled]="!editarCantForm.valid" type="submit" mat-button color="accent">Actualizar</button>
+  </mat-dialog-actions>
 </form>

@@ -1,21 +1,22 @@
 <img alt="cerrar" src="assets/close.svg" mat-dialog-title matDialogClose class="close-btn">
 <h1 mat-dialog-title class="title">Agregar imagén y ficha técnica</h1>
 <div mat-dialog-content>
-  <form [ngStyle]="{'margin-right': '.5em'}" [formGroup]="uploadForm" (ngSubmit)="onSubmitIMG()" class="new-item-form topForm customUpload">
+  <form [ngStyle]="{'margin-right': '.5em'}" [formGroup]="uploadForm" (ngSubmit)="onSubmitIMG()"
+    class="new-item-form topForm customUpload">
     <label matRipple for="img" class="custom-file-upload">
-       Subir Imagén
+      Subir Imagén
     </label>
     <input (change)="onFileSelect($event)" type="file" spellcheck="false" name="img" id="img" formControlName="img">
-    <h4  [ngStyle]="{'margin': '0 0 0 .5em'}" class="succesMSG" *ngIf="showMessage">Imagén Subida Correctamente</h4>
+    <h4 [ngStyle]="{'margin': '0 0 0 .5em'}" class="succesMSG" *ngIf="showMessage">Imagén Subida Correctamente</h4>
   </form>
-    <form  [formGroup]="uploadFileForm" (ngSubmit)="onSubmitPDF()" class="new-item-form topForm customUpload">
-      <label matRipple for="pdf" class="custom-file-upload">
-        Subir Ficha
-      </label>
-      <input (change)="onFileSelectPDF($event)" type="file" spellcheck="false" name="pdf" id="pdf" formControlName="pdf">
-      <h4  [ngStyle]="{'margin': '0 0 0 .5em'}" class="succesMSG" *ngIf="showMessagePDF">Ficha Subida Correctamente</h4>
-    </form>
+  <form [formGroup]="uploadFileForm" (ngSubmit)="onSubmitPDF()" class="new-item-form topForm customUpload">
+    <label matRipple for="pdf" class="custom-file-upload">
+      Subir Ficha
+    </label>
+    <input (change)="onFileSelectPDF($event)" type="file" spellcheck="false" name="pdf" id="pdf" formControlName="pdf">
+    <h4 [ngStyle]="{'margin': '0 0 0 .5em'}" class="succesMSG" *ngIf="showMessagePDF">Ficha Subida Correctamente</h4>
+  </form>
 </div>
 <div mat-dialog-actions align="end">
-  <button matDialogClose type="button"  mat-flat-button color="primary">Listo</button>
+  <button matDialogClose type="button" mat-flat-button color="primary">Listo</button>
 </div>

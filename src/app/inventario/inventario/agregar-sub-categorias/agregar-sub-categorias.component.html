@@ -1,15 +1,15 @@
 <h1 mat-dialog-title>Agregar nueva sub-categoría</h1>
 <form [formGroup]="form">
-    <div mat-dialog-content>
-      <mat-form-field appearance="fill"  class="example-full-width">
-        <mat-label>Sub-categoria</mat-label>
-        <input spellcheck="false" name="subTipo" id="subTipo" formControlName="subTipo" maxlength = "40" matInput>
-      </mat-form-field>
-      <h5 [ngClass]="showMessage ? 'show' : 'dontShow'">Sub-categoria agregada!</h5>
-    </div>
-    <div mat-dialog-actions align="end">
-      <button  type="button" mat-flat-button color="primary" mat-dialog-close>Terminar</button>
-      <button (click)="onSubmit()" type="submit" [disabled]="!form.valid" type="button" mat-flat-button color="accent" >Agregar</button>
-    </div>
+  <div mat-dialog-content>
+    <mat-form-field appearance="fill" class="example-full-width">
+      <mat-label>Sub-categoria</mat-label>
+      <input spellcheck="false" name="subTipo" id="subTipo" formControlName="subTipo" maxlength="40" matInput>
+    </mat-form-field>
+    <h5 [ngClass]="showMessage ? 'show' : 'dontShow'">Sub-categoria agregada!</h5>
+  </div>
+  <div mat-dialog-actions align="end">
+    <button type="button" mat-flat-button color="primary" mat-dialog-close>Terminar</button>
+    <button (click)="onSubmit()" type="submit" [disabled]="!form.valid" type="button" mat-flat-button
+      color="accent">Agregar</button>
+  </div>
 </form>
-

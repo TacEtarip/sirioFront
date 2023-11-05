@@ -1,28 +1,24 @@
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TransferHttpCacheModule } from '@nguniversal/common';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import { AuthInterceptor } from './auth.interceptor';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { AuthInterceptor } from './auth.interceptor';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
-import { LOCALE_ID } from '@angular/core';
 
-import es from '@angular/common/locales/es';
 import { registerLocaleData } from '@angular/common';
+import es from '@angular/common/locales/es';
 
 registerLocaleData(es);
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    NotFoundPageComponent,
-  ],
+  declarations: [AppComponent, NotFoundPageComponent],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
@@ -30,15 +26,18 @@ registerLocaleData(es);
     MatFormFieldModule,
     HttpClientModule,
     TransferHttpCacheModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+    }),
   ],
-  providers: [{
-    provide: HTTP_INTERCEPTORS,
-    useClass: AuthInterceptor,
-    multi: true,
-  },
-  { provide: LOCALE_ID,
-     useValue: 'es-PE' }],
-  bootstrap: [AppComponent]
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+    { provide: LOCALE_ID, useValue: 'es-PE' },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

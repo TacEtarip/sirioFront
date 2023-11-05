@@ -25,10 +25,7 @@
               "src/assets",
               "src/manifest.webmanifest"
             ],
-            "styles": [
-              "src/sirio-theme.scss",
-              "src/styles.css"
-            ],
+            "styles": ["src/sirio-theme.scss", "src/styles.css"],
             "scripts": []
           },
           "configurations": {
@@ -151,9 +148,7 @@
           "options": {
             "browserTarget": "inventarioSirioFront:build:production",
             "serverTarget": "inventarioSirioFront:server:production",
-            "routes": [
-              "/"
-            ]
+            "routes": ["/"]
           },
           "configurations": {
             "production": {}

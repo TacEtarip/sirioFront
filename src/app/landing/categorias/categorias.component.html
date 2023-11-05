@@ -1,111 +1,131 @@
-<div
-*ngIf="{
+<div *ngIf="{
   estado: estado$ | async,
   titulo: titulo$ | async,
   tituloSub: tituloSub$ | async,
   item: item$ | async
 } as observables">
 
-<div class="previo">
-  <img class="presImg" height="219.72" width="272px" src="assets/parejaCompl.png" alt="">
-  <h1 *ngIf="(observables.estado) === 'categoria' || (observables.estado) === 'pre'">{{observables.titulo}}</h1>
-  <h1 *ngIf="(observables.estado) === 'sub'">{{observables.tituloSub}}</h1>
-  <h1 *ngIf="(observables.estado) === 'item' && observables.item">{{((observables.item).name)}}</h1>
-</div>
+  <div class="previo">
+    <img class="presImg" height="219.72" width="272px" src="assets/parejaCompl.png" alt="">
+    <h1 *ngIf="(observables.estado) === 'categoria' || (observables.estado) === 'pre'">{{observables.titulo}}</h1>
+    <h1 *ngIf="(observables.estado) === 'sub'">{{observables.tituloSub}}</h1>
+    <h1 *ngIf="(observables.estado) === 'item' && observables.item">{{((observables.item).name)}}</h1>
+  </div>
 
-<main>
+  <main>
 
-  <div *ngIf="(loggedInfo$|async) as loggedInfo">
-    <div class="navegacion">
-      <a aria-label="Ir a categorias" href="/store/categorias">CATEGORIAS</a>
-      <h6 *ngIf="(observables.estado) === 'categoria' || (observables.estado) === 'sub' || (observables.estado) === 'item'">></h6>
-      <a aria-label="Ir Categoria" *ngIf="(observables.estado) === 'categoria' || (observables.estado) === 'sub' || (observables.estado) === 'item'" href="/store/categorias/{{ruta}}">{{(observables.titulo)|uppercase}}</a>
-      <h6 *ngIf="(observables.estado) === 'sub'  || (observables.estado) === 'item'">></h6>
-      <a aria-label="Ir Sub Categoria" *ngIf="(observables.estado) === 'sub'  || (observables.estado) === 'item'" href="/store/categorias/{{ruta}}/{{observables.tituloSub}}">{{(observables.tituloSub)|uppercase}}</a>
-      <h6 *ngIf="(observables.estado) === 'item'">></h6>
-      <a aria-label="Ir Item" *ngIf="(observables.estado) === 'item' && observables.item" href="/store/categorias/{{ruta}}/{{observables.tituloSub}}/{{itemCod}}">{{((observables.item).name)|uppercase}}</a>
-    </div>
-    <div *ngIf="loggedInfo.authenticated && (loggedInfo.type === 'admin' || loggedInfo.type === 'vent') && (observables.estado) !== 'item'" class="controles">
-      <button *ngIf="(observables.estado) === 'pre'" (click)="openDialogAgregarCat()" matTooltip="Añadir Categoria" mat-fab color="warn" aria-label="Example icon button with a home icon">
-        <mat-icon class="icon-img">add_box</mat-icon>
-      </button>
-      <button *ngIf="(observables.estado) === 'categoria'" (click)="openDialogAgregarSubCat()" matTooltip="Añadir Sub Categoria" mat-fab color="warn" aria-label="Example icon button with a home icon">
-        <mat-icon class="icon-img">add_box</mat-icon>
-      </button>
-      <button *ngIf="(observables.estado) === 'sub'" (click)="openDialogAgregarItem()" matTooltip="Añadir Item" mat-fab color="warn" aria-label="Example icon button with a home icon">
-        <mat-icon class="icon-img">add_box</mat-icon>
-      </button>
-      <button *ngIf="(observables.estado) !== 'item'" (click)="openDialogAgregarMarca()" matTooltip="Añadir Marca" mat-fab color="primary" aria-label="Example icon button with a home icon" class="marcasBtn">
-        <mat-icon class="icon-img ">business</mat-icon>
-      </button>
-      <button *ngIf="(observables.estado) !== 'item'" (click)="openDialogAgregarTags()" matTooltip="Añadir Tags" mat-fab  aria-label="Example icon button with a home icon" class="marcasBtn">
-        <mat-icon class="icon-img ">label</mat-icon>
-      </button>
-      <button  color="white" *ngIf="(observables.estado) === 'pre'" (click)="openDialogReOrdenarCat()" matTooltip="Ordenar Categorias" mat-fab  class="marcasBtn">
-        <mat-icon class="icon-img ">reorder</mat-icon>
-      </button>
-      <button color="white" *ngIf="(observables.estado) === 'categoria'" (click)="openDialogReOrdenarSubCat()" matTooltip="Ordenar Sub Categorias" mat-fab  class="marcasBtn">
-        <mat-icon class="icon-img ">reorder</mat-icon>
-      </button>
-      <button color="white" *ngIf="(observables.estado) === 'sub'" (click)="openDialogReOrdenarItems()" matTooltip="Ordenar Items" mat-fab  class="marcasBtn">
-        <mat-icon class="icon-img ">reorder</mat-icon>
-      </button>
-    </div>
+    <div *ngIf="(loggedInfo$|async) as loggedInfo">
+      <div class="navegacion">
+        <a aria-label="Ir a categorias" href="/store/categorias">CATEGORIAS</a>
+        <h6
+          *ngIf="(observables.estado) === 'categoria' || (observables.estado) === 'sub' || (observables.estado) === 'item'">
+          ></h6>
+        <a aria-label="Ir Categoria"
+          *ngIf="(observables.estado) === 'categoria' || (observables.estado) === 'sub' || (observables.estado) === 'item'"
+          href="/store/categorias/{{ruta}}">{{(observables.titulo)|uppercase}}</a>
+        <h6 *ngIf="(observables.estado) === 'sub'  || (observables.estado) === 'item'">></h6>
+        <a aria-label="Ir Sub Categoria" *ngIf="(observables.estado) === 'sub'  || (observables.estado) === 'item'"
+          href="/store/categorias/{{ruta}}/{{observables.tituloSub}}">{{(observables.tituloSub)|uppercase}}</a>
+        <h6 *ngIf="(observables.estado) === 'item'">></h6>
+        <a aria-label="Ir Item" *ngIf="(observables.estado) === 'item' && observables.item"
+          href="/store/categorias/{{ruta}}/{{observables.tituloSub}}/{{itemCod}}">{{((observables.item).name)|uppercase}}</a>
+      </div>
+      <div
+        *ngIf="loggedInfo.authenticated && (loggedInfo.type === 'admin' || loggedInfo.type === 'vent') && (observables.estado) !== 'item'"
+        class="controles">
+        <button *ngIf="(observables.estado) === 'pre'" (click)="openDialogAgregarCat()" matTooltip="Añadir Categoria"
+          mat-fab color="warn" aria-label="Example icon button with a home icon">
+          <mat-icon class="icon-img">add_box</mat-icon>
+        </button>
+        <button *ngIf="(observables.estado) === 'categoria'" (click)="openDialogAgregarSubCat()"
+          matTooltip="Añadir Sub Categoria" mat-fab color="warn" aria-label="Example icon button with a home icon">
+          <mat-icon class="icon-img">add_box</mat-icon>
+        </button>
+        <button *ngIf="(observables.estado) === 'sub'" (click)="openDialogAgregarItem()" matTooltip="Añadir Item"
+          mat-fab color="warn" aria-label="Example icon button with a home icon">
+          <mat-icon class="icon-img">add_box</mat-icon>
+        </button>
+        <button *ngIf="(observables.estado) !== 'item'" (click)="openDialogAgregarMarca()" matTooltip="Añadir Marca"
+          mat-fab color="primary" aria-label="Example icon button with a home icon" class="marcasBtn">
+          <mat-icon class="icon-img ">business</mat-icon>
+        </button>
+        <button *ngIf="(observables.estado) !== 'item'" (click)="openDialogAgregarTags()" matTooltip="Añadir Tags"
+          mat-fab aria-label="Example icon button with a home icon" class="marcasBtn">
+          <mat-icon class="icon-img ">label</mat-icon>
+        </button>
+        <button color="white" *ngIf="(observables.estado) === 'pre'" (click)="openDialogReOrdenarCat()"
+          matTooltip="Ordenar Categorias" mat-fab class="marcasBtn">
+          <mat-icon class="icon-img ">reorder</mat-icon>
+        </button>
+        <button color="white" *ngIf="(observables.estado) === 'categoria'" (click)="openDialogReOrdenarSubCat()"
+          matTooltip="Ordenar Sub Categorias" mat-fab class="marcasBtn">
+          <mat-icon class="icon-img ">reorder</mat-icon>
+        </button>
+        <button color="white" *ngIf="(observables.estado) === 'sub'" (click)="openDialogReOrdenarItems()"
+          matTooltip="Ordenar Items" mat-fab class="marcasBtn">
+          <mat-icon class="icon-img ">reorder</mat-icon>
+        </button>
+      </div>
 
-    <div class="presentacion" *ngIf="(observables.estado) !== 'item'">
-      <section class="listaCat" >
-        <app-main-categoria-card (deleteEvent)="actCategorias($event)" *ngFor="let item of tipos|async" [tipo]="item"></app-main-categoria-card>
-        <app-sub-categoria-card (deleteEvent)="actSubCategorias($event)" *ngFor="let item of subTipos$|async; let i = index" [subTipo]="item" [codigoTipo]="ruta"
-        [nameTipo]="observables.titulo" [photoLink]="(subTiposPhoto$|async)[i]"></app-sub-categoria-card>
-        <app-item-card-vend [tipoCodigo]="ruta" (changeCarpetaEvent)="actChangeItems($event)" (deleteEvent)="eliminarItem($event)" *ngFor="let item of items|async" [item]="item"></app-item-card-vend>
-        <app-itemcard *ngFor="let item of itemSecond|async"  [item]="item"></app-itemcard>
-      </section>
-    </div>
+      <div class="presentacion" *ngIf="(observables.estado) !== 'item'">
+        <section class="listaCat">
+          <app-main-categoria-card (deleteEvent)="actCategorias($event)" *ngFor="let item of tipos|async"
+            [tipo]="item"></app-main-categoria-card>
+          <app-sub-categoria-card (deleteEvent)="actSubCategorias($event)"
+            *ngFor="let item of subTipos$|async; let i = index" [subTipo]="item" [codigoTipo]="ruta"
+            [nameTipo]="observables.titulo" [photoLink]="(subTiposPhoto$|async)[i]"></app-sub-categoria-card>
+          <app-item-card-vend [tipoCodigo]="ruta" (changeCarpetaEvent)="actChangeItems($event)"
+            (deleteEvent)="eliminarItem($event)" *ngFor="let item of items|async" [item]="item"></app-item-card-vend>
+          <app-itemcard *ngFor="let item of itemSecond|async" [item]="item"></app-itemcard>
+        </section>
+      </div>
 
-    <div class="itemPresentacion" *ngIf="(observables.estado) === 'item' && observables.item">
-      <div>
-        <div  [ngStyle]="{'background-image': 'url(' + 'https://siriouploads.s3.amazonaws.com/' + (observables.item).photo.split('.')[0] + '.webp' + ')'}"
-        class="itemImage">
-        </div>
-        <div class="cantidadesOne">
-          <H2 [ngStyle]="{'padding-top': '1em'}">Reseñas</H2>
-          <div class="clasificacion-propia">
-            <h3>DEJA TU CALIFICACIÓN:</h3>
-            <div class="five-star">
-
-              <i *ngFor="let item of (mockList|async)" class="fas fa-star star-rating" (click)="setRating(item)"
-              (mouseover)="thisAndTheOnesBehind(item)" (mouseleave)="returnRatingToNormal()" ></i>
-              <i *ngFor="let item of (mockListTwo|async)" class="far fa-star star-rating" (click)="setRating(item)"
-              (mouseover)="thisAndTheOnesBehind(item)" (mouseleave)="returnRatingToNormal()" ></i>
-
-            </div>
-            <a href="/login/login"><h5  *ngIf="!loggedInfo.authenticated">Necesitas iniciar sesión.</h5></a>
-            <h5  *ngIf="showNotBuyed|async">No has comprado este item.</h5>
+      <div class="itemPresentacion" *ngIf="(observables.estado) === 'item' && observables.item">
+        <div>
+          <div
+            [ngStyle]="{'background-image': 'url(' + 'https://siriouploads.s3.amazonaws.com/' + (observables.item).photo.split('.')[0] + '.webp' + ')'}"
+            class="itemImage">
           </div>
+          <div class="cantidadesOne">
+            <H2 [ngStyle]="{'padding-top': '1em'}">Reseñas</H2>
+            <div class="clasificacion-propia">
+              <h3>DEJA TU CALIFICACIÓN:</h3>
+              <div class="five-star">
 
-          <mat-expansion-panel class="mat-elevation-z0"
-          [ngStyle]="{'margin-top': '10px', 'border': '#E87200 1px solid'}" >
-            <mat-expansion-panel-header *ngIf="(observables.item).reviews.length > 0">
-              <mat-panel-title>
-                <span [ngStyle]="{'margin-right': '5px'}">{{reviewMean$|async}}/5</span>
-                <i class="fas fa-star"></i>
-              </mat-panel-title>
-              <mat-panel-description>
-                <span>De {{(observables.item).reviews.length}} reseñas</span>
-              </mat-panel-description>
-            </mat-expansion-panel-header>
-            <mat-expansion-panel-header *ngIf="(observables.item).reviews.length === 0">
-              <mat-panel-description>
-                <span>Aun no se a reseñado estre producto. ¡Se el primero!</span>
-              </mat-panel-description>
-            </mat-expansion-panel-header>
+                <i *ngFor="let item of (mockList|async)" class="fas fa-star star-rating" (click)="setRating(item)"
+                  (mouseover)="thisAndTheOnesBehind(item)" (mouseleave)="returnRatingToNormal()"></i>
+                <i *ngFor="let item of (mockListTwo|async)" class="far fa-star star-rating" (click)="setRating(item)"
+                  (mouseover)="thisAndTheOnesBehind(item)" (mouseleave)="returnRatingToNormal()"></i>
 
-            <div>
-                <div class="review" role="listitem"
-                *ngFor="let review of (observables.item).reviews">
+              </div>
+              <a href="/login/login">
+                <h5 *ngIf="!loggedInfo.authenticated">Necesitas iniciar sesión.</h5>
+              </a>
+              <h5 *ngIf="showNotBuyed|async">No has comprado este item.</h5>
+            </div>
+
+            <mat-expansion-panel class="mat-elevation-z0"
+              [ngStyle]="{'margin-top': '10px', 'border': '#E87200 1px solid'}">
+              <mat-expansion-panel-header *ngIf="(observables.item).reviews.length > 0">
+                <mat-panel-title>
+                  <span [ngStyle]="{'margin-right': '5px'}">{{reviewMean$|async}}/5</span>
+                  <i class="fas fa-star"></i>
+                </mat-panel-title>
+                <mat-panel-description>
+                  <span>De {{(observables.item).reviews.length}} reseñas</span>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <mat-expansion-panel-header *ngIf="(observables.item).reviews.length === 0">
+                <mat-panel-description>
+                  <span>Aun no se a reseñado estre producto. ¡Se el primero!</span>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+
+              <div>
+                <div class="review" role="listitem" *ngFor="let review of (observables.item).reviews">
                   <div class="review-score">
                     <h4>{{review.rating}}</h4>
-                    <i class="fas fa-star star-rating" ></i>
+                    <i class="fas fa-star star-rating"></i>
                   </div>
                   <div class="autor" [ngStyle]="{'color': 'black', 'font-weight': '200'}">
                     Por <B>{{review.user}}</B>; El {{review.date|date: 'fullDate'}}
@@ -115,55 +135,63 @@
                   </div>
                 </div>
 
-            </div>
+              </div>
 
-          </mat-expansion-panel>
+            </mat-expansion-panel>
+          </div>
         </div>
-      </div>
 
-      <div class="basicInfo">
+        <div class="basicInfo">
           <H2>DESCRIPCIÓN</H2>
           <p>{{(observables.item).description}}</p>
-          <H2 [ngStyle]="{'padding-top': '1em'}" *ngIf="(observables.item).caracteristicas && (observables.item).caracteristicas.length > 0">CARACTERISTICAS</H2>
-            <mat-list *ngIf="(observables.item).caracteristicas">
-              <mat-list-item role="listitem" *ngFor="let caract of (observables.item).caracteristicas">
-                <mat-icon mat-list-icon>done</mat-icon>
-                <p [ngStyle]="{'font-size': '18px', 'padding-left': '1em'}">{{caract}}</p>
-              </mat-list-item>
-            </mat-list>
-          <div  *ngIf="loggedInfo.authenticated && (loggedInfo.type === 'admin' || loggedInfo.type === 'vent')" class="btns">
-            <button (click)="openDialogEditarItem()" mat-stroked-button >Editar Item</button>
-            <button (click)="openDialogEditarItemCantidades()" mat-stroked-button >Editar Cantidades</button>
+          <H2 [ngStyle]="{'padding-top': '1em'}"
+            *ngIf="(observables.item).caracteristicas && (observables.item).caracteristicas.length > 0">CARACTERISTICAS
+          </H2>
+          <mat-list *ngIf="(observables.item).caracteristicas">
+            <mat-list-item role="listitem" *ngFor="let caract of (observables.item).caracteristicas">
+              <mat-icon mat-list-icon>done</mat-icon>
+              <p [ngStyle]="{'font-size': '18px', 'padding-left': '1em'}">{{caract}}</p>
+            </mat-list-item>
+          </mat-list>
+          <div *ngIf="loggedInfo.authenticated && (loggedInfo.type === 'admin' || loggedInfo.type === 'vent')"
+            class="btns">
+            <button (click)="openDialogEditarItem()" mat-stroked-button>Editar Item</button>
+            <button (click)="openDialogEditarItemCantidades()" mat-stroked-button>Editar Cantidades</button>
             <button (click)="openCaracteristicas()" mat-stroked-button class="reporte">Caracteristicas</button>
           </div>
           <H2 [ngStyle]="{'padding-top': '1em'}">PRECIOS</H2>
-          <h4>Precio: S/{{(observables.item).priceIGV|currency:' '}} | Precio Sin IGV: S/{{(observables.item).priceNoIGV|currency: ' '}} | Marca: {{(observables.item).marca}} | {{(observables.item).codigo}}</h4>
+          <h4>Precio: S/{{(observables.item).priceIGV|currency:' '}} | Precio Sin IGV:
+            S/{{(observables.item).priceNoIGV|currency: ' '}} | Marca: {{(observables.item).marca}} |
+            {{(observables.item).codigo}}</h4>
           <h5>*Los precios son por unidad. No dude en consultarnos por precios al por mayor.</h5>
           <div class="btns">
-            <button class="reporte" [ngStyle]="{'background-color': '#00A859'}" (click)="openLink()" mat-flat-button color="accent">
+            <button class="reporte" [ngStyle]="{'background-color': '#00A859'}" (click)="openLink()" mat-flat-button
+              color="accent">
               <i class="fa fa-whatsapp fa-2x" aria-hidden="true"></i> Consultar</button>
-            <button  class="reporte"   [disabled]="!(observables.item).ficha" mat-stroked-button >Descargar Ficha</button>
-            <button *ngIf="loggedInfo.authenticated && (loggedInfo.type === 'admin'|| loggedInfo.type === 'vent')" (click)=" openDialogVenta()" mat-stroked-button >Vender</button>
-            <button (click)="descargarReporte()" *ngIf="loggedInfo.authenticated && (loggedInfo.type === 'admin' || loggedInfo.type === 'vent')" class="reporte"  mat-stroked-button >Ver Reporte</button>
+            <button class="reporte" [disabled]="!(observables.item).ficha" mat-stroked-button>Descargar Ficha</button>
+            <button *ngIf="loggedInfo.authenticated && (loggedInfo.type === 'admin'|| loggedInfo.type === 'vent')"
+              (click)=" openDialogVenta()" mat-stroked-button>Vender</button>
+            <button (click)="descargarReporte()"
+              *ngIf="loggedInfo.authenticated && (loggedInfo.type === 'admin' || loggedInfo.type === 'vent')"
+              class="reporte" mat-stroked-button>Ver Reporte</button>
           </div>
           <H2 [ngStyle]="{'padding-top': '1em'}">COMPRAR</H2>
           <div class="big-toogle-btn">
             <div *ngIf="(observables.item).subConteo">
               <h4>{{(observables.item).subConteo.name}}</h4>
               <div class="botones-toogle">
-                <button *ngFor="let sc of simpleOrder$|async; let i=index"
-                [ngClass]="{'btn-selected': i === scActive }" [color]="i === scActive ? 'accent' : 'primary'"
-                [disabled]="sc.disabled"  (click)="selectSC(i)"
-                mat-stroked-button>{{sc.name}}</button>
+                <button *ngFor="let sc of simpleOrder$|async; let i=index" [ngClass]="{'btn-selected': i === scActive }"
+                  [color]="i === scActive ? 'accent' : 'primary'" [disabled]="sc.disabled" (click)="selectSC(i)"
+                  mat-stroked-button>{{sc.name}}</button>
               </div>
             </div>
-            <div  *ngIf="(observables.item).subConteo && (observables.item).subConteo.nameSecond !== ''">
+            <div *ngIf="(observables.item).subConteo && (observables.item).subConteo.nameSecond !== ''">
               <h4>{{(observables.item).subConteo.nameSecond}}</h4>
               <div class="botones-toogle">
                 <button *ngFor="let sc of simpleSecondOrder$|async; let i=index"
-                [ngClass]="{'btn-selected': i === scSecondActive }" [color]="i === scSecondActive ? 'accent' : 'primary'"
-                [disabled]="sc.disabled" (click)="selectSCsecond(i)"
-                mat-stroked-button>
+                  [ngClass]="{'btn-selected': i === scSecondActive }"
+                  [color]="i === scSecondActive ? 'accent' : 'primary'" [disabled]="sc.disabled"
+                  (click)="selectSCsecond(i)" mat-stroked-button>
                   {{sc.name}}</button>
               </div>
             </div>
@@ -172,25 +200,29 @@
             <form [formGroup]="carritoForm" class="carrito">
               <mat-form-field appearance="outline" class="venta-input">
                 <mat-label>Cantidad</mat-label>
-                <input name="priceIGV" id="priceNoIGV" formControlName="cantidad" type="number" min="1" step="1" matInput>
+                <input name="priceIGV" id="priceNoIGV" formControlName="cantidad" type="number" min="1" step="1"
+                  matInput>
                 <mat-icon matPrefix>shopping_cart</mat-icon>
                 <mat-error *ngIf="carritoForm.invalid">Cantidad no disponible</mat-error>
               </mat-form-field>
             </form>
-            <button (click)="crearNewVentaBody()"
-            [disabled]="!carritoForm.valid" mat-flat-button color="accent"> <mat-icon>add_shopping_cart</mat-icon> Agregar a carrito</button>
-            <button [disabled]="!carritoForm.valid" mat-stroked-button color="accent"> <mat-icon>add_shopping_cart</mat-icon> Agregar e ir a carrito</button>
-            <a href=""><button mat-stroked-button color="primary"> <mat-icon>shopping_cart</mat-icon> Ir a carrito</button></a>
+            <button (click)="crearNewVentaBody()" [disabled]="!carritoForm.valid" mat-flat-button color="accent">
+              <mat-icon>add_shopping_cart</mat-icon> Agregar a carrito</button>
+            <button [disabled]="!carritoForm.valid" mat-stroked-button color="accent">
+              <mat-icon>add_shopping_cart</mat-icon> Agregar e ir a carrito</button>
+            <a href=""><button mat-stroked-button color="primary"> <mat-icon>shopping_cart</mat-icon> Ir a
+                carrito</button></a>
           </div>
           <h5 *ngIf="mensajeDeError.mostrar">{{mensajeDeError.texto}}</h5>
 
           <H2 [ngStyle]="{'padding-top': '1em'}">TAGS</H2>
           <mat-chip-list aria-label="Tags" [ngStyle]="{'padding': ' 1em 0'}">
-            <mat-chip color="primary" selected  *ngFor="let tag of (observables.item).tags">{{tag}}</mat-chip>
+            <mat-chip color="primary" selected *ngFor="let tag of (observables.item).tags">{{tag}}</mat-chip>
           </mat-chip-list>
 
           <mat-expansion-panel class="mat-elevation-z0"
-          [ngStyle]="{'margin-top': '10px', 'border': '#0000002d  1px solid'}" [hideToggle]="!((observables.item).subConteo) ? true : false">
+            [ngStyle]="{'margin-top': '10px', 'border': '#0000002d  1px solid'}"
+            [hideToggle]="!((observables.item).subConteo) ? true : false">
             <mat-expansion-panel-header>
               <mat-panel-title>
                 CANTIDADES
@@ -201,7 +233,7 @@
             </mat-expansion-panel-header>
             <p *ngIf="(observables.item).subConteo">Detalle:</p>
             <div *ngIf="(observables.item).subConteo" class="tablContenedor">
-              <table  mat-table [dataSource]="dataSource" matSort >
+              <table mat-table [dataSource]="dataSource" matSort>
 
                 <!-- Position Column -->
                 <ng-container matColumnDef="name">
@@ -212,7 +244,8 @@
 
                 <!-- Name Column -->
                 <ng-container matColumnDef="nameSecond">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header> {{(observables.item).subConteo.nameSecond}} </th>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> {{(observables.item).subConteo.nameSecond}}
+                  </th>
                   <td mat-cell *matCellDef="let element"> {{element.nameSecond}} </td>
                   <td mat-footer-cell *matFooterCellDef></td>
                 </ng-container>
@@ -232,14 +265,14 @@
 
             </div>
           </mat-expansion-panel>
+        </div>
       </div>
-    </div>
-    <mat-spinner *ngIf="!(loaded$|async)"
-    [ngStyle]="{'margin-top': '15vh', 'margin-left': 'auto', 'margin-right': 'auto'}"></mat-spinner>
+      <mat-spinner *ngIf="!(loaded$|async)"
+        [ngStyle]="{'margin-top': '15vh', 'margin-left': 'auto', 'margin-right': 'auto'}"></mat-spinner>
 
+    </div>
+  </main>
+  <div class="page-panel" *ngIf="aCarrito">
+    <mat-spinner></mat-spinner>
   </div>
-</main>
-<div class="page-panel" *ngIf="aCarrito">
-  <mat-spinner></mat-spinner>
-</div>
 </div>

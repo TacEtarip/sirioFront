@@ -1,12 +1,22 @@
-import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { BehaviorSubject, Subscription } from 'rxjs';
-import { Venta, InventarioManagerService, RUC, DNI, Item } from 'src/app/inventario-manager.service';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import {
+  AbstractControl,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { UntypedFormGroup, FormControl, Validators, UntypedFormBuilder, AbstractControl, ValidatorFn } from '@angular/forms';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
+import {
+  DNI,
+  InventarioManagerService,
+  RUC,
+  Venta,
+} from 'src/app/inventario-manager.service';
 import jsonCode from '../../../../assets/sunatCodes.json';
-
 
 interface TipoDoc {
   value: string;
@@ -21,10 +31,9 @@ interface MetodoPago {
 @Component({
   selector: 'app-seguro-ejec-dialog',
   templateUrl: './seguro-ejec-dialog.component.html',
-  styleUrls: ['./seguro-ejec-dialog.component.css']
+  styleUrls: ['./seguro-ejec-dialog.component.css'],
 })
 export class SeguroEjecDialogComponent implements OnInit, OnDestroy {
-
   generarGuia$ = new BehaviorSubject<boolean>(false);
 
   ventaEjecutarForm: UntypedFormGroup;
@@ -32,16 +41,16 @@ export class SeguroEjecDialogComponent implements OnInit, OnDestroy {
   documentAccepted = new BehaviorSubject<boolean>(false);
 
   tiposDocumentos: TipoDoc[] = [
-    {value: 'noone', viewValue: 'Sin Documento'},
-    {value: 'factura', viewValue: 'Factura'},
-    {value: 'boleta', viewValue: 'Boleta'},
+    { value: 'noone', viewValue: 'Sin Documento' },
+    { value: 'factura', viewValue: 'Factura' },
+    { value: 'boleta', viewValue: 'Boleta' },
   ];
 
   metodosDePago: MetodoPago[] = [
-    {value: 'efectivo', viewValue: 'Efectivo'},
-    {value: 'tarjeta', viewValue: 'Tarjeta'},
-    {value: 'yape', viewValue: 'Yape'},
-    {value: 'otro', viewValue: 'Otro'}
+    { value: 'efectivo', viewValue: 'Efectivo' },
+    { value: 'tarjeta', viewValue: 'Tarjeta' },
+    { value: 'yape', viewValue: 'Yape' },
+    { value: 'otro', viewValue: 'Otro' },
   ];
 
   currentMetodoPago = this.metodosDePago[0].value;
@@ -68,10 +77,13 @@ export class SeguroEjecDialogComponent implements OnInit, OnDestroy {
   subV: Subscription;
   subVI: Subscription;
 
-  constructor(public dialogRef: MatDialogRef<SeguroEjecDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public venta: Venta,
-              private inventarioMNG: InventarioManagerService,
-              private router: Router, private fb: UntypedFormBuilder) { }
+  constructor(
+    public dialogRef: MatDialogRef<SeguroEjecDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public venta: Venta,
+    private inventarioMNG: InventarioManagerService,
+    private router: Router,
+    private fb: UntypedFormBuilder
+  ) {}
 
   ngOnDestroy(): void {
     this.subOne.unsubscribe();
@@ -79,111 +91,156 @@ export class SeguroEjecDialogComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.ventaEjecutarForm = this.fb.group({
-      documentoTipo: this.fb.control(this.venta.documento.type || 'noone',  Validators.compose([
+      documentoTipo: this.fb.control(
+        this.venta.documento.type || 'noone',
+        Validators.compose([Validators.required])
+      ),
+      docCod: this.fb.control(
+        { value: this.venta.documento.codigo || '', disabled: true },
+        Validators.compose([
+          Validators.required,
+          Validators.pattern('^[0-9]*$'),
+          Validators.minLength(11),
+          Validators.maxLength(11),
+        ])
+      ),
+      nameDocumento: this.fb.control(
+        { value: this.venta.documento.name || '', disabled: true },
+        Validators.compose([Validators.required])
+      ),
+      metodoPagoOne: this.fb.control(
+        this.venta.medio_de_pago.split('|')[0] || 'efectivo',
         Validators.required
-      ]))
-      ,
-      docCod: this.fb.control({ value: this.venta.documento.codigo || '' , disabled: true },  Validators.compose([
-        Validators.required,
-        Validators.pattern('^[0-9]*$'),
-        Validators.minLength(11),
-        Validators.maxLength(11)
-      ])),
-      nameDocumento: this.fb.control({ value: this.venta.documento.name || ''  , disabled: true },  Validators.compose([
-        Validators.required,
-      ])),
-      metodoPagoOne: this.fb.control(this.venta.medio_de_pago.split('|')[0] || 'efectivo', Validators.required),
-      metodoPagoTwo: this.fb.control({ value: this.venta.medio_de_pago.split('|')[1] || '' , disabled: true }, Validators.compose([
-        Validators.required,
-        Validators.pattern(/^[a-zA-Z0-9.,_#\s]+$/),
-        Validators.minLength(2)
-      ])),
-      clienteEmail: this.fb.control(this.venta.cliente_email || '', Validators.compose([
-        Validators.email
-      ])),
+      ),
+      metodoPagoTwo: this.fb.control(
+        { value: this.venta.medio_de_pago.split('|')[1] || '', disabled: true },
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(/^[a-zA-Z0-9.,_#\s]+$/),
+          Validators.minLength(2),
+        ])
+      ),
+      clienteEmail: this.fb.control(
+        this.venta.cliente_email || '',
+        Validators.compose([Validators.email])
+      ),
 
-      direccionExtra: this.fb.control({ value: '', disabled: false }, Validators.compose([
-        Validators.pattern(/^[a-zA-Z0-9.,_#\s\-]+$/)
-      ])),
-       ///////////////////////////////////////////////////////////
-        ///
-        peso: this.fb.control({value: '', disabled: true},  Validators.compose([
+      direccionExtra: this.fb.control(
+        { value: '', disabled: false },
+        Validators.compose([Validators.pattern(/^[a-zA-Z0-9.,_#\s\-]+$/)])
+      ),
+      ///////////////////////////////////////////////////////////
+      ///
+      peso: this.fb.control(
+        { value: '', disabled: true },
+        Validators.compose([
           Validators.required,
           Validators.pattern(/^\d*\.?\d{0,2}$/),
-          Validators.min(0.01)
-        ])),
-        ///
-        documento_transportista: this.fb.control({ value: '', disabled: true }, Validators.compose([
+          Validators.min(0.01),
+        ])
+      ),
+      ///
+      documento_transportista: this.fb.control(
+        { value: '', disabled: true },
+        Validators.compose([
           Validators.required,
           Validators.pattern(/^[0-9]{8}$|^[0-9]{11}$/g),
-        ])),
-        ///
-        placa_transportista: this.fb.control({ value: '', disabled: true }, Validators.compose([
+        ])
+      ),
+      ///
+      placa_transportista: this.fb.control(
+        { value: '', disabled: true },
+        Validators.compose([
           Validators.required,
           Validators.pattern(/^[0-9a-zA-Z_-]{3,}$/),
-        ])),
-        ///
-        denomicaion_transportista: this.fb.control({ value: '', disabled: true }),
-        //
-        departamento: this.fb.control({ value: '', disabled: true }, Validators.compose([
+        ])
+      ),
+      ///
+      denomicaion_transportista: this.fb.control({ value: '', disabled: true }),
+      //
+      departamento: this.fb.control(
+        { value: '', disabled: true },
+        Validators.compose([Validators.required, this.validateDepartamento])
+      ),
+      provincia: this.fb.control(
+        { value: '', disabled: true },
+        Validators.compose([
           Validators.required,
-          this.validateDepartamento
-        ])),
-        provincia: this.fb.control({ value: '', disabled: true }, Validators.compose([
+          this.validateProvincia('departamento'),
+        ])
+      ),
+      distrito: this.fb.control(
+        { value: '', disabled: true },
+        Validators.compose([
           Validators.required,
-          this.validateProvincia('departamento')
-        ])),
-        distrito: this.fb.control({ value: '', disabled: true }, Validators.compose([
+          this.validateDistrito('departamento', 'provincia'),
+        ])
+      ),
+      ///
+      direccion_partida: this.fb.control(
+        { value: '', disabled: true },
+        Validators.compose([
           Validators.required,
-          this.validateDistrito('departamento', 'provincia')
-        ])),
-        ///
-        direccion_partida: this.fb.control({ value: '', disabled: true }, Validators.compose([
+          Validators.pattern(/^[a-zA-Z0-9.,_#\s\-]+$/),
+        ])
+      ),
+      ///
+      departamento_llegada: this.fb.control(
+        { value: '', disabled: true },
+        Validators.compose([Validators.required, this.validateDepartamento])
+      ),
+      provincia_llegada: this.fb.control(
+        { value: '', disabled: true },
+        Validators.compose([
           Validators.required,
-          Validators.pattern(/^[a-zA-Z0-9.,_#\s\-]+$/)
-        ])),
-        ///
-        departamento_llegada: this.fb.control({ value: '', disabled: true }, Validators.compose([
+          this.validateProvincia('departamento_llegada'),
+        ])
+      ),
+      distrito_llegada: this.fb.control(
+        { value: '', disabled: true },
+        Validators.compose([
           Validators.required,
-          this.validateDepartamento
-        ])),
-        provincia_llegada: this.fb.control({ value: '', disabled: true }, Validators.compose([
+          this.validateDistrito('departamento_llegada', 'provincia_llegada'),
+        ])
+      ),
+      ///
+      direccion_llegada: this.fb.control(
+        { value: '', disabled: true },
+        Validators.compose([
           Validators.required,
-          this.validateProvincia('departamento_llegada')
-        ])),
-        distrito_llegada: this.fb.control({ value: '', disabled: true }, Validators.compose([
-          Validators.required,
-          this.validateDistrito('departamento_llegada', 'provincia_llegada')
-        ])),
-        ///
-        direccion_llegada: this.fb.control({ value: '', disabled: true }, Validators.compose([
-          Validators.required,
-          Validators.pattern(/^[a-zA-Z0-9.,_#\s\-]+$/)
-        ]))
+          Validators.pattern(/^[a-zA-Z0-9.,_#\s\-]+$/),
+        ])
+      ),
     });
     if (this.venta.documento.type !== 'noone') {
       this.ventaEjecutarForm.get('docCod').enable();
       this.documentAccepted.next(true);
     }
 
-    this.subOne = this.ventaEjecutarForm.get('metodoPagoOne').valueChanges.pipe(distinctUntilChanged()).subscribe(res => {
-      this.ventaEjecutarForm.get('metodoPagoTwo').reset();
-      if (res === 'efectivo') {
-        this.ventaEjecutarForm.get('metodoPagoTwo').disable();
-      } else {
-        this.ventaEjecutarForm.get('metodoPagoTwo').enable();
-      }
-    });
+    this.subOne = this.ventaEjecutarForm
+      .get('metodoPagoOne')
+      .valueChanges.pipe(distinctUntilChanged())
+      .subscribe((res) => {
+        this.ventaEjecutarForm.get('metodoPagoTwo').reset();
+        if (res === 'efectivo') {
+          this.ventaEjecutarForm.get('metodoPagoTwo').disable();
+        } else {
+          this.ventaEjecutarForm.get('metodoPagoTwo').enable();
+        }
+      });
 
-    this.ventaEjecutarForm.get('documento_transportista').valueChanges.pipe(distinctUntilChanged()).subscribe((value: string) => {
-      if (this.ventaEjecutarForm.get('documento_transportista').valid) {
-        this.comprobarDocV2(value);
-      } else {
-        this.ventaEjecutarForm.get('denomicaion_transportista').reset();
-      }
-    });
+    this.ventaEjecutarForm
+      .get('documento_transportista')
+      .valueChanges.pipe(distinctUntilChanged())
+      .subscribe((value: string) => {
+        if (this.ventaEjecutarForm.get('documento_transportista').valid) {
+          this.comprobarDocV2(value);
+        } else {
+          this.ventaEjecutarForm.get('denomicaion_transportista').reset();
+        }
+      });
 
-    this.generarGuia$.pipe(distinctUntilChanged()).subscribe(generar => {
+    this.generarGuia$.pipe(distinctUntilChanged()).subscribe((generar) => {
       if (generar) {
         this.ventaEjecutarForm.get('peso').enable();
         this.ventaEjecutarForm.get('documento_transportista').enable();
@@ -203,33 +260,66 @@ export class SeguroEjecDialogComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.subI = this.ventaEjecutarForm.get('departamento').valueChanges.pipe(distinctUntilChanged()).subscribe( (r: string) => {
-      this.checkDepartamento(r, 'provincia', 'departamento', 1);
-    });
+    this.subI = this.ventaEjecutarForm
+      .get('departamento')
+      .valueChanges.pipe(distinctUntilChanged())
+      .subscribe((r: string) => {
+        this.checkDepartamento(r, 'provincia', 'departamento', 1);
+      });
 
+    this.subII = this.ventaEjecutarForm
+      .get('provincia')
+      .valueChanges.pipe(distinctUntilChanged())
+      .subscribe((r: string) => {
+        this.checkProvincia(r, 'provincia', 'departamento', 'distrito', 1);
+      });
 
-    this.subII = this.ventaEjecutarForm.get('provincia').valueChanges.pipe(distinctUntilChanged()).subscribe( (r: string) => {
-      this.checkProvincia(r, 'provincia', 'departamento', 'distrito', 1);
-    });
+    this.subIII = this.ventaEjecutarForm
+      .get('distrito')
+      .valueChanges.pipe(distinctUntilChanged())
+      .subscribe((r: string) => {
+        this.checkDistrito(r, 'provincia', 'distrito', 1);
+      });
 
-    this.subIII = this.ventaEjecutarForm.get('distrito').valueChanges.pipe(distinctUntilChanged()).subscribe((r: string) => {
-      this.checkDistrito(r, 'provincia', 'distrito', 1);
-    });
+    this.subIV = this.ventaEjecutarForm
+      .get('departamento_llegada')
+      .valueChanges.pipe(distinctUntilChanged())
+      .subscribe((r: string) => {
+        this.checkDepartamento(
+          r,
+          'provincia_llegada',
+          'departamento_llegada',
+          2
+        );
+      });
 
-    this.subIV = this.ventaEjecutarForm.get('departamento_llegada').valueChanges.pipe(distinctUntilChanged()).subscribe( (r: string) => {
-      this.checkDepartamento(r, 'provincia_llegada', 'departamento_llegada', 2);
-    });
+    this.subV = this.ventaEjecutarForm
+      .get('provincia_llegada')
+      .valueChanges.pipe(distinctUntilChanged())
+      .subscribe((r: string) => {
+        this.checkProvincia(
+          r,
+          'provincia_llegada',
+          'departamento_llegada',
+          'distrito_llegada',
+          2
+        );
+      });
 
-    this.subV = this.ventaEjecutarForm.get('provincia_llegada').valueChanges.pipe(distinctUntilChanged()).subscribe( (r: string) => {
-      this.checkProvincia(r, 'provincia_llegada', 'departamento_llegada', 'distrito_llegada', 2);
-    });
-
-    this.subVI = this.ventaEjecutarForm.get('distrito_llegada').valueChanges.pipe(distinctUntilChanged()).subscribe((r: string) => {
-      this.checkDistrito(r, 'provincia_llegada', 'distrito_llegada', 2);
-    });
+    this.subVI = this.ventaEjecutarForm
+      .get('distrito_llegada')
+      .valueChanges.pipe(distinctUntilChanged())
+      .subscribe((r: string) => {
+        this.checkDistrito(r, 'provincia_llegada', 'distrito_llegada', 2);
+      });
   }
 
-  checkDepartamento(r: string, provincia: string, departamento: string, witchOne: number) {
+  checkDepartamento(
+    r: string,
+    provincia: string,
+    departamento: string,
+    witchOne: number
+  ) {
     if (witchOne === 1) {
       this.filterDepartamentos = new Array();
       this.filterProvincias = new Array();
@@ -241,7 +331,7 @@ export class SeguroEjecDialogComponent implements OnInit, OnDestroy {
     this.ventaEjecutarForm.get(provincia).disable();
     if (r) {
       const testRegex = new RegExp('^' + r + '+[a-z ]*$', 'i');
-      jsonCode.forEach(element => {
+      jsonCode.forEach((element) => {
         if (testRegex.test(element.departamento)) {
           if (witchOne === 1) {
             this.filterDepartamentos.push(element.departamento);
@@ -252,11 +342,17 @@ export class SeguroEjecDialogComponent implements OnInit, OnDestroy {
       });
     }
     if (this.ventaEjecutarForm.get(departamento).valid) {
-        this.ventaEjecutarForm.get(provincia).enable();
+      this.ventaEjecutarForm.get(provincia).enable();
     }
   }
 
-  checkProvincia(r: string, provincia: string, departamento: string, distrito: string, witchOne: number) {
+  checkProvincia(
+    r: string,
+    provincia: string,
+    departamento: string,
+    distrito: string,
+    witchOne: number
+  ) {
     if (witchOne === 1) {
       this.filterProvincias = new Array();
       this.filterDistritos = new Array();
@@ -268,9 +364,13 @@ export class SeguroEjecDialogComponent implements OnInit, OnDestroy {
     this.ventaEjecutarForm.get(distrito).disable();
     if (r) {
       const testRegex = new RegExp('^' + r + '+[a-z ]*$', 'i');
-      const index = jsonCode.findIndex(op => op.departamento === this.ventaEjecutarForm.get(departamento).value.toUpperCase());
+      const index = jsonCode.findIndex(
+        (op) =>
+          op.departamento ===
+          this.ventaEjecutarForm.get(departamento).value.toUpperCase()
+      );
       this.indexProvincia = index;
-      jsonCode[index].provincias.forEach(element => {
+      jsonCode[index].provincias.forEach((element) => {
         if (testRegex.test(element.provincia)) {
           if (witchOne === 1) {
             this.filterProvincias.push(element.provincia);
@@ -285,7 +385,12 @@ export class SeguroEjecDialogComponent implements OnInit, OnDestroy {
     }
   }
 
-  checkDistrito(r: string, provincia: string, distrito: string, witchOne: number) {
+  checkDistrito(
+    r: string,
+    provincia: string,
+    distrito: string,
+    witchOne: number
+  ) {
     if (witchOne === 1) {
       this.filterDistritos = new Array();
     } else {
@@ -293,23 +398,30 @@ export class SeguroEjecDialogComponent implements OnInit, OnDestroy {
     }
     if (r) {
       const testRegex = new RegExp('^' + r + '+[a-z ]*$', 'i');
-      const index = jsonCode[this.indexProvincia].provincias
-      .findIndex(op => op.provincia === this.ventaEjecutarForm.get(provincia).value.toUpperCase());
-      jsonCode[this.indexProvincia].provincias[index].distritos.forEach(element => {
-        if (testRegex.test(element.distrito)) {
-          if (witchOne === 1) {
-            this.filterDistritos.push(element.distrito);
-          } else {
-            this.filterDistritosLlegada.push(element.distrito);
+      const index = jsonCode[this.indexProvincia].provincias.findIndex(
+        (op) =>
+          op.provincia ===
+          this.ventaEjecutarForm.get(provincia).value.toUpperCase()
+      );
+      jsonCode[this.indexProvincia].provincias[index].distritos.forEach(
+        (element) => {
+          if (testRegex.test(element.distrito)) {
+            if (witchOne === 1) {
+              this.filterDistritos.push(element.distrito);
+            } else {
+              this.filterDistritosLlegada.push(element.distrito);
+            }
           }
         }
-      });
+      );
     }
   }
 
-  validateDepartamento(control: AbstractControl): {[key: string]: any} | null {
+  validateDepartamento(
+    control: AbstractControl
+  ): { [key: string]: any } | null {
     let match = 0;
-    jsonCode.forEach(op => {
+    jsonCode.forEach((op) => {
       if (op.departamento === control.value.toUpperCase()) {
         match++;
       }
@@ -322,16 +434,20 @@ export class SeguroEjecDialogComponent implements OnInit, OnDestroy {
   }
 
   validateProvincia(departamento: string): ValidatorFn {
-    return (control: AbstractControl): {[key: string]: boolean} | null => {
+    return (control: AbstractControl): { [key: string]: boolean } | null => {
       let match = 0;
       if (control.parent.get(departamento).valid) {
-          const nIndex = jsonCode.findIndex(op => op.departamento === control.parent.get(departamento).value.toUpperCase());
-          jsonCode[nIndex].provincias.forEach(op => {
-            if (control.value) {
-              if (op.provincia === control.value.toUpperCase()) {
+        const nIndex = jsonCode.findIndex(
+          (op) =>
+            op.departamento ===
+            control.parent.get(departamento).value.toUpperCase()
+        );
+        jsonCode[nIndex].provincias.forEach((op) => {
+          if (control.value) {
+            if (op.provincia === control.value.toUpperCase()) {
               match++;
             }
-            }
+          }
         });
       }
 
@@ -344,17 +460,26 @@ export class SeguroEjecDialogComponent implements OnInit, OnDestroy {
   }
 
   validateDistrito(departamento: string, provincia: string): ValidatorFn {
-    return (control: AbstractControl): {[key: string]: boolean} | null => {
+    return (control: AbstractControl): { [key: string]: boolean } | null => {
       let match = 0;
-      if (control.parent.get(departamento).valid && control.parent.get(provincia).valid) {
-          const dIndex = jsonCode.findIndex(op => op.departamento === control.parent.get(departamento).value.toUpperCase());
-          const pIndex = jsonCode[dIndex].provincias
-          .findIndex(op => op.provincia === control.parent.get(provincia).value.toUpperCase());
-          jsonCode[dIndex].provincias[pIndex].distritos.forEach(op => {
+      if (
+        control.parent.get(departamento).valid &&
+        control.parent.get(provincia).valid
+      ) {
+        const dIndex = jsonCode.findIndex(
+          (op) =>
+            op.departamento ===
+            control.parent.get(departamento).value.toUpperCase()
+        );
+        const pIndex = jsonCode[dIndex].provincias.findIndex(
+          (op) =>
+            op.provincia === control.parent.get(provincia).value.toUpperCase()
+        );
+        jsonCode[dIndex].provincias[pIndex].distritos.forEach((op) => {
           if (control.value) {
             if (op.distrito === control.value.toUpperCase()) {
-             match++;
-           }
+              match++;
+            }
           }
         });
       }
@@ -367,17 +492,33 @@ export class SeguroEjecDialogComponent implements OnInit, OnDestroy {
     };
   }
 
-
-  ejecutarVenta(ventaEjeInfo: {documentoTipo: string, docCod: number,
-    nameDocumento: string, metodoPagoOne: string, metodoPagoTwo: string, clienteEmail: string,
-    peso: number, placa_transportista: string, documento_transportista: string, denomicaion_transportista: string,
-    departamento_llegada: string, provincia_llegada: string, distrito_llegada: string, departamento: string
-    provincia: string, distrito: string, direccion_llegada: string, direccion_partida: string, direccionExtra: string }) {
+  ejecutarVenta(ventaEjeInfo: {
+    documentoTipo: string;
+    docCod: number;
+    nameDocumento: string;
+    metodoPagoOne: string;
+    metodoPagoTwo: string;
+    clienteEmail: string;
+    peso: number;
+    placa_transportista: string;
+    documento_transportista: string;
+    denomicaion_transportista: string;
+    departamento_llegada: string;
+    provincia_llegada: string;
+    distrito_llegada: string;
+    departamento: string;
+    provincia: string;
+    distrito: string;
+    direccion_llegada: string;
+    direccion_partida: string;
+    direccionExtra: string;
+  }) {
     this.venta.documento.codigo = ventaEjeInfo.docCod || undefined;
     this.venta.documento.direccion = ventaEjeInfo.direccionExtra || undefined;
-    this.venta.documento.name =  ventaEjeInfo.nameDocumento || undefined;
+    this.venta.documento.name = ventaEjeInfo.nameDocumento || undefined;
     this.venta.documento.type = ventaEjeInfo.documentoTipo;
-    this.venta.medio_de_pago = ventaEjeInfo.metodoPagoOne + '|' + (ventaEjeInfo.metodoPagoTwo || ' ');
+    this.venta.medio_de_pago =
+      ventaEjeInfo.metodoPagoOne + '|' + (ventaEjeInfo.metodoPagoTwo || ' ');
     this.venta.cliente_email = ventaEjeInfo.clienteEmail || undefined;
     this.venta.estado = 'ejecutada';
     this.venta.guia = false;
@@ -387,14 +528,20 @@ export class SeguroEjecDialogComponent implements OnInit, OnDestroy {
       this.venta.transportista_placa = ventaEjeInfo.placa_transportista;
       this.venta.transportista_codigo = ventaEjeInfo.documento_transportista;
       this.venta.transportista_nombre = ventaEjeInfo.denomicaion_transportista;
-      this.venta.llegada_ubigeo =
-      this.getUbigeo(ventaEjeInfo.departamento_llegada, ventaEjeInfo.provincia_llegada, ventaEjeInfo.distrito_llegada);
-      this.venta.partida_ubigeo =
-      this.getUbigeo(ventaEjeInfo.departamento, ventaEjeInfo.provincia, ventaEjeInfo.distrito);
+      this.venta.llegada_ubigeo = this.getUbigeo(
+        ventaEjeInfo.departamento_llegada,
+        ventaEjeInfo.provincia_llegada,
+        ventaEjeInfo.distrito_llegada
+      );
+      this.venta.partida_ubigeo = this.getUbigeo(
+        ventaEjeInfo.departamento,
+        ventaEjeInfo.provincia,
+        ventaEjeInfo.distrito
+      );
       this.venta.llegada_direccion = ventaEjeInfo.direccion_llegada;
       this.venta.partida_direccion = ventaEjeInfo.direccion_partida;
       let cantidadTotal = 0;
-      this.venta.itemsVendidos.forEach(item => {
+      this.venta.itemsVendidos.forEach((item) => {
         cantidadTotal += item.cantidad;
       });
       this.venta.bultos = cantidadTotal;
@@ -405,38 +552,62 @@ export class SeguroEjecDialogComponent implements OnInit, OnDestroy {
       this.ventaEnCurso.next(false);
       if (res) {
         if (res.message.split('||')[0] === 'Success') {
-          this.router.navigateByUrl(`/ventas/postVenta/${res.message.split('||')[1]}`);
+          this.router.navigateByUrl(
+            `/ventas/postVenta/${res.message.split('||')[1]}`
+          );
           this.dialogRef.close();
-
-      } else {
-        alert('Ocurrio un error, intente denuevo en un momento.');
-        this.ventaEjecutarForm.enable();
-        this.dialogRef.close();
+        } else {
+          alert('Ocurrio un error, intente denuevo en un momento.');
+          this.ventaEjecutarForm.enable();
+          this.dialogRef.close();
+        }
       }
     });
   }
 
   getUbigeo(departamento: string, provincia: string, distrito: string): string {
-    const indexD = jsonCode.findIndex(res => res.departamento === departamento);
-    const indexP = jsonCode[indexD].provincias.findIndex(res => res.provincia === provincia);
-    const distritoGet = jsonCode[indexD].provincias[indexP].distritos.find(res => res.distrito === distrito);
+    const indexD = jsonCode.findIndex(
+      (res) => res.departamento === departamento
+    );
+    const indexP = jsonCode[indexD].provincias.findIndex(
+      (res) => res.provincia === provincia
+    );
+    const distritoGet = jsonCode[indexD].provincias[indexP].distritos.find(
+      (res) => res.distrito === distrito
+    );
     return distritoGet.codigo;
   }
 
   changeValidators() {
-    if (this.ventaEjecutarForm.get('documentoTipo').value === this.tiposDocumentos[1].value) {
-      this.ventaEjecutarForm.get('docCod').setValidators([Validators.minLength(11), Validators.maxLength(11), Validators.required]);
+    if (
+      this.ventaEjecutarForm.get('documentoTipo').value ===
+      this.tiposDocumentos[1].value
+    ) {
+      this.ventaEjecutarForm
+        .get('docCod')
+        .setValidators([
+          Validators.minLength(11),
+          Validators.maxLength(11),
+          Validators.required,
+        ]);
       this.ventaEjecutarForm.get('docCod').enable();
       this.ventaEjecutarForm.get('nameDocumento').setValue('');
       this.ventaEjecutarForm.get('docCod').reset();
-    }
-    else if (this.ventaEjecutarForm.get('documentoTipo').value === this.tiposDocumentos[2].value) {
-      this.ventaEjecutarForm.get('docCod').setValidators([Validators.minLength(8), Validators.maxLength(8), Validators.required]);
+    } else if (
+      this.ventaEjecutarForm.get('documentoTipo').value ===
+      this.tiposDocumentos[2].value
+    ) {
+      this.ventaEjecutarForm
+        .get('docCod')
+        .setValidators([
+          Validators.minLength(8),
+          Validators.maxLength(8),
+          Validators.required,
+        ]);
       this.ventaEjecutarForm.get('docCod').enable();
       this.ventaEjecutarForm.get('nameDocumento').setValue('');
       this.ventaEjecutarForm.get('docCod').reset();
-    }
-    else {
+    } else {
       this.ventaEjecutarForm.get('docCod').setValidators([]);
       this.ventaEjecutarForm.get('docCod').disable();
       this.ventaEjecutarForm.get('nameDocumento').setValue('');
@@ -445,35 +616,51 @@ export class SeguroEjecDialogComponent implements OnInit, OnDestroy {
   }
 
   comprobarDOC() {
-    if (this.ventaEjecutarForm.get('docCod').valid && this.ventaEjecutarForm.get('docCod').enabled) {
-      if (this.ventaEjecutarForm.get('documentoTipo').value === this.tiposDocumentos[1].value) {
-        this.inventarioMNG.getRUC(this.ventaEjecutarForm.get('docCod').value).subscribe((res: any) => {
-          if (res) {
-            this.ventaEjecutarForm.get('nameDocumento').setValue(res.nombre_o_razon_social);
-            this.ventaEjecutarForm.get('direccionExtra').setValue(res.direccion);
-            this.documentoFullInfo.next(res);
-            this.documentAccepted.next(true);
-          }
-          else {
-            this.ventaEjecutarForm.get('nameDocumento').setValue('');
-            this.ventaEjecutarForm.get('direccionExtra').setValue('');
-            this.documentoFullInfo.next(null);
-            this.ventaEjecutarForm.get('docCod').setErrors({incorrect: true});
-          }
-        });
+    if (
+      this.ventaEjecutarForm.get('docCod').valid &&
+      this.ventaEjecutarForm.get('docCod').enabled
+    ) {
+      if (
+        this.ventaEjecutarForm.get('documentoTipo').value ===
+        this.tiposDocumentos[1].value
+      ) {
+        this.inventarioMNG
+          .getRUC(this.ventaEjecutarForm.get('docCod').value)
+          .subscribe((res: any) => {
+            if (res) {
+              this.ventaEjecutarForm
+                .get('nameDocumento')
+                .setValue(res.nombre_o_razon_social);
+              this.ventaEjecutarForm
+                .get('direccionExtra')
+                .setValue(res.direccion);
+              this.documentoFullInfo.next(res);
+              this.documentAccepted.next(true);
+            } else {
+              this.ventaEjecutarForm.get('nameDocumento').setValue('');
+              this.ventaEjecutarForm.get('direccionExtra').setValue('');
+              this.documentoFullInfo.next(null);
+              this.ventaEjecutarForm
+                .get('docCod')
+                .setErrors({ incorrect: true });
+            }
+          });
       } else {
-        this.inventarioMNG.getDNI(this.ventaEjecutarForm.get('docCod').value).subscribe((res: DNI) => {
-          if (res) {
-            this.documentoFullInfo.next(res);
-            this.ventaEjecutarForm.get('nameDocumento').setValue(res.nombre);
-            this.documentAccepted.next(true);
-          }
-          else {
-            this.documentoFullInfo.next(null);
-            this.ventaEjecutarForm.get('nameDocumento').setValue('');
-            this.ventaEjecutarForm.get('docCod').setErrors({incorrect: true});
-          }
-        });
+        this.inventarioMNG
+          .getDNI(this.ventaEjecutarForm.get('docCod').value)
+          .subscribe((res: DNI) => {
+            if (res) {
+              this.documentoFullInfo.next(res);
+              this.ventaEjecutarForm.get('nameDocumento').setValue(res.nombre);
+              this.documentAccepted.next(true);
+            } else {
+              this.documentoFullInfo.next(null);
+              this.ventaEjecutarForm.get('nameDocumento').setValue('');
+              this.ventaEjecutarForm
+                .get('docCod')
+                .setErrors({ incorrect: true });
+            }
+          });
       }
     } else {
       this.documentAccepted.next(false);
@@ -489,24 +676,29 @@ export class SeguroEjecDialogComponent implements OnInit, OnDestroy {
     if (docL === 8) {
       this.inventarioMNG.getDNI(doc).subscribe((res: DNI) => {
         if (res) {
-          this.ventaEjecutarForm.get('denomicaion_transportista').setValue(res.nombre);
-        }
-        else {
+          this.ventaEjecutarForm
+            .get('denomicaion_transportista')
+            .setValue(res.nombre);
+        } else {
           this.ventaEjecutarForm.get('denomicaion_transportista').setValue('');
-          this.ventaEjecutarForm.get('documento_transportista').setErrors({incorrect: true});
+          this.ventaEjecutarForm
+            .get('documento_transportista')
+            .setErrors({ incorrect: true });
         }
       });
     } else if (docL === 11) {
       this.inventarioMNG.getRUC(doc).subscribe((res: RUC) => {
         if (res) {
-          this.ventaEjecutarForm.get('denomicaion_transportista').setValue(res.nombre_o_razon_social);
-        }
-        else {
+          this.ventaEjecutarForm
+            .get('denomicaion_transportista')
+            .setValue(res.nombre_o_razon_social);
+        } else {
           this.ventaEjecutarForm.get('denomicaion_transportista').setValue('');
-          this.ventaEjecutarForm.get('documento_transportista').setErrors({incorrect: true});
+          this.ventaEjecutarForm
+            .get('documento_transportista')
+            .setErrors({ incorrect: true });
         }
       });
     }
   }
-
 }

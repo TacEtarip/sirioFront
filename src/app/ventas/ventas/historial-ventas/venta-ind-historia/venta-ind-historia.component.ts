@@ -1,13 +1,17 @@
-import { MatTableDataSource } from '@angular/material/table';
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
-import { first } from 'rxjs/operators';
-import { Venta, InventarioManagerService, ItemVendido, VentaCompleta, Item, ItemsVentaForCard } from 'src/app/inventario-manager.service';
-import { BehaviorSubject, Subject } from 'rxjs';
-import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import { BehaviorSubject } from 'rxjs';
+import {
+  InventarioManagerService,
+  ItemVendido,
+  ItemsVentaForCard,
+  Venta,
+} from 'src/app/inventario-manager.service';
 
-import { SeguroAnularComponent } from '../seguro-anular/seguro-anular.component';
 import { isPlatformBrowser } from '@angular/common';
+import { SeguroAnularComponent } from '../seguro-anular/seguro-anular.component';
 
 interface TableData {
   codigo: string;
@@ -16,7 +20,6 @@ interface TableData {
   priceIGV: number;
   totalPrice: number;
 }
-
 
 export interface TableVentaInfo {
   codigo: string;
@@ -31,21 +34,36 @@ export interface TableVentaInfo {
 @Component({
   selector: 'app-venta-ind-historia',
   templateUrl: './venta-ind-historia.component.html',
-  styleUrls: ['./venta-ind-historia.component.css']
+  styleUrls: ['./venta-ind-historia.component.css'],
 })
 export class VentaIndHistoriaComponent implements OnInit {
-
   venta: Venta;
 
   date: string;
 
-  displayedColumnsVenta: string[] = ['codigo', 'name', 'subName', 'subNameSecond', 'cantidad', 'priceIGV', 'total'];
+  displayedColumnsVenta: string[] = [
+    'codigo',
+    'name',
+    'subName',
+    'subNameSecond',
+    'cantidad',
+    'priceIGV',
+    'total',
+  ];
 
-  displayedColumns: string[] = ['codigo', 'name', 'cantidad',  'priceIGV', 'totalPrice'];
+  displayedColumns: string[] = [
+    'codigo',
+    'name',
+    'cantidad',
+    'priceIGV',
+    'totalPrice',
+  ];
 
   dataSource$ = new BehaviorSubject<MatTableDataSource<ItemVendido>>(null);
 
-  tableVentaInfo$ = new BehaviorSubject<MatTableDataSource<ItemsVentaForCard>>(null);
+  tableVentaInfo$ = new BehaviorSubject<MatTableDataSource<ItemsVentaForCard>>(
+    null
+  );
 
   precios: number[] = [];
 
@@ -53,12 +71,16 @@ export class VentaIndHistoriaComponent implements OnInit {
 
   venta$ = new BehaviorSubject<Venta>(null);
 
-  constructor(private activatedRoute: ActivatedRoute, private inventarioMNG: InventarioManagerService,
-              private router: Router, public dialog: MatDialog, @Inject(PLATFORM_ID) private platformId: any) {
-   }
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private inventarioMNG: InventarioManagerService,
+    private router: Router,
+    public dialog: MatDialog,
+    @Inject(PLATFORM_ID) private platformId: any
+  ) {}
 
   ngOnInit(): void {
-    this.activatedRoute.paramMap.pipe().subscribe(param => {
+    this.activatedRoute.paramMap.pipe().subscribe((param) => {
       const ruta = param.get('ventaCod');
       this.inventarioMNG.getVentaCompleta(ruta).subscribe((res: Venta) => {
         if (res) {
@@ -85,12 +107,12 @@ export class VentaIndHistoriaComponent implements OnInit {
   }
 
   getTotal(n1: number, n2: number): number {
-    return Math.round(((n1 * n2) + Number.EPSILON) * 100) / 100;
+    return Math.round((n1 * n2 + Number.EPSILON) * 100) / 100;
   }
 
   getVentaCostoTotal() {
     let sum = 0;
-    this.precios.forEach(precio => {
+    this.precios.forEach((precio) => {
       sum = sum + precio;
     });
     return sum;
@@ -105,7 +127,12 @@ export class VentaIndHistoriaComponent implements OnInit {
 
   descargarPDF() {
     if (isPlatformBrowser(this.platformId)) {
-      window.open('https://inventario-sirio-dinar.herokuapp.com/inventario/pdf/' + this.venta$.value.codigo + '.pdf', '_blank');
+      window.open(
+        'https://inventario-sirio-dinar.herokuapp.com/inventario/pdf/' +
+          this.venta$.value.codigo +
+          '.pdf',
+        '_blank'
+      );
     }
   }
 
@@ -120,5 +147,4 @@ export class VentaIndHistoriaComponent implements OnInit {
       window.open(this.venta$.value.guia_link, '_blank');
     }
   }
-
 }

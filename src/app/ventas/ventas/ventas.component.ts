@@ -7,31 +7,35 @@ import { AuthService } from '../../auth.service';
 @Component({
   selector: 'app-ventas',
   templateUrl: './ventas.component.html',
-  styleUrls: ['./ventas.component.css']
+  styleUrls: ['./ventas.component.css'],
 })
 export class VentasComponent implements OnInit, OnDestroy {
-
   mobileQuery: MediaQueryList;
   private mobileQueryListener: () => void;
 
   nombreUsuario: string;
 
-  constructor(public dialog: MatDialog,
-              public auth: AuthService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
-              private titleService: Title,
-              private metaTagService: Meta,
-              private router: Router) {
-                this.nombreUsuario = auth.getDisplayUser();
-                this.mobileQuery = media.matchMedia('(max-width: 1080px)');
-                this.mobileQueryListener = () => changeDetectorRef.detectChanges();
-                this.mobileQuery.addListener(this.mobileQueryListener);
-               }
+  constructor(
+    public dialog: MatDialog,
+    public auth: AuthService,
+    changeDetectorRef: ChangeDetectorRef,
+    media: MediaMatcher,
+    private titleService: Title,
+    private metaTagService: Meta,
+    private router: Router
+  ) {
+    this.nombreUsuario = auth.getDisplayUser();
+    this.mobileQuery = media.matchMedia('(max-width: 1080px)');
+    this.mobileQueryListener = () => changeDetectorRef.detectChanges();
+    this.mobileQuery.addListener(this.mobileQueryListener);
+  }
 
   ngOnInit(): void {
     this.titleService.setTitle('Sirio Dinar | Ventas');
-    this.metaTagService.updateTag(
-      { name: 'description', content: 'Vender articulos seguridad sirio' }
-    );
+    this.metaTagService.updateTag({
+      name: 'description',
+      content: 'Vender articulos seguridad sirio',
+    });
   }
 
   cerrarSesion() {
@@ -42,7 +46,7 @@ export class VentasComponent implements OnInit, OnDestroy {
     this.router.navigate(['/ventas/historialVentas']);
   }
 
-  aVentas(){
+  aVentas() {
     this.router.navigate(['/ventas']);
   }
 
@@ -56,17 +60,17 @@ export class VentasComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.mobileQuery.removeListener(this.mobileQueryListener);
-   }
+  }
 
-   goToVentaActiva() {
+  goToVentaActiva() {
     this.router.navigateByUrl(`/ventas/ventasActivas`);
-   }
+  }
 
-   goToCotizaciones() {
+  goToCotizaciones() {
     this.router.navigateByUrl(`/ventas/cotizaciones`);
-   }
+  }
 
-   aToLogin() {
+  aToLogin() {
     this.router.navigate(['/login']);
   }
 }

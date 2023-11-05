@@ -8,7 +8,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 @Component({
   selector: 'app-uploads-dialog',
   templateUrl: './uploads-dialog.component.html',
-  styleUrls: ['./uploads-dialog.component.css']
+  styleUrls: ['./uploads-dialog.component.css'],
 })
 export class UploadsDialogComponent implements OnInit {
   uploadForm: UntypedFormGroup;
@@ -26,22 +26,25 @@ export class UploadsDialogComponent implements OnInit {
 
   photoName: string;
 
-  constructor(private formBuilder: UntypedFormBuilder, private inventarioMNG: InventarioManagerService,
-              public dialogRef: MatDialogRef<UploadsDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: {codigo: string}) { }
+  constructor(
+    private formBuilder: UntypedFormBuilder,
+    private inventarioMNG: InventarioManagerService,
+    public dialogRef: MatDialogRef<UploadsDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { codigo: string }
+  ) {}
 
   ngOnInit(): void {
     this.uploadForm = this.formBuilder.group({
-      img: ['']
+      img: [''],
     });
     this.uploadFileForm = this.formBuilder.group({
-      pdf: ['']
+      pdf: [''],
     });
   }
 
   onFileSelect(event: Event) {
     const target = event.target as HTMLInputElement;
-    const files = target.files as FileList;
+    const files = target.files;
     this.fileToUpload = files.item(0);
     this.onSubmitIMG();
     this.showMessage = false;
@@ -49,33 +52,35 @@ export class UploadsDialogComponent implements OnInit {
 
   onFileSelectPDF(event: Event) {
     const target = event.target as HTMLInputElement;
-    const files = target.files as FileList;
+    const files = target.files;
     this.fileToUploadPDF = files.item(0);
     this.onSubmitPDF();
     this.showMessagePDF = false;
   }
 
-  onSubmitIMG(){
+  onSubmitIMG() {
     this.uploadForm.disable();
-    this.inventarioMNG.uploadFile(this.fileToUpload, this.data.codigo, null).subscribe((result) => {
-      if (result) {
-        this.disabled = true;
-        this.showMessage = true;
-      }
-      this.uploadForm.enable();
-    });
+    this.inventarioMNG
+      .uploadFile(this.fileToUpload, this.data.codigo, null)
+      .subscribe((result) => {
+        if (result) {
+          this.disabled = true;
+          this.showMessage = true;
+        }
+        this.uploadForm.enable();
+      });
   }
 
-  onSubmitPDF(){
+  onSubmitPDF() {
     this.uploadFileForm.disable();
-    this.inventarioMNG.uploadFilePDF(this.fileToUploadPDF, this.data.codigo).subscribe((result) => {
-      if (result) {
-        this.disabledPDF = true;
-        this.showMessagePDF = true;
-      }
-      this.uploadFileForm.enable();
-    });
+    this.inventarioMNG
+      .uploadFilePDF(this.fileToUploadPDF, this.data.codigo)
+      .subscribe((result) => {
+        if (result) {
+          this.disabledPDF = true;
+          this.showMessagePDF = true;
+        }
+        this.uploadFileForm.enable();
+      });
   }
-
-
 }

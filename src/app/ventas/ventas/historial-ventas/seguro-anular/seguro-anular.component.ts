@@ -1,25 +1,28 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { BehaviorSubject } from 'rxjs';
-import { Venta, InventarioManagerService } from 'src/app/inventario-manager.service';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
+import {
+  InventarioManagerService,
+  Venta,
+} from 'src/app/inventario-manager.service';
 
 @Component({
   selector: 'app-seguro-anular',
   templateUrl: './seguro-anular.component.html',
-  styleUrls: ['./seguro-anular.component.css']
+  styleUrls: ['./seguro-anular.component.css'],
 })
 export class SeguroAnularComponent implements OnInit {
-
   ventaEnCurso = new BehaviorSubject<boolean>(false);
 
-  constructor(public dialogRef: MatDialogRef<SeguroAnularComponent>,
-              @Inject(MAT_DIALOG_DATA) public venta: Venta,
-              private inventarioMNG: InventarioManagerService,
-              private router: Router) { }
+  constructor(
+    public dialogRef: MatDialogRef<SeguroAnularComponent>,
+    @Inject(MAT_DIALOG_DATA) public venta: Venta,
+    private inventarioMNG: InventarioManagerService,
+    private router: Router
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   ejecutarAnular() {
     this.ventaEnCurso.next(true);
@@ -36,5 +39,4 @@ export class SeguroAnularComponent implements OnInit {
       }
     });
   }
-
 }

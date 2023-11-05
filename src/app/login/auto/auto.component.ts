@@ -7,21 +7,21 @@ import { AuthService } from '../../auth.service';
 @Component({
   selector: 'app-auto',
   templateUrl: './auto.component.html',
-  styleUrls: ['./auto.component.css']
+  styleUrls: ['./auto.component.css'],
 })
 export class AutoComponent implements OnInit, AfterViewInit {
-
   mensajeToShow = new BehaviorSubject<string>('Espere un momento');
 
-  constructor(private ar: ActivatedRoute, private auth: AuthService, private route: Router) {
-   }
+  constructor(
+    private ar: ActivatedRoute,
+    private auth: AuthService,
+    private route: Router
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   ngAfterViewInit(): void {
-
-    this.ar.paramMap.pipe(first()).subscribe( param => {
+    this.ar.paramMap.pipe(first()).subscribe((param) => {
       const token = param.get('token');
       this.auth.loginFast(token).subscribe((res) => {
         switch (res.code) {
@@ -40,5 +40,4 @@ export class AutoComponent implements OnInit, AfterViewInit {
       });
     });
   }
-
 }

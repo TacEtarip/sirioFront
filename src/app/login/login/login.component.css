@@ -25,22 +25,19 @@ a {
 .nombrePrincipal {
   text-decoration: none;
   font-size: 20px;
-  font-family: 'Roboto', sans-serif;
-  color: #E87200;
+  font-family: "Roboto", sans-serif;
+  color: #e87200;
 }
-
 
 .nombrePrincipal b {
   color: #005087;
 }
 
-
-
 .google {
   padding: 8px 16px;
-  background-color: #4285F4;
+  background-color: #4285f4;
   border-radius: 4px;
-  box-shadow: 0 3px 4px 0 rgba(0,0,0,.25);
+  box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.25);
   align-items: center;
   justify-content: center;
   width: calc(100% - 32px);
@@ -58,12 +55,12 @@ a {
 }
 
 .topLink:hover {
-  color: #E87200;
+  color: #e87200;
 }
 
 H3 {
   margin: 0;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-weight: 500;
   color: white;
   font-size: 14px;
@@ -89,7 +86,7 @@ select:-webkit-autofill:focus {
 }
 
 .main-login {
-  background-image: url('/assets/patternSirio.jpg');
+  background-image: url("/assets/patternSirio.jpg");
   background-repeat: repeat;
   background-size: 10%;
   grid-column: 1/13;
@@ -117,7 +114,7 @@ h4 {
   margin-top: 0;
   margin-bottom: 2em;
   font-weight: 400;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 1em;
 }
 
@@ -125,18 +122,16 @@ a:hover {
   color: #005087;
 }
 
-
-
 @media screen and (max-width: 1300px) {
   .inputlogin {
     padding: 2em;
   }
 
-  input[type=text] {
+  input[type="text"] {
     font-size: 16px;
   }
 
-  input[type=text]:focus {
+  input[type="text"]:focus {
     font-size: 16px;
   }
 }
@@ -152,5 +147,3 @@ a:hover {
     width: auto;
   }
 }
-
-

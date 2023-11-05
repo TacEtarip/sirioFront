@@ -1,21 +1,21 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LoginComponent } from './login/login.component';
+import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatButtonModule } from '@angular/material/button';
 import { LoginRoutingModule } from './login-routing.module';
-import {MatButtonModule} from '@angular/material/button';
+import { LoginComponent } from './login/login.component';
 
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-import { RegistroComponent } from './registro/registro.component';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatDividerModule} from '@angular/material/divider';
-import {MatSelectModule} from '@angular/material/select';
-import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { RecaptchaFormsModule, RecaptchaModule } from 'ng-recaptcha';
 import { AutoComponent } from './auto/auto.component';
+import { RegistroComponent } from './registro/registro.component';
 @NgModule({
   declarations: [LoginComponent, RegistroComponent, AutoComponent],
   imports: [
@@ -31,7 +31,7 @@ import { AutoComponent } from './auto/auto.component';
     MatSelectModule,
     MatAutocompleteModule,
     RecaptchaModule,
-    RecaptchaFormsModule
-  ]
+    RecaptchaFormsModule,
+  ],
 })
-export class LoginModule { }
+export class LoginModule {}

@@ -1,19 +1,23 @@
-import { AuthService } from './../../../auth.service';
-import { first } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
-import { InventarioManagerService, Venta } from '../../../inventario-manager.service';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
+import {
+  InventarioManagerService,
+  Venta,
+} from '../../../inventario-manager.service';
 import { GenerarVentaComponent } from '../ventas-activas/generar-venta/generar-venta.component';
+import { AuthService } from './../../../auth.service';
 @Component({
   selector: 'app-ventas-activas',
   templateUrl: './ventas-activas.component.html',
-  styleUrls: ['./ventas-activas.component.css']
+  styleUrls: ['./ventas-activas.component.css'],
 })
 export class VentasActivasComponent implements OnInit {
-
-  constructor(private inventarioMNG: InventarioManagerService, public auth: AuthService,
-              public dialog: MatDialog) { }
+  constructor(
+    private inventarioMNG: InventarioManagerService,
+    public auth: AuthService,
+    public dialog: MatDialog
+  ) {}
 
   ventasActivas = new BehaviorSubject<Venta[]>(null);
 
@@ -30,33 +34,20 @@ export class VentasActivasComponent implements OnInit {
     const dialogRef = this.dialog.open(GenerarVentaComponent, {
       width: '600px',
       data: {
-        coti: false, crear: true, ventaCod: ''
-      }
+        coti: false,
+        crear: true,
+        ventaCod: '',
+      },
     });
 
-    dialogRef.afterClosed().subscribe((res: { message: string, venta: Venta }) => {
-      if (res && res.venta) {
-        const newList = this.ventasActivas.value;
-        newList.push(res.venta);
-        this.ventasActivas.next(newList);
-      }
-    });
+    dialogRef
+      .afterClosed()
+      .subscribe((res: { message: string; venta: Venta }) => {
+        if (res?.venta) {
+          const newList = this.ventasActivas.value;
+          newList.push(res.venta);
+          this.ventasActivas.next(newList);
+        }
+      });
   }
-
-  /*
-  openAddItemDialog() {
-    const dialogRef = this.dialog.open(GenerarVentaComponent, {
-      width: '600px',
-      data: {
-        coti: false, crear: false, ventaCod: this.ventasActiva.value.codigo
-      }
-    });
-
-    dialogRef.afterClosed().pipe(first()).subscribe((res: { message: string, venta: Venta }) => {
-      if (res && res.venta) {
-        this.ventasActiva.next(res.venta);
-      }
-    });
-  }*/
-
 }

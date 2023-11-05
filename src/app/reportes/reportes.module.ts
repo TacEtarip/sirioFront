@@ -1,32 +1,36 @@
-import { MatInputModule } from '@angular/material/input';
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReportesComponent } from './reportes/reportes.component';
+import { NgModule } from '@angular/core';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatInputModule } from '@angular/material/input';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 import { ReportesRoutingModule } from './reportes-routing.module';
-import {MatExpansionModule} from '@angular/material/expansion';
-import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatSortModule} from '@angular/material/sort';
+import { ReportesComponent } from './reportes/reportes.component';
 
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatRippleModule } from '@angular/material/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
-import { MatListModule } from '@angular/material/list';
+import { MatRippleModule } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatTableModule } from '@angular/material/table';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { GeneralItemComponent } from './general-item/general-item.component';
 import { ReporteGeneralComponent } from './reporte-general/reporte-general.component';
 import { ReportePorItemComponent } from './reporte-por-item/reporte-por-item.component';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { ReactiveFormsModule } from '@angular/forms';
-import { FormsModule } from '@angular/forms';
-import { GeneralItemComponent } from './general-item/general-item.component';
-import {MatTableModule} from '@angular/material/table';
-import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
-  declarations: [ReportesComponent, ReporteGeneralComponent, ReportePorItemComponent, GeneralItemComponent],
+  declarations: [
+    ReportesComponent,
+    ReporteGeneralComponent,
+    ReportePorItemComponent,
+    GeneralItemComponent,
+  ],
   imports: [
     CommonModule,
     MatTableModule,
@@ -47,7 +51,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatInputModule,
     MatPaginatorModule,
     MatSortModule,
-    MatTooltipModule
-  ]
+    MatTooltipModule,
+  ],
 })
-export class ReportesModule { }
+export class ReportesModule {}

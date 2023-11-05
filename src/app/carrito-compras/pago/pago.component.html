@@ -1,5 +1,5 @@
 <main>
-  <div  *ngIf="formIsReady | async" [ngStyle]="{'padding': '3em'}">
+  <div *ngIf="formIsReady | async" [ngStyle]="{'padding': '3em'}">
     <mat-stepper class="stepper-control" [linear]="true" #stepper>
       <mat-step [stepControl]="formContacto">
         <form [formGroup]="formContacto">
@@ -14,7 +14,7 @@
           </mat-form-field>
           <mat-form-field appearance="fill">
             <mat-label>DNI/RUC</mat-label>
-            <input  matInput placeholder="DNI ó RUC" formControlName="documento" required>
+            <input matInput placeholder="DNI ó RUC" formControlName="documento" required>
           </mat-form-field>
           <mat-form-field appearance="fill">
             <mat-label>Nombre Documento</mat-label>
@@ -29,8 +29,8 @@
             <input matInput placeholder="Celular" formControlName="celular" required>
           </mat-form-field>
           <div class="button-part">
-            <button [disabled]="documentCharged|async"
-            mat-stroked-button matStepperNext color="accent">Siguiente</button>
+            <button [disabled]="documentCharged|async" mat-stroked-button matStepperNext
+              color="accent">Siguiente</button>
           </div>
         </form>
       </mat-step>
@@ -39,8 +39,12 @@
           <ng-template matStepLabel>Envio</ng-template>
           <h3> <span><mat-icon>announcement</mat-icon></span> Por este momento solo se acepta recojo en tienda.</h3>
           <div class="links-envio">
-            <a aria-label="Ver Mapa" rel="noreferrer" target="_blank" href="https://www.google.com/maps/place/Felipe+Pardo+y+Aliaga+213,+Trujillo+13006/@-8.11283,-79.0178555,19z/data=!3m1!4b1!4m5!3m4!1s0x91ad162a59b1c931:0xda445057079ecc8!8m2!3d-8.1128313!4d-79.0173083?rapsrc=apiv3"><span><mat-icon>map</mat-icon></span> Ver local en Google Maps</a>
-            <a aria-label="Ver WhatsApp" rel="noreferrer" target="_blank" href="https://api.whatsapp.com/send/?phone=51977426349&text=Buenas%2C+me+gustaria+obtener+m%C3%A1s+informaci%C3%B3n.&app_absent=0"><span><mat-icon>smartphone</mat-icon></span> Contactar por WhatsApp</a>
+            <a aria-label="Ver Mapa" rel="noreferrer" target="_blank"
+              href="https://www.google.com/maps/place/Felipe+Pardo+y+Aliaga+213,+Trujillo+13006/@-8.11283,-79.0178555,19z/data=!3m1!4b1!4m5!3m4!1s0x91ad162a59b1c931:0xda445057079ecc8!8m2!3d-8.1128313!4d-79.0173083?rapsrc=apiv3"><span><mat-icon>map</mat-icon></span>
+              Ver local en Google Maps</a>
+            <a aria-label="Ver WhatsApp" rel="noreferrer" target="_blank"
+              href="https://api.whatsapp.com/send/?phone=51977426349&text=Buenas%2C+me+gustaria+obtener+m%C3%A1s+informaci%C3%B3n.&app_absent=0"><span><mat-icon>smartphone</mat-icon></span>
+              Contactar por WhatsApp</a>
           </div>
           <div class="button-part">
             <button mat-stroked-button matStepperPrevious color="primary">Anterior</button>

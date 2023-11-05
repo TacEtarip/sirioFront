@@ -3,13 +3,23 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import {
+  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+  MAT_MOMENT_DATE_FORMATS,
+  MatMomentDateModule,
+  MomentDateAdapter,
+} from '@angular/material-moment-adapter';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
-import { DateAdapter, MatRippleModule, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+  MatRippleModule,
+} from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
@@ -44,16 +54,25 @@ import { VentaActivaCardComponent } from './ventas/ventas-activas/venta-activa-c
 import { VentasActivasComponent } from './ventas/ventas-activas/ventas-activas.component';
 import { VentasComponent } from './ventas/ventas.component';
 
-
-
-
-
 @NgModule({
-  declarations: [VentasComponent, VentasActivasComponent,
-    VentaActivaCardComponent, SeguroEjecDialogComponent, PostVentaComponent, HistorialVentasComponent,
-    Eject404Component, VentaIndHistoriaComponent, SeguroAnularComponent,
-    GenerarVentaComponent, CotizacionComponent, CotizacionCardComponent, GenerarCotiComponent,
-    FullCotiComponent, PreExcelDialogComponent, SeguroCheckComponent],
+  declarations: [
+    VentasComponent,
+    VentasActivasComponent,
+    VentaActivaCardComponent,
+    SeguroEjecDialogComponent,
+    PostVentaComponent,
+    HistorialVentasComponent,
+    Eject404Component,
+    VentaIndHistoriaComponent,
+    SeguroAnularComponent,
+    GenerarVentaComponent,
+    CotizacionComponent,
+    CotizacionCardComponent,
+    GenerarCotiComponent,
+    FullCotiComponent,
+    PreExcelDialogComponent,
+    SeguroCheckComponent,
+  ],
   imports: [
     CommonModule,
     VentasRoutingModule,
@@ -84,16 +103,16 @@ import { VentasComponent } from './ventas/ventas.component';
     MatTabsModule,
     MatAutocompleteModule,
     FormsModule,
-    MatMenuModule
+    MatMenuModule,
   ],
   providers: [
-    {provide: MAT_DATE_LOCALE, useValue: 'es'},
+    { provide: MAT_DATE_LOCALE, useValue: 'es' },
     {
       provide: DateAdapter,
       useClass: MomentDateAdapter,
-      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
     },
-    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
-  ]
+    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
+  ],
 })
-export class VentasModule { }
+export class VentasModule {}

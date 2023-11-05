@@ -1,21 +1,19 @@
-<h1 mat-dialog-title class="title">Cambiar  Orden De Categorias</h1>
-<mat-dialog-content cdkScrollable >
-  <div *ngIf="data.categorias" cdkDropList class="example-list" (cdkDropListDropped)="drop($event)" >
-    <div   class="example-box" *ngFor="let cat of mockList" cdkDrag>{{cat.name}}</div>
+<h1 mat-dialog-title class="title">Cambiar Orden De Categorias</h1>
+<mat-dialog-content cdkScrollable>
+  <div *ngIf="data.categorias" cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+    <div class="example-box" *ngFor="let cat of mockList" cdkDrag>{{cat.name}}</div>
   </div>
-  <div *ngIf="data.subCategorias" cdkDropList class="example-list" (cdkDropListDropped)="dropSC($event)" >
-    <div   class="example-box" *ngFor="let cat of mockListST" cdkDrag>{{cat}}</div>
+  <div *ngIf="data.subCategorias" cdkDropList class="example-list" (cdkDropListDropped)="dropSC($event)">
+    <div class="example-box" *ngFor="let cat of mockListST" cdkDrag>{{cat}}</div>
   </div>
-  <div *ngIf="data.items" cdkDropList class="example-list" (cdkDropListDropped)="dropItems($event)" >
-    <div   class="example-box" *ngFor="let cat of mockListItems" cdkDrag>{{cat.name}}</div>
+  <div *ngIf="data.items" cdkDropList class="example-list" (cdkDropListDropped)="dropItems($event)">
+    <div class="example-box" *ngFor="let cat of mockListItems" cdkDrag>{{cat.name}}</div>
   </div>
 </mat-dialog-content>
 <div>
-  <h4  *ngIf="changed|async">Orden Cambiado</h4>
+  <h4 *ngIf="changed|async">Orden Cambiado</h4>
 </div>
 <mat-dialog-actions align="end">
   <button color="primary" mat-flat-button mat-dialog-close>Cancelar</button>
   <button [disabled]="changing|async" color="accent" mat-flat-button (click)="cambiarOrden()">Cambiar Orden</button>
 </mat-dialog-actions>
-
-

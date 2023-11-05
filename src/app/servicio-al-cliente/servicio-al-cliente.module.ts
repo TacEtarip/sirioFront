@@ -7,16 +7,16 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ContactanosComponent } from './contactanos/contactanos.component';
+import { PoliticaDeDevolucionComponent } from './politica-de-devolucion/politica-de-devolucion.component';
+import { PoliticaDeEnvioComponent } from './politica-de-envio/politica-de-envio.component';
 import { PoliticaDePrivacidadComponent } from './politica-de-privacidad/politica-de-privacidad.component';
 import { ServicioRoutingModule } from './servicio-al-cliente-routing.module';
 import { ServicioAlClienteComponent } from './servicio-al-cliente/servicio-al-cliente.component';
 import { TerminosYCondicionesComponent } from './terminos-y-condiciones/terminos-y-condiciones.component';
-import { PoliticaDeDevolucionComponent } from './politica-de-devolucion/politica-de-devolucion.component';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { PoliticaDeEnvioComponent } from './politica-de-envio/politica-de-envio.component';
-import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -25,7 +25,7 @@ import { MatMenuModule } from '@angular/material/menu';
     PoliticaDePrivacidadComponent,
     ContactanosComponent,
     PoliticaDeDevolucionComponent,
-    PoliticaDeEnvioComponent
+    PoliticaDeEnvioComponent,
   ],
   imports: [
     CommonModule,
@@ -41,6 +41,6 @@ import { MatMenuModule } from '@angular/material/menu';
     MatButtonModule,
     MatSnackBarModule,
     MatMenuModule,
-  ]
+  ],
 })
-export class ServicioAlClienteModule { }
+export class ServicioAlClienteModule {}

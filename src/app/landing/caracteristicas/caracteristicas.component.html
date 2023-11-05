@@ -5,17 +5,18 @@
   </mat-list-option>
 </mat-selection-list>
 <form [formGroup]="form">
-    <div mat-dialog-content>
-      <mat-form-field appearance="fill"  class="example-full-width">
-        <mat-label>Agregar caracteristica</mat-label>
-        <textarea spellcheck="false" name="name" id="name" formControlName="name" matInput></textarea>
-      </mat-form-field>
-    </div>
-    <div mat-dialog-actions align="end">
-      <button (click)="deleteCaracteristicas(marcas.selectedOptions.selected)" type="button" [disabled]="marcas.selectedOptions.selected.length < 1"
-                      type="button" mat-stroked-button color="accent">Eliminar</button>
-      <button (click)="onSubmit(form.value)" type="submit" [disabled]="!form.valid" type="button" mat-flat-button color="primary">Agregar</button>
-      <button  type="button" type="button" mat-flat-button color="primary" mat-dialog-close>Listo</button>
-    </div>
+  <div mat-dialog-content>
+    <mat-form-field appearance="fill" class="example-full-width">
+      <mat-label>Agregar caracteristica</mat-label>
+      <textarea spellcheck="false" name="name" id="name" formControlName="name" matInput></textarea>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions align="end">
+    <button (click)="deleteCaracteristicas(marcas.selectedOptions.selected)" type="button"
+      [disabled]="marcas.selectedOptions.selected.length < 1" type="button" mat-stroked-button
+      color="accent">Eliminar</button>
+    <button (click)="onSubmit(form.value)" type="submit" [disabled]="!form.valid" type="button" mat-flat-button
+      color="primary">Agregar</button>
+    <button type="button" type="button" mat-flat-button color="primary" mat-dialog-close>Listo</button>
+  </div>
 </form>
-

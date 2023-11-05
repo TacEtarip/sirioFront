@@ -3,7 +3,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject } from 'rxjs';
 import { first } from 'rxjs/operators';
-import { InventarioManagerService, Item } from 'src/app/inventario-manager.service';
+import {
+  InventarioManagerService,
+  Item,
+} from 'src/app/inventario-manager.service';
 import { VentaDialogComponent } from 'src/app/inventario/inventario/venta-dialog/venta-dialog.component';
 import { UploadCatImageComponent } from '../upload-cat-image/upload-cat-image.component';
 import { AuthService } from './../../auth.service';
@@ -14,7 +17,7 @@ import { ChangeFoldersComponent } from './../change-folders/change-folders.compo
 @Component({
   selector: 'app-item-card-vend',
   templateUrl: './item-card-vend.component.html',
-  styleUrls: ['./item-card-vend.component.css']
+  styleUrls: ['./item-card-vend.component.css'],
 })
 export class ItemCardVendComponent implements OnInit {
   @Input() item: Item;
@@ -26,31 +29,36 @@ export class ItemCardVendComponent implements OnInit {
   item$ = new BehaviorSubject<Item>(null);
   urlOfImage = new BehaviorSubject<string>(null);
 
-
-  constructor(public dialog: MatDialog, public auth: AuthService,
-              private inventarioMNG: InventarioManagerService, private snackBar: MatSnackBar) {
-  }
+  constructor(
+    public dialog: MatDialog,
+    public auth: AuthService,
+    private inventarioMNG: InventarioManagerService,
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     this.item$.next(this.item);
     const preImageArray = this.item.photo.split('.');
-    this.urlOfImage.next('https://siriouploads.s3.amazonaws.com/' + `${preImageArray[0]}.webp`);
+    this.urlOfImage.next(
+      'https://siriouploads.s3.amazonaws.com/' + `${preImageArray[0]}.webp`
+    );
   }
-
 
   openDialogEditarCantidades() {
     const dialofRef = this.dialog.open(EditarCantidadesDialogComponent, {
       width: '800px',
-      data: this.item$.value
+      data: this.item$.value,
     });
-    dialofRef.afterClosed().pipe(first()).subscribe((res) => {
-      if (res) {
-        this.item = res;
-        this.item$.next(res);
-      }
-    });
+    dialofRef
+      .afterClosed()
+      .pipe(first())
+      .subscribe((res) => {
+        if (res) {
+          this.item = res;
+          this.item$.next(res);
+        }
+      });
   }
-
 
   openDialogEditarItem() {
     const dialogRef = this.dialog.open(EditarItemDialogComponent, {
@@ -58,27 +66,33 @@ export class ItemCardVendComponent implements OnInit {
       data: this.item$.value,
     });
 
-    dialogRef.afterClosed().pipe(first()).subscribe(res => {
-      this.inventarioMNG.getItem(this.item.codigo).subscribe(item => {
-        if (item) {
-          this.item = item;
-          this.item$.next(item);
-        }
+    dialogRef
+      .afterClosed()
+      .pipe(first())
+      .subscribe((res) => {
+        this.inventarioMNG.getItem(this.item.codigo).subscribe((item) => {
+          if (item) {
+            this.item = item;
+            this.item$.next(item);
+          }
+        });
       });
-    });
   }
 
   openDialogCambiarImagen() {
     const dialogRef = this.dialog.open(UploadCatImageComponent, {
       width: '600px',
-      data: { tipo: null, item: this.item$.value }
+      data: { tipo: null, item: this.item$.value },
     });
 
-    dialogRef.componentInstance.onUploaded.pipe(first()).subscribe(res => {
+    dialogRef.componentInstance.onUploaded.pipe(first()).subscribe((res) => {
       if (res) {
         this.item = res;
         this.item$.next(res);
-        this.urlOfImage.next('https://siriouploads.s3.amazonaws.com/' + `${this.item$.value.photo.split('.')[0]}.webp`);
+        this.urlOfImage.next(
+          'https://siriouploads.s3.amazonaws.com/' +
+            `${this.item$.value.photo.split('.')[0]}.webp`
+        );
       }
     });
   }
@@ -86,26 +100,32 @@ export class ItemCardVendComponent implements OnInit {
   openDialogCambiarFolder() {
     const dialogRef = this.dialog.open(ChangeFoldersComponent, {
       width: '600px',
-      data: { item: this.item$.value }
+      data: { item: this.item$.value },
     });
-    dialogRef.afterClosed().pipe(first()).subscribe(res => {
-      if (res) {
-        this.changeCarpetaEvent.emit(res);
-      }
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(first())
+      .subscribe((res) => {
+        if (res) {
+          this.changeCarpetaEvent.emit(res);
+        }
+      });
   }
 
   openSeguroEliminarDialog() {
     const dialogRef = this.dialog.open(EliminarDialogComponent, {
       width: '600px',
-      data: this.item$.value
+      data: this.item$.value,
     });
 
-    dialogRef.afterClosed().pipe(first()).subscribe(res => {
-      if (res) {
-        this.deleteEvent.emit(res);
-      }
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(first())
+      .subscribe((res) => {
+        if (res) {
+          this.deleteEvent.emit(res);
+        }
+      });
   }
 
   openDialogVenta(): void {
@@ -114,31 +134,36 @@ export class ItemCardVendComponent implements OnInit {
       data: this.item$.value,
     });
 
-    dialogRef.afterClosed().pipe(first()).subscribe((res: {item: Item, message: string}) => {
-      if (res) {
-        if (res.message === 'Falta') {
-          this.inventarioMNG.getItem(this.item$.value.codigo).subscribe((resNew: Item) => {
-            this.item$.next(resNew);
-          });
+    dialogRef
+      .afterClosed()
+      .pipe(first())
+      .subscribe((res: { item: Item; message: string }) => {
+        if (res) {
+          if (res.message === 'Falta') {
+            this.inventarioMNG
+              .getItem(this.item$.value.codigo)
+              .subscribe((resNew: Item) => {
+                this.item$.next(resNew);
+              });
+          } else if (res.message === 'Succes') {
+            this.snackBar.open('Item Vendido!!', '', {
+              duration: 2000,
+            });
+            this.item$.next(res.item);
+          } else if (res.message.split(' ')[0] === 'SuccesAG') {
+            this.snackBar.open(
+              'Venta Creada; Codigo: ' + res.message.split(' ')[1],
+              '',
+              {
+                duration: 2000,
+              }
+            );
+          } else if (res.message.split('|')[0] === 'succesAI') {
+            this.snackBar.open(res.message.split('|')[1], '', {
+              duration: 2000,
+            });
+          }
         }
-        else  if (res.message === 'Succes') {
-          this.snackBar.open('Item Vendido!!', '', {
-          duration: 2000,
-          });
-          this.item$.next(res.item);
-        }
-        else  if (res.message.split(' ')[0] === 'SuccesAG') {
-          this.snackBar.open('Venta Creada; Codigo: ' + res.message.split(' ')[1], '', {
-            duration: 2000,
-          });
-        }
-        else if (res.message.split('|')[0] === 'succesAI'){
-          this.snackBar.open(res.message.split('|')[1], '', {
-            duration: 2000,
-          });
-        }
-      }
-    });
+      });
   }
-
 }

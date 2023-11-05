@@ -1,27 +1,26 @@
+import { Component, EventEmitter, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { InventarioManagerService } from 'src/app/inventario-manager.service';
-import { Component, OnInit, Inject, EventEmitter } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Tipo } from '../../../inventario-manager.service';
 
 @Component({
   selector: 'app-seguro-eliminar',
   templateUrl: './seguro-eliminar.component.html',
-  styleUrls: ['./seguro-eliminar.component.css']
+  styleUrls: ['./seguro-eliminar.component.css'],
 })
-export class SeguroEliminarComponent implements OnInit {
-
+export class SeguroEliminarComponent {
   onEliminar = new EventEmitter();
   disabled = false;
 
-  constructor(public dialogRef: MatDialogRef<SeguroEliminarComponent>, private inv: InventarioManagerService,
-              @Inject(MAT_DIALOG_DATA) public data: Tipo) { }
-
-  ngOnInit(): void {
-  }
+  constructor(
+    public dialogRef: MatDialogRef<SeguroEliminarComponent>,
+    private inv: InventarioManagerService,
+    @Inject(MAT_DIALOG_DATA) public data: Tipo
+  ) {}
 
   eliminarTipo() {
     this.disabled = true;
-    this.inv.eliminarTipo(this.data.codigo).subscribe(res => {
+    this.inv.eliminarTipo(this.data.codigo).subscribe((res) => {
       if (res) {
         this.dialogRef.close(res);
       } else {
