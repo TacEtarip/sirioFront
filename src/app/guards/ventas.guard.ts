@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, CanLoad, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { AuthService } from '../auth.service';
@@ -7,7 +7,7 @@ import { AuthService } from '../auth.service';
 @Injectable({
   providedIn: 'root',
 })
-export class VentasGuard implements CanActivate, CanLoad {
+export class VentasGuard  {
   constructor(private auth: AuthService, private router: Router) {}
 
   canLoad() {
