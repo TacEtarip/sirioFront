@@ -1,5 +1,5 @@
-.usuario{
-  margin-right: .1em;
+.usuario {
+  margin-right: 0.1em;
   font-weight: 200;
   font-size: 26px;
   font-family: Roboto, sans-serif;
@@ -8,7 +8,7 @@
 }
 
 .usuario span {
-  margin-right: .2em;
+  margin-right: 0.2em;
 }
 
 .userIcon {
@@ -18,18 +18,18 @@
   margin-bottom: 2.5px;
 }
 .contenidoMain {
-  padding: .5em 3em;
+  padding: 0.5em 3em;
 }
 
 .info {
   display: grid;
   background-color: #eaf6ff;
-  width: calc(100%-6em);
+  width: calc(100% - 6em);
   gap: 1em;
 }
 
 .info ::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
-  padding: .5em .5em 0 .5em;
+  padding: 0.5em 0.5em 0 0.5em;
 }
 
 .info ::ng-deep .mat-form-field-wrapper {
@@ -43,7 +43,6 @@
 .acciones {
   display: flex;
   justify-content: flex-end;
-
 }
 
 .selectSort {
@@ -66,15 +65,13 @@ section {
 .selectDescAsc {
   height: fit-content;
   align-self: center;
-  margin-right: .5em;
+  margin-right: 0.5em;
 }
 
 .dscIcon {
   -webkit-transform: rotate(180deg);
   transform: rotate(180deg);
 }
-
-
 
 .main {
   display: flex;
@@ -86,7 +83,7 @@ section {
   right: 0;
 }
 
-.user-photo{
+.user-photo {
   background-image: url("/assets/logo-sirio.jpg");
   background-color: white;
   background-position: center;
@@ -106,11 +103,10 @@ section {
   height: 50px;
 }
 
-
 h3 {
   margin: 0;
   font-size: 22px;
-  color: #E87200;
+  color: #e87200;
 }
 
 h4 {
@@ -118,18 +114,16 @@ h4 {
   font-weight: 400;
   font-size: 14px;
   color: #005087;
-  font-family: Roboto,sans-serif;
+  font-family: Roboto, sans-serif;
   font-weight: 300;
   font-style: normal;
 }
-
 
 .menu {
   overflow: hidden;
   background-color: #005087;
   width: 20%;
 }
-
 
 .mat-dialog-container {
   width: 800px;
@@ -147,7 +141,6 @@ h4 {
   margin-top: 6px;
   font-size: 36px;
   font-weight: 200;
-
 }
 
 .show-opc {
@@ -158,7 +151,8 @@ h4 {
   color: white;
 }
 
-li,ul {
+li,
+ul {
   text-decoration: none;
   list-style-type: none;
   padding: 0;
@@ -167,10 +161,6 @@ li,ul {
   font-weight: 600;
   font-style: normal;
 }
-
-
-
-
 
 .logoShow {
   width: 200px;
@@ -193,21 +183,19 @@ li,ul {
 .mat-form-field + .mat-form-field {
   margin-left: 8px;
 }
-.mat-expansion-panel{
+.mat-expansion-panel {
   background-color: transparent;
 }
 
-.mat-expansion-panel:not([class*=mat-elevation-z]) {
+.mat-expansion-panel:not([class*="mat-elevation-z"]) {
   box-shadow: none;
 }
-
 
 .main-ctt {
   grid-column: 3/13;
   padding: 1em 0em;
   background-color: #eaf6ff;
 }
-
 
 h1 {
   margin: 0;
@@ -216,11 +204,12 @@ h1 {
   font-weight: 200;
 }
 
-.vender, .editar {
+.vender,
+.editar {
   background-color: white;
   color: #005087;
   border: 1px solid rgb(170, 170, 170);
-  border-radius: .2em;
+  border-radius: 0.2em;
   text-align: center;
   outline: none;
   text-decoration: none;
@@ -234,13 +223,13 @@ h1 {
 .plus-svg {
   background-image: url("/assets/Plus_font_awesome.svg");
   background-size: cover;
-  filter: invert(100%) sepia(5%) saturate(1820%) hue-rotate(262deg) brightness(116%) contrast(81%);
+  filter: invert(100%) sepia(5%) saturate(1820%) hue-rotate(262deg)
+    brightness(116%) contrast(81%);
   width: 280px;
   height: 280px;
   text-align: center;
   margin: auto;
   margin-top: 80px;
-
 }
 
 /*h5 {
@@ -252,7 +241,6 @@ h1 {
   font-weight: 200;
   font-style: normal;
 }*/
-
 
 .example-card {
   width: auto;
@@ -272,9 +260,8 @@ h1 {
   cursor: pointer;
 }
 
-
 /* width */
-*  ::ng-deep ::-webkit-scrollbar {
+* ::ng-deep ::-webkit-scrollbar {
   width: 5px;
 }
 
@@ -308,7 +295,6 @@ h1 {
 .menu ::ng-deep .mat-drawer-inner-container {
   /*overflow: hidden;
 }*/
-
 
 .displayCheat {
   display: none;
@@ -349,13 +335,11 @@ h1 {
   padding: 0em 2em;
 }
 
-
-
 .toolBar {
   background-color: #005087;
-  -webkit-box-shadow: 0px 7px 5px -3px rgba(0,0,0,0.35);
-  -moz-box-shadow: 0px 7px 5px -3px rgba(0,0,0,0.35);
-  box-shadow: 0px 7px 5px -3px rgba(0,0,0,0.35);
+  -webkit-box-shadow: 0px 7px 5px -3px rgba(0, 0, 0, 0.35);
+  -moz-box-shadow: 0px 7px 5px -3px rgba(0, 0, 0, 0.35);
+  box-shadow: 0px 7px 5px -3px rgba(0, 0, 0, 0.35);
   z-index: 1000;
 }
 
@@ -364,26 +348,25 @@ h1 {
   /* Make sure the toolbar will stay on top of the content as it scrolls past. */
 }
 
-::ng-deep .sizeIcon{
-  height:44px !important;
-  width:44px !important;
-  font-size:34px !important;
+::ng-deep .sizeIcon {
+  height: 44px !important;
+  width: 44px !important;
+  font-size: 34px !important;
   line-height: 42px !important;
 }
 
 ::ng-deep .sizeShop {
-  font-size:24px !important;
+  font-size: 24px !important;
   line-height: 45px !important;
 }
 
-
 ::ng-deep .sizePower {
-  font-size:33px !important;
+  font-size: 33px !important;
   line-height: 45px !important;
 }
 
 .addMargin {
-  margin-left: .1em;
+  margin-left: 0.1em;
 }
 
 .cName {
@@ -392,7 +375,7 @@ h1 {
 }
 
 .toolBarName {
-  margin-left: .4em;
+  margin-left: 0.4em;
   font-family: Roboto, sans-serif;
   font-size: 26px;
   font-weight: 200;
@@ -411,7 +394,6 @@ h1 {
 }
 
 @media screen and (max-width: 1600px) {
-
   .menuPadding {
     padding: 1.5em 1em 2em 1em;
   }
@@ -444,16 +426,12 @@ h1 {
   .user-ctn h2 {
     font-size: 32px;
   }
-
 }
 
-
 @media screen and (max-width: 700px) {
-
   .toolBar {
     height: 56px;
   }
-
 
   .info {
     padding: 1em;
@@ -464,14 +442,11 @@ h1 {
   }
 
   .list-items {
-    overflow: hidden ;
+    overflow: hidden;
     max-height: none;
   }
 
   .contenidoMain {
     padding: 1em 1em;
   }
-
 }
-
-

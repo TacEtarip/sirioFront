@@ -1,6 +1,9 @@
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { LOCALE_ID, NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import {
+  BrowserModule,
+  provideClientHydration,
+} from '@angular/platform-browser';
 import { TransferHttpCacheModule } from '@nguniversal/common';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -31,6 +34,7 @@ registerLocaleData(es);
     }),
   ],
   providers: [
+    provideClientHydration(),
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
